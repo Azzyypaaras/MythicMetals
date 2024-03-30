@@ -873,7 +873,7 @@
   "smithing_template.mythicmetals.unobtainium.additions_slot_description": "Je nach Wahl, Metallurgium- oder Celestiumerz hier",
 
   "attribute.name.generic.mythicmetals.fire_vulnerability": "Feueranfälligkeit",
-  "attribute.name.generic.mythicmetals.elytra_rocket_speed": "Elytra Racketengeschwindigkeit",
+  "attribute.name.generic.mythicmetals.elytra_rocket_speed": "Elytra Raketengeschwindigkeit",
   "item.spectrum.infused_beverage.tooltip.variant.morkite": "Dunkles Morkit",
   "item.spectrum.infused_beverage.tooltip.variant.wormhole_special": "Wurmloch Spezial",
   "effect.mythicmetals.wormhole_special": "Wurmloch Spezial",
