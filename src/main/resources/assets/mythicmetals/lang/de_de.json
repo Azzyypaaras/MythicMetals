@@ -395,7 +395,7 @@
   "item.mythicmetals.runite_anvil": "Runitamboss",
   "item.mythicmetals.runite_axe": "Runitaxt",
   "item.mythicmetals.runite_arrow": "Runitpfeil",
-  "item.mythicmetals.tipped_runite_arrow": "Tipped Runitpfeil",
+  "item.mythicmetals.tipped_runite_arrow": "Getränkter Runitpfeil",
   "item.mythicmetals.tipped_runite_arrow.effect.empty": "Uncraftbarer getränkter Runitpfeil",
   "item.mythicmetals.tipped_runite_arrow.effect.water": "Nasser Runitpfeil",
   "item.mythicmetals.tipped_runite_arrow.effect.mundane": "Getränkter Runitpfeil",
@@ -819,8 +819,8 @@
   "death.attack.star_platinum_arrow.player.item": "%1$s wurde von %2$s mit %3$s aufgespiest.",
 
   "entity.mythicmetals.runite_arrow": "Runitpfeil",
-  "entity.mythicmetals.star_platinum_arrow": "Stern Platin Pfeil",
-  "entity.mythicmetals.tipped_runite_arrow": "Runitpfeil",
+  "entity.mythicmetals.star_platinum_arrow": "Sternenplatinpfeil",
+  "entity.mythicmetals.tipped_runite_arrow": "Getränkter Runitpfeil",
   "entity.mythicmetals.banglum_tnt": "Vorbereitetes Penglum TNT",
   "entity.mythicmetals.banglum_nuke": "Vorbereitete Penglumbombe",
 
