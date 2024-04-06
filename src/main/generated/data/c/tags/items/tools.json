@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "values": [
+    "#mythicmetals:adamantite_tools",
+    "#mythicmetals:aquarium_tools",
+    "#mythicmetals:banglum_tools",
+    "#mythicmetals:bronze_tools",
+    "#mythicmetals:carmot_tools",
+    "#mythicmetals:celestium_tools",
+    "#mythicmetals:copper_tools",
+    "#mythicmetals:durasteel_tools",
+    "#mythicmetals:hallowed_tools",
+    "#mythicmetals:kyber_tools",
+    "#mythicmetals:legendary_banglum_tools",
+    "#mythicmetals:metallurgium_tools",
+    "#mythicmetals:mythril_tools",
+    "#mythicmetals:orichalcum_tools",
+    "#mythicmetals:osmium_tools",
+    "#mythicmetals:palladium_tools",
+    "#mythicmetals:prometheum_tools",
+    "#mythicmetals:quadrillum_tools",
+    "#mythicmetals:runite_tools",
+    "#mythicmetals:star_platinum_tools",
+    "#mythicmetals:steel_tools",
+    "#mythicmetals:stormyx_tools",
+    "#mythicmetals:tidesinger_tools",
+    "mythicmetals:red_aegis_sword",
+    "mythicmetals:white_aegis_sword",
+    "mythicmetals:carmot_staff"
+  ]
+}

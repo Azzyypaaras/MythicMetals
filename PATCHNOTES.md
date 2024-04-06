@@ -1,5 +1,10 @@
 # 0.19.7
 
+## Changes
+
+- Added a lot more tags. This is useful with other mods which uses tag filters for storage/transfer of items. 
+- Renamed "gear" tags to "equipment". These tags contain both tools and armor for the associated material
+
 ## Balancing Changes
 
 - Increase the damage of copper tools slightly (+0.5 attack damage)

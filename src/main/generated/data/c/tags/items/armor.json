@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "#mythicmetals:adamantite_armor",
+    "#mythicmetals:aquarium_armor",
+    "#mythicmetals:banglum_armor",
+    "#mythicmetals:bronze_armor",
+    "#mythicmetals:carmot_armor",
+    "#mythicmetals:celestium_armor",
+    "#mythicmetals:copper_armor",
+    "#mythicmetals:durasteel_armor",
+    "#mythicmetals:hallowed_armor",
+    "#mythicmetals:kyber_armor",
+    "#mythicmetals:legendary_banglum_armor",
+    "#mythicmetals:metallurgium_armor",
+    "#mythicmetals:midas_gold_armor",
+    "#mythicmetals:mythril_armor",
+    "#mythicmetals:orichalcum_armor",
+    "#mythicmetals:osmium_armor",
+    "#mythicmetals:osmium_chainmail_armor",
+    "#mythicmetals:palladium_armor",
+    "#mythicmetals:prometheum_armor",
+    "#mythicmetals:runite_armor",
+    "#mythicmetals:silver_armor",
+    "#mythicmetals:star_platinum_armor",
+    "#mythicmetals:steel_armor",
+    "#mythicmetals:stormyx_armor",
+    "#mythicmetals:tidesinger_armor"
+  ]
+}

@@ -18,6 +18,9 @@ public class MythicBlockDataProvider extends FabricTagProvider.BlockTagProvider 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
         ReflectionUtils.iterateAccessibleStaticFields(MythicBlocks.class, BlockSet.class, (blockSet, name, field) -> {
+            var modOreTag = MythicMetalsData.createModBlockTag("ores");
+            var commonOreTag = MythicMetalsData.createCommonBlockTag("ores");
+
             if (blockSet.getOre() != null) {
                 var string = name + "_ores";
                 var modTag = MythicMetalsData.createModBlockTag(string);
@@ -28,6 +31,8 @@ public class MythicBlockDataProvider extends FabricTagProvider.BlockTagProvider 
                 if (!blockSet.getOreVariants().isEmpty()) {
                     blockSet.getOreVariants().forEach(tagBuilder::add);
                 }
+                getOrCreateTagBuilder(modOreTag).addTag(modTag);
+                getOrCreateTagBuilder(commonOreTag).addTag(modTag);
             }
 
             if (blockSet.getOreStorageBlock() != null) {
@@ -45,7 +50,6 @@ public class MythicBlockDataProvider extends FabricTagProvider.BlockTagProvider 
                 getOrCreateTagBuilder(modTag).add(blockSet.getStorageBlock());
                 getOrCreateTagBuilder(commonTag).addTag(modTag);
             }
-
         });
     }
 }

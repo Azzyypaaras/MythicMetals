@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mythicmetals:durasteel_sword",
+    "mythicmetals:durasteel_pickaxe",
+    "mythicmetals:durasteel_axe",
+    "mythicmetals:durasteel_shovel",
+    "mythicmetals:durasteel_hoe"
+  ]
+}
