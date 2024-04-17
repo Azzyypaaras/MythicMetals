@@ -6,6 +6,10 @@
 - Increase the mining speed of Copper tools slightly (4.5 -> 5.0)
 - Increase the mining speed of Quadrillum tools slightly (5.5 -> 6.0)
 
+## Fixes
+
+- Steel and Osmium Chainmail armor can now be trimmed
+
 # 0.19.6
 
 ## Fixes
