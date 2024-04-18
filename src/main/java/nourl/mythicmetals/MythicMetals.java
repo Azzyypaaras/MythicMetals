@@ -109,11 +109,9 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
 
 
         if (CONFIG.configVersion() < CONFIG_VERSION) {
-            LOGGER.warn("[Mythic Metals] Your config is outdated. Please update it manually in the file, or delete it so it can be re-generated.");
-            LOGGER.warn("[Mythic Metals] Your config is outdated. Please update it manually in the file, or delete it so it can be re-generated.");
-            LOGGER.warn("[Mythic Metals] Your config is outdated. Please update it manually in the file, or delete it so it can be re-generated.");
-            LOGGER.warn("[Mythic Metals] Your config is outdated. Please update it manually in the file, or delete it so it can be re-generated.");
-            LOGGER.warn("[Mythic Metals] Your config is outdated. Please update it manually in the file, or delete it so it can be re-generated.");
+            for (int i = 0; i < 5; i++) {
+                LOGGER.warn("[Mythic Metals] Your config is outdated. Please update it manually in the file, or delete it so it can be re-generated.");
+            }
         }
 
         if (FabricLoader.getInstance().isModLoaded("harvest_scythes")) {

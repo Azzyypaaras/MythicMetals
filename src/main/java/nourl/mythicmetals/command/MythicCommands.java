@@ -24,6 +24,7 @@ import net.minecraft.server.command.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.ArmorSet;
 import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.blocks.BlockSet;
@@ -326,21 +327,21 @@ public final class MythicCommands {
      */
     public static boolean summonArmorStandWithTrim(World world, @Nullable ArmorTrim trim, ArmorSet armorSet, int x, int z) {
         if (world.isClient) return false;
+        if (armorSet.equals(MythicArmor.TIDESINGER)) return false; // This has custom "trims", ignore it
         AtomicBoolean success = new AtomicBoolean(true);
 
         var armorStand = new ArmorStandEntity(world, x, world.getTopY() - 50, z);
         armorSet.getArmorItems().forEach(armorItem -> {
             var armorStack = new ItemStack(armorItem);
             if (!armorStack.isIn(ItemTags.TRIMMABLE_ARMOR)) {
-                success.set(false);
-                return;
+                MythicMetals.LOGGER.debug("Armor Item %s is not trimmable".formatted(armorStack.getName()));
             }
             if (trim != null) {
                 ArmorTrim.apply(world.getRegistryManager(), armorStack, trim);
             }
-            armorStand.equipStack(armorItem.getSlotType(), armorStack);
+            if (success.get()) armorStand.equipStack(armorItem.getSlotType(), armorStack);
         });
-        if (success.get()) world.spawnEntity(armorStand);
+        world.spawnEntity(armorStand);
         return success.get();
     }
 
@@ -504,7 +505,7 @@ public final class MythicCommands {
                     }
                 });
                 mutZ.increment();
-                mutX.setValue(0);
+                mutX.setValue(pos.x);
             }
             context.getSource().sendFeedback(() -> Text.literal("Summoned and dropping %d armorstands with trims".formatted(count.getValue())), true);
 

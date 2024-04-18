@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mythicmetals:stormyx_sword",
+    "mythicmetals:stormyx_pickaxe",
+    "mythicmetals:stormyx_axe",
+    "mythicmetals:stormyx_shovel",
+    "mythicmetals:stormyx_hoe"
+  ]
+}

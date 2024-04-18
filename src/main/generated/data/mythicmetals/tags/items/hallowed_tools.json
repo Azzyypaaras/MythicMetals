@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mythicmetals:hallowed_sword",
+    "mythicmetals:hallowed_pickaxe",
+    "mythicmetals:hallowed_axe",
+    "mythicmetals:hallowed_shovel",
+    "mythicmetals:hallowed_hoe"
+  ]
+}

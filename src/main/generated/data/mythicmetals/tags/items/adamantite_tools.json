@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mythicmetals:adamantite_sword",
+    "mythicmetals:adamantite_pickaxe",
+    "mythicmetals:adamantite_axe",
+    "mythicmetals:adamantite_shovel",
+    "mythicmetals:adamantite_hoe"
+  ]
+}
