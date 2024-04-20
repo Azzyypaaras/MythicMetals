@@ -2,8 +2,9 @@
 
 ## Changes
 
-- Added a lot more tags. This is useful with other mods which uses tag filters for storage/transfer of items. 
+- Added a lot more tags. This is useful with other mods which uses tag filters for storage/transfer of items.
 - Renamed "gear" tags to "equipment". These tags contain both tools and armor for the associated material
+- Steel and Osmium Chainmail armor can now be trimmed
 
 ## Balancing Changes
 
@@ -11,9 +12,6 @@
 - Increase the mining speed of Copper tools slightly (4.5 -> 5.0)
 - Increase the mining speed of Quadrillum tools slightly (5.5 -> 6.0)
 
-## Fixes
-
-- Steel and Osmium Chainmail armor can now be trimmed
 
 # 0.19.6
 
