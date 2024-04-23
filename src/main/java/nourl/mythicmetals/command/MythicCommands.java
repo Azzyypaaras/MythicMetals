@@ -60,66 +60,78 @@ public final class MythicCommands {
         ArgumentTypeRegistry.registerArgumentType(RegistryHelper.id("armorset"), ArmorSetArgumentType.class, ConstantArgumentSerializer.of(ArmorSetArgumentType::armorSet));
     }
 
+    // TODO - Add new command for grabbing the data-generated ore features, and create a datapack skeleton
     public static void registerCommands() {
-        // Dump Ore Config values
-        CommandRegistrationCallback.EVENT.register((dispatcher, access, env) -> {
-            dispatcher.register(CommandManager.literal("mythicmetals")
-                // TODO - Add new command for grabbing the data-generated ore features, and create a datapack skeleton
-                .requires(source -> source.hasPermissionLevel(1))
-                // TODO - Make this useful command more useful for current use-cases:
-                // TODO -- Allow operator to get range for a specific OreConfig
-                // TODO -- Allow dumping output in a spreadsheet friendly format
-                .then(CommandManager.literal("range")
-                    .then(CommandManager.argument("type", StringArgumentType.word())
-                        .suggests(MythicCommands::dumpType)
-                        .executes(MythicCommands::dumpAllOreConfigs)
-                    )
-                )
-                .then(CommandManager.literal("wiki")
-                    .then(CommandManager.literal("export-tools")
-                        .then(CommandManager.argument("toolset", ToolSetArgumentType.toolSet())
-                            .executes(MythicCommands::exportTools)
-                        )
-                    )
-                    .then(CommandManager.literal("export-armor")
-                        .then(CommandManager.argument("armorset", ArmorSetArgumentType.armorSet())
-                            .executes(MythicCommands::exportArmor)
-                        )
-                    )
-                )
-                .then(CommandManager.literal("armor-stand")
-                    .requires(source -> source.hasPermissionLevel(2))
-                    .then(CommandManager.argument("material", StringArgumentType.word())
-                        .suggests(MythicCommands::armorMaterial)
-                        .executes(context -> {
-                            String material = StringArgumentType.getString(context, "material");
-                            return armorStandCommand(context, material, null);
-                        })
-                        .then(CommandManager.argument("trim_pattern", StringArgumentType.word())
-                            .suggests(MythicCommands::trimTypes)
-                            .executes(context -> {
-                                String material = StringArgumentType.getString(context, "material");
-                                String trimQuery = StringArgumentType.getString(context, "trim_pattern");
-                                return armorStandCommand(context, material, trimQuery);
-                            })
-                        )
-                    )
-                )
-                .then(CommandManager.literal("test-loot-table")
-                    .requires(source -> source.hasPermissionLevel(2))
-                    .then(CommandManager.argument("loot_table", IdentifierArgumentType.identifier())
-                        .suggests(LootCommand.SUGGESTION_PROVIDER)
-                        .then(CommandManager.argument("rolls", IntegerArgumentType.integer())
-                            .executes(MythicCommands::testLootTable))
-                    )
-                )
-                .then(CommandManager.literal("place-all-blocks")
-                    .requires(source -> source.hasPermissionLevel(2))
-                    .executes(context -> MythicCommands.placeAllBlocksets(context, Map.of()))
-                )
-            );
-        });
+        var mythicRoot = CommandManager.literal("mythicmetals").requires(src -> src.hasPermissionLevel(2)).build();
+        var range = CommandManager.literal("range").build();
+        var tools = CommandManager.literal("tools").build();
+        var armor = CommandManager.literal("armor").build();
+        var wiki = CommandManager.literal("wiki").build();
+        var armorStand = CommandManager.literal("armor-stand").build();
+        var loot = CommandManager.literal("test-loot-table").build();
+        var placeBlocks = CommandManager.literal("place-all-blocks").executes(context -> placeAllBlocksets(context, Map.of()))
+                .build();
 
+        // TODO - Make this useful command more useful for current use-cases:
+        // TODO -- Allow operator to get range for a specific OreConfig
+        // TODO -- Allow dumping output in a spreadsheet friendly format
+        var rangeType = CommandManager.argument("type", StringArgumentType.word())
+                .suggests(MythicCommands::dumpType)
+                .executes(MythicCommands::dumpAllOreConfigs)
+                .build();
+
+        var exportTools = CommandManager.argument("toolset", ToolSetArgumentType.toolSet())
+                    .executes(MythicCommands::exportTools)
+                .build();
+
+        var exportArmor = CommandManager.argument("armorset", ArmorSetArgumentType.armorSet())
+                    .executes(MythicCommands::exportArmor)
+                .build();
+
+        var lootTables = CommandManager.argument("loot_table", IdentifierArgumentType.identifier())
+                .suggests(LootCommand.SUGGESTION_PROVIDER)
+                .then(CommandManager.argument("rolls", IntegerArgumentType.integer())
+                    .executes(MythicCommands::testLootTable))
+                .build();
+
+        var trimPattern = CommandManager.argument("trim_pattern", StringArgumentType.word())
+                .suggests(MythicCommands::trimTypes)
+                .executes(context -> {
+                    String matQuery = StringArgumentType.getString(context, "material");
+                    String trimQuery = StringArgumentType.getString(context, "trim_pattern");
+                    return armorStandCommand(context, matQuery, trimQuery);
+                });
+
+        var summonTrims = CommandManager.argument("material", StringArgumentType.word())
+                .suggests(MythicCommands::armorMaterial)
+                .executes(context -> {
+                    String mat = StringArgumentType.getString(context, "material");
+                    return armorStandCommand(context, mat, null);
+                })
+                .then(trimPattern)
+                .build();
+
+        // Wiki nodes
+        tools.addChild(exportTools);
+        armor.addChild(exportArmor);
+        wiki.addChild(tools);
+        wiki.addChild(armor);
+
+        // Misc nodes
+        range.addChild(rangeType);
+        loot.addChild(lootTables);
+        armorStand.addChild(summonTrims);
+
+        // Add commands to root
+        mythicRoot.addChild(range);
+        mythicRoot.addChild(wiki);
+        mythicRoot.addChild(armorStand);
+        mythicRoot.addChild(loot);
+        mythicRoot.addChild(placeBlocks);
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, access, env) -> {
+            dispatcher.getRoot().addChild(mythicRoot);
+        });
     }
 
     /**
@@ -256,8 +268,8 @@ public final class MythicCommands {
         }
         output.append("\n").append("===RECIPE END===").append("\n");
 
-        System.out.println(output);
-        source.sendFeedback(() -> Text.literal("Exported armor to wiki format"), false);
+        MythicMetals.LOGGER.info(output);
+        source.sendFeedback(() -> Text.literal("Exported armor to wiki format in logs"), false);
         return 0;
     }
 
@@ -304,7 +316,7 @@ public final class MythicCommands {
         }
         output.append("\n").append("===RECIPE END===").append("\n");
 
-        System.out.println(output);
+        MythicMetals.LOGGER.info(output);
         source.sendFeedback(() -> Text.literal("Exported tools to wiki format"), false);
         return 0;
     }
@@ -441,7 +453,7 @@ public final class MythicCommands {
             });
             return 1;
         }
-        return 1;
+        return -1;
     }
 
     private static int armorStandCommand(CommandContext<ServerCommandSource> context, @NotNull String material, @Nullable String rawTrim) {
@@ -466,20 +478,22 @@ public final class MythicCommands {
                 }
                 int finalCount = count;
                 context.getSource().sendFeedback(() -> Text.literal("Summoned and dropping %d armorstands".formatted(finalCount)), true);
+                return finalCount;
             } else {
                 if (summonArmorStandWithTrim(world, null, MythicArmor.ARMOR_MAP.get(material), (int) pos.x, (int) pos.z)) {
                     context.getSource().sendFeedback(() -> Text.literal("Summoned and dropping one armorstand"), true);
+                    return 1;
                 } else {
                     context.getSource().sendFeedback(() -> Text.literal("Unable to summon the armor stand. It might be untrimmable"), false);
                 }
             }
-            return 1;
+            return -1;
         }
 
         if (material.equals("all")) {
             if (MythicArmor.ARMOR_MAP.isEmpty()) {
                 context.getSource().sendFeedback(() -> Text.literal("Unable to summon. Somehow the armor map is empty..."), false);
-                return 1; // "how did this happen?" "a long time ago, actually never..."
+                return -1; // "how did this happen?" "a long time ago, actually never..."
             }
 
             if (trimQuery.equals("all")) {
@@ -508,7 +522,7 @@ public final class MythicCommands {
             }
             context.getSource().sendFeedback(() -> Text.literal("Summoned and dropping %d armorstands with trims".formatted(count.getValue())), true);
 
-            return 1;
+            return count.getValue();
         } else if (MythicArmor.ARMOR_MAP.get(material) != null) {
             if (trimQuery.equals("all")) {
                 armorTrims = getAllArmorTrims(world);
@@ -540,7 +554,8 @@ public final class MythicCommands {
             }
             String feedback = "Summoned and dropping %d armorstands".formatted(count);
             context.getSource().sendFeedback(() -> Text.literal(feedback), true);
+            return count;
         }
-        return 1;
+        return -1;
     }
 }
