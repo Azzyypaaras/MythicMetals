@@ -24,6 +24,7 @@ import net.minecraft.server.command.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.ArmorSet;
 import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.blocks.BlockSet;
