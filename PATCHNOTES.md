@@ -6,6 +6,7 @@
 - Renamed "gear" tags to "equipment". These tags contain both tools and armor for the associated material
 - Steel and Osmium Chainmail armor can now be trimmed
 - Refactored commands, they are now structured nicer (Thanks mayaqq!)
+- Added Numismatic Overhaul compat
 
 ## Balancing Changes
 
