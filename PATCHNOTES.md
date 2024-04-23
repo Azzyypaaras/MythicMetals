@@ -5,6 +5,7 @@
 - Added a lot more tags. This is useful with other mods which uses tag filters for storage/transfer of items. 
 - Renamed "gear" tags to "equipment". These tags contain both tools and armor for the associated material
 - Steel and Osmium Chainmail armor can now be trimmed
+- Refactored commands, they are now structured nicer (Thanks mayaqq!)
 
 ## Balancing Changes
 
