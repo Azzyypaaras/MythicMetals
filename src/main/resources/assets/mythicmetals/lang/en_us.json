@@ -938,6 +938,11 @@
   "effect.mythicmetals.heat": "Heat",
   "effect.mythicmetals.combustion": "Combusting!",
 
+  "command.mythicmetals.argument.armorset.error": "Could not find the Armor Set specified",
+  "command.mythicmetals.argument.blockset.error": "Could not find the Block Set specified",
+  "command.mythicmetals.argument.toolset.error": "Could not find the Tool Set specified",
+  "command.mythicmetals.argument.ore-config.error": "Could not find provided OreConfig",
+
   "_comment_mythicmetals_tags": "EMI Tag Translations",
   "tag.item.c.adamantite_blocks": "Adamantite Blocks",
   "tag.item.c.adamantite_ingots": "Adamantite Ingots",

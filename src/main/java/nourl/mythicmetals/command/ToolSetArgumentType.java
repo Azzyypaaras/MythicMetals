@@ -15,7 +15,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class ToolSetArgumentType implements ArgumentType<ToolSet> {
 
-    private final SimpleCommandExceptionType EXCEPTION = new SimpleCommandExceptionType(Text.translatable("command.mythicmetals.argument.toolset.error"));
+    private final SimpleCommandExceptionType EXCEPTION = new SimpleCommandExceptionType(
+        Text.translatable("command.mythicmetals.argument.toolset.error")
+    );
 
     public static ToolSetArgumentType toolSet() {
         return new ToolSetArgumentType();

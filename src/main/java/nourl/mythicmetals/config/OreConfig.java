@@ -5,7 +5,7 @@ import nourl.mythicmetals.data.MythicOreKeys;
 
 /**
  * A config constructor that lets you quickly create all the settings used
- * for a ore in the {@link MythicOreKeys} class.
+ * for an ore in the {@link MythicOreKeys} class.
  */
 public class OreConfig {
     public int veinSize;

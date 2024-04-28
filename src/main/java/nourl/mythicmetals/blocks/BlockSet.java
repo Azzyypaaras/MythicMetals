@@ -146,6 +146,10 @@ public class BlockSet {
         return ImmutableSet.copyOf(oreVariants.values());
     }
 
+    public Map<String, Block> getOreVariantsMap() {
+        return Map.copyOf(oreVariants);
+    }
+
     public String getName(){
         return this.name;
     }
@@ -213,7 +217,10 @@ public class BlockSet {
         }
 
         public static void register() {
-            toBeRegistered.forEach(BlockSet::register);
+            toBeRegistered.forEach(blockSet -> {
+                MythicBlocks.BLOCKSET_MAP.put(blockSet.name, blockSet);
+                blockSet.register();
+            });
             toBeRegistered.clear();
         }
 

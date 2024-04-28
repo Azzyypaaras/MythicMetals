@@ -8,36 +8,34 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.text.Text;
-import nourl.mythicmetals.armor.ArmorSet;
-import nourl.mythicmetals.armor.MythicArmor;
+import nourl.mythicmetals.config.OreConfig;
 import java.util.concurrent.CompletableFuture;
 
-public class ArmorSetArgumentType implements ArgumentType<ArmorSet> {
-
+public class OreConfigArgumentType implements ArgumentType<OreConfig> {
     private final SimpleCommandExceptionType EXCEPTION = new SimpleCommandExceptionType(
-            Text.translatable("command.mythicmetals.argument.armorset.error")
+            Text.translatable("command.mythicmetals.argument.ore-config.error")
     );
 
-    public static <S> ArmorSet getArmorSet(CommandContext<S> context, String name) {
-        return context.getArgument(name, ArmorSet.class);
+    public static <S> OreConfig getOreConfig(CommandContext<S> context, String name) {
+        return context.getArgument(name, OreConfig.class);
     }
 
     @Override
-    public ArmorSet parse(StringReader reader) throws CommandSyntaxException {
-        final String material = reader.readString();
-        if (MythicArmor.ARMOR_MAP.containsKey(material)) {
-            return MythicArmor.ARMOR_MAP.get(material);
+    public OreConfig parse(StringReader reader) throws CommandSyntaxException {
+        final String oreConfig = reader.readString();
+        if (MythicCommands.ORECONFIG.containsKey(oreConfig)) {
+            return MythicCommands.ORECONFIG.get(oreConfig);
         }
         throw EXCEPTION.create();
     }
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        MythicArmor.ARMOR_MAP.forEach((s, toolSet) -> builder.suggest(s));
+        MythicCommands.ORECONFIG.forEach((s, oreConfig) -> builder.suggest(s));
         return builder.buildFuture();
     }
 
-    public static ArmorSetArgumentType armorSet() {
-        return new ArmorSetArgumentType();
+    public static OreConfigArgumentType oreConfig() {
+        return new OreConfigArgumentType();
     }
 }

@@ -1,5 +1,7 @@
 package nourl.mythicmetals.command;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -37,7 +39,6 @@ import nourl.mythicmetals.misc.StringUtilsAtHome;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -45,20 +46,28 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SuppressWarnings({"UnstableApiUsage", "CodeBlock2Expr"})
+@SuppressWarnings({"UnstableApiUsage", "CodeBlock2Expr", "RedundantSuppression"})
 public final class MythicCommands {
 
     public static final String ITEM_SCALE = "{ .sized-image style=\"--image-width: 40%;\" }";
     public static final String RECIPE_SCALE = "{ .sized-recipe style=\"--image-width: 40%;\" }";
     public static final String ICON_SCALE = "{ .sized-image style=\"--image-width: 8%;\" }";
     public static final String BR = "<br>\n";
+    public static final String TAB = "    "; // MkDocs likes spaces over tabs
+    public static BiMap<String, OreConfig> ORECONFIG = HashBiMap.create();
 
     private MythicCommands() {
     }
 
+    @SuppressWarnings("UnreachableCode")
     public static void init() {
+        ReflectionUtils.iterateAccessibleStaticFields(MythicOreConfigs.class, OreConfig.class, (value, name, field) -> {
+            ORECONFIG.put(name, value);
+        });
         ArgumentTypeRegistry.registerArgumentType(RegistryHelper.id("toolset"), ToolSetArgumentType.class, ConstantArgumentSerializer.of(ToolSetArgumentType::toolSet));
         ArgumentTypeRegistry.registerArgumentType(RegistryHelper.id("armorset"), ArmorSetArgumentType.class, ConstantArgumentSerializer.of(ArmorSetArgumentType::armorSet));
+        ArgumentTypeRegistry.registerArgumentType(RegistryHelper.id("ore-config"), OreConfigArgumentType.class, ConstantArgumentSerializer.of(OreConfigArgumentType::oreConfig));
+        ArgumentTypeRegistry.registerArgumentType(RegistryHelper.id("blockset"), BlockSetArgumentType.class, ConstantArgumentSerializer.of(BlockSetArgumentType::blockSet));
     }
 
     // TODO - Add new command for grabbing the data-generated ore features, and create a datapack skeleton
@@ -66,55 +75,60 @@ public final class MythicCommands {
         var mythicRoot = CommandManager.literal("mythicmetals").requires(src -> src.hasPermissionLevel(2)).build();
         var range = CommandManager.literal("range").build();
         var tools = CommandManager.literal("tools").build();
+        var ores = CommandManager.literal("ores").build();
         var armor = CommandManager.literal("armor").build();
         var wiki = CommandManager.literal("wiki").build();
         var armorStand = CommandManager.literal("armor-stand").build();
         var loot = CommandManager.literal("test-loot-table").build();
         var placeBlocks = CommandManager.literal("place-all-blocks").executes(context -> placeAllBlocksets(context, Map.of()))
-                .build();
+            .build();
 
         // TODO - Make this useful command more useful for current use-cases:
-        // TODO -- Allow operator to get range for a specific OreConfig
         // TODO -- Allow dumping output in a spreadsheet friendly format
         var rangeType = CommandManager.argument("type", StringArgumentType.word())
-                .suggests(MythicCommands::dumpType)
-                .executes(MythicCommands::dumpAllOreConfigs)
-                .build();
+            .suggests(MythicCommands::dumpType)
+            .executes(MythicCommands::dumpAllOreConfigs)
+            .build();
 
+        var exportOres = CommandManager.argument("ore-config", OreConfigArgumentType.oreConfig())
+            .executes(MythicCommands::exportOreAdmonition)
+            .build();
         var exportTools = CommandManager.argument("toolset", ToolSetArgumentType.toolSet())
-                    .executes(MythicCommands::exportTools)
-                .build();
+            .executes(MythicCommands::exportTools)
+            .build();
 
         var exportArmor = CommandManager.argument("armorset", ArmorSetArgumentType.armorSet())
-                    .executes(MythicCommands::exportArmor)
-                .build();
+            .executes(MythicCommands::exportArmor)
+            .build();
 
         var lootTables = CommandManager.argument("loot_table", IdentifierArgumentType.identifier())
-                .suggests(LootCommand.SUGGESTION_PROVIDER)
-                .then(CommandManager.argument("rolls", IntegerArgumentType.integer())
-                    .executes(MythicCommands::testLootTable))
-                .build();
+            .suggests(LootCommand.SUGGESTION_PROVIDER)
+            .then(CommandManager.argument("rolls", IntegerArgumentType.integer())
+                .executes(MythicCommands::testLootTable))
+            .build();
 
         var trimPattern = CommandManager.argument("trim_pattern", StringArgumentType.word())
-                .suggests(MythicCommands::trimTypes)
-                .executes(context -> {
-                    String matQuery = StringArgumentType.getString(context, "material");
-                    String trimQuery = StringArgumentType.getString(context, "trim_pattern");
-                    return armorStandCommand(context, matQuery, trimQuery);
-                });
+            .suggests(MythicCommands::trimTypes)
+            .executes(context -> {
+                String matQuery = StringArgumentType.getString(context, "material");
+                String trimQuery = StringArgumentType.getString(context, "trim_pattern");
+                return armorStandCommand(context, matQuery, trimQuery);
+            });
 
         var summonTrims = CommandManager.argument("material", StringArgumentType.word())
-                .suggests(MythicCommands::armorMaterial)
-                .executes(context -> {
-                    String mat = StringArgumentType.getString(context, "material");
-                    return armorStandCommand(context, mat, null);
-                })
-                .then(trimPattern)
-                .build();
+            .suggests(MythicCommands::armorMaterial)
+            .executes(context -> {
+                String mat = StringArgumentType.getString(context, "material");
+                return armorStandCommand(context, mat, null);
+            })
+            .then(trimPattern)
+            .build();
 
         // Wiki nodes
+        ores.addChild(exportOres);
         tools.addChild(exportTools);
         armor.addChild(exportArmor);
+        wiki.addChild(ores);
         wiki.addChild(tools);
         wiki.addChild(armor);
 
@@ -275,12 +289,80 @@ public final class MythicCommands {
     }
 
     /**
+     * Ore/Material exporter for the Mythic Metals Wiki
+     */
+    private static int exportOreAdmonition(CommandContext<ServerCommandSource> context) {
+        var oreConfig = OreConfigArgumentType.getOreConfig(context, "ore-config");
+        var source = context.getSource();
+        var blockSet = MythicBlocks.BLOCKSET_MAP.get(ORECONFIG.inverse().get(oreConfig));
+
+        StringBuilder output = new StringBuilder();
+
+        if (blockSet == null || blockSet.getOre() == null) {
+            output.append("\n--- ORE STATS ---\n");
+            output.append(
+                """
+                    **Mining Level**: X (Y for variant)
+                    **Max Vein Size**: %s
+                    **Spawn Range**: %s to %s
+                    **Discard Chance**: %s
+                    """.formatted(
+                    oreConfig.veinSize,
+                    oreConfig.bottom + (oreConfig.offset ? "(Offset)" : ""),
+                    oreConfig.top + (oreConfig.trapezoid ? " (Triangle Range)" : ""),
+                    oreConfig.discardChance
+                )
+            );
+            MythicMetals.LOGGER.info(output);
+            source.sendFeedback(() -> Text.literal("Exported stats for the provided OreConfig"), false);
+            return 1;
+        }
+
+        String oreName = StringUtilsAtHome.toProperCase(blockSet.getName() + " Ore");
+
+        // Ore names and images
+        output.append("!!! info inline end \"\"").append("\n");
+        output.append(TAB).append("<center class=tooltip>").append("\n");
+        output.append(TAB).append("<h3>**").append(oreName).append("**</h3>").append("\n");
+        output.append(TAB).append("![WRITE ALT TEXT HERE](%s)"
+            .formatted("../assets/mythicmetals/" + blockSet.getName() + "_ore.png")
+        ).append(BR);
+        blockSet.getOreVariantsMap().forEach((variantName, block) -> {
+            String variantOreName = StringUtilsAtHome.toProperCase(variantName + " " + blockSet.getName() + " Ore");
+
+            output.append(TAB).append("<h3>**").append(variantOreName).append("**</h3>").append("\n");
+            output.append(TAB).append("![WRITE ALT TEXT HERE](%s)"
+                .formatted("../assets/mythicmetals/" + variantName + "_" + blockSet.getName() + "_ore.png")
+            ).append("\n");
+        });
+        // Ore Stats
+        output.append(TAB).append("---");
+        output.append(TAB).append("**Mining Level**: X (Y for variant)").append(BR);
+        output.append(TAB).append("**Max Vein Size**: %s".formatted(oreConfig.veinSize)).append(BR);
+        output.append(TAB).append("**Spawn Range**: %s to %s".formatted(
+                oreConfig.bottom + (oreConfig.offset ? "(Offset)" : ""),
+                oreConfig.top + (oreConfig.trapezoid ? " (Triangle Range)" : "")
+            )
+        ).append(BR);
+        output.append(TAB).append("**Discard Chance**: %s".formatted(oreConfig.discardChance)).append(BR);
+        output.append("\n");
+        // Headers
+        output.append("## Generation");
+        output.append("## Usages");
+        output.append("## Trivia");
+        output.append("## History");
+
+        source.sendFeedback(() -> Text.literal("Exported ore stats for %s to wiki format".formatted(oreName)), false);
+        MythicMetals.LOGGER.info(output);
+
+        return 2;
+    }
+
+    /**
      * Tool exporter for the Mythic Metals Wiki
      */
     private static int exportTools(CommandContext<ServerCommandSource> context) {
         var toolset = ToolSetArgumentType.getToolSet(context, "toolset");
-
-        String br = "<br>\n";
 
         var source = context.getSource();
 
@@ -301,12 +383,12 @@ public final class MythicCommands {
 
             output.append("\n");
             output.append("<h4>**").append(name).append("**</h4>").append("\n");
-            output.append("![Image of %s](../assets/mythicmetals/%s.png)".formatted(name, id)).append(ITEM_SCALE).append(br);
+            output.append("![Image of %s](../assets/mythicmetals/%s.png)".formatted(name, id)).append(ITEM_SCALE).append(BR);
             output.append("+%s Attack Damage, %s Attack Speed".formatted(
                 tool.getMaterial().getAttackDamage() + damageDeque.pop() + 1,
                 BigDecimal.valueOf(4.0f + atkSpd.pop()).setScale(1, RoundingMode.HALF_UP).toPlainString()
-            )).append(br);
-            output.append("%s Durability".formatted(tool.getMaxDamage())).append(br);
+            )).append(BR);
+            output.append("%s Durability".formatted(tool.getMaxDamage())).append(BR);
         }
         // tool recipes
         output.append("\n").append("===RECIPE===").append("\n");
@@ -421,34 +503,34 @@ public final class MythicCommands {
                 if (!feature.offset && !feature.trapezoid) {
                     context.getSource().sendFeedback(() -> Text.literal(
                         name.toUpperCase(Locale.ROOT)
-                            + " has the range between "
-                            + feature.bottom
-                            + " to "
-                            + feature.top
-                            + ", with a discard chance of "
-                            + feature.discardChance * 100 + "%"), false);
+                        + " has the range between "
+                        + feature.bottom
+                        + " to "
+                        + feature.top
+                        + ", with a discard chance of "
+                        + feature.discardChance * 100 + "%"), false);
                 }
                 if (feature.offset) {
                     context.getSource().sendFeedback(() -> Text.literal(
                         name.toUpperCase(Locale.ROOT)
-                            + " has the range between "
-                            + feature.bottom
-                            + "(offset) to "
-                            + feature.top
-                            + ", with a discard chance of "
-                            + feature.discardChance * 100 + "%"), false);
+                        + " has the range between "
+                        + feature.bottom
+                        + "(offset) to "
+                        + feature.top
+                        + ", with a discard chance of "
+                        + feature.discardChance * 100 + "%"), false);
                 }
                 if (feature.trapezoid) {
                     context.getSource().sendFeedback(() -> Text.literal(
                         name.toUpperCase(Locale.ROOT)
-                            + " has a triangle range between "
-                            + feature.bottom
-                            + " to "
-                            + feature.top
-                            + ", where the sweet spot is at Y = "
-                            + ((feature.bottom + feature.top) / 2)
-                            + " with a discard chance of "
-                            + feature.discardChance * 100 + "%"), false);
+                        + " has a triangle range between "
+                        + feature.bottom
+                        + " to "
+                        + feature.top
+                        + ", where the sweet spot is at Y = "
+                        + ((feature.bottom + feature.top) / 2)
+                        + " with a discard chance of "
+                        + feature.discardChance * 100 + "%"), false);
                 }
 
             });

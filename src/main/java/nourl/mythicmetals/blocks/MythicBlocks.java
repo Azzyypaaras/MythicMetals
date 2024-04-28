@@ -14,9 +14,13 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.registry.RegisterSounds;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings("unused")
 public class MythicBlocks {
+
+    public static final Map<String, BlockSet> BLOCKSET_MAP = new HashMap<>();
     private static final Identifier STONE_MINING_LEVEL = new Identifier("minecraft:needs_stone_tool");
     private static final Identifier IRON_MINING_LEVEL = new Identifier("minecraft:needs_iron_tool");
     private static final Identifier DIAMOND_MINING_LEVEL = new Identifier("minecraft:needs_diamond_tool");
@@ -202,6 +206,7 @@ public class MythicBlocks {
         RegistryHelper.block("banglum_tnt", BANGLUM_TNT_BLOCK);
         RegistryHelper.block("banglum_nuke_core", BANGLUM_NUKE_CORE);
         RegistryHelper.block("carmot_nuke_core", CARMOT_NUKE_CORE);
+        // Manually registering these in order to get the glint. Using RegistryHelper creates a block item, I don't want that
         Registry.register(Registries.BLOCK, RegistryHelper.id("enchanted_midas_gold_block"), ENCHANTED_MIDAS_GOLD_BLOCK);
         Registry.register(Registries.ITEM, RegistryHelper.id("enchanted_midas_gold_block"), new BlockItem(ENCHANTED_MIDAS_GOLD_BLOCK, new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(1).rarity(Rarity.UNCOMMON)) {
             @Override
