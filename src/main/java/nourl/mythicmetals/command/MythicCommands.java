@@ -300,19 +300,16 @@ public final class MythicCommands {
 
         if (blockSet == null || blockSet.getOre() == null) {
             output.append("\n--- ORE STATS ---\n");
-            output.append(
-                """
-                    **Mining Level**: X (Y for variant)
-                    **Max Vein Size**: %s
-                    **Spawn Range**: %s to %s
-                    **Discard Chance**: %s
-                    """.formatted(
-                    oreConfig.veinSize,
+            output.append(TAB).append("**Mining Level**: X (Y for variant)").append(BR);
+            output.append(TAB).append("**Max Vein Size**: %s".formatted(oreConfig.veinSize)).append(BR);
+            output.append(TAB).append("**Spawn Range**: %s to %s".formatted(
                     oreConfig.bottom + (oreConfig.offset ? "(Offset)" : ""),
-                    oreConfig.top + (oreConfig.trapezoid ? " (Triangle Range)" : ""),
-                    oreConfig.discardChance
+                    oreConfig.top + (oreConfig.trapezoid ? " (Triangle Range)" : "")
                 )
-            );
+            ).append(BR);
+            output.append(TAB).append("**Discard Chance**: %s".formatted(
+                oreConfig.discardChance == 0 ? "Never discarded" : oreConfig.discardChance * 100 + "%")
+            ).append(BR);
             MythicMetals.LOGGER.info(output);
             source.sendFeedback(() -> Text.literal("Exported stats for the provided OreConfig"), false);
             return 1;
@@ -336,7 +333,7 @@ public final class MythicCommands {
             ).append("\n");
         });
         // Ore Stats
-        output.append(TAB).append("---");
+        output.append(TAB).append("---\n");
         output.append(TAB).append("**Mining Level**: X (Y for variant)").append(BR);
         output.append(TAB).append("**Max Vein Size**: %s".formatted(oreConfig.veinSize)).append(BR);
         output.append(TAB).append("**Spawn Range**: %s to %s".formatted(
@@ -344,7 +341,9 @@ public final class MythicCommands {
                 oreConfig.top + (oreConfig.trapezoid ? " (Triangle Range)" : "")
             )
         ).append(BR);
-        output.append(TAB).append("**Discard Chance**: %s".formatted(oreConfig.discardChance)).append(BR);
+        output.append(TAB).append("**Discard Chance**: %s".formatted(
+            oreConfig.discardChance == 0 ? "Never discarded" : oreConfig.discardChance * 100 + "%")
+        ).append(BR);
         output.append("\n");
         // Headers
         output.append("## Generation");
