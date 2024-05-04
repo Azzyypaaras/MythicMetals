@@ -84,7 +84,7 @@ public class Ability {
 
     @Environment(EnvType.CLIENT)
     public void addTooltip(Item item, Style style) {
-        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
+        ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             MutableText text = Text.literal("");
             if (stack.isOf(item)) {
                 text.append(Text.translatable("abilities.mythicmetals." + tooltip));
@@ -93,7 +93,7 @@ public class Ability {
                     text.append(" ").append(Text.translatable("enchantment.level." + level));
                 }
                 if (lines.size() > 2) {
-                    var enchantCount = stack.getEnchantments().size();
+                    var enchantCount = stack.getEnchantments().getSize();
                     lines.add(enchantCount + 1, text);
                 } else lines.add(text);
             }
@@ -105,7 +105,7 @@ public class Ability {
         text.append(Text.translatable(translationKey));
         text.setStyle(style);
         if (lines.size() > 2) {
-            var enchantCount = stack.getEnchantments().size();
+            var enchantCount = stack.getEnchantments().getSize();
             lines.add(enchantCount + 1, text);
         } else lines.add(text);
     }

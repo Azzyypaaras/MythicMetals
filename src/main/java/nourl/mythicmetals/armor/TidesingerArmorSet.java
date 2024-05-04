@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 public class TidesingerArmorSet extends ArmorSet {
 
-    public TidesingerArmorSet(ArmorMaterial material, Consumer<OwoItemSettings> settingsProcessor) {
-        super(material, settingsProcessor);
+    public TidesingerArmorSet(ArmorMaterial material, int duraMod, Consumer<OwoItemSettings> settingsProcessor) {
+        super(material, duraMod, settingsProcessor);
     }
 
     @Override

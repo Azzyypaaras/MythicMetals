@@ -5,8 +5,8 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 
 public class PrometheumArmorSet extends ArmorSet {
-    public PrometheumArmorSet(ArmorMaterial material) {
-        super(material);
+    public PrometheumArmorSet(ArmorMaterial material, int duraMod) {
+        super(material, duraMod);
     }
 
     @Override

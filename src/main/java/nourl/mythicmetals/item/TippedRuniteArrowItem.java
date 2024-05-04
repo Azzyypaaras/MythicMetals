@@ -2,14 +2,13 @@ package nourl.mythicmetals.item;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.TippedArrowItem;
+import net.minecraft.item.*;
 import net.minecraft.world.World;
 import nourl.mythicmetals.entity.RuniteArrowEntity;
 
 public class TippedRuniteArrowItem extends TippedArrowItem {
 
-    public TippedRuniteArrowItem(Settings settings) {
+    public TippedRuniteArrowItem(Item.Settings settings) {
         super(settings);
     }
 

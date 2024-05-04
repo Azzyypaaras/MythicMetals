@@ -9,6 +9,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.tools.MythicTools;
@@ -31,6 +32,11 @@ public class StarPlatinumArrowEntity extends PersistentProjectileEntity {
     }
 
     @Override
+    protected ItemStack getDefaultItemStack() {
+        return STAR_PLAT_STACK;
+    }
+
+    @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
     }
@@ -42,7 +48,7 @@ public class StarPlatinumArrowEntity extends PersistentProjectileEntity {
                 this.getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(MythicDamageTypes.STAR_PLATINUM_ARROW).orElseThrow(),
                 this,
                 getOwner());
-        if (target.isUndead()) {
+        if (target.getType().isIn(EntityTypeTags.UNDEAD)) {
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, 3));
         } else {
             target.damage(source, 24);

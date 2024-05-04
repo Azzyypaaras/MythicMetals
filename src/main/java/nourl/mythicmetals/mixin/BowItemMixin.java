@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(BowItem.class)
 public abstract class BowItemMixin {
 
+    // FIXME - Should be moved to the shootAll method
     // Increases the velocity of Runite Arrows from 3.0 to 4.0, roughly 33%
     // Also decreases divergence, leading to better accuracy
     @Inject(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"), locals = LocalCapture.CAPTURE_FAILHARD)

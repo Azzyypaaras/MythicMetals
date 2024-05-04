@@ -1,24 +1,21 @@
 package nourl.mythicmetals.item.tools;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import io.wispforest.owo.serialization.Endec;
 import io.wispforest.owo.serialization.endec.BuiltInEndecs;
 import io.wispforest.owo.serialization.endec.KeyedEndec;
 import io.wispforest.owo.ui.core.Color;
-import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
-import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -36,9 +33,7 @@ import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.PrometheumHandler;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 import nourl.mythicmetals.registry.RegisterSounds;
-import org.jetbrains.annotations.Nullable;
 import java.util.List;
-import java.util.UUID;
 
 public class MythrilDrill extends PickaxeItem {
     /**
@@ -71,8 +66,8 @@ public class MythrilDrill extends PickaxeItem {
      */
     public static final int FUEL_CONSTANT = 10;
 
-    public MythrilDrill(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings);
+    public MythrilDrill(ToolMaterial material, Settings settings) {
+        super(material, settings);
     }
 
     @Override
@@ -114,7 +109,7 @@ public class MythrilDrill extends PickaxeItem {
 
         if (world.isClient) {
             user.sendMessage(Text.translatable("tooltip.mythril_drill.out_of_fuel"), true);
-            user.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASS.value(), SoundCategory.PLAYERS, 0.8f, 0.5f);
+            user.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASS.value(),0.8f, 0.5f);
         }
         return TypedActionResult.pass(stack);
     }
@@ -218,7 +213,7 @@ public class MythrilDrill extends PickaxeItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         int fuel = stack.has(FUEL) ? stack.get(FUEL) : 0;
         // Upgrade slots
         var format2 = hasUpgrade(stack, 1) ? Formatting.RESET : Formatting.GRAY;
@@ -260,37 +255,38 @@ public class MythrilDrill extends PickaxeItem {
         super.inventoryTick(stack, world, entity, slot, selected);
     }
 
-
     @Override
-    public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
-        // Cancel animation when fuel ticks down
-        return oldStack.get(FUEL).equals(newStack.get(FUEL)) && oldStack.getDamage() == newStack.getDamage();
+    public boolean allowComponentsUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+        // TODO - Implement once fuel component is added
+        return super.allowComponentsUpdateAnimation(player, hand, oldStack, newStack);
     }
+
+
 
     @Override
     public boolean allowContinuingBlockBreaking(PlayerEntity player, ItemStack oldStack, ItemStack newStack) {
+        // TODO - Implement once fuel component is created
         // Allow you to break blocks when fuel ticks down
-        return !oldStack.get(FUEL).equals(newStack.get(FUEL)) || oldStack.getDamage() != newStack.getDamage();
+        //return !oldStack.get(FUEL).equals(newStack.get(FUEL)) || oldStack.getDamage() != newStack.getDamage();
+        return true;
     }
-
-    @Override
-    public boolean isSuitableFor(ItemStack stack, BlockState state) {
-        if (isActive(stack)) {
-            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.getMaterial().getMiningLevel() >= MiningLevelManager.getRequiredMiningLevel(state))
-                return true;
-        }
-        return super.isSuitableFor(stack, state);
-    }
-
-    @Override
-    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        if (isActive(stack)) {
-            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.getMaterial().getMiningLevel() >= MiningLevelManager.getRequiredMiningLevel(state)) {
-                return this.miningSpeed;
-            } else return super.getMiningSpeedMultiplier(stack, state);
-        }
-        return super.getMiningSpeedMultiplier(stack, state) / 2.5F;
-    }
+//
+//    public boolean isSuitableFor(ItemStack stack, BlockState state) {
+//        if (isActive(stack)) {
+//            if (state.isIn(BlockTags.SHOVEL_MINEABLE))
+//                return true;
+//        }
+//        return super.isSuitableFor(stack, state);
+//    }
+//
+//    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
+//        if (isActive(stack)) {
+//            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.isSuitableFor(stack, state)) {
+//                return this.miningSpeed;
+//            } else return super.getMiningSpeedMultiplier(stack, state);
+//        }
+//        return super.getMiningSpeedMultiplier(stack, state) / 2.5F;
+//    }
 
     /**
      * Checks the NBT on the stack and checks if an upgrade is installed
@@ -386,15 +382,17 @@ public class MythrilDrill extends PickaxeItem {
      * @return whether you can eat the food-related itemstack in question
      */
     private boolean respectFood(ItemStack foodStack, PlayerEntity user) {
-        return foodStack.isFood() && user.canConsume(foodStack.getItem().getFoodComponent() != null && foodStack.getItem().getFoodComponent().isAlwaysEdible());
+        return user.canConsume(foodStack.getItem().getComponents() != null && foodStack.getItem().getComponents().contains(DataComponentTypes.FOOD));
     }
 
     @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-        var mapnite = HashMultimap.create(this.getAttributeModifiers(slot));
-        if (hasUpgradeItem(stack, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem())) {
-            mapnite.put(EntityAttributes.GENERIC_LUCK, new EntityAttributeModifier(UUID.fromString("dc61bf90-67b4-414e-8ecf-994065208b3e"), "Drill Luck", 2.0f, EntityAttributeModifier.Operation.ADDITION));
-        }
-        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
+    public AttributeModifiersComponent getAttributeModifiers(ItemStack stack) {
+//        var component = this.getAttributeModifiers(stack);
+//        if (hasUpgradeItem(stack, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem())) {
+//            mapnite.put(EntityAttributes.GENERIC_LUCK, new EntityAttributeModifier(UUID.fromString("dc61bf90-67b4-414e-8ecf-994065208b3e"), "Drill Luck", 2.0f, EntityAttributeModifier.Operation.ADDITION));
+//        }
+//        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
+        // TODO - Reimplement adding luck on Enchanted Midas Gold Block Upgrade
+        return super.getAttributeModifiers(stack);
     }
 }

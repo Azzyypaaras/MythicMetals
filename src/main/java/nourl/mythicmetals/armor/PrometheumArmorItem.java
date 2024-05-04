@@ -6,10 +6,11 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import nourl.mythicmetals.misc.PrometheumHandler;
+import nourl.mythicmetals.misc.RegistryHelper;
 
 public class PrometheumArmorItem extends ArmorItem {
     public PrometheumArmorItem(ArmorMaterial material, Type type, Settings settings) {
-        super(material, type, settings);
+        super(RegistryHelper.getEntry(material), type, settings);
     }
 
     @Override

@@ -2,7 +2,9 @@ package nourl.mythicmetals.misc;
 
 import io.wispforest.owo.ops.LootOps;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.item.MythicItems;
@@ -12,7 +14,9 @@ public class MythicLootOps {
     public static final Identifier CUSTOM_PIGLIN_BARTERING = new Identifier("custom_piglin_bartering", "mythicmetals/midas_gold_ingot");
     public static void init() {
         if (MythicMetals.CONFIG.unobtainium()) {
-            LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.01F, LootTables.ANCIENT_CITY_CHEST);
+            LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.01F, LootTables.ANCIENT_CITY_CHEST.getValue());
+            // TODO - Remove
+            MythicMetals.LOGGER.info("VALUE OF ANCIENT CITY TABLE: {}", LootTables.ANCIENT_CITY_CHEST.getValue());
             LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.00042F, BETTER_PIGLIN_BARTERING);
             if (FabricLoader.getInstance().isModLoaded("custom_piglin_bartering")) {
                 LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.00042F, CUSTOM_PIGLIN_BARTERING);

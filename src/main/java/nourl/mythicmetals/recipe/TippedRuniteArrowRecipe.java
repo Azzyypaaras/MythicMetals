@@ -1,14 +1,13 @@
 package nourl.mythicmetals.recipe;
 
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.tools.MythicTools;
 import nourl.mythicmetals.registry.RegisterRecipeSerializers;
@@ -45,14 +44,13 @@ public class TippedRuniteArrowRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(RecipeInputInventory inventory, RegistryWrapper.WrapperLookup wrapperLookup) {
         ItemStack itemStack = inventory.getStack(1 + inventory.getWidth());
         if (!itemStack.isOf(Items.LINGERING_POTION)) {
             return ItemStack.EMPTY;
         } else {
             ItemStack itemStack2 = new ItemStack(MythicTools.TIPPED_RUNITE_ARROW, 8);
-            PotionUtil.setPotion(itemStack2, PotionUtil.getPotion(itemStack));
-            PotionUtil.setCustomPotionEffects(itemStack2, PotionUtil.getCustomPotionEffects(itemStack));
+            itemStack2.set(DataComponentTypes.POTION_CONTENTS, itemStack.get(DataComponentTypes.POTION_CONTENTS));
             return itemStack2;
         }
     }

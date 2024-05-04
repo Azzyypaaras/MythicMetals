@@ -1,16 +1,18 @@
 package nourl.mythicmetals.misc;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
+import io.wispforest.owo.util.RegistryAccess;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.item.*;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.LootConditionType;
 import net.minecraft.registry.*;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import nourl.mythicmetals.MythicMetals;
@@ -64,11 +66,19 @@ public class RegistryHelper {
         return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, RegistryHelper.id(path));
     }
 
-    public static LootConditionType lootConditionType(String path, Codec<? extends LootCondition> lootCodec) {
+    public static LootConditionType lootConditionType(String path, MapCodec<? extends LootCondition> lootCodec) {
         return Registry.register(Registries.LOOT_CONDITION_TYPE, RegistryHelper.id(path), new LootConditionType(lootCodec));
     }
 
     public static void blockEntity(String path, BlockEntityType<?> type) {
         Registry.register(Registries.BLOCK_ENTITY_TYPE, RegistryHelper.id(path), type);
+    }
+
+    public static RegistryEntry<EntityAttribute> entityAttribute(String path, EntityAttribute attribute) {
+        return Registry.registerReference(Registries.ATTRIBUTE, id(path), attribute);
+    }
+
+    public static RegistryEntry<ArmorMaterial> getEntry(ArmorMaterial material) {
+        return RegistryAccess.getEntry(Registries.ARMOR_MATERIAL, material);
     }
 }

@@ -5,6 +5,7 @@ import com.google.common.collect.HashBiMap;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import io.wispforest.owo.util.ReflectionUtils;
@@ -12,12 +13,13 @@ import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.block.Block;
 import net.minecraft.command.argument.IdentifierArgumentType;
+import net.minecraft.command.argument.RegistryEntryArgumentType;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.item.*;
 import net.minecraft.item.trim.ArmorTrim;
 import net.minecraft.item.trim.ArmorTrimPattern;
-import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
@@ -194,7 +196,9 @@ public final class MythicCommands {
      */
     private static int testLootTable(CommandContext<ServerCommandSource> ctx) {
         var source = ctx.getSource();
-        var lootTableId = IdentifierArgumentType.getIdentifier(ctx, "loot_table");
+        try {
+            var lootTable = RegistryEntryArgumentType.LootTableArgumentType.getLootTable(ctx, "loot_table");
+
         int rolls = IntegerArgumentType.getInteger(ctx, "rolls");
 
         LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(ctx.getSource().getWorld())
@@ -202,12 +206,10 @@ public final class MythicCommands {
             .add(LootContextParameters.ORIGIN, source.getPosition())
             .build(LootContextTypes.CHEST);
 
-        LootTable lootTable = source.getServer().getLootManager().getLootTable(lootTableId);
-
         HashMap<Item, Integer> map = new HashMap<>();
 
         for (int i = 0; i < rolls; i++) {
-            List<ItemStack> list = lootTable.generateLoot(lootContextParameterSet);
+            List<ItemStack> list = lootTable.value().generateLoot(lootContextParameterSet);
             list.forEach(itemStack -> {
                 int count = map.getOrDefault(itemStack.getItem(), 0);
                 map.put(itemStack.getItem(), itemStack.getCount() + count);
@@ -217,6 +219,9 @@ public final class MythicCommands {
         map.forEach((item, integer) -> {
             source.sendFeedback(() -> (Text.literal(item + ": " + integer.toString())), false);
         });
+        } catch (CommandSyntaxException e) {
+            throw new RuntimeException(e);
+        }
 
         return 0;
     }
@@ -267,11 +272,11 @@ public final class MythicCommands {
                 output.append(", +%s Toughness".formatted(armor.getToughness()));
             }
             output.append(BR);
-            if (armor.getMaterial().getKnockbackResistance() > 0) {
+            if (armor.getMaterial().value().knockbackResistance() > 0) {
                 output.append("+%s Knockback Resistance").append(BR);
             }
             // 350 Durability
-            output.append("%s Durability".formatted(armor.getMaxDamage())).append(BR);
+            output.append("%s Durability".formatted(armor.getDefaultStack().getMaxDamage())).append(BR);
         }
 
         // armor recipes
@@ -387,7 +392,7 @@ public final class MythicCommands {
                 tool.getMaterial().getAttackDamage() + damageDeque.pop() + 1,
                 BigDecimal.valueOf(4.0f + atkSpd.pop()).setScale(1, RoundingMode.HALF_UP).toPlainString()
             )).append(BR);
-            output.append("%s Durability".formatted(tool.getMaxDamage())).append(BR);
+            output.append("%s Durability".formatted(tool.getDefaultStack().getMaxDamage())).append(BR);
         }
         // tool recipes
         output.append("\n").append("===RECIPE===").append("\n");
@@ -430,7 +435,7 @@ public final class MythicCommands {
                 MythicMetals.LOGGER.debug("Armor Item %s is not trimmable".formatted(armorStack.getName()));
             }
             if (trim != null) {
-                ArmorTrim.apply(world.getRegistryManager(), armorStack, trim);
+                armorStack.set(DataComponentTypes.TRIM, trim);
             }
             if (success.get()) armorStand.equipStack(armorItem.getSlotType(), armorStack);
         });

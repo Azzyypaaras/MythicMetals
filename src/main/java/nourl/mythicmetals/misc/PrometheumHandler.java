@@ -2,7 +2,6 @@ package nourl.mythicmetals.misc;
 
 import io.wispforest.owo.serialization.Endec;
 import io.wispforest.owo.serialization.endec.KeyedEndec;
-import net.fabricmc.fabric.api.item.v1.ModifyItemAttributeModifiersCallback;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -69,6 +68,7 @@ public class PrometheumHandler {
      * Registers an event that modifies all armor items in the tag with bonus attributes when bound
      */
     public static void registerPrometheumAttributeEvent() {
+        // FIXME - Replace with DefaultItemComponentsCallback once merged into FAPI
         ModifyItemAttributeModifiersCallback.EVENT.register((stack, slot, attributeModifiers) -> {
             if (stack.isIn(MythicTags.PROMETHEUM_ARMOR) && ((ArmorItem) stack.getItem()).getSlotType().equals(slot)) {
                 if (EnchantmentHelper.hasBindingCurse(stack)) {

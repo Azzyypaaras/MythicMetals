@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 public class CelestiumArmorSet extends ArmorSet {
 
-    public CelestiumArmorSet(ArmorMaterial material, Consumer<OwoItemSettings> settingsConsumer) {
-        super(material, settingsConsumer);
+    public CelestiumArmorSet(ArmorMaterial material, int duraMod, Consumer<OwoItemSettings> settingsConsumer) {
+        super(material, duraMod, settingsConsumer);
     }
 
     @Override

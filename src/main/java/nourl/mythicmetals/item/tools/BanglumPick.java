@@ -18,8 +18,8 @@ import nourl.mythicmetals.registry.RegisterCriteria;
 
 public class BanglumPick extends PickaxeItem {
 
-    public BanglumPick(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings);
+    public BanglumPick(ToolMaterial material, Settings settings) {
+        super(material, settings);
     }
 
     /**
@@ -37,9 +37,9 @@ public class BanglumPick extends PickaxeItem {
             var iterator = BlockBreaker.findBlocks(context, 5);
 
             for (BlockPos blockPos : iterator) {
-                if (canBreak(world, blockPos)) {
+                if (canBreak(context.getStack(), world, blockPos)) {
                     WorldOps.breakBlockWithItem(world, blockPos, context.getStack());
-                    context.getStack().damage(2, player, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                    context.getStack().damage(2, player, EquipmentSlot.MAINHAND);
                     shouldPass = true;
                 }
             }
@@ -52,7 +52,7 @@ public class BanglumPick extends PickaxeItem {
             var pos2 = context.getBlockPos().offset(facing, 5);
 
             MythicParticleSystem.EXPLOSION_TRAIL.spawn(world, Vec3d.of(pos), Vec3d.of(pos2));
-            WorldOps.playSound(world, pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS);
+            WorldOps.playSound(world, pos, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.PLAYERS);
 
             RegisterCriteria.USED_BLAST_MINING.trigger((ServerPlayerEntity) player);
             player.getItemCooldownManager().set(this, 100);
@@ -62,8 +62,8 @@ public class BanglumPick extends PickaxeItem {
         return ActionResult.FAIL;
     }
 
-    public boolean canBreak(BlockView view, BlockPos pos) {
-        return super.isSuitableFor(view.getBlockState(pos));
+    public boolean canBreak(ItemStack stack, BlockView view, BlockPos pos) {
+        return super.isCorrectForDrops(stack, view.getBlockState(pos));
     }
 
     public static boolean getCooldown(LivingEntity entity, ItemStack stack) {

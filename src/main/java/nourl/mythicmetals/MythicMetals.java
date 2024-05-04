@@ -1,13 +1,12 @@
 package nourl.mythicmetals;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.entity.*;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.entity.*;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.gui.ItemGroupButton;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
-import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
@@ -136,37 +135,36 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
         LOGGER.info("[Mythic Metals] Mythic Metals is now initialized.");
     }
 
+    // TODO - Now determined by projectile items themselves. Override ProjectileItem#getProjectileSettings() and use builder
     private void registerDispenserBehaviour() {
-        DispenserBlock.registerBehavior(() -> MythicTools.STAR_PLATINUM_ARROW, new ProjectileDispenserBehavior() {
-            @Override
-            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-                var arrow = new StarPlatinumArrowEntity(MythicEntities.STAR_PLATINUM_ARROW_ENTITY_TYPE, world);
-                arrow.setPos(position.getX(), position.getY(), position.getZ());
-                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-                return arrow;
-            }
-        });
+        DispenserBlock.registerBehavior(() -> MythicTools.STAR_PLATINUM_ARROW, new ProjectileDispenserBehavior(MythicTools.STAR_PLATINUM_ARROW));
+//            @Override
+//            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
+//                var arrow = new StarPlatinumArrowEntity(MythicEntities.STAR_PLATINUM_ARROW_ENTITY_TYPE, world);
+//                arrow.setPos(position.getX(), position.getY(), position.getZ());
+//                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+//                return arrow;
+//            }
+//        });
 
-        DispenserBlock.registerBehavior(() -> MythicTools.RUNITE_ARROW, new ProjectileDispenserBehavior() {
-            @Override
-            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-                var arrow = new RuniteArrowEntity(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world);
-                arrow.setPos(position.getX(), position.getY(), position.getZ());
-                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-                return arrow;
-            }
-        });
+        DispenserBlock.registerBehavior(() -> MythicTools.RUNITE_ARROW, new ProjectileDispenserBehavior(MythicTools.RUNITE_ARROW));
+//            @Override
+//            private ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
+//                var arrow = new RuniteArrowEntity(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world);
+//                arrow.setPos(position.getX(), position.getY(), position.getZ());
+//                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+//                return arrow;
+//            }
 
-        DispenserBlock.registerBehavior(() -> MythicTools.TIPPED_RUNITE_ARROW, new ProjectileDispenserBehavior() {
-            @Override
-            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-                var arrow = new RuniteArrowEntity(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world);
-                arrow.setPos(position.getX(), position.getY(), position.getZ());
-                arrow.initFromStack(stack);
-                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-                return arrow;
-            }
-        });
+        DispenserBlock.registerBehavior(() -> MythicTools.TIPPED_RUNITE_ARROW, new ProjectileDispenserBehavior(MythicTools.TIPPED_RUNITE_ARROW));
+//            @Override
+//            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
+//                var arrow = new RuniteArrowEntity(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world);
+//                arrow.setPos(position.getX(), position.getY(), position.getZ());
+//                arrow.initFromStack(stack);
+//                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+//                return arrow;
+//            }
     }
 
 

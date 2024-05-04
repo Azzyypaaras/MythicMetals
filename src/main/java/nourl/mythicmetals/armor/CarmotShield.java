@@ -1,7 +1,8 @@
 package nourl.mythicmetals.armor;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import net.minecraft.registry.RegistryWrapper;
+import org.ladysnake.cca.api.v3.component.Component;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -90,14 +91,14 @@ public class CarmotShield implements Component, AutoSyncedComponent {
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag) {
+    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         shieldHealth = tag.getFloat("health");
         renderTime = tag.getInt("rendertime");
         cooldown = tag.getInt("cooldown");
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag) {
+    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         tag.putFloat("health", shieldHealth);
         tag.putInt("rendertime", renderTime);
         tag.putInt("cooldown", cooldown);

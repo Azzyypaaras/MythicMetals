@@ -1,13 +1,16 @@
 package nourl.mythicmetals.armor;
 
 import io.wispforest.owo.itemgroup.OwoItemSettings;
+import io.wispforest.owo.util.RegistryAccess;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.misc.RegistryHelper;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class ArmorSet {
@@ -19,22 +22,29 @@ public class ArmorSet {
 
     private final List<ArmorItem> armorSet;
 
-    public ArmorItem baseArmorItem(ArmorMaterial material, ArmorItem.Type slot, Consumer<OwoItemSettings> settingsProcessor) {
-        final var settings = new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(3);
+    private static final Map<ArmorItem.Type, Integer> BASE_DURABILITY = Map.of(
+        ArmorItem.Type.HELMET, 12,
+        ArmorItem.Type.CHESTPLATE, 16,
+        ArmorItem.Type.LEGGINGS, 15,
+        ArmorItem.Type.BOOTS, 13
+    );
+
+    public ArmorItem baseArmorItem(ArmorMaterial material, ArmorItem.Type slot, int durabilityModifier, Consumer<OwoItemSettings> settingsProcessor) {
+        final var settings = new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(3).maxDamage(BASE_DURABILITY.get(slot) * durabilityModifier);
         settingsProcessor.accept(settings);
         return this.makeItem(material, slot, settings);
     }
 
-    public ArmorSet(ArmorMaterial material) {
-        this(material, settings -> {
+    public ArmorSet(ArmorMaterial material, int durabilityModifier) {
+        this(material, durabilityModifier, settings -> {
         });
     }
 
-    public ArmorSet(ArmorMaterial material, Consumer<OwoItemSettings> settingsProcessor) {
-        this.helmet = baseArmorItem(material, ArmorItem.Type.HELMET, settingsProcessor);
-        this.chestplate = baseArmorItem(material, ArmorItem.Type.CHESTPLATE, settingsProcessor);
-        this.leggings = baseArmorItem(material, ArmorItem.Type.LEGGINGS, settingsProcessor);
-        this.boots = baseArmorItem(material, ArmorItem.Type.BOOTS, settingsProcessor);
+    public ArmorSet(ArmorMaterial material, int durabilityModifier, Consumer<OwoItemSettings> settingsProcessor) {
+        this.helmet = baseArmorItem(material, ArmorItem.Type.HELMET, durabilityModifier, settingsProcessor);
+        this.chestplate = baseArmorItem(material, ArmorItem.Type.CHESTPLATE, durabilityModifier, settingsProcessor);
+        this.leggings = baseArmorItem(material, ArmorItem.Type.LEGGINGS, durabilityModifier, settingsProcessor);
+        this.boots = baseArmorItem(material, ArmorItem.Type.BOOTS, durabilityModifier, settingsProcessor);
         this.armorSet = List.of(helmet, chestplate, leggings, boots);
     }
 
@@ -53,7 +63,7 @@ public class ArmorSet {
     }
 
     protected ArmorItem makeItem(ArmorMaterial material, ArmorItem.Type slot, OwoItemSettings settings) {
-        return new ArmorItem(material, slot, settings);
+        return new ArmorItem(getEntry(material), slot, settings);
     }
 
     public ArmorItem getHelmet() {
@@ -78,5 +88,9 @@ public class ArmorSet {
 
     public boolean isInArmorSet(ItemStack stack) {
         return this.getArmorItems().contains(stack.getItem());
+    }
+
+    public RegistryEntry<ArmorMaterial> getEntry(ArmorMaterial material) {
+        return RegistryAccess.getEntry(Registries.ARMOR_MATERIAL, material);
     }
 }

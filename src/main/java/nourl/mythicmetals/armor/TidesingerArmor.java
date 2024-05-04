@@ -17,7 +17,6 @@ import nourl.mythicmetals.misc.RegistryHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class TidesingerArmor extends HallowedArmor {
-    // TODO - Minecraft finally unified their style somewhat - NBT fields are all PascalCase
     public static KeyedEndec<String> CORAL_TYPE = new KeyedEndec<>("mm_coral_type", Endec.STRING, "none");
 
     @Environment(EnvType.CLIENT)

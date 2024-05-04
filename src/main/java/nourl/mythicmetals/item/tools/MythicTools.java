@@ -2,8 +2,8 @@ package nourl.mythicmetals.item.tools;
 
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -11,7 +11,6 @@ import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -66,8 +65,13 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     public static final ToolSet STORMYX = new ToolSet(MythicToolMaterials.STORMYX, DEFAULT_DAMAGE, DEFAULT_ATTACK_SPEED);
     public static final ToolSet TIDESINGER = new TidesingerToolSet(MythicToolMaterials.TIDESINGER, DEFAULT_DAMAGE, FASTER_ATTACK_SPEED);
 
-    public static final Item RED_AEGIS_SWORD = new SwordItem(MythicToolMaterials.AEGIS_RED, 5, -3.0F,
-        new OwoItemSettings().fireproof().rarity(Rarity.UNCOMMON).group(MythicMetals.TABBED_GROUP).tab(2));
+    public static final Item RED_AEGIS_SWORD = new SwordItem(MythicToolMaterials.AEGIS_RED, new OwoItemSettings()
+        .fireproof()
+        .rarity(Rarity.UNCOMMON)
+        .group(MythicMetals.TABBED_GROUP)
+        .tab(2)
+        .attributeModifiers(SwordItem.createAttributeModifiers(MythicToolMaterials.AEGIS_RED, 5, -3.0f)));
+
     public static final Item WHITE_AEGIS_SWORD = new SwordItem(MythicToolMaterials.AEGIS_WHITE, 4, -2.6F,
         new OwoItemSettings().fireproof().rarity(Rarity.UNCOMMON).group(MythicMetals.TABBED_GROUP).tab(2));
     public static final Item CARMOT_STAFF = new CarmotStaff(MythicToolMaterials.CARMOT_STAFF, -3.0F,
@@ -85,6 +89,10 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     public static final Item RUNITE_ARROW = new RuniteArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));
     public static final Item TIPPED_RUNITE_ARROW = new TippedRuniteArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2).stackGenerator((item, stacks) -> {
         for (Potion potion : Registries.POTION) {
+            registryWrapper.streamEntries()
+                .filter(potionEntry -> ((Potion)potionEntry.value()).isEnabled(enabledFeatures))
+                .map(entry -> PotionContentsComponent.createStack(item, entry))
+                .forEach(stack -> entries.add(stack, visibility));
             if (!potion.getEffects().isEmpty()) {
                 stacks.add(PotionUtil.setPotion(new ItemStack(item), potion));
             }
@@ -138,15 +146,15 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
             @Override
             public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
                 if (entity.getType() == EntityType.FROG && FabricLoader.getInstance().isModLoaded("delightful-froge")) {
-                    ((FrogEntity) entity).setVariant(Registries.FROG_VARIANT.get(new Identifier("delightful", "froge")));
+                    ((FrogEntity) entity).setVariant(Registries.FROG_VARIANT.getEntry(new Identifier("delightful", "froge")).get());
                     return ActionResult.SUCCESS;
                 }
                 return super.useOnEntity(stack, user, entity, hand);
             }
         }
 
-        public static final Item FROGE = new Froger(new FabricItemSettings().rarity(Rarity.EPIC).fireproof().equipmentSlot(stack -> EquipmentSlot.HEAD));
-        public static final Item DOGE = new MusicDiscItem(42, RegisterSounds.DOG, new FabricItemSettings().rarity(Rarity.EPIC).fireproof().equipmentSlot(stack -> EquipmentSlot.HEAD).maxCount(1), 162);
+        public static final Item FROGE = new Froger(new Item.Settings().rarity(Rarity.EPIC).fireproof().equipmentSlot(stack -> EquipmentSlot.HEAD));
+        public static final Item DOGE = new MusicDiscItem(42, RegisterSounds.DOG, new Item.Settings().rarity(Rarity.EPIC).fireproof().equipmentSlot(stack -> EquipmentSlot.HEAD).maxCount(1), 162);
     }
 
 }

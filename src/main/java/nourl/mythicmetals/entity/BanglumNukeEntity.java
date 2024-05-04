@@ -100,10 +100,11 @@ public class BanglumNukeEntity extends BanglumTntEntity {
 
         int soundRadius = radius * 3;
 
+        // TODO - Verify the explosion sounds correct
         for (PlayerEntity player : getWorld().getPlayers()) {
             if (player.squaredDistanceTo(this) > soundRadius * soundRadius) continue;
 
-            player.playSound(RegisterSounds.BANGLUM_NUKE_EXPLOSION, SoundCategory.BLOCKS, 5.0F, (1.0F + (this.getWorld().random.nextFloat() - this.getWorld().random.nextFloat()) * 0.2F) * 0.7F);
+            player.getWorld().playSound(this, this.getBlockPos(), RegisterSounds.BANGLUM_NUKE_EXPLOSION, SoundCategory.BLOCKS, 5.0F, (1.0F + (this.getWorld().random.nextFloat() - this.getWorld().random.nextFloat()) * 0.2F) * 0.7F);
         }
 
         // Handle damaging entities near the nuke explosion

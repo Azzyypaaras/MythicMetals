@@ -50,7 +50,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
         // Slow down mining MM ores if you are using an item without a high enough mining level
         if (blockState.isIn(MythicTags.MYTHIC_ORES) && !mainHandStack.isSuitableFor(blockState)) {
-            if (mainHandStack.hasEnchantments() && mainHandStack.getEnchantments().iterator().next().equals(Enchantments.EFFICIENCY)) {
+            if (mainHandStack.hasEnchantments() && mainHandStack.getEnchantments().getEnchantments().iterator().next().equals(Enchantments.EFFICIENCY)) {
                 speedMod *= 0.01f;
             } else {
                 speedMod *= 0.3f;
@@ -106,7 +106,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             if (amount >= 4.0f) {
                 int i = MathHelper.floor(amount);
                 Hand hand = this.getActiveHand();
-                this.activeItemStack.damage(i, this, player -> player.sendToolBreakStatus(hand));
+                this.activeItemStack.damage(i, this, LivingEntity.getSlotForHand(hand));
                 if (this.activeItemStack.isEmpty()) {
                     if (hand == Hand.MAIN_HAND) {
                         this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
@@ -123,7 +123,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     }
 
     @Inject(method = "disableShield", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/ItemCooldownManager;set(Lnet/minecraft/item/Item;I)V"))
-    private void mythicmetals$setShieldCooldown(boolean sprinting, CallbackInfo ci) {
+    private void mythicmetals$setShieldCooldown(CallbackInfo ci) {
         this.itemCooldownManager.set(MythicTools.STORMYX_SHIELD.asItem(), 80);
     }
 

@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 public class MetallurgiumArmorSet extends ArmorSet {
 
-    public MetallurgiumArmorSet(ArmorMaterial material, Consumer<OwoItemSettings> settingsProcessor) {
-        super(material, settingsProcessor);
+    public MetallurgiumArmorSet(ArmorMaterial material, int duraMod, Consumer<OwoItemSettings> settingsProcessor) {
+        super(material, duraMod, settingsProcessor);
     }
 
     @Override

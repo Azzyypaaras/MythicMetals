@@ -1,18 +1,13 @@
 package nourl.mythicmetals.item.tools;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import io.wispforest.owo.serialization.Endec;
 import io.wispforest.owo.serialization.endec.KeyedEndec;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.*;
 import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.item.MythicItems;
 import org.jetbrains.annotations.Nullable;
@@ -39,8 +34,8 @@ public class MidasGoldSword extends SwordItem {
     @Deprecated
     public static final KeyedEndec<Boolean> IS_ROYAL = new KeyedEndec<>("IsRoyal", Endec.BOOLEAN, false);
 
-    public MidasGoldSword(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings);
+    public MidasGoldSword(ToolMaterial material, Settings settings) {
+        super(material, settings);
     }
 
     @Override
@@ -52,38 +47,39 @@ public class MidasGoldSword extends SwordItem {
     }
 
     @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-
-        Multimap<EntityAttribute, EntityAttributeModifier> mapnite = this.getAttributeModifiers(slot);
-
-        int goldCount = stack.get(GOLD_FOLDED);
-        if (goldCount > 0) {
-
-            mapnite = HashMultimap.create(mapnite);
-
-            // Store and clear so that we can modify the vanilla attack damage modifier independently
-            var damageValues = mapnite.get(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-
-            float baseDamage = getAttackDamage();
-            int bonus = MathHelper.clamp(MathHelper.floor((float) goldCount / 64), 0, 6);
-            if (goldCount >= 1280) {
-                bonus += 1;
-            }
-            mapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(Item.ATTACK_DAMAGE_MODIFIER_ID, "Damage modifier", baseDamage + bonus, EntityAttributeModifier.Operation.ADDITION));
-
-            var finalMapnite = mapnite;
-            damageValues.forEach(entityAttributeModifier -> finalMapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, entityAttributeModifier));
-        }
-        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
+    public AttributeModifiersComponent getAttributeModifiers(ItemStack stack) {
+        // TODO - Reimplement attack damage increase on folded gold
+//        Multimap<EntityAttribute, EntityAttributeModifier> mapnite = this.getAttributeModifiers(slot);
+//
+//        int goldCount = stack.get(GOLD_FOLDED);
+//        if (goldCount > 0) {
+//
+//            mapnite = HashMultimap.create(mapnite);
+//
+//            // Store and clear so that we can modify the vanilla attack damage modifier independently
+//            var damageValues = mapnite.get(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+//            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+//
+//            float baseDamage = getAttackDamage();
+//            int bonus = MathHelper.clamp(MathHelper.floor((float) goldCount / 64), 0, 6);
+//            if (goldCount >= 1280) {
+//                bonus += 1;
+//            }
+//            mapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(Item.ATTACK_DAMAGE_MODIFIER_ID, "Damage modifier", baseDamage + bonus, EntityAttributeModifier.Operation.ADDITION));
+//
+//            var finalMapnite = mapnite;
+//            damageValues.forEach(entityAttributeModifier -> finalMapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, entityAttributeModifier));
+//        }
+//        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
+        return super.getAttributeModifiers(stack);
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> lines, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> lines, TooltipType type) {
         int lineIndex = 1;
 
         if (lines.size() > 2) {
-            var enchantCount = stack.getEnchantments().size();
+            var enchantCount = stack.getEnchantments().getSize();
             lineIndex = enchantCount + 1;
         }
 
@@ -127,7 +123,6 @@ public class MidasGoldSword extends SwordItem {
             // e.g. 63/128
             lines.add(lineIndex + 1, Text.literal(goldCount + " / " + (64 + level * 64)).formatted(Formatting.GOLD));
         }
-
     }
 
     public static float countGold(int goldCount) {
