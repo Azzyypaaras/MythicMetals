@@ -6,8 +6,10 @@ import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.util.RegistryAccess;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.component.DataComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.*;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.LootConditionType;
@@ -16,6 +18,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import nourl.mythicmetals.MythicMetals;
+import java.util.function.UnaryOperator;
 
 /**
  * A helper class containing methods for registering various blocks and items.
@@ -78,7 +81,16 @@ public class RegistryHelper {
         return Registry.registerReference(Registries.ATTRIBUTE, id(path), attribute);
     }
 
+    public static RegistryEntry<StatusEffect> getEntry(StatusEffect effect) {
+        return RegistryAccess.getEntry(Registries.STATUS_EFFECT, effect);
+    }
+
     public static RegistryEntry<ArmorMaterial> getEntry(ArmorMaterial material) {
         return RegistryAccess.getEntry(Registries.ARMOR_MATERIAL, material);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static <T> DataComponentType<T> dataComponentType(String path, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
+        return Registry.register(Registries.DATA_COMPONENT_TYPE, id(path), ((DataComponentType.Builder)builderOperator.apply(DataComponentType.builder())).build());
     }
 }

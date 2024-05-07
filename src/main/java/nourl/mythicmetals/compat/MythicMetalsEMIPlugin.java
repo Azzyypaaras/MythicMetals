@@ -1,7 +1,11 @@
 package nourl.mythicmetals.compat;
 
 import dev.emi.emi.api.*;
+import dev.emi.emi.api.stack.EmiStack;
+import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.recipe.*;
+import net.minecraft.util.Identifier;
+import nourl.mythicmetals.item.tools.MythicTools;
 import nourl.mythicmetals.recipe.MidasFoldingRecipe;
 import nourl.mythicmetals.recipe.TidesingerCoralRecipe;
 
@@ -18,5 +22,7 @@ public class MythicMetalsEMIPlugin implements EmiPlugin {
                 registry.addRecipe(new TidesingerEMIRecipe(tidesingerCoralRecipe));
             }
         }
+        registry.removeEmiStacks(EmiStack.of(MythicTools.Frogery.FROGE));
+        registry.removeEmiStacks(EmiStack.of(MythicTools.Frogery.DOGE));
     }
 }
