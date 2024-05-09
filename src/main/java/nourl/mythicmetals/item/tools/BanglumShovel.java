@@ -1,5 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -18,8 +19,8 @@ import nourl.mythicmetals.registry.RegisterCriteria;
 
 public class BanglumShovel extends ShovelItem {
 
-    public BanglumShovel(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings);
+    public BanglumShovel(ToolMaterial material, OwoItemSettings settings) {
+        super(material, settings);
     }
 
     /**
@@ -36,9 +37,9 @@ public class BanglumShovel extends ShovelItem {
             var iterator = BlockBreaker.findBlocks(context, 5);
 
             for (BlockPos blockPos : iterator) {
-                if (canBreak(world, blockPos)) {
+                if (canBreak(context.getStack(), world, blockPos)) {
                     WorldOps.breakBlockWithItem(world, blockPos, context.getStack());
-                    context.getStack().damage(2, player, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                    context.getStack().damage(2, player, EquipmentSlot.MAINHAND);
                     shouldPass = true;
                 }
             }
@@ -50,7 +51,7 @@ public class BanglumShovel extends ShovelItem {
             var facing = context.getHorizontalPlayerFacing();
             var pos2 = context.getBlockPos().offset(facing, 5);
             MythicParticleSystem.EXPLOSION_TRAIL.spawn(world, Vec3d.of(pos), Vec3d.of(pos2));
-            WorldOps.playSound(world, pos, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS);
+            WorldOps.playSound(world, pos, SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.PLAYERS);
 
             RegisterCriteria.USED_BLAST_MINING.trigger((ServerPlayerEntity) player);
             player.getItemCooldownManager().set(this, 100);
@@ -60,8 +61,8 @@ public class BanglumShovel extends ShovelItem {
         return ActionResult.FAIL;
     }
 
-    public boolean canBreak(BlockView view, BlockPos pos) {
-        return super.isSuitableFor(view.getBlockState(pos));
+    public boolean canBreak(ItemStack stack, BlockView view, BlockPos pos) {
+        return super.isCorrectForDrops(stack, view.getBlockState(pos));
     }
 
     public static boolean getCooldown(LivingEntity entity, ItemStack stack) {

@@ -187,7 +187,7 @@ public class MythrilDrill extends PickaxeItem {
             // Randomly cancel damage while active
             var random = world.getRandom();
             if (isActive(stack) && random.nextInt(10) > 3) return true;
-            stack.damage(1, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(1, miner, EquipmentSlot.MAINHAND);
 
             if (!EnchantmentHelper.get(stack).containsKey(Enchantments.SILK_TOUCH) && state.isIn(ConventionalBlockTags.ORES)) {
                 // Restore air when mining ores underwater

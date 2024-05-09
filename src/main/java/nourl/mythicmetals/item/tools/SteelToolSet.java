@@ -1,5 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
@@ -13,7 +14,7 @@ public class SteelToolSet extends ToolSet {
     }
 
     @Override
-    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
         return new SteelShovel(material, settings);
     }
 

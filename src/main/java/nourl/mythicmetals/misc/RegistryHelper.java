@@ -13,6 +13,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.*;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.LootConditionType;
+import net.minecraft.potion.Potion;
 import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -82,11 +83,15 @@ public class RegistryHelper {
     }
 
     public static RegistryEntry<StatusEffect> getEntry(StatusEffect effect) {
-        return RegistryAccess.getEntry(Registries.STATUS_EFFECT, effect);
+        return Registries.STATUS_EFFECT.getEntry(effect);
     }
 
     public static RegistryEntry<ArmorMaterial> getEntry(ArmorMaterial material) {
-        return RegistryAccess.getEntry(Registries.ARMOR_MATERIAL, material);
+        return Registries.ARMOR_MATERIAL.getEntry(material);
+    }
+
+    public static RegistryEntry<Potion> getEntry(Potion potion) {
+        return Registries.POTION.getEntry(potion);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+// FIXME - Fix durability
 @SuppressWarnings("unused")
 public class MythicArmor implements SimpleFieldProcessingSubject<ArmorSet> {
     public static final Map<String, ArmorSet> ARMOR_MAP = new HashMap<>();
@@ -22,10 +23,10 @@ public class MythicArmor implements SimpleFieldProcessingSubject<ArmorSet> {
     public static final Item CELESTIUM_ELYTRA = new CelestiumElytra(new OwoItemSettings().rarity(Rarity.RARE).group(MythicMetals.TABBED_GROUP).tab(3).maxDamage(832));
     public static final ArmorSet COPPER = new ArmorSet(MythicArmorMaterials.COPPER, 0);
     public static final ArmorSet DURASTEEL = new ArmorSet(MythicArmorMaterials.DURASTEEL, 0);
-    public static final ArmorSet HALLOWED = new HallowedArmorSet(MythicArmorMaterials.HALLOWED, settings -> settings.rarity(Rarity.UNCOMMON));
+    public static final ArmorSet HALLOWED = new HallowedArmorSet(MythicArmorMaterials.HALLOWED, 0, settings -> settings.rarity(Rarity.UNCOMMON));
     public static final ArmorSet KYBER = new ArmorSet(MythicArmorMaterials.KYBER, 0);
-    public static final ArmorSet LEGENDARY_BANGLUM = new BanglumArmorSet(MythicArmorMaterials.LEGENDARY_BANGLUM, settings -> settings.rarity(Rarity.UNCOMMON));
-    public static final ArmorSet METALLURGIUM = new MetallurgiumArmorSet(MythicArmorMaterials.METALLURGIUM, settings -> settings.fireproof().rarity(Rarity.RARE));
+    public static final ArmorSet LEGENDARY_BANGLUM = new BanglumArmorSet(MythicArmorMaterials.LEGENDARY_BANGLUM, 0, settings -> settings.rarity(Rarity.UNCOMMON));
+    public static final ArmorSet METALLURGIUM = new MetallurgiumArmorSet(MythicArmorMaterials.METALLURGIUM, 0, settings -> settings.fireproof().rarity(Rarity.RARE));
     public static final ArmorSet MIDAS_GOLD = new ArmorSet(MythicArmorMaterials.MIDAS_GOLD, 0);
     public static final ArmorSet MYTHRIL = new ArmorSet(MythicArmorMaterials.MYTHRIL, 0);
     public static final ArmorSet ORICHALCUM = new ArmorSet(MythicArmorMaterials.ORICHALCUM, 0);

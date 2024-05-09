@@ -1,5 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -12,12 +13,12 @@ public class TidesingerToolSet extends ToolSet {
     }
 
     @Override
-    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
         return new TidesingerSword(material, damage, speed, settings);
     }
 
     @Override
-    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
         return new TidesingerAxe(material, damage, speed, settings);
     }
 

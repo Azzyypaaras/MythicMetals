@@ -1,5 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -12,32 +13,32 @@ import java.util.function.Consumer;
 
 public class PalladiumToolSet extends ToolSet {
     public static final int MAX_HEAT = 6;
-    public PalladiumToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<Item.Settings> settingsProcessor) {
+    public PalladiumToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<OwoItemSettings> settingsProcessor) {
         super(material, damage, speed, settingsProcessor);
     }
 
     @Override
-    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
         return new PalladiumSword(material, settings);
     }
 
     @Override
-    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
         return new PalladiumAxe(material, settings);
     }
 
     @Override
-    protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+    protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
         return new PalladiumPick(material, settings);
     }
 
     @Override
-    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
         return new PalladiumShovel(material, settings);
     }
 
     @Override
-    protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+    protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
         return new PalladiumHoe(material, settings);
     }
 

@@ -2,9 +2,7 @@ package nourl.mythicmetals.misc;
 
 import io.wispforest.owo.ops.LootOps;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTables;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.item.MythicItems;
@@ -22,8 +20,8 @@ public class MythicLootOps {
                 LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.00042F, CUSTOM_PIGLIN_BARTERING);
             }
         }
-        LootOps.injectItem(MythicItems.Templates.UNOBTAINIUM_SMITHING_TEMPLATE, MythicMetals.CONFIG.unobtainiumTemplateChance(), LootTables.ANCIENT_CITY_CHEST);
-        LootOps.injectItem(MythicItems.Templates.MYTHRIL_DRILL_SMITHING_TEMPLATE, MythicMetals.CONFIG.mythrilDrillTemplateChance(), LootTables.ABANDONED_MINESHAFT_CHEST);
-        LootOps.injectItem(MythicItems.Templates.CARMOT_STAFF_SMITHING_TEMPLATE, MythicMetals.CONFIG.carmotStaffTemplateChance(), LootTables.VILLAGE_TEMPLE_CHEST);
+        LootOps.injectItem(MythicItems.Templates.UNOBTAINIUM_SMITHING_TEMPLATE, MythicMetals.CONFIG.unobtainiumTemplateChance(), LootTables.ANCIENT_CITY_CHEST.getValue());
+        LootOps.injectItem(MythicItems.Templates.MYTHRIL_DRILL_SMITHING_TEMPLATE, MythicMetals.CONFIG.mythrilDrillTemplateChance(), LootTables.ABANDONED_MINESHAFT_CHEST.getValue());
+        LootOps.injectItem(MythicItems.Templates.CARMOT_STAFF_SMITHING_TEMPLATE, MythicMetals.CONFIG.carmotStaffTemplateChance(), LootTables.VILLAGE_TEMPLE_CHEST.getValue());
     }
 }

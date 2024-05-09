@@ -1,14 +1,11 @@
 package nourl.mythicmetals.misc;
 
 import io.wispforest.owo.ui.core.Color;
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
-import java.util.List;
 
 public class UsefulSingletonForColorUtil {
     public static float[] splitRGBToFloats(int rgb) {
@@ -30,14 +27,16 @@ public class UsefulSingletonForColorUtil {
      */
     public static int potionColor(ItemStack stack, int tintIndex) {
         if (tintIndex == 1) {
-            NbtCompound nbtCompound = stack.getNbt();
-            if (nbtCompound != null && nbtCompound.contains("CustomPotionColor", NbtElement.INT_TYPE)) {
-                return nbtCompound.getInt("CustomPotionColor");
+            var component = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, null);
+            if (component == null) {
+                return -1;
+            }
+            if (component.customColor().isPresent()) {
+                return component.customColor().get();
             }
 
-            List<StatusEffectInstance> effects = PotionUtil.getPotionEffects(stack);
-            if (!effects.isEmpty()) {
-                return PotionUtil.getColor(effects);
+            if (component.hasEffects()) {
+                PotionContentsComponent.getColor(component.getEffects());
             }
         }
         return -1;

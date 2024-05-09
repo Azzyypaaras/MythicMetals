@@ -1,7 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
-import com.google.common.collect.*;
-import de.dafuqs.additionalentityattributes.AdditionalEntityAttributes;
+import com.google.common.collect.Multimap;
 import io.wispforest.owo.ops.WorldOps;
 import io.wispforest.owo.serialization.Endec;
 import io.wispforest.owo.serialization.endec.BuiltInEndecs;
@@ -9,7 +8,8 @@ import io.wispforest.owo.serialization.endec.KeyedEndec;
 import io.wispforest.owo.ui.core.Color;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Instrument;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
@@ -23,6 +23,7 @@ import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -41,11 +42,9 @@ import nourl.mythicmetals.abilities.UniqueStaffBlocks;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.client.rendering.CarmotStaffBlockRenderer;
 import nourl.mythicmetals.misc.*;
-import nourl.mythicmetals.registry.RegisterCriteria;
-import nourl.mythicmetals.registry.RegisterSounds;
+import nourl.mythicmetals.registry.*;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
-import java.util.UUID;
 
 public class CarmotStaff extends ToolItem {
 
@@ -62,33 +61,29 @@ public class CarmotStaff extends ToolItem {
      */
     public static final KeyedEndec<Boolean> IS_USED = new KeyedEndec<>("is_used", Endec.BOOLEAN, false);
     /**
-     * NBT Key that prevents the staff from inserting blocks
-     * @deprecated Will be replaced with "locked" (lowercase)
-     */
-    @Deprecated
-    public static final KeyedEndec<Boolean> LOCKED = new KeyedEndec<>("Locked", Endec.BOOLEAN, false);
-    /**
      * NBT Key that starts playing notes above the users had
      */
     public static final KeyedEndec<Boolean> ENCORE = new KeyedEndec<>("mm_encore", Endec.BOOLEAN, false);
 
     public static final Identifier PROJECTILE_MODIFIED = RegistryHelper.id("projectile_is_modified");
 
-    private final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
-
-    public CarmotStaff(ToolMaterial material, float attackSpeed, Settings settings) {
+    public CarmotStaff(ToolMaterial material, Settings settings) {
         super(material, settings);
-        float attackDamage = material.getAttackDamage();
-        ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(
+    }
+
+    public static AttributeModifiersComponent createDefaultComponents(double damage, float attackSpeed) {
+        return AttributeModifiersComponent.builder()
+            .add(
                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", attackDamage, EntityAttributeModifier.Operation.ADDITION)
-        );
-        builder.put(
+                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .add(
                 EntityAttributes.GENERIC_ATTACK_SPEED,
-                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", attackSpeed, EntityAttributeModifier.Operation.ADDITION)
-        );
-        this.attributeModifiers = builder.build();
+                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .build();
     }
 
     @Override
@@ -96,10 +91,11 @@ public class CarmotStaff extends ToolItem {
         // Check if item is a BlockItem, if not try empty
         if (clickType == ClickType.RIGHT) {
             // Validation - Cannot be used if locked
+            // FIXME - Make sure to not insert shulker boxes with items
             // You cannot insert blocks with NBT, since the staff wipes it, and frankly
             // I do not want to deal with nesting staves inside shulker boxes with portable barrels inside or something
-            if (staff.has(LOCKED) && staff.get(LOCKED)) return false;
-            if (slot.getStack().getItem() instanceof BlockItem blockItem && !slot.getStack().hasNbt()) {
+            if (staff.getOrDefault(RegisterDataComponents.LOCKED, true)) return false;
+            if (slot.getStack().getItem() instanceof BlockItem blockItem && slot.getStack().getComponents().isEmpty()) {
 
                 boolean validStaffBlock = validateStaffBlock(blockItem);
                 if (!staff.has(STORED_BLOCK) && !slot.getStack().isEmpty()) {
@@ -108,7 +104,7 @@ public class CarmotStaff extends ToolItem {
                     if (validStaffBlock) {
                         staff.put(STORED_BLOCK, blockItem.getBlock());
                         slot.takeStack(1);
-                        player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), SoundCategory.PLAYERS, 0.85F, 0.5F);
+                        player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), 0.85F, 0.5F);
                         return true;
                     } else {
                         return false;
@@ -127,7 +123,7 @@ public class CarmotStaff extends ToolItem {
                         slot.takeStack(1);
                         staff.put(STORED_BLOCK, blockItem.getBlock());
                         slot.insertStack(staffBlock, 1);
-                        player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), SoundCategory.PLAYERS, 0.85F, 0.5F);
+                        player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), 0.85F, 0.5F);
                         return true;
 
                     }
@@ -140,7 +136,7 @@ public class CarmotStaff extends ToolItem {
             if (slot.getStack().isEmpty()) {
                 slot.insertStack(staff.get(STORED_BLOCK).asItem().getDefaultStack());
                 staff.delete(STORED_BLOCK);
-                player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY, SoundCategory.PLAYERS, 0.85F, 0.5F);
+                player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY, 0.85F, 0.5F);
                 return true;
             }
 
@@ -149,15 +145,16 @@ public class CarmotStaff extends ToolItem {
     }
 
 
+    // FIXME - Make sure to not insert shulker boxes with items
     @Override
     public boolean onClicked(ItemStack staff, ItemStack cursorStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         if (clickType == ClickType.RIGHT) {
-            if ((staff.has(LOCKED) && staff.get(LOCKED)) || cursorStack.hasNbt()) return false;
+            if (staff.getOrDefault(RegisterDataComponents.LOCKED, true)) return false;
             // If cursor is empty, but staff has block, take block out of staff
             if (cursorStackReference.get().isEmpty() && staff.has(STORED_BLOCK)) {
                 if (cursorStackReference.set(staff.get(STORED_BLOCK).asItem().getDefaultStack())) {
                     staff.delete(STORED_BLOCK);
-                    player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY, SoundCategory.PLAYERS, 0.25F, 0.5F);
+                    player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY,0.25F, 0.5F);
                     return true;
                 }
                 return false;
@@ -173,7 +170,7 @@ public class CarmotStaff extends ToolItem {
                     if (cursorStackReference.set(staff.get(STORED_BLOCK).asItem().getDefaultStack())) {
                         staff.delete(STORED_BLOCK);
                         staff.put(STORED_BLOCK, blockItem.getBlock());
-                        player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), SoundCategory.PLAYERS, 0.85F, 0.5F);
+                        player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), 0.85F, 0.5F);
                         return true;
                     }
                     return false;
@@ -186,7 +183,7 @@ public class CarmotStaff extends ToolItem {
                 if (validStaffBlock && cursorStack.getCount() >= 1) {
                     staff.put(STORED_BLOCK, blockItem.getBlock());
                     cursorStack.decrement(1);
-                    player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), SoundCategory.PLAYERS, 0.85F, 0.5F);
+                    player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(),0.85F, 0.5F);
                     return true;
                 }
             }
@@ -245,7 +242,7 @@ public class CarmotStaff extends ToolItem {
             });
 
             user.getItemCooldownManager().set(stack.getItem(), 500);
-            stack.damage(10, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(10, user, EquipmentSlot.MAINHAND);
             WorldOps.playSound(world, user.getBlockPos(), SoundEvents.BLOCK_BEACON_POWER_SELECT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
             return TypedActionResult.success(stack);
@@ -267,7 +264,7 @@ public class CarmotStaff extends ToolItem {
                     stack.getNbt().remove("Unbreakable");
                     stack.getEnchantments().clear();
                     stack.setDamage(MythicToolMaterials.CARMOT_STAFF.getDurability());
-                    stack.damage(99999, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                    stack.damage(99999, user, EquipmentSlot.MAINHAND);
                     user.getItemCooldownManager().set(stack.getItem(), 6000);
                     if (user.isCreative()) {
                         stack = ItemStack.EMPTY;
@@ -277,7 +274,7 @@ public class CarmotStaff extends ToolItem {
                 }
 
                 int damage = stack.getMaxDamage() / (1 + EnchantmentHelper.getLevel(Enchantments.UNBREAKING, stack));
-                stack.damage(damage, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                stack.damage(damage, user, EquipmentSlot.MAINHAND);
                 user.getItemCooldownManager().set(stack.getItem(), 6000);
                 ((ServerPlayerEntity) user).changeGameMode(GameMode.CREATIVE);
                 explode(world, user);
@@ -300,7 +297,7 @@ public class CarmotStaff extends ToolItem {
                 user.getItemCooldownManager().set(stack.getItem(), 400);
             }
 
-            stack.damage(3, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(3, user, EquipmentSlot.MAINHAND);
             return TypedActionResult.success(stack);
         }
 
@@ -308,7 +305,7 @@ public class CarmotStaff extends ToolItem {
         if (hasBlockInStaff(stack, Blocks.GOLD_BLOCK)) {
             var luckStatus = new StatusEffectInstance(StatusEffects.LUCK, 2400, 0, true, false, true);
             user.addStatusEffect(luckStatus);
-            stack.damage(5, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(5, user, EquipmentSlot.MAINHAND);
             user.getItemCooldownManager().set(stack.getItem(), 1200);
             return TypedActionResult.success(stack);
         }
@@ -318,7 +315,7 @@ public class CarmotStaff extends ToolItem {
             var entities = world.getOtherEntities(user, Box.of(user.getPos(), 4, 3, 4));
             entities.forEach(entity -> {
                 if (entity instanceof LivingEntity livingEntity) {
-                    if (livingEntity.isUndead()) {
+                    if (livingEntity.getType().isIn(EntityTypeTags.UNDEAD)) {
                         entity.damage(world.getDamageSources().magic(), 10.0F);
                         MythicParticleSystem.HEALING_DAMAGE.spawn(world, livingEntity.getPos());
                     } else {
@@ -329,7 +326,7 @@ public class CarmotStaff extends ToolItem {
             });
             user.heal(10.0F);
             MythicParticleSystem.HEALING_HEARTS.spawn(world, user.getPos());
-            stack.damage(8, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(8, user, EquipmentSlot.MAINHAND);
             user.getItemCooldownManager().set(stack.getItem(), 480);
             return TypedActionResult.success(stack);
         }
@@ -344,7 +341,7 @@ public class CarmotStaff extends ToolItem {
                 }
             });
             user.addStatusEffect(betterLuckStatus);
-            stack.damage(10, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(10, user, EquipmentSlot.MAINHAND);
             user.getItemCooldownManager().set(stack.getItem(), 3000);
             return TypedActionResult.success(stack);
         }
@@ -359,7 +356,7 @@ public class CarmotStaff extends ToolItem {
                 }
             });
             user.addStatusEffect(bestLuckStat);
-            stack.damage(20, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(20, user, EquipmentSlot.MAINHAND);
             user.getItemCooldownManager().set(stack.getItem(), 5000);
             stack.put(STORED_BLOCK, MythicBlocks.MIDAS_GOLD.getStorageBlock());
             if (!world.isClient()) {
@@ -374,7 +371,7 @@ public class CarmotStaff extends ToolItem {
                 EpicExplosion.absorbWater((ServerWorld) world, user.getBlockX(), user.getBlockY(), user.getBlockZ(), 12, user);
             }
             user.getItemCooldownManager().set(stack.getItem(), 138);
-            stack.damage(3, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(3, user, EquipmentSlot.MAINHAND);
             return TypedActionResult.success(stack);
         }
 
@@ -382,7 +379,7 @@ public class CarmotStaff extends ToolItem {
         if (hasBlockInStaff(stack, Blocks.NOTE_BLOCK)) {
             if (random.nextInt(500) == 321) {
                 world.playSound(null, user.getX(), user.getY(), user.getZ(), RegisterSounds.MELODY, SoundCategory.PLAYERS, 1.0f, 1.0f, 1);
-                stack.damage(60, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                stack.damage(60, user, EquipmentSlot.MAINHAND);
                 stack.put(ENCORE, true);
                 user.getItemCooldownManager().set(stack.getItem(), 1500);
                 return TypedActionResult.success(stack);
@@ -445,14 +442,14 @@ public class CarmotStaff extends ToolItem {
             }
         }
 
-        stack.damage(amount, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        stack.damage(amount, attacker, EquipmentSlot.MAINHAND);
         return true;
     }
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         if (!world.isClient && state.getHardness(world, pos) != 0.0F) {
-            stack.damage(2, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(2, miner, EquipmentSlot.MAINHAND);
         }
 
         return true;
@@ -498,7 +495,7 @@ public class CarmotStaff extends ToolItem {
                 projectile.powerZ = -projectile.powerZ;
                 projectile.setOwner(user);
                 projectile.addCommandTag(PROJECTILE_MODIFIED.toString());
-                stack.damage(2, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                stack.damage(2, user, EquipmentSlot.MAINHAND);
             }
             // Shulker bullet handling
             if (entity instanceof ShulkerBulletEntity projectile && !projectile.getCommandTags().contains(PROJECTILE_MODIFIED.toString())) {
@@ -510,7 +507,7 @@ public class CarmotStaff extends ToolItem {
                 var bounceVec = projectile.getVelocity().multiply(-0.25, -0.25, -0.25);
                 projectile.setVelocity(bounceVec.x, bounceVec.y, bounceVec.z, 1.05F, 0.5F);
                 projectile.getCommandTags().add(PROJECTILE_MODIFIED.toString());
-                stack.damage(1, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                stack.damage(1, user, EquipmentSlot.MAINHAND);
             }
         }
     }
@@ -558,67 +555,68 @@ public class CarmotStaff extends ToolItem {
         return stack.isOf(this);
     }
 
-    @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-
-        var mapnite = HashMultimap.create(this.getAttributeModifiers(slot));
-
-        var block = getBlockInStaff(stack);
-
-        if (block != Blocks.AIR) {
-            float damage = 3.0F;
-            float speed = -4.0F;
-            float experience = 0.0F;
-
-            if (Blocks.GOLD_BLOCK.equals(block)) {
-                damage = 5.0F;
-                speed += 1.2F;
-            } else if (Blocks.IRON_BLOCK.equals(block)) {
-                damage = 7.0F;
-                speed += 0.9F;
-            } else if (Blocks.DIAMOND_BLOCK.equals(block)) {
-                damage = 9.0F;
-                speed += 1.0F;
-            } else if (Blocks.LAPIS_BLOCK.equals(block)) {
-                damage = 4.0F;
-                speed += 1.0F;
-                experience = slot == EquipmentSlot.MAINHAND ? 1.0F : .25F;
-            } else if (Blocks.NETHERITE_BLOCK.equals(block)) {
-                damage = 11.0F;
-                speed += 0.8F;
-            } else if (MythicBlocks.HALLOWED.getStorageBlock().equals(block)) {
-                damage = 12.0F;
-                speed += 0.75F;
-            } else if (MythicBlocks.ADAMANTITE.getStorageBlock().equals(block)) {
-                damage = 12.0F;
-                speed += 0.7F;
-            } else if (MythicBlocks.METALLURGIUM.getStorageBlock().equals(block)) {
-                damage = 14.0F;
-                speed += 0.6F;
-            } else if (MythicBlocks.STAR_PLATINUM.getStorageBlock().equals(block)) {
-                damage = 4.0F;
-                speed += 3.0F;
-            } else {
-                speed += 1.0F;
-            }
-
-            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_SPEED);
-            mapnite.removeAll(AdditionalEntityAttributes.DROPPED_EXPERIENCE);
-
-            mapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(Item.ATTACK_DAMAGE_MODIFIER_ID, "Damage modifier", damage, EntityAttributeModifier.Operation.ADDITION));
-            mapnite.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(Item.ATTACK_SPEED_MODIFIER_ID, "Attack speed modifier", speed, EntityAttributeModifier.Operation.ADDITION));
-            mapnite.put(AdditionalEntityAttributes.DROPPED_EXPERIENCE, new EntityAttributeModifier(UUID.fromString("5a902603-f288-4a12-bf13-4e0c1a12f6cd"), "Bonus Experience", experience, EntityAttributeModifier.Operation.MULTIPLY_BASE));
-
-            if (Blocks.LAPIS_BLOCK.equals(block) && slot == EquipmentSlot.OFFHAND) {
-                mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-                mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_SPEED);
-                return mapnite;
-            }
-        }
-
-        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
-    }
+    // FIXME - Dehardcode or something
+//    @Override
+//    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
+//
+//        var mapnite = HashMultimap.create(this.getAttributeModifiers(slot));
+//
+//        var block = getBlockInStaff(stack);
+//
+//        if (block != Blocks.AIR) {
+//            float damage = 3.0F;
+//            float speed = -4.0F;
+//            float experience = 0.0F;
+//
+//            if (Blocks.GOLD_BLOCK.equals(block)) {
+//                damage = 5.0F;
+//                speed += 1.2F;
+//            } else if (Blocks.IRON_BLOCK.equals(block)) {
+//                damage = 7.0F;
+//                speed += 0.9F;
+//            } else if (Blocks.DIAMOND_BLOCK.equals(block)) {
+//                damage = 9.0F;
+//                speed += 1.0F;
+//            } else if (Blocks.LAPIS_BLOCK.equals(block)) {
+//                damage = 4.0F;
+//                speed += 1.0F;
+//                experience = slot == EquipmentSlot.MAINHAND ? 1.0F : .25F;
+//            } else if (Blocks.NETHERITE_BLOCK.equals(block)) {
+//                damage = 11.0F;
+//                speed += 0.8F;
+//            } else if (MythicBlocks.HALLOWED.getStorageBlock().equals(block)) {
+//                damage = 12.0F;
+//                speed += 0.75F;
+//            } else if (MythicBlocks.ADAMANTITE.getStorageBlock().equals(block)) {
+//                damage = 12.0F;
+//                speed += 0.7F;
+//            } else if (MythicBlocks.METALLURGIUM.getStorageBlock().equals(block)) {
+//                damage = 14.0F;
+//                speed += 0.6F;
+//            } else if (MythicBlocks.STAR_PLATINUM.getStorageBlock().equals(block)) {
+//                damage = 4.0F;
+//                speed += 3.0F;
+//            } else {
+//                speed += 1.0F;
+//            }
+//
+//            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+//            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_SPEED);
+//            mapnite.removeAll(AdditionalEntityAttributes.DROPPED_EXPERIENCE);
+//
+//            mapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(Item.ATTACK_DAMAGE_MODIFIER_ID, "Damage modifier", damage, EntityAttributeModifier.Operation.ADDITION));
+//            mapnite.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(Item.ATTACK_SPEED_MODIFIER_ID, "Attack speed modifier", speed, EntityAttributeModifier.Operation.ADDITION));
+//            mapnite.put(AdditionalEntityAttributes.DROPPED_EXPERIENCE, new EntityAttributeModifier(UUID.fromString("5a902603-f288-4a12-bf13-4e0c1a12f6cd"), "Bonus Experience", experience, EntityAttributeModifier.Operation.MULTIPLY_BASE));
+//
+//            if (Blocks.LAPIS_BLOCK.equals(block) && slot == EquipmentSlot.OFFHAND) {
+//                mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+//                mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_SPEED);
+//                return mapnite;
+//            }
+//        }
+//
+//        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
+//    }
 
     public static boolean hasBlockInStaff(ItemStack stack, Block block) {
         return stack.has(STORED_BLOCK) && stack.get(STORED_BLOCK).equals(block);
@@ -661,22 +659,23 @@ public class CarmotStaff extends ToolItem {
         return b1 || b2;
     }
 
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
-        if (!stack.has(STORED_BLOCK)) {
-            tooltip.add(1, Text.translatable("tooltip.carmot_staff.empty_staff").setStyle(Style.EMPTY.withColor(Color.ofDye(DyeColor.LIGHT_GRAY).rgb())));
-        } else {
-            int index = 1;
-            if (UniqueStaffBlocks.hasUniqueBlockInStaff(stack)) {
-                tooltip.add(index++, UniqueStaffBlocks.getBlockTranslationKey(stack.get(STORED_BLOCK)));
-            }
-
-            if (stack.get(LOCKED)) {
-                tooltip.add(index, Text.translatable("tooltip.carmot_staff.locked").setStyle(Style.EMPTY.withColor(Formatting.YELLOW)));
-            }
-        }
-    }
+    // TODO - Move to component handler
+//    @Override
+//    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+//        super.appendTooltip(stack, world, tooltip, context);
+//        if (!stack.has(STORED_BLOCK)) {
+//            tooltip.add(1, Text.translatable("tooltip.carmot_staff.empty_staff").setStyle(Style.EMPTY.withColor(Color.ofDye(DyeColor.LIGHT_GRAY).rgb())));
+//        } else {
+//            int index = 1;
+//            if (UniqueStaffBlocks.hasUniqueBlockInStaff(stack)) {
+//                tooltip.add(index++, UniqueStaffBlocks.getBlockTranslationKey(stack.get(STORED_BLOCK)));
+//            }
+//
+//            if (stack.get(LOCKED)) {
+//                tooltip.add(index, Text.translatable("tooltip.carmot_staff.locked").setStyle(Style.EMPTY.withColor(Formatting.YELLOW)));
+//            }
+//        }
+//    }
 
     public void explode(World world, LivingEntity user) {
         world.createExplosion(
