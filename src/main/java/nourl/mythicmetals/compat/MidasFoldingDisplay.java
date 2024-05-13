@@ -7,16 +7,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeEntry;
+import nourl.mythicmetals.component.GoldFoldedComponent;
 import nourl.mythicmetals.item.tools.MidasGoldSword;
 import nourl.mythicmetals.recipe.MidasFoldingRecipe;
-import nourl.mythicmetals.registry.RegisterDataComponents;
 import java.util.Arrays;
 import java.util.List;
 
+import static nourl.mythicmetals.component.MythicDataComponents.GOLD_FOLDED;
 import static nourl.mythicmetals.item.tools.MidasGoldSword.Type.*;
 
 
-// TODO - Review/fix after updating MidasGoldSword tooltip handling
+// TODO - Review/fix after updating tooltip handling in GoldFoldedComponent
 public class MidasFoldingDisplay extends DefaultSmithingDisplay {
     Ingredient template;
     Ingredient base;
@@ -28,16 +29,16 @@ public class MidasFoldingDisplay extends DefaultSmithingDisplay {
             recipe.value(),
             recipe.id(),
             List.of(
-                EntryIngredients.ofIngredient(recipe.value().template),
-                EntryIngredients.ofIngredient(recipe.value().base),
-                EntryIngredients.ofIngredient(recipe.value().addition)
+                EntryIngredients.ofIngredient(recipe.value().template()),
+                EntryIngredients.ofIngredient(recipe.value().base()),
+                EntryIngredients.ofIngredient(recipe.value().addition())
             )
         );
 
-        this.template = recipe.value().template;
-        this.base = recipe.value().base;
-        this.addition = recipe.value().addition;
-        this.outputStack = recipe.value().result;
+        this.template = recipe.value().template();
+        this.base = recipe.value().base();
+        this.addition = recipe.value().addition();
+        this.outputStack = recipe.value().result();
 
     }
 
@@ -48,14 +49,14 @@ public class MidasFoldingDisplay extends DefaultSmithingDisplay {
             // Handle folding recipes, which usually follow the pattern of "input + gold block = output"
             if (this.outputStack.isOf(inputStack.getItem())) {
                 if (MidasGoldSword.Type.isOf(inputStack, ROYAL)) {
-                    inputStack.set(RegisterDataComponents.GOLD_FOLDED, 640);
+                    inputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(640));
 //                    inputStack.put(MidasGoldSword.IS_ROYAL, true);
 //                    inputStack.put(MidasGoldSword.IS_GILDED, true);
                 } else if (MidasGoldSword.Type.isOf(inputStack, GILDED)) {
-                    inputStack.set(RegisterDataComponents.GOLD_FOLDED, 320);
+                    inputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(320));
 //                    inputStack.put(MidasGoldSword.IS_GILDED, true);
                 } else {
-                    inputStack.set(RegisterDataComponents.GOLD_FOLDED, 16);
+                    inputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(16));
                 }
                 return List.of(
                     EntryIngredients.ofIngredient(this.template),
@@ -65,7 +66,7 @@ public class MidasFoldingDisplay extends DefaultSmithingDisplay {
             }
             // Handles transformation from regular midas to gilded midas
             if (MidasGoldSword.Type.isOf(inputStack, REGULAR) && MidasGoldSword.Type.isOf(outputStack, GILDED)) {
-                inputStack.set(RegisterDataComponents.GOLD_FOLDED, 319);
+                inputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(319));
                 return List.of(
                     EntryIngredients.ofIngredient(this.template),
                     EntryIngredients.of(inputStack),
@@ -74,7 +75,7 @@ public class MidasFoldingDisplay extends DefaultSmithingDisplay {
             }
             // Transformation of gilded to royal midas
             if (MidasGoldSword.Type.isOf(inputStack, GILDED) && MidasGoldSword.Type.isOf(outputStack, ROYAL)) {
-                inputStack.set(RegisterDataComponents.GOLD_FOLDED, 640);
+                inputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(640));
                 //inputStack.put(MidasGoldSword.IS_GILDED, true);
                 return List.of(
                     EntryIngredients.ofIngredient(this.template),
@@ -95,11 +96,11 @@ public class MidasFoldingDisplay extends DefaultSmithingDisplay {
             if (outputStack.getItem().equals(inputStack.getItem())) {
 
                 if (MidasGoldSword.Type.isOf(outputStack, ROYAL)) {
-                    outputStack.set(RegisterDataComponents.GOLD_FOLDED, 641);
+                    outputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(641));
                 } else if (MidasGoldSword.Type.isOf(outputStack, GILDED)) {
-                    outputStack.set(RegisterDataComponents.GOLD_FOLDED, 321);
+                    outputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(321));
                 } else {
-                    outputStack.set(RegisterDataComponents.GOLD_FOLDED, 17);
+                    outputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(17));
                 }
 
                 return List.of(
@@ -109,7 +110,7 @@ public class MidasFoldingDisplay extends DefaultSmithingDisplay {
             // Royal Midas Handler
             if (MidasGoldSword.Type.isOf(outputStack, ROYAL)) {
                 var outputWithNbt = outputStack.copy();
-                outputWithNbt.set(RegisterDataComponents.GOLD_FOLDED, 640);
+                outputWithNbt.set(GOLD_FOLDED, GoldFoldedComponent.of(640));
 //                outputWithNbt.put(MidasGoldSword.IS_GILDED, true);
 //                outputWithNbt.put(MidasGoldSword.IS_ROYAL, true);
                 return List.of(
@@ -120,7 +121,7 @@ public class MidasFoldingDisplay extends DefaultSmithingDisplay {
             // Gilded Midas Handler
             if (MidasGoldSword.Type.isOf(outputStack, GILDED)) {
                 var outputWithNbt = outputStack.copy();
-                outputWithNbt.set(RegisterDataComponents.GOLD_FOLDED, 320);
+                outputWithNbt.set(GOLD_FOLDED, GoldFoldedComponent.of(320));
 //                outputWithNbt.put(MidasGoldSword.IS_GILDED, true);
                 return List.of(
                     EntryIngredients.of(outputWithNbt)

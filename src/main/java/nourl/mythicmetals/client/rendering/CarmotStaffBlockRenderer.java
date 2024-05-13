@@ -17,6 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.client.models.RainbowShieldModel;
+import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.tools.CarmotStaff;
 import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
@@ -31,11 +32,12 @@ public class CarmotStaffBlockRenderer implements BuiltinItemRendererRegistry.Dyn
         var client = MinecraftClient.getInstance();
         boolean shouldRenderRainbowShield = CarmotStaff.hasBlockInStaff(staff, MythicBlocks.STORMYX.getStorageBlock());
         boolean isEnchantedMidas = CarmotStaff.hasBlockInStaff(staff, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK);
-        Block block = staff.has(CarmotStaff.STORED_BLOCK) ? (staff.get(CarmotStaff.STORED_BLOCK)) : Blocks.AIR;
+        //noinspection DataFlowIssue
+        Block block = staff.contains(MythicDataComponents.CARMOT_STAFF_BLOCK) ? (staff.get(MythicDataComponents.CARMOT_STAFF_BLOCK).getBlock()) : Blocks.AIR;
         BakedModel staffModel = client.getBakedModelManager().getModel(CARMOT_STAFF_ID);
         BakedModel blockModel = client.getBakedModelManager().getBlockModels().getModel(block.getDefaultState());
 
-        if (shouldRenderRainbowShield && mode.isFirstPerson() && staff.get(CarmotStaff.IS_USED)) {
+        if (shouldRenderRainbowShield && mode.isFirstPerson() && staff.getOrDefault(MythicDataComponents.IS_USED, false)) {
             renderRainbowShield(mode, matrices, vertexConsumerProvider, light);
         }
 

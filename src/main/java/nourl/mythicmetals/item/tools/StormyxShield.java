@@ -52,7 +52,7 @@ public class StormyxShield extends ShieldItem {
 //                "Magic protection",
 //                MAGIC_DAMAGE_REDUCTION,
 //                EntityAttributeModifier.Operation.ADDITION));
-        // TODO - Add Magic Protection in both Main Hand and Off Hand
+        // FIXME - Add Magic Protection in both Main Hand and Off Hand
         return super.getAttributeModifiers(stack);
     }
 }

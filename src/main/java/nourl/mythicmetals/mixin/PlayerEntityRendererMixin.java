@@ -14,6 +14,7 @@ import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.CarmotShield;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.client.models.RainbowShieldModel;
+import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.tools.CarmotStaff;
 import nourl.mythicmetals.item.tools.MythrilDrill;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
@@ -63,15 +64,15 @@ public class PlayerEntityRendererMixin {
     private void mythicmetals$renderRainbowShield(AbstractClientPlayerEntity player, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         var stack = player.getStackInHand(Hand.MAIN_HAND);
         if (CarmotStaff.hasBlockInStaff(stack, MythicBlocks.STORMYX.getStorageBlock())) {
-            if (!stack.get(CarmotStaff.IS_USED)) return; // Only render if the staff is actively being used
+            if (!stack.getOrDefault(MythicDataComponents.IS_USED, false)) return; // Only render if the staff is actively being used
             matrixStack.push();
             double delta = System.currentTimeMillis() / 45.0;
 
             double hue = delta % 360.0;
             float saturation = 1;
-            float constantvalue = 1;
+            float constantValue = 1;
 
-            int color = MathHelper.hsvToRgb((float) (hue / 360), saturation, constantvalue);
+            int color = MathHelper.hsvToRgb((float) (hue / 360), saturation, constantValue);
 
             float[] rgbColors = UsefulSingletonForColorUtil.splitRGBToFloats(color);
 

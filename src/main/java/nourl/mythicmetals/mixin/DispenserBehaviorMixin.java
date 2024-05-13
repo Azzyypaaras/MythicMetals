@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(targets = {"net.minecraft.block.dispenser.DispenserBehavior$10"})
 public class DispenserBehaviorMixin {
 
-    // FIXME - The handling for this changed, verify
+    // TODO - The handling for this changed, verify
     @Inject(method = "dispenseSilently(Lnet/minecraft/util/math/BlockPointer;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true)
     private void pleaseDoNotCommitWarCrimes(BlockPointer pointer, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (!BanglumNukeHandler.tryLightBigTntWithDispenser(pointer)) return;

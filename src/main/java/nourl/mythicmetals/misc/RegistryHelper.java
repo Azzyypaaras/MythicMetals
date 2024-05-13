@@ -3,7 +3,6 @@ package nourl.mythicmetals.misc;
 import com.mojang.serialization.MapCodec;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
-import io.wispforest.owo.util.RegistryAccess;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.DataComponentType;
