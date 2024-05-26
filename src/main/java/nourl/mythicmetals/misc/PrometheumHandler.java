@@ -12,6 +12,7 @@ import net.minecraft.util.math.random.Random;
 import nourl.mythicmetals.data.MythicTags;
 import java.util.UUID;
 
+// FIXME - Needs replacement of the attribute logic. Migrate to components? Figure out how to dynamically change attributes
 public class PrometheumHandler {
     /**
      * Used to track how much durability is repaired
@@ -30,9 +31,9 @@ public class PrometheumHandler {
     public static void tickAutoRepair(ItemStack stack, Random r) {
         if (!stack.isDamaged()) return; // Don't handle auto repair if item is fully repaired
 
-        if (!stack.has(DURABILITY_REPAIRED)) {
-            stack.put(DURABILITY_REPAIRED, 0);
-        }
+        //if (!stack.has(DURABILITY_REPAIRED)) {
+        //    stack.put(DURABILITY_REPAIRED, 0);
+        //}
 
         var dmg = stack.getDamage();
         var rng = r.nextInt(200);
@@ -53,15 +54,17 @@ public class PrometheumHandler {
         incrementRepairCounter(stack, damageToRepair);
     }
 
+    // FIXME
     public static void incrementRepairCounter(ItemStack stack, int value) {
-        int counter = stack.get(DURABILITY_REPAIRED);
-        if (counter < (Integer.MAX_VALUE / 2)) {
-            stack.put(DURABILITY_REPAIRED, counter + value);
-        }
+        //int counter = stack.get(DURABILITY_REPAIRED);
+        //if (counter < (Integer.MAX_VALUE / 2)) {
+        //    stack.put(DURABILITY_REPAIRED, counter + value);
+        //}
     }
 
     public static boolean isOvergrown(ItemStack stack) {
-        return stack.has(DURABILITY_REPAIRED) && stack.get(DURABILITY_REPAIRED) > OVERGROWN_THRESHOLD;
+        return false;
+        //return stack.has(DURABILITY_REPAIRED) && stack.get(DURABILITY_REPAIRED) > OVERGROWN_THRESHOLD;
     }
 
     /**
@@ -69,33 +72,33 @@ public class PrometheumHandler {
      */
     public static void registerPrometheumAttributeEvent() {
         // FIXME - Replace with DefaultItemComponentsCallback once merged into FAPI
-        ModifyItemAttributeModifiersCallback.EVENT.register((stack, slot, attributeModifiers) -> {
-            if (stack.isIn(MythicTags.PROMETHEUM_ARMOR) && ((ArmorItem) stack.getItem()).getSlotType().equals(slot)) {
-                if (EnchantmentHelper.hasBindingCurse(stack)) {
-                    attributeModifiers.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(
-                        UUID.fromString("d42e82c8-166d-46f1-bc76-df84e91b5531"),
-                        "Bound Prometheum bonus",
-                        0.08,
-                        EntityAttributeModifier.Operation.MULTIPLY_BASE
-                    ));
-                }
-                if (isOvergrown(stack)) {
-                    attributeModifiers.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(
-                        UUID.fromString("37bb6460-e896-44e2-8e71-29335d5ce709"),
-                        "Prometheum bonus toughness",
-                        EnchantmentHelper.hasBindingCurse(stack) ? 2 : 1,
-                        EntityAttributeModifier.Operation.ADDITION
-                    ));
-                }
-            }
-        });
+        //ModifyItemAttributeModifiersCallback.EVENT.register((stack, slot, attributeModifiers) -> {
+        //    if (stack.isIn(MythicTags.PROMETHEUM_ARMOR) && ((ArmorItem) stack.getItem()).getSlotType().equals(slot)) {
+        //        if (EnchantmentHelper.hasBindingCurse(stack)) {
+        //            attributeModifiers.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(
+        //                UUID.fromString("d42e82c8-166d-46f1-bc76-df84e91b5531"),
+        //                "Bound Prometheum bonus",
+        //                0.08,
+        //                EntityAttributeModifier.Operation.MULTIPLY_BASE
+        //            ));
+        //        }
+        //        if (isOvergrown(stack)) {
+        //            attributeModifiers.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(
+        //                UUID.fromString("37bb6460-e896-44e2-8e71-29335d5ce709"),
+        //                "Prometheum bonus toughness",
+        //                EnchantmentHelper.hasBindingCurse(stack) ? 2 : 1,
+        //                EntityAttributeModifier.Operation.ADDITION
+        //            ));
+        //        }
+        //    }
+        //});
     }
 
-    public static EntityAttributeModifier createToolModifier(ItemStack stack) {
-        return new EntityAttributeModifier(
-                UUID.fromString("69def8b1-1baa-401e-a7cb-b27ab9a55558"),
-                "Overgrown Prometheum bonus",
-                (stack.get(DURABILITY_REPAIRED) > (OVERGROWN_THRESHOLD * 2)) ? 2 : 1,
-                EntityAttributeModifier.Operation.ADDITION);
-    }
+//    public static EntityAttributeModifier createToolModifier(ItemStack stack) {
+        //return new EntityAttributeModifier(
+        //        UUID.fromString("69def8b1-1baa-401e-a7cb-b27ab9a55558"),
+        //        "Overgrown Prometheum bonus",
+        //        (stack.get(DURABILITY_REPAIRED) > (OVERGROWN_THRESHOLD * 2)) ? 2 : 1,
+        //        EntityAttributeModifier.Operation.ADDITION);
+//    }
 }

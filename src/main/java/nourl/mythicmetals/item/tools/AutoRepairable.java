@@ -16,7 +16,7 @@ public interface AutoRepairable extends FabricItem {
     }
 
     @Override
-    default boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+    default boolean allowComponentsUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
         return oldStack.getDamage() == newStack.getDamage();
     }
 }

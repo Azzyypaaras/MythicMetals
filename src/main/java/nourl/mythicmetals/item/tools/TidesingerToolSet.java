@@ -25,7 +25,7 @@ public class TidesingerToolSet extends ToolSet {
     public static class TidesingerSword extends SwordItem implements RiptideTool {
 
         public TidesingerSword(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-            super(material, attackDamage, attackSpeed, settings);
+            super(material, settings);
         }
 
         @Override
@@ -52,7 +52,7 @@ public class TidesingerToolSet extends ToolSet {
     public static class TidesingerAxe extends AxeItem implements RiptideTool {
 
         public TidesingerAxe(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-            super(material, attackDamage, attackSpeed, settings);
+            super(material, settings);
         }
 
         @Override

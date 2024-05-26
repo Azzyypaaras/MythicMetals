@@ -12,11 +12,10 @@ public class RuniteArrowItem extends ArrowItem {
         super(settings);
     }
 
+    // TODO - Review
     @Override
     public PersistentProjectileEntity createArrow(World world, ItemStack stack, LivingEntity shooter) {
-        var arrow = new RuniteArrowEntity(shooter, world);
-        arrow.initFromStack(stack);
-        return arrow;
+        return new RuniteArrowEntity(shooter, world);
     }
 
 }

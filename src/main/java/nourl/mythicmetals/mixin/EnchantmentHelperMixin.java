@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.EntityTypeTags;
 import nourl.mythicmetals.abilities.Abilities;
+import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.*;
 import org.jetbrains.annotations.Nullable;
@@ -73,7 +74,7 @@ public class EnchantmentHelperMixin {
             if (Abilities.AQUA_AFFINITY.getItems().contains(mainHand.getItem())) {
                 cir.setReturnValue(true);
             }
-            if (mainHand.getItem().equals(MythicTools.MYTHRIL_DRILL) && MythrilDrill.hasUpgradeItem(mainHand, MythicItems.Mats.AQUARIUM_PEARL)) {
+            if (mainHand.getItem().equals(MythicTools.MYTHRIL_DRILL) && mainHand.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2)).hasUpgrade(MythicItems.Mats.AQUARIUM_PEARL)) {
                 cir.setReturnValue(true);
             }
         }
@@ -107,7 +108,7 @@ public class EnchantmentHelperMixin {
         int level = cir.getReturnValue();
         int change = 0;
         for (ItemStack mainHand : entity.getHandItems()) {
-            if (mainHand.getItem() instanceof MythrilDrill drill && drill.hasFuel(mainHand) && drill.isActive(mainHand)) {
+            if (mainHand.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
                 change += 1;
             }
         }

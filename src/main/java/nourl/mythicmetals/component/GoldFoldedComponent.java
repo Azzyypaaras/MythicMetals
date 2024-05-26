@@ -3,37 +3,29 @@ package nourl.mythicmetals.component;
 import io.wispforest.owo.serialization.StructEndec;
 import io.wispforest.owo.serialization.endec.StructEndecBuilder;
 import net.minecraft.client.item.TooltipType;
-import net.minecraft.item.Item;
-import net.minecraft.item.TooltipAppender;
+import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import java.util.function.Consumer;
 
-public class GoldFoldedComponent implements TooltipAppender {
+public record GoldFoldedComponent(int goldFolded, boolean isRoyal, boolean showTooltip) implements TooltipAppender {
 
     public static final StructEndec<GoldFoldedComponent> ENDEC = StructEndecBuilder.of(
         StructEndec.INT.fieldOf("gold_folded", GoldFoldedComponent::goldFolded),
+        StructEndec.BOOLEAN.fieldOf("is_royal", GoldFoldedComponent::isRoyal),
         StructEndec.BOOLEAN.fieldOf("show_tooltip", GoldFoldedComponent::showTooltip),
         GoldFoldedComponent::new
     );
 
-    final int goldFolded;
-    final boolean showTooltip;
-
-    public GoldFoldedComponent(int goldFolded, boolean showTooltip) {
-        this.goldFolded = goldFolded;
-        this.showTooltip = showTooltip;
+    public static GoldFoldedComponent of(int folds, boolean isRoyal) {
+        return new GoldFoldedComponent(folds, isRoyal, true);
     }
 
     public static GoldFoldedComponent of(int folds) {
-        return new GoldFoldedComponent(folds, true);
+        return new GoldFoldedComponent(folds, false, true);
     }
 
-    public int goldFolded() {
-        return this.goldFolded;
-    }
-
-    public boolean showTooltip() {
-        return showTooltip;
+    public boolean isGilded() {
+        return this.goldFolded >= 320;
     }
 
     @Override

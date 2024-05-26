@@ -14,9 +14,9 @@ import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.CarmotShield;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.client.models.RainbowShieldModel;
+import nourl.mythicmetals.component.DrillComponent;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.tools.CarmotStaff;
-import nourl.mythicmetals.item.tools.MythrilDrill;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -93,7 +93,7 @@ public class PlayerEntityRendererMixin {
     @Inject(method = "getArmPose", at = @At("RETURN"), cancellable = true)
     private static void mythicmetals$mythrilDrillPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
         var stack = player.getStackInHand(hand);
-        if (stack.getItem() instanceof MythrilDrill drill && drill.isActive(stack)) {
+        if (stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
             cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
         }
     }

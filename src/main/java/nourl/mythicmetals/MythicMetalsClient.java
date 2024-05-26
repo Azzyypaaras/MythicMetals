@@ -5,7 +5,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.loader.api.FabricLoader;
@@ -13,47 +12,37 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.TexturedRenderLayers;
-import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.trim.ArmorTrim;
 import net.minecraft.registry.Registries;
-import net.minecraft.text.Style;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
-import nourl.mythicmetals.abilities.Ability;
-import nourl.mythicmetals.armor.CelestiumElytra;
-import nourl.mythicmetals.armor.HallowedArmor;
-import nourl.mythicmetals.armor.MythicArmor;
-import nourl.mythicmetals.armor.TidesingerArmor;
+import nourl.mythicmetals.armor.*;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.client.CarmotShieldHudHandler;
 import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.client.rendering.*;
 import nourl.mythicmetals.compat.IsometricArmorStandExporter;
-import nourl.mythicmetals.data.MythicTags;
+import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.entity.MythicEntities;
 import nourl.mythicmetals.item.tools.*;
 import nourl.mythicmetals.misc.*;
 import nourl.mythicmetals.mixin.WorldRendererInvoker;
 import nourl.mythicmetals.registry.RegisterBlockEntityTypes;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -104,46 +93,46 @@ public class MythicMetalsClient implements ClientModInitializer {
         }
     }
 
-
-
+    // FIXME - Move tooltip to a custom component?
     private void registerPrometheumTooltips() {
-        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
-            if (stack.isIn(MythicTags.PROMETHEUM_TOOLS) && PrometheumHandler.isOvergrown(stack)) {
-                Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
-            }
-
-            if (stack.isIn(MythicTags.PROMETHEUM_ARMOR)) {
-                if (PrometheumHandler.isOvergrown(stack)) {
-                    Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
-                }
-
-                if (EnchantmentHelper.hasBindingCurse(stack)) {
-                    Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.engrained");
-                }
-            }
-        });
+//        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
+//            if (stack.isIn(MythicTags.PROMETHEUM_TOOLS) && PrometheumHandler.isOvergrown(stack)) {
+//                Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
+//            }
+//
+//            if (stack.isIn(MythicTags.PROMETHEUM_ARMOR)) {
+//                if (PrometheumHandler.isOvergrown(stack)) {
+//                    Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
+//                }
+//
+//                if (EnchantmentHelper.hasBindingCurse(stack)) {
+//                    Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.engrained");
+//                }
+//            }
+//        });
     }
 
+    // FIXME - Move Tidesinger stuff to a component?
     private void registerTidesingerTooltips() {
-        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
-            if (stack.has(TidesingerArmor.CORAL_TYPE)) {
-                Style style = switch (stack.get(TidesingerArmor.CORAL_TYPE)) {
-                    case "brain" -> UsefulSingletonForColorUtil.MetalColors.BRAIN.style();
-                    case "bubble" -> UsefulSingletonForColorUtil.MetalColors.BUBBLE.style();
-                    case "fire" -> UsefulSingletonForColorUtil.MetalColors.FIRE.style();
-                    case "horn" -> UsefulSingletonForColorUtil.MetalColors.HORN.style();
-                    case "tube" -> UsefulSingletonForColorUtil.MetalColors.TUBE.style();
-                    default -> Style.EMPTY;
-                };
-
-                // Do not append tooltip if there isn't a proper coral on it
-                if (style.isEmpty()) {
-                    return;
-                }
-
-                Ability.addTooltipOnStack(stack, lines, style, "tooltip.tidesinger.coral." + stack.get(TidesingerArmor.CORAL_TYPE));
-            }
-        });
+//        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
+//            if (stack.has(TidesingerArmor.CORAL_TYPE)) {
+//                Style style = switch (stack.get(TidesingerArmor.CORAL_TYPE)) {
+//                    case "brain" -> UsefulSingletonForColorUtil.MetalColors.BRAIN.style();
+//                    case "bubble" -> UsefulSingletonForColorUtil.MetalColors.BUBBLE.style();
+//                    case "fire" -> UsefulSingletonForColorUtil.MetalColors.FIRE.style();
+//                    case "horn" -> UsefulSingletonForColorUtil.MetalColors.HORN.style();
+//                    case "tube" -> UsefulSingletonForColorUtil.MetalColors.TUBE.style();
+//                    default -> Style.EMPTY;
+//                };
+//
+//                // Do not append tooltip if there isn't a proper coral on it
+//                if (style.isEmpty()) {
+//                    return;
+//                }
+//
+//                Ability.addTooltipOnStack(stack, lines, style, "tooltip.tidesinger.coral." + stack.get(TidesingerArmor.CORAL_TYPE));
+//            }
+//        });
     }
 
     @SuppressWarnings("unchecked")
@@ -166,9 +155,10 @@ public class MythicMetalsClient implements ClientModInitializer {
             var player = (PlayerEntity) blockOutlineContext.entity();
 
             // Only render the outline if you are hovering over something the hammer can break
-            if (player.getMainHandStack().getItem() instanceof HammerBase hammer
+            var stack = player.getMainHandStack();
+            if (stack.getItem() instanceof HammerBase hammer
                     && !blockOutlineContext.blockState().isAir()
-                    && hammer.isSuitableFor(blockOutlineContext.blockState())) {
+                    && hammer.isCorrectForDrops(stack, blockOutlineContext.blockState())) {
 
                 var reach = BlockBreaker.getReachDistance(player);
                 BlockHitResult blockHitResult = (BlockHitResult) player.raycast(reach, 1, false);
@@ -182,7 +172,7 @@ public class MythicMetalsClient implements ClientModInitializer {
 
                 for (BlockPos blockPos : blocks) {
                     var blockState = player.getWorld().getBlockState(blockPos);
-                    if (!blockState.isAir() && hammer.isSuitableFor(blockState)) {
+                    if (!blockState.isAir() && hammer.isCorrectForDrops(stack, blockState)) {
                         voxels.add(blockState.getOutlineShape(
                                         worldRenderContext.world(),
                                         blockPos,
@@ -219,9 +209,10 @@ public class MythicMetalsClient implements ClientModInitializer {
     }
 
     private void registerArmorRenderer() {
+        // FIXME - Render Armor Trims
         Item[] armors = Registries.ITEM.stream()
                 .filter(i -> i instanceof HallowedArmor
-                        && Registries.ITEM.getKey(i).get().getValue().getNamespace().equals(MythicMetals.MOD_ID))
+                             && Registries.ITEM.getKey(i).get().getValue().getNamespace().equals(MythicMetals.MOD_ID))
                 .toArray(Item[]::new);
 
         ArmorRenderer renderer = (matrices, vertexConsumer, stack, entity, slot, light, original) -> {
@@ -234,14 +225,15 @@ public class MythicMetalsClient implements ClientModInitializer {
 
             // Armor trim time
             if (!stack.isOf(MythicArmor.HALLOWED.getHelmet())) {
-                ArmorTrim.getTrim(entity.getWorld().getRegistryManager(), stack, true).ifPresent(trim -> {
+                var trimComponent = stack.get(DataComponentTypes.TRIM);
+                if (trimComponent != null) {
                     var atlas = MinecraftClient.getInstance().getSpriteAtlas(TexturedRenderLayers.ARMOR_TRIMS_ATLAS_TEXTURE);
-                    Sprite sprite = atlas.apply(slot == EquipmentSlot.LEGS ? trim.getLeggingsModelId(armor.getMaterial()) : trim.getGenericModelId(armor.getMaterial()));
+                    Sprite sprite = atlas.apply(slot == EquipmentSlot.LEGS ? trimComponent.getLeggingsModelId(armor.getMaterial()) : trimComponent.getGenericModelId(armor.getMaterial()));
                     VertexConsumer trimVertexConsumer = sprite.getTextureSpecificVertexConsumer(
-                            ItemRenderer.getDirectItemGlintConsumer(vertexConsumer, TexturedRenderLayers.getArmorTrims(trim.getPattern().value().decal()), true, stack.hasGlint())
+                        ItemRenderer.getDirectItemGlintConsumer(vertexConsumer, TexturedRenderLayers.getArmorTrims(trimComponent.getPattern().value().decal()), true, stack.hasGlint())
                     );
                     model.render(matrices, trimVertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-                });
+                }
             }
         };
         ArmorRenderer.register(renderer, armors);
@@ -258,7 +250,8 @@ public class MythicMetalsClient implements ClientModInitializer {
 
         ModelPredicateProviderRegistry.register(
                 MythicTools.MYTHRIL_DRILL, new Identifier("is_active"),
-                (stack, world, entity, seed) -> stack.get(MythrilDrill.IS_ACTIVE) ? 0 : 1);
+                (stack, world, entity, seed) -> 0);
+                //(stack, world, entity, seed) -> stack.get(MythrilDrill.IS_ACTIVE) ? 0 : 1);
 
         registerMidasPredicates(MythicTools.MIDAS_GOLD_SWORD);
         registerMidasPredicates(MythicTools.GILDED_MIDAS_GOLD_SWORD);
@@ -302,7 +295,7 @@ public class MythicMetalsClient implements ClientModInitializer {
     public void registerMidasPredicates(Item item) {
         ModelPredicateProviderRegistry.register(item, new Identifier("midas_gold_count"),
                 (stack, world, entity, seed) -> {
-                    int goldCount = stack.get(MidasGoldSword.GOLD_FOLDED);
+                    int goldCount = stack.get(MythicDataComponents.GOLD_FOLDED).goldFolded();
                     return MidasGoldSword.countGold(goldCount);
                 });
     }

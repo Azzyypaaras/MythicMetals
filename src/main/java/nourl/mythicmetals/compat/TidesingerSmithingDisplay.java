@@ -22,16 +22,16 @@ public class TidesingerSmithingDisplay extends DefaultSmithingDisplay {
         super(
                 recipe.value(),
                 recipe.id(),
-                List.of(EntryIngredients.ofIngredient(recipe.value().template),
-                        EntryIngredients.ofIngredient(recipe.value().base),
-                        EntryIngredients.ofIngredient(recipe.value().addition)
+                List.of(EntryIngredients.ofIngredient(recipe.value().template()),
+                        EntryIngredients.ofIngredient(recipe.value().base()),
+                        EntryIngredients.ofIngredient(recipe.value().addition())
                 )
         );
 
-        this.template = recipe.value().template;
-        this.base = recipe.value().base;
-        this.addition = recipe.value().addition;
-        this.outputStack = recipe.value().result;
+        this.template = recipe.value().template();
+        this.base = recipe.value().base();
+        this.addition = recipe.value().addition();
+        this.outputStack = recipe.value().result();
 
     }
 
@@ -50,9 +50,10 @@ public class TidesingerSmithingDisplay extends DefaultSmithingDisplay {
             var path = Registries.ITEM.getId(output.getItem()).getPath();
             if (path.contains("coral") && !(path.contains("block") || path.contains("dead"))) {
                 // Show different coral types
-                var outputWithNbt = outputStack.copy();
-                outputWithNbt.put(TidesingerArmor.CORAL_TYPE, path.split("_")[0]);
-                return List.of(EntryIngredients.of(outputWithNbt));
+                // FIXME - Correctly handle output rendering
+                //var outputWithNbt = outputStack.copy();
+                //outputWithNbt.put(TidesingerArmor.CORAL_TYPE, path.split("_")[0]);
+                return List.of(EntryIngredients.of(outputStack));
             }
         }
         return super.getOutputEntries();

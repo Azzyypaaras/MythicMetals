@@ -9,6 +9,8 @@ import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import nourl.mythicmetals.MythicMetals;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.item.MythicItems;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
@@ -40,7 +42,7 @@ public class MidasGoldSword extends SwordItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!attacker.getWorld().isClient && MythicMetals.CONFIG.midasGold() && stack.has(IS_ROYAL) && stack.get(IS_ROYAL) && target.isDead()) {
+        if (!attacker.getWorld().isClient && MythicMetals.CONFIG.midasGold() && stack.contains(MythicDataComponents.GOLD_FOLDED) && stack.get(MythicDataComponents.GOLD_FOLDED).isRoyal() && target.isDead()) {
             target.dropItem(MythicItems.MIDAS_GOLD.getRawOre());
         }
         return super.postHit(stack, target, attacker);
@@ -83,14 +85,14 @@ public class MidasGoldSword extends SwordItem {
             lineIndex = enchantCount + 1;
         }
 
-        int goldCount = stack.get(MidasGoldSword.GOLD_FOLDED);
+        int goldCount = stack.get(MythicDataComponents.GOLD_FOLDED).goldFolded();
         int level = calculateSwordLevel(goldCount);
 
         if (level > 20) {
             level = 20 + level / 6;
         }
 
-        if (goldCount < 704 && stack.get(MidasGoldSword.IS_ROYAL)) {
+        if (goldCount < 704 && stack.get(MythicDataComponents.GOLD_FOLDED).isRoyal()) {
             level = 11;
         }
 
@@ -113,10 +115,10 @@ public class MidasGoldSword extends SwordItem {
         }
 
         // Handle the cap format
-        if (stack.has(IS_ROYAL)) {
+        if (stack.contains(MythicDataComponents.GOLD_FOLDED) && stack.get(MythicDataComponents.GOLD_FOLDED).isRoyal()) {
             // e.g. 63/1280
             lines.add(lineIndex + 1, Text.literal(goldCount + " / " + 1280).formatted(Formatting.GOLD));
-        } else if (stack.has(IS_GILDED)) {
+        } else if (stack.isIn(MythicTags.GILDED_MIDAS_SWORDS)) {
             // e.g. 63/640
             lines.add(lineIndex + 1, Text.literal(goldCount + " / " + 640).formatted(Formatting.GOLD));
         } else {

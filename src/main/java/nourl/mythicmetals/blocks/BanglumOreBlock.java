@@ -1,9 +1,7 @@
 package nourl.mythicmetals.blocks;
 
 import io.wispforest.owo.particles.ClientParticles;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ExperienceDroppingBlock;
+import net.minecraft.block.*;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,11 +11,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.UpgradeComponent;
 import nourl.mythicmetals.item.MythicItems;
-import nourl.mythicmetals.item.tools.MythrilDrill;
 
 public class BanglumOreBlock extends ExperienceDroppingBlock {
-    public BanglumOreBlock(FabricBlockSettings settings) {
+    public BanglumOreBlock(AbstractBlock.Settings settings) {
         super(ConstantIntProvider.ZERO, settings);
     }
     
@@ -42,6 +41,7 @@ public class BanglumOreBlock extends ExperienceDroppingBlock {
         int chance = world.getDimension().ultrawarm() ? 35 : 7;
         Random random = Random.create();
         var stack = player.getMainHandStack();
+        var upgrades = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
 
         // This living ore is allergic to Efficiency and Fortune, but is defused by Silk Touch
         if (stack.hasEnchantments()) {
@@ -51,12 +51,12 @@ public class BanglumOreBlock extends ExperienceDroppingBlock {
         }
 
         // Extra fortune = more allergic
-        if (MythrilDrill.hasUpgradeItem(stack, MythicBlocks.CARMOT.getStorageBlock().asItem())) {
+        if (upgrades.hasUpgrade(MythicBlocks.CARMOT.getStorageBlock().asItem())) {
             chance += 10;
         }
 
         // Banglum Defuser really living up to its name
-        if (MythrilDrill.hasUpgradeItem(stack, MythicItems.Mats.STORMYX_SHELL)) {
+        if (upgrades.hasUpgrade(MythicItems.Mats.STORMYX_SHELL)) {
             chance -= 92;
         }
 

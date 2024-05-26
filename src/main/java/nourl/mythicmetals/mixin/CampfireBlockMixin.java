@@ -3,6 +3,7 @@ package nourl.mythicmetals.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,7 +18,8 @@ public class CampfireBlockMixin {
 
     @Inject(method = "onEntityCollision", at = @At("HEAD"), cancellable = true)
     private void stompMarshmellows(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
-        for (ItemStack armorItems : entity.getArmorItems()) {
+        if (!entity.isLiving()) return;
+        for (ItemStack armorItems : ((LivingEntity) entity).getArmorItems()) {
             if (armorItems.getItem().equals(MythicArmor.PALLADIUM.getBoots())) {
                 ci.cancel();
                 return;

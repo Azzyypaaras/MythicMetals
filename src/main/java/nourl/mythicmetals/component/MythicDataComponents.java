@@ -22,4 +22,10 @@ public class MythicDataComponents {
         builder -> builder.codec(CarmotStaffComponent.ENDEC.codec()).packetCodec(CarmotStaffComponent.ENDEC.packetCodec())
     );
 
+    public static final DataComponentType<DrillComponent> DRILL = RegistryHelper.dataComponentType("drill", builder ->
+        builder.codec(DrillComponent.ENDEC.codec()).packetCodec(DrillComponent.ENDEC.packetCodec())
+    );
+    public static final DataComponentType<UpgradeComponent> UPGRADES = RegistryHelper.dataComponentType("upgrades", builder ->
+        builder.codec(UpgradeComponent.ENDEC.codec()).packetCodec(UpgradeComponent.ENDEC.packetCodec())
+    );
 }

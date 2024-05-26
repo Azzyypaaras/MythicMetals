@@ -25,10 +25,10 @@ public class TidesingerEMIRecipe implements EmiRecipe {
     Identifier id;
 
     public TidesingerEMIRecipe(TidesingerCoralRecipe recipe) {
-        this.template = recipe.template;
-        this.base = recipe.base;
-        this.addition = recipe.addition;
-        var outputStack = recipe.result;
+        this.template = recipe.template();
+        this.base = recipe.base();
+        this.addition = recipe.addition();
+        var outputStack = recipe.result();
 
         if (this.base != null && this.addition != null && outputStack != null) {
             var inputStack = Arrays.stream(this.base.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();
@@ -42,9 +42,10 @@ public class TidesingerEMIRecipe implements EmiRecipe {
             var path = Registries.ITEM.getId(output.getItem()).getPath();
             if (path.contains("coral") && !(path.contains("block") || path.contains("dead"))) {
                 // Show different coral types
-                var outputWithNbt = outputStack.copy();
-                outputWithNbt.put(TidesingerArmor.CORAL_TYPE, path.split("_")[0]);
-                outputs = EmiStack.of(outputWithNbt);
+                // FIXME - Properly handle EMI rendering of Tidesinger Armor
+                //var outputWithNbt = outputStack.copyComponentsToNewStack(outputStack.getItem(), outputStack.getCount());
+                //outputWithNbt.put(TidesingerArmor.CORAL_TYPE, path.split("_")[0]);
+                outputs = EmiStack.of(output);
             }
         }
 

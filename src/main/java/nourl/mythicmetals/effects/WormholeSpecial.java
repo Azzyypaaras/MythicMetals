@@ -22,16 +22,15 @@ public final class WormholeSpecial extends StatusEffect {
     }
 
     @Override
-    public void applyUpdateEffect(LivingEntity user, int amplifier) {
-        // [VanillaCopy] Chorus Fruit Teleportation, but with the possibility of going up and down
+    public void onApplied(LivingEntity user, int amplifier) {
         var world = user.getWorld();
         if (!user.getWorld().isClient) {
             for (int i = 0; i < 20; i++) {
                 double x = user.getX() + (user.getRandom().nextDouble() - 0.5) * 24.0;
                 double y = MathHelper.clamp(
-                        user.getY() + (double) (user.getRandom().nextInt(24) - 8),
-                        world.getBottomY(),
-                        world.getBottomY() + ((ServerWorld) world).getLogicalHeight() - 1
+                    user.getY() + (double) (user.getRandom().nextInt(24) - 8),
+                    world.getBottomY(),
+                    world.getBottomY() + ((ServerWorld) world).getLogicalHeight() - 1
                 );
                 double z = user.getZ() + (user.getRandom().nextDouble() - 0.5) * 24.0;
                 if (user.hasVehicle()) {

@@ -11,7 +11,7 @@ import net.minecraft.item.TooltipAppender;
 import net.minecraft.text.Text;
 import java.util.function.Consumer;
 
-public class CarmotStaffComponent implements TooltipAppender {
+public record CarmotStaffComponent(Block block, boolean showTooltip) implements TooltipAppender {
 
     public static final CarmotStaffComponent DEFAULT = new CarmotStaffComponent(Blocks.AIR, true);
 
@@ -20,14 +20,6 @@ public class CarmotStaffComponent implements TooltipAppender {
         Endec.BOOLEAN.fieldOf("show", carmotStaffComponent -> carmotStaffComponent.showTooltip),
         CarmotStaffComponent::new
     );
-
-    final Block block;
-    final boolean showTooltip;
-
-    public CarmotStaffComponent(Block block, boolean showTooltip) {
-        this.block = block;
-        this.showTooltip = showTooltip;
-    }
 
     public CarmotStaffComponent(Block block) {
         this(block, true);

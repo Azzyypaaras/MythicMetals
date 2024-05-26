@@ -51,14 +51,15 @@ public class TidesingerArmor extends HallowedArmor {
     @NotNull
     @Override
     public Identifier getArmorTexture(ItemStack stack, EquipmentSlot slot) {
-        String model = switch (stack.get(CORAL_TYPE)) {
-            case "brain" -> "textures/models/tidesinger_model_brain.png";
-            case "bubble" -> "textures/models/tidesinger_model_bubble.png";
-            case "fire" -> "textures/models/tidesinger_model_fire.png";
-            case "horn" -> "textures/models/tidesinger_model_horn.png";
-            case "tube" -> "textures/models/tidesinger_model_tube.png";
-            default -> "textures/models/tidesinger_model.png";
-        };
-        return RegistryHelper.id(model);
+        //String model = switch (stack.get(CORAL_TYPE)) {
+        //    case "brain" -> "textures/models/tidesinger_model_brain.png";
+        //    case "bubble" -> "textures/models/tidesinger_model_bubble.png";
+        //    case "fire" -> "textures/models/tidesinger_model_fire.png";
+        //    case "horn" -> "textures/models/tidesinger_model_horn.png";
+        //    case "tube" -> "textures/models/tidesinger_model_tube.png";
+        //    default -> "textures/models/tidesinger_model.png";
+        //};
+        //return RegistryHelper.id(model);
+        return RegistryHelper.id("textures/models/tidesinger_model.png");
     }
 }
