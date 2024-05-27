@@ -30,7 +30,10 @@ public class ArmorSet {
     );
 
     public ArmorItem baseArmorItem(ArmorMaterial material, ArmorItem.Type slot, int durabilityModifier, Consumer<OwoItemSettings> settingsProcessor) {
-        final var settings = new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(3).maxDamage(BASE_DURABILITY.get(slot) * durabilityModifier);
+        final var settings = new OwoItemSettings()
+            .group(MythicMetals.TABBED_GROUP)
+            .tab(3)
+            .maxDamage(BASE_DURABILITY.get(slot) * durabilityModifier);
         settingsProcessor.accept(settings);
         return this.makeItem(material, slot, settings);
     }

@@ -37,6 +37,7 @@ import nourl.mythicmetals.client.CarmotShieldHudHandler;
 import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.client.rendering.*;
 import nourl.mythicmetals.compat.IsometricArmorStandExporter;
+import nourl.mythicmetals.component.GoldFoldedComponent;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.entity.MythicEntities;
 import nourl.mythicmetals.item.tools.*;
@@ -295,7 +296,7 @@ public class MythicMetalsClient implements ClientModInitializer {
     public void registerMidasPredicates(Item item) {
         ModelPredicateProviderRegistry.register(item, new Identifier("midas_gold_count"),
                 (stack, world, entity, seed) -> {
-                    int goldCount = stack.get(MythicDataComponents.GOLD_FOLDED).goldFolded();
+                    int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
                     return MidasGoldSword.countGold(goldCount);
                 });
     }

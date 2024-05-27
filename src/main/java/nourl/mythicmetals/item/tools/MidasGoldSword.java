@@ -9,6 +9,7 @@ import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import nourl.mythicmetals.MythicMetals;
+import nourl.mythicmetals.component.GoldFoldedComponent;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.item.MythicItems;
@@ -16,28 +17,29 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class MidasGoldSword extends SwordItem {
-    /**
-     * Counter that tracks how much gold is folded on the sword.
-     * Used for dynamically changing damage and transforming the sword
-     * @deprecated will be replaced by "mm_gold_folded"
-     */
-    @Deprecated
-    public static final KeyedEndec<Integer> GOLD_FOLDED = new KeyedEndec<>("GoldFolded", Endec.INT, 0);
-    /**
-     * Tracks if the sword is gilded, so that the upgrade text after transforming into a Royal Midas Gold Sword changes
-     * @deprecated will be replaced by "mm_is_gilded_midas"
-     */
-    @Deprecated
-    public static final KeyedEndec<Boolean> IS_GILDED = new KeyedEndec<>("IsGilded", Endec.BOOLEAN, false);
-    /**
-     * Tracks if the sword is royal, which causes the sword to drop Raw Midas Gold on mob kills
-     * @deprecated will be replaced by "mm_is_royal_midas"
-     */
-    @Deprecated
-    public static final KeyedEndec<Boolean> IS_ROYAL = new KeyedEndec<>("IsRoyal", Endec.BOOLEAN, false);
+//    /**
+//     * Counter that tracks how much gold is folded on the sword.
+//     * Used for dynamically changing damage and transforming the sword
+//     * @deprecated will be replaced by "mm_gold_folded"
+//     */
+//    @Deprecated
+//    public static final KeyedEndec<Integer> GOLD_FOLDED = new KeyedEndec<>("GoldFolded", Endec.INT, 0);
+//    /**
+//     * Tracks if the sword is gilded, so that the upgrade text after transforming into a Royal Midas Gold Sword changes
+//     * @deprecated will be replaced by "mm_is_gilded_midas"
+//     */
+//    @Deprecated
+//    public static final KeyedEndec<Boolean> IS_GILDED = new KeyedEndec<>("IsGilded", Endec.BOOLEAN, false);
+//    /**
+//     * Tracks if the sword is royal, which causes the sword to drop Raw Midas Gold on mob kills
+//     * @deprecated will be replaced by "mm_is_royal_midas"
+//     */
+//    @Deprecated
+//    public static final KeyedEndec<Boolean> IS_ROYAL = new KeyedEndec<>("IsRoyal", Endec.BOOLEAN, false);
 
     public MidasGoldSword(ToolMaterial material, Settings settings) {
         super(material, settings);
+        settings.component(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0));
     }
 
     @Override
@@ -76,6 +78,7 @@ public class MidasGoldSword extends SwordItem {
         return super.getAttributeModifiers(stack);
     }
 
+    // TODO - Move to the component itself?
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> lines, TooltipType type) {
         int lineIndex = 1;
@@ -85,14 +88,15 @@ public class MidasGoldSword extends SwordItem {
             lineIndex = enchantCount + 1;
         }
 
-        int goldCount = stack.get(MythicDataComponents.GOLD_FOLDED).goldFolded();
+        var component = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0));
+        int goldCount = component.goldFolded();
         int level = calculateSwordLevel(goldCount);
 
         if (level > 20) {
             level = 20 + level / 6;
         }
 
-        if (goldCount < 704 && stack.get(MythicDataComponents.GOLD_FOLDED).isRoyal()) {
+        if (goldCount < 704 && component.isRoyal()) {
             level = 11;
         }
 
