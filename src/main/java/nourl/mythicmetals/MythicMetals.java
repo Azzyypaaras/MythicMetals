@@ -2,7 +2,9 @@ package nourl.mythicmetals;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.entity.*;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
+import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.gui.ItemGroupButton;
@@ -33,18 +35,23 @@ import nourl.mythicmetals.abilities.Abilities;
 import nourl.mythicmetals.armor.CarmotShield;
 import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.blocks.BanglumNukeHandler;
-import nourl.mythicmetals.blocks.IndevBlocks;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.command.MythicCommands;
 import nourl.mythicmetals.config.MythicMetalsConfig;
 import nourl.mythicmetals.data.MythicOreKeys;
 import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.effects.MythicStatusEffects;
-import nourl.mythicmetals.entity.*;
+import nourl.mythicmetals.entity.CombustionCooldown;
+import nourl.mythicmetals.entity.MythicEntities;
+import nourl.mythicmetals.entity.RuniteArrowEntity;
+import nourl.mythicmetals.entity.StarPlatinumArrowEntity;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.MythicTools;
 import nourl.mythicmetals.item.tools.PrometheumToolSet;
-import nourl.mythicmetals.misc.*;
+import nourl.mythicmetals.misc.BlockBreaker;
+import nourl.mythicmetals.misc.MythicLootOps;
+import nourl.mythicmetals.misc.MythicParticleSystem;
+import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,7 +61,7 @@ import java.util.UUID;
 public class MythicMetals implements ModInitializer, EntityComponentInitializer {
     public static Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "mythicmetals";
-    public static final int CONFIG_VERSION = 11;
+    public static final int CONFIG_VERSION = 12;
 
     public static final AbstractMinecartEntity.Type BANGLUM_TNT = Enum.valueOf(AbstractMinecartEntity.Type.class, "BANGLUM_TNT");
 

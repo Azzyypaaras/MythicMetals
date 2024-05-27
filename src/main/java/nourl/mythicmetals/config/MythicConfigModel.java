@@ -73,7 +73,7 @@ public class MythicConfigModel {
     @RestartRequired
     public boolean disableFunny = false;
     @Sync(Option.SyncMode.OVERRIDE_CLIENT)
-    public boolean disableCommandBlockInStaff = false;
+    public boolean disableCommandBlockInStaff = true;
     public int banglumNukeCoreRadius = 32;
     @Hook
     public ShieldPosition shieldPosition = ShieldPosition.TOP_LEFT;
