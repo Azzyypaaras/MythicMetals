@@ -5,17 +5,13 @@ import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.gui.ItemGroupButton;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.village.TradeOffers;
@@ -43,7 +39,7 @@ import org.ladysnake.cca.api.v3.entity.*;
 public class MythicMetals implements ModInitializer, EntityComponentInitializer {
     public static Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "mythicmetals";
-    public static final int CONFIG_VERSION = 11;
+    public static final int CONFIG_VERSION = 12;
 
     public static final AbstractMinecartEntity.Type BANGLUM_TNT = Enum.valueOf(AbstractMinecartEntity.Type.class, "BANGLUM_TNT");
 
