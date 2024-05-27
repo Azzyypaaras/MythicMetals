@@ -1,6 +1,10 @@
 # 0.19.8
 
+## Changes
+
 - Fix an issue where the Mythril Drill fortune upgrade did not work (thanks Leyline Explorer!)
+- Fixed an issue where the Bronze Block would show the Copper Block tooltip in a Carmot Staff (thanks Sakura Willows!)
+- Updated the `#mythicmetals:carmot_staff_blocks` tag
 
 # 0.19.7
 
