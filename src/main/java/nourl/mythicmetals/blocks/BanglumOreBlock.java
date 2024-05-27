@@ -51,7 +51,7 @@ public class BanglumOreBlock extends ExperienceDroppingBlock {
         }
 
         // Extra fortune = more allergic
-        if (upgrades.hasUpgrade(MythicBlocks.CARMOT.getStorageBlock().asItem())) {
+        if (upgrades.hasUpgrade(MythicItems.Mats.CARMOT_STONE)) {
             chance += 10;
         }
 

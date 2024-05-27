@@ -1,3 +1,7 @@
+# 0.19.8
+
+- Fix an issue where the Mythril Drill fortune upgrade did not work (thanks Leyline Explorer!)
+
 # 0.19.7
 
 ## Changes
