@@ -6,9 +6,11 @@ import net.minecraft.loot.condition.TableBonusLootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import nourl.mythicmetals.abilities.Abilities;
-import nourl.mythicmetals.blocks.MythicBlocks;
+import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.MythrilDrill;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
@@ -32,7 +34,7 @@ public class TableBonusLootConditionMixin {
         if (Abilities.BONUS_FORTUNE.getItems().contains(toolCtxStack.getItem())) {
             return (level + Abilities.BONUS_FORTUNE.getLevel());
         }
-        if (MythrilDrill.hasUpgradeItem(toolCtxStack, MythicBlocks.CARMOT.getStorageBlock().asItem())) {
+        if (MythrilDrill.hasUpgradeItem(toolCtxStack, MythicItems.Mats.CARMOT_STONE)) {
             return level + 1;
         }
         return level;

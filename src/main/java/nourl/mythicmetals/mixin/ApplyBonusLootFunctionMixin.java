@@ -5,7 +5,7 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import nourl.mythicmetals.abilities.Abilities;
-import nourl.mythicmetals.blocks.MythicBlocks;
+import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.MythrilDrill;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,7 +28,7 @@ public class ApplyBonusLootFunctionMixin {
         if (Abilities.BONUS_FORTUNE.getItems().contains(toolCtxStack.getItem())) {
             return level + Abilities.BONUS_FORTUNE.getLevel();
         }
-        if (MythrilDrill.hasUpgradeItem(toolCtxStack, MythicBlocks.CARMOT.getStorageBlock().asItem())) {
+        if (MythrilDrill.hasUpgradeItem(toolCtxStack, MythicItems.Mats.CARMOT_STONE)) {
             return level + 1;
         }
         return level;
