@@ -75,12 +75,12 @@ public class CarmotStaff extends ToolItem {
         float attackDamage = material.getAttackDamage();
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(
-                EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", attackDamage, EntityAttributeModifier.Operation.ADDITION)
+            EntityAttributes.GENERIC_ATTACK_DAMAGE,
+            new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", attackDamage, EntityAttributeModifier.Operation.ADDITION)
         );
         builder.put(
-                EntityAttributes.GENERIC_ATTACK_SPEED,
-                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", attackSpeed, EntityAttributeModifier.Operation.ADDITION)
+            EntityAttributes.GENERIC_ATTACK_SPEED,
+            new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", attackSpeed, EntityAttributeModifier.Operation.ADDITION)
         );
         this.attributeModifiers = builder.build();
     }
@@ -214,27 +214,28 @@ public class CarmotStaff extends ToolItem {
         // Beacon - Give a small buff to all players around you
         if (hasBlockInStaff(stack, Blocks.BEACON)) {
             var buffList = List.of(
-                    StatusEffects.SPEED,
-                    StatusEffects.HASTE,
-                    StatusEffects.RESISTANCE,
-                    StatusEffects.JUMP_BOOST,
-                    StatusEffects.STRENGTH,
-                    StatusEffects.REGENERATION);
+                StatusEffects.SPEED,
+                StatusEffects.HASTE,
+                StatusEffects.RESISTANCE,
+                StatusEffects.JUMP_BOOST,
+                StatusEffects.STRENGTH,
+                StatusEffects.REGENERATION);
             var buff = random.nextInt(5);
 
-            var targets = world.getOtherEntities(user, Box.of(user.getPos(), 18, 5, 18));
+            var targets = world.getOtherEntities(user, Box.of(user.getPos(), 32, 10, 32));
             targets.add(user);
 
             targets.forEach(entity -> {
                 if (entity.isPlayer()) {
                     ((PlayerEntity) entity)
-                            .addStatusEffect(new StatusEffectInstance(
-                                    buffList.get(buff),
-                                    600,
-                                    0,
-                                    true,
-                                    true,
-                                    true));
+                        .addStatusEffect(new StatusEffectInstance(
+                            buffList.get(buff),
+                            600,
+                            0,
+                            true,
+                            true,
+                            true)
+                        );
                 }
             });
 
@@ -309,7 +310,7 @@ public class CarmotStaff extends ToolItem {
 
         // Carmot - AoE Heal
         if (hasBlockInStaff(stack, MythicBlocks.CARMOT.getStorageBlock())) {
-            var entities = world.getOtherEntities(user, Box.of(user.getPos(), 4, 3, 4));
+            var entities = world.getOtherEntities(user, Box.of(user.getPos(), 8, 5, 8));
             entities.forEach(entity -> {
                 if (entity instanceof LivingEntity livingEntity) {
                     if (livingEntity.isUndead()) {
@@ -330,7 +331,7 @@ public class CarmotStaff extends ToolItem {
 
         // Midas Gold - Luck 2 for four minutes
         if (hasBlockInStaff(stack, MythicBlocks.MIDAS_GOLD.getStorageBlock())) {
-            var entities = world.getOtherEntities(user, Box.of(user.getPos(), 4, 3, 4));
+            var entities = world.getOtherEntities(user, Box.of(user.getPos(), 8, 5, 8));
             var betterLuckStatus = new StatusEffectInstance(StatusEffects.LUCK, 4800, 1, true, false, true);
             entities.forEach(entity -> {
                 if (entity.isLiving()) {
@@ -345,7 +346,7 @@ public class CarmotStaff extends ToolItem {
 
         // Enchanted Midas Gold - Luck 5 for twenty minutes. Consumes the enchantment
         if (hasBlockInStaff(stack, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK)) {
-            var entities = world.getOtherEntities(user, Box.of(user.getPos(), 16, 14, 16));
+            var entities = world.getOtherEntities(user, Box.of(user.getPos(), 32, 24, 32));
             var bestLuckStat = new StatusEffectInstance(StatusEffects.LUCK, 24000, 4, true, false, true);
             entities.forEach(entity -> {
                 if (entity.isLiving()) {
@@ -674,13 +675,13 @@ public class CarmotStaff extends ToolItem {
 
     public void explode(World world, LivingEntity user) {
         world.createExplosion(
-                null,
-                new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(MythicDamageTypes.ASCENSION).orElseThrow()),
-                null,
-                user.getPos(),
-                20.0F,
-                false,
-                World.ExplosionSourceType.NONE);
+            null,
+            new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(MythicDamageTypes.ASCENSION).orElseThrow()),
+            null,
+            user.getPos(),
+            20.0F,
+            false,
+            World.ExplosionSourceType.NONE);
     }
 
     private void playRandomSound(Random random, LivingEntity user, World world) {
