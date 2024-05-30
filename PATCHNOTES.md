@@ -9,6 +9,7 @@
   - Carmot: 2 -> 4 block radius
   - Midas Gold: 2 -> 4 block radius
   - Beacon: 8 -> 16 block radius
+- Use `#c:wood_sticks` tag for all recipes (#209)
 
 # 0.19.7
 

@@ -10,7 +10,7 @@
       "item": "mythicmetals:orichalcum_block"
     },
     "s": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {

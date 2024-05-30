@@ -10,7 +10,7 @@
       "item": "mythicmetals:palladium_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
