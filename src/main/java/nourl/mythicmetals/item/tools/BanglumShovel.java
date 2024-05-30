@@ -1,6 +1,5 @@
 package nourl.mythicmetals.item.tools;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -19,7 +18,7 @@ import nourl.mythicmetals.registry.RegisterCriteria;
 
 public class BanglumShovel extends ShovelItem {
 
-    public BanglumShovel(ToolMaterial material, OwoItemSettings settings) {
+    public BanglumShovel(ToolMaterial material, Settings settings) {
         super(material, settings);
     }
 

@@ -15,12 +15,12 @@ public class SteelToolSet extends ToolSet {
 
     @Override
     protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new SteelShovel(material, settings);
+        return new SteelShovel(material, settings.attributeModifiers(createAttributeModifiers(material, damage, speed)));
     }
 
     public static class SteelShovel extends ShovelItem {
         public SteelShovel(ToolMaterial material, Settings settings) {
-            super(material,settings);
+            super(material, settings);
         }
 
         @Override

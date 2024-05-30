@@ -8,12 +8,12 @@ public class BanglumToolSet extends ToolSet {
 
     @Override
     protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new BanglumPick(material, settings);
+        return new BanglumPick(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new BanglumShovel(material, settings);
+        return new BanglumShovel(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     public BanglumToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<OwoItemSettings> settingsProcessor) {

@@ -14,27 +14,27 @@ public class PrometheumToolSet extends ToolSet {
 
     @Override
     protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PrometheumPick(material, settings);
+        return new PrometheumPick(material, (OwoItemSettings) settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected SwordItem makeSword(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PrometheumSword(material, settings);
+        return new PrometheumSword(material, (OwoItemSettings) settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PrometheumAxe(material, settings);
+        return new PrometheumAxe(material, (OwoItemSettings) settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PrometheumHoe(material, settings);
+        return new PrometheumHoe(material, (OwoItemSettings) settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PrometheumShovel(material, settings);
+        return new PrometheumShovel(material, (OwoItemSettings) settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     public static class PrometheumAxe extends AxeItem implements AutoRepairable {

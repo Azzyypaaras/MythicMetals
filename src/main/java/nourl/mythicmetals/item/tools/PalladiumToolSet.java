@@ -19,27 +19,27 @@ public class PalladiumToolSet extends ToolSet {
 
     @Override
     protected SwordItem makeSword(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PalladiumSword(material, settings);
+        return new PalladiumSword(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PalladiumAxe(material, settings);
+        return new PalladiumAxe(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PalladiumPick(material, settings);
+        return new PalladiumPick(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PalladiumShovel(material, settings);
+        return new PalladiumShovel(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
     protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PalladiumHoe(material, settings);
+        return new PalladiumHoe(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     public static class PalladiumAxe extends AxeItem {

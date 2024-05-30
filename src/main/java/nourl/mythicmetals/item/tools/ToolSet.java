@@ -1,6 +1,11 @@
 package nourl.mythicmetals.item.tools;
 
 import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -9,6 +14,9 @@ import nourl.mythicmetals.misc.RegistryHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import static net.minecraft.item.Item.ATTACK_DAMAGE_MODIFIER_ID;
+import static net.minecraft.item.Item.ATTACK_SPEED_MODIFIER_ID;
 
 public class ToolSet {
 
@@ -52,23 +60,23 @@ public class ToolSet {
     }
 
     protected SwordItem makeSword(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new SwordItem(material, settings);
+        return new SwordItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
     protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new AxeItem(material, settings);
+        return new AxeItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
     protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new PickaxeItem(material, settings);
+        return new PickaxeItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
     protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new ShovelItem(material, settings);
+        return new ShovelItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
     protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return new HoeItem(material, settings);
+        return new HoeItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
 
@@ -103,5 +111,41 @@ public class ToolSet {
      */
     public List<ToolItem> get() {
         return List.of(sword, axe, pickaxe, shovel, hoe);
+    }
+
+    public static AttributeModifiersComponent createAttributeModifiers(double damage, float speed) {
+        if (speed < 0.0f) {
+            speed = 0;
+        }
+        return AttributeModifiersComponent.builder()
+            .add(
+                EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .add(
+                EntityAttributes.GENERIC_ATTACK_SPEED,
+                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0 + speed, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .build();
+    }
+
+    public static AttributeModifiersComponent createAttributeModifiers(ToolMaterial material, double damage, float speed) {
+        if (speed < 0.0f) {
+            speed = 0;
+        }
+        return AttributeModifiersComponent.builder()
+            .add(
+                EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", material.getAttackDamage() + damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .add(
+                EntityAttributes.GENERIC_ATTACK_SPEED,
+                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0 + speed, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .build();
     }
 }
