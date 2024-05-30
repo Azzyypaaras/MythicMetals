@@ -10,7 +10,7 @@
       "item": "mythicmetals:star_platinum"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {

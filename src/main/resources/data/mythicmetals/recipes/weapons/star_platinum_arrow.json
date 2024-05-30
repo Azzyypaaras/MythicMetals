@@ -10,7 +10,7 @@
       "item": "mythicmetals:star_platinum_nugget"
     },
     "s": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     },
     "f": {
       "item": "minecraft:feather"
