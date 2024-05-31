@@ -7,7 +7,8 @@
     "item": "mythicmetals:carmot_block"
   },
   "result": {
-    "item": "mythicmetals:carmot_staff"
+    "id": "mythicmetals:carmot_staff",
+    "count": 1
   },
   "template": {
     "item": "mythicmetals:carmot_staff_smithing_template"

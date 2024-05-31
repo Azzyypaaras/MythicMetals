@@ -7,7 +7,8 @@
     "item": "mythicmetals:hallowed_ingot"
   },
   "result": {
-    "item": "mythicmetals:white_aegis_sword"
+    "id": "mythicmetals:white_aegis_sword",
+    "count": 1
   },
   "template": {
     "item": "mythicmetals:aegis_smithing_template"

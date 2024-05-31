@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:runite_arrow",
+    "id": "mythicmetals:runite_arrow",
     "count": 4
   },
   "fabric:load_conditions": [

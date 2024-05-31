@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:star_platinum_arrow",
+    "id": "mythicmetals:star_platinum_arrow",
     "count": 2
   },
   "fabric:load_conditions": [
