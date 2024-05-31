@@ -1,11 +1,9 @@
 package nourl.mythicmetals.item.tools;
 
 import io.wispforest.owo.ops.WorldOps;
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.endec.BuiltInEndecs;
-import io.wispforest.owo.serialization.endec.KeyedEndec;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Instrument;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -21,7 +19,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.screen.slot.Slot;
@@ -38,7 +35,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.blocks.MythicBlocks;
-import nourl.mythicmetals.client.rendering.CarmotStaffBlockRenderer;
 import nourl.mythicmetals.component.CarmotStaffComponent;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.misc.*;
@@ -50,30 +46,13 @@ import static nourl.mythicmetals.component.MythicDataComponents.CARMOT_STAFF_BLO
 
 public class CarmotStaff extends ToolItem {
 
-    /**
-     * Contains the block stored inside the staff.
-     * This is rendered via the {@link CarmotStaffBlockRenderer}
-     * @deprecated Will be replaced with "mm_stored_block"
-     */
-    @Deprecated
-    public static final KeyedEndec<Block> STORED_BLOCK = new KeyedEndec<>("StoredBlock", BuiltInEndecs.ofRegistry(Registries.BLOCK), Blocks.AIR);
-
-    /**
-     * NBT Key that determines whether the staff is actively being used
-     */
-    public static final KeyedEndec<Boolean> IS_USED = new KeyedEndec<>("is_used", Endec.BOOLEAN, false);
-    /**
-     * NBT Key that starts playing notes above the users had
-     */
-    public static final KeyedEndec<Boolean> ENCORE = new KeyedEndec<>("mm_encore", Endec.BOOLEAN, false);
-
     public static final Identifier PROJECTILE_MODIFIED = RegistryHelper.id("projectile_is_modified");
 
     public CarmotStaff(ToolMaterial material, Settings settings) {
         super(material, settings);
     }
 
-    public static AttributeModifiersComponent createDefaultComponents(double damage, float attackSpeed) {
+    public static AttributeModifiersComponent createDefaultAttributes(double damage, float attackSpeed) {
         return AttributeModifiersComponent.builder()
             .add(
             EntityAttributes.GENERIC_ATTACK_DAMAGE,
@@ -89,6 +68,15 @@ public class CarmotStaff extends ToolItem {
     }
 
     @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
+
+        if (stack.contains(CARMOT_STAFF_BLOCK)) {
+            stack.get(CARMOT_STAFF_BLOCK).appendTooltip(context, tooltip::add, type);
+        }
+    }
+
+    @Override
     public boolean onStackClicked(ItemStack staff, Slot slot, ClickType clickType, PlayerEntity player) {
         // Validation - Cannot be used if locked
         // You cannot insert blocks with NBT, since the staff wipes it, and frankly
@@ -97,8 +85,8 @@ public class CarmotStaff extends ToolItem {
         if (slot.getStack().contains(DataComponentTypes.CONTAINER)) return false;
 
         if (clickType == ClickType.RIGHT) {
-            if (staff.getOrDefault(MythicDataComponents.LOCKED, true)) return false;
-            if (slot.getStack().getItem() instanceof BlockItem blockItem && slot.getStack().getComponents().isEmpty()) {
+            if (staff.getOrDefault(MythicDataComponents.LOCKED, false)) return false;
+            if (slot.getStack().getItem() instanceof BlockItem blockItem) {
 
                 boolean validStaffBlock = validateStaffBlock(blockItem);
                 if (!staff.contains(CARMOT_STAFF_BLOCK) && !slot.getStack().isEmpty()) {
@@ -122,7 +110,7 @@ public class CarmotStaff extends ToolItem {
 
                     // Try to replace block in staff
                     if (slot.tryTakeStackRange(1, 1, player).isPresent()) {
-                        var staffBlock = staff.getOrDefault(CARMOT_STAFF_BLOCK, CarmotStaffComponent.DEFAULT).getBlock().asItem().getDefaultStack();
+                        var staffBlock = staff.get(CARMOT_STAFF_BLOCK).getBlock().asItem().getDefaultStack();
                         slot.takeStack(1);
                         staff.set(CARMOT_STAFF_BLOCK, new CarmotStaffComponent(blockItem.getBlock()));
                         slot.insertStack(staffBlock, 1);
@@ -137,7 +125,7 @@ public class CarmotStaff extends ToolItem {
 
             // Try empty block into inventory
             if (slot.getStack().isEmpty()) {
-                slot.insertStack(staff.getOrDefault(CARMOT_STAFF_BLOCK, CarmotStaffComponent.DEFAULT).getBlock().asItem().getDefaultStack());
+                slot.insertStack(staff.get(CARMOT_STAFF_BLOCK).getBlock().asItem().getDefaultStack());
                 staff.remove(CARMOT_STAFF_BLOCK);
                 player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY, 0.85F, 0.5F);
                 return true;
@@ -157,7 +145,7 @@ public class CarmotStaff extends ToolItem {
         if (clickType == ClickType.RIGHT) {
             // If cursor is empty, but staff has block, take block out of staff
             if (cursorStackReference.get().isEmpty() && staff.contains(CARMOT_STAFF_BLOCK)) {
-                if (cursorStackReference.set(staff.getOrDefault(CARMOT_STAFF_BLOCK, CarmotStaffComponent.DEFAULT).getBlock().asItem().getDefaultStack())) {
+                if (cursorStackReference.set(staff.get(CARMOT_STAFF_BLOCK).getBlock().asItem().getDefaultStack())) {
                     staff.remove(CARMOT_STAFF_BLOCK);
                     player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY,0.25F, 0.5F);
                     return true;
@@ -558,6 +546,8 @@ public class CarmotStaff extends ToolItem {
         return stack.isOf(this);
     }
 
+
+
     // FIXME - Dehardcode or something
 //    @Override
 //    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
@@ -621,9 +611,8 @@ public class CarmotStaff extends ToolItem {
 //        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
 //    }
 
-    @SuppressWarnings("DataFlowIssue")
     public static boolean hasBlockInStaff(ItemStack stack, Block block) {
-        return stack.contains(CARMOT_STAFF_BLOCK) && stack.get(CARMOT_STAFF_BLOCK).getBlock().equals(block);
+        return stack.getOrDefault(CARMOT_STAFF_BLOCK, CarmotStaffComponent.DEFAULT).getBlock().equals(block);
     }
 
     public Block getBlockInStaff(ItemStack stack) {
@@ -662,24 +651,6 @@ public class CarmotStaff extends ToolItem {
         boolean b2 = item.getRegistryEntry().getKey().get().getValue().getNamespace().equals("mythicmetals");
         return b1 || b2;
     }
-
-    // TODO - Move to component handler
-//    @Override
-//    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-//        super.appendTooltip(stack, world, tooltip, context);
-//        if (!stack.has(STORED_BLOCK)) {
-//            tooltip.add(1, Text.translatable("tooltip.carmot_staff.empty_staff").setStyle(Style.EMPTY.withColor(Color.ofDye(DyeColor.LIGHT_GRAY).rgb())));
-//        } else {
-//            int index = 1;
-//            if (UniqueStaffBlocks.hasUniqueBlockInStaff(stack)) {
-//                tooltip.add(index++, UniqueStaffBlocks.getBlockTranslationKey(stack.get(STORED_BLOCK)));
-//            }
-//
-//            if (stack.get(LOCKED)) {
-//                tooltip.add(index, Text.translatable("tooltip.carmot_staff.locked").setStyle(Style.EMPTY.withColor(Formatting.YELLOW)));
-//            }
-//        }
-//    }
 
     public void explode(World world, LivingEntity user) {
         world.createExplosion(

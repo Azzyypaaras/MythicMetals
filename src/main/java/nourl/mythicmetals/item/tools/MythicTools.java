@@ -12,6 +12,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.*;
 import nourl.mythicmetals.MythicMetals;
+import nourl.mythicmetals.component.CarmotStaffComponent;
+import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.*;
 import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.registry.RegisterSounds;
@@ -69,7 +71,13 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     public static final Item WHITE_AEGIS_SWORD = new SwordItem(MythicToolMaterials.AEGIS_WHITE,
         new OwoItemSettings().fireproof().rarity(Rarity.UNCOMMON).group(MythicMetals.TABBED_GROUP).tab(2).attributeModifiers(createAttributeModifiers(4, 1.4f)));
     public static final Item CARMOT_STAFF = new CarmotStaff(MythicToolMaterials.CARMOT_STAFF,
-        new OwoItemSettings().rarity(Rarity.UNCOMMON).group(MythicMetals.TABBED_GROUP).tab(2).attributeModifiers(CarmotStaff.createDefaultComponents(4, 1.0f)));
+        new OwoItemSettings()
+            .rarity(Rarity.UNCOMMON)
+            .group(MythicMetals.TABBED_GROUP).tab(2)
+            .attributeModifiers(CarmotStaff.createDefaultAttributes(4, 1.0f))
+            .component(MythicDataComponents.CARMOT_STAFF_BLOCK, CarmotStaffComponent.DEFAULT)
+            .component(MythicDataComponents.IS_USED, false)
+            .component(MythicDataComponents.LOCKED, false));
     public static final Item ORICHALCUM_HAMMER = new HammerBase(MythicToolMaterials.ORICHALCUM,
         new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2).attributeModifiers(createAttributeModifiers(MythicToolMaterials.ORICHALCUM, 6, 0.8f)), 1);
     public static final Item MIDAS_GOLD_SWORD = new MidasGoldSword(MythicToolMaterials.MIDAS_GOLD,
