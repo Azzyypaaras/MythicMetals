@@ -7,7 +7,7 @@ import nourl.mythicmetals.misc.RegistryHelper;
 
 public class MythicDataComponents {
     public static final DataComponentType<GoldFoldedComponent> GOLD_FOLDED = RegistryHelper.dataComponentType(
-        "max_damage", builder -> builder.codec(GoldFoldedComponent.ENDEC.codec()).packetCodec(GoldFoldedComponent.ENDEC.packetCodec())
+        "gold_folded", builder -> builder.codec(GoldFoldedComponent.ENDEC.codec()).packetCodec(GoldFoldedComponent.ENDEC.packetCodec())
     );
     public static final DataComponentType<Boolean> LOCKED = RegistryHelper.dataComponentType(
         "locked", builder -> builder.codec(Codec.BOOL).packetCodec(PacketCodecs.BOOL)

@@ -10,6 +10,7 @@
     "item": "mythicmetals:midas_folding_template"
   },
   "result": {
-    "item": "mythicmetals:gilded_midas_gold_sword"
+    "id": "mythicmetals:gilded_midas_gold_sword",
+    "count": 1
   }
 }

@@ -12,8 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.*;
 import nourl.mythicmetals.MythicMetals;
-import nourl.mythicmetals.component.CarmotStaffComponent;
-import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.item.*;
 import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.registry.RegisterSounds;
@@ -80,13 +79,32 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
             .component(MythicDataComponents.LOCKED, false));
     public static final Item ORICHALCUM_HAMMER = new HammerBase(MythicToolMaterials.ORICHALCUM,
         new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2).attributeModifiers(createAttributeModifiers(MythicToolMaterials.ORICHALCUM, 6, 0.8f)), 1);
+
     public static final Item MIDAS_GOLD_SWORD = new MidasGoldSword(MythicToolMaterials.MIDAS_GOLD,
-        new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2).attributeModifiers(createAttributeModifiers(3, 1.6f)));
+        new OwoItemSettings()
+            .group(MythicMetals.TABBED_GROUP).tab(2)
+            .attributeModifiers(createAttributeModifiers(MythicToolMaterials.MIDAS_GOLD, 3, 1.6f))
+            .component(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0))
+    );
+
     public static final Item GILDED_MIDAS_GOLD_SWORD = new MidasGoldSword(MythicToolMaterials.GILDED_MIDAS_GOLD,
-        new OwoItemSettings().fireproof().rarity(Rarity.UNCOMMON).group(MythicMetals.TABBED_GROUP).tab(2).attributeModifiers(createAttributeModifiers(3, 1.6f)));
+        new OwoItemSettings()
+            .fireproof()
+            .rarity(Rarity.UNCOMMON)
+            .group(MythicMetals.TABBED_GROUP).tab(2)
+            .attributeModifiers(createAttributeModifiers(MythicToolMaterials.GILDED_MIDAS_GOLD, 3, 1.6f))
+            .component(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0))
+    );
 
     public static final Item ROYAL_MIDAS_GOLD_SWORD = new MidasGoldSword(MythicToolMaterials.ROYAL_MIDAS_GOLD,
-        new OwoItemSettings().fireproof().rarity(Rarity.UNCOMMON).group(MythicMetals.TABBED_GROUP).tab(2).attributeModifiers(createAttributeModifiers(3, 1.6f)));
+        new OwoItemSettings()
+            .fireproof()
+            .rarity(Rarity.UNCOMMON)
+            .group(MythicMetals.TABBED_GROUP)
+            .tab(2)
+            .attributeModifiers(createAttributeModifiers(MythicToolMaterials.ROYAL_MIDAS_GOLD, 3, 1.6f))
+            .component(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0))
+    );
 
     public static final Item RUNITE_ARROW = new RuniteArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));
     public static final Item TIPPED_RUNITE_ARROW = new TippedRuniteArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2).stackGenerator((item, stacks) -> {

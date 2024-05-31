@@ -24,6 +24,7 @@ public record MidasFoldingRecipe(Ingredient base, Ingredient addition, Ingredien
         if (this.template.test(inventory.getStack(0)) && this.base.test(inventory.getStack(1)) && this.addition.test(inventory.getStack(2))) {
             var stack = inventory.getStack(1);
 
+            if (!stack.contains(GOLD_FOLDED)) return false;
             int goldCount = stack.contains(GOLD_FOLDED) ? stack.get(GOLD_FOLDED).goldFolded() : 0;
 
             if (inventory.getStack(0).getItem().equals(MythicItems.Templates.ROYAL_MIDAS_SMITHING_TEMPLATE)) {
@@ -44,49 +45,28 @@ public record MidasFoldingRecipe(Ingredient base, Ingredient addition, Ingredien
     public ItemStack craft(Inventory inventory, RegistryWrapper.WrapperLookup lookup) {
         var swordInputStack = inventory.getStack(1).copy();
 
-        // TODO - Handle the component not being present
+        int goldCount = swordInputStack.get(GOLD_FOLDED).goldFolded();
+        swordInputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(goldCount + 1));
 
         // Gilded Midas Gold Sword handler
         if (swordInputStack.getItem().equals(MythicTools.GILDED_MIDAS_GOLD_SWORD)) {
-            int goldCount = swordInputStack.contains(GOLD_FOLDED) ? swordInputStack.get(GOLD_FOLDED).goldFolded() : 0;
-            // Allow you to max out a Gilded Midas Sword
-            if (goldCount < 640) {
-                swordInputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(goldCount + 1));
-            }
 
             // Transform into Royal Midas Gold Sword
             if (goldCount >= 640) {
-                var swordnite = new ItemStack(MythicTools.ROYAL_MIDAS_GOLD_SWORD);
-                //swordInputStack.put(MidasGoldSword.IS_ROYAL, true);
-                swordnite.applyComponentsFrom(swordInputStack.getComponents());
+                var swordnite = swordInputStack.copyComponentsToNewStack(MythicTools.ROYAL_MIDAS_GOLD_SWORD, 1);
+                swordnite.set(GOLD_FOLDED, GoldFoldedComponent.of(goldCount + 1, true));
                 return swordnite;
             }
         }
 
         // Handle Midas Gold Sword, transform if you fold and it at least has 320 gold on it
         if (swordInputStack.getItem().equals(MythicTools.MIDAS_GOLD_SWORD)) {
-            int goldCount = swordInputStack.contains(GOLD_FOLDED) ? swordInputStack.get(GOLD_FOLDED).goldFolded() : 0;
-
-            if (goldCount < 640) {
-
-                swordInputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(goldCount + 1));
-            }
 
             // Transform Midas Gold Sword into Gilded Midas Gold Sword
             if (goldCount >= 319) {
-                var swordnite = new ItemStack(MythicTools.GILDED_MIDAS_GOLD_SWORD);
-                //swordInputStack.put(MidasGoldSword.IS_GILDED, true);
-                swordnite.applyComponentsFrom(swordInputStack.getComponents());
+                var swordnite = swordInputStack.copyComponentsToNewStack(MythicTools.GILDED_MIDAS_GOLD_SWORD, 1);
+                swordnite.set(GOLD_FOLDED, GoldFoldedComponent.of(goldCount + 1));
                 return swordnite;
-            }
-        }
-
-        // Handle Royal Midas Gold Sword
-        if (swordInputStack.getItem().equals(MythicTools.ROYAL_MIDAS_GOLD_SWORD)) {
-            int goldCount = swordInputStack.contains(GOLD_FOLDED) ? swordInputStack.get(GOLD_FOLDED).goldFolded() : 0;
-            if (goldCount < 10000) {
-
-                swordInputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(goldCount + 1));
             }
         }
 
