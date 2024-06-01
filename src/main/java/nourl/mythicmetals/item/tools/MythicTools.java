@@ -121,7 +121,10 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     public static final Item MYTHRIL_DRILL = new MythrilDrill(MythicToolMaterials.MYTHRIL_DRILL, new OwoItemSettings()
         .group(MythicMetals.TABBED_GROUP).tab(2)
         .rarity(Rarity.UNCOMMON)
-        .attributeModifiers(createAttributeModifiers(3, 1.5f)));
+        .attributeModifiers(createAttributeModifiers(3, 1.5f))
+        .component(MythicDataComponents.DRILL, new DrillComponent(0, false))
+        .component(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2))
+    );
     public static final Item PLATINUM_WATCH = new Item(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));
 
     @Override

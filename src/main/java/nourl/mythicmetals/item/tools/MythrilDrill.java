@@ -2,11 +2,13 @@ package nourl.mythicmetals.item.tools;
 
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
@@ -26,39 +28,17 @@ import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.PrometheumHandler;
 import nourl.mythicmetals.registry.RegisterSounds;
+import java.util.List;
+import java.util.UUID;
 
 import static nourl.mythicmetals.component.DrillComponent.*;
 
 public class MythrilDrill extends PickaxeItem {
-//    /**
-//     * NbtKey that stores the amount of fuel inside the drill
-//     *
-//     * @deprecated Will be replaced with "mm_fuel" (lowercase)
-//     */
-//    @Deprecated
-//    public static final KeyedEndec<Integer> FUEL = new KeyedEndec<>("Fuel", Endec.INT, 0);
-//    /**
-//     * KeyedEndec that determines whether the drill should consume fuel and mine faster
-//     */
-//    public static final KeyedEndec<Boolean> IS_ACTIVE = new KeyedEndec<>("mm_is_active", Endec.BOOLEAN, false);
-//    /**
-//     * Holds an item, which determines what upgrades the drill has
-//     *
-//     * @deprecated Will be replaced by "mm_upgrade_slot_one"
-//     */
-//    @Deprecated
-//    public static final KeyedEndec<Item> UPGRADE_SLOT_ONE = new KeyedEndec<>("UpgradeSlot1", BuiltInEndecs.ofRegistry(Registries.ITEM), Items.AIR);
-//    /**
-//     * Holds another item, which determines what upgrades the drill has
-//     *
-//     * @deprecated Will be replaced by "mm_upgrade_slot_two"
-//     */
-//    public static final KeyedEndec<Item> UPGRADE_SLOT_TWO = new KeyedEndec<>("UpgradeSlot2", BuiltInEndecs.ofRegistry(Registries.ITEM), Items.AIR);
+
+    public static final UUID LUCK_BONUS_ID = UUID.fromString("ed484613-f159-4758-b00f-094a1c99358c");
 
     public MythrilDrill(ToolMaterial material, Settings settings) {
         super(material, settings);
-        settings.component(MythicDataComponents.DRILL, new DrillComponent(0, false));
-        settings.component(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
     }
 
     @Override
@@ -160,7 +140,7 @@ public class MythrilDrill extends PickaxeItem {
                 if (!DrillUpgrades.MAP.containsKey(cursorItem) || upgrades.hasUpgrade(cursorItem)) return false;
                 // Apply drill upgrade
                 cursorStack.decrement(1);
-                drill.set(MythicDataComponents.UPGRADES, UpgradeComponent.put(upgrades, cursorItem));
+                drill.set(MythicDataComponents.UPGRADES, UpgradeComponent.addItem(upgrades, cursorItem));
                 return true;
             }
         }
@@ -216,10 +196,19 @@ public class MythrilDrill extends PickaxeItem {
 
     @Override
     public boolean allowComponentsUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
-        // TODO - Implement once fuel component is added
-        return super.allowComponentsUpdateAnimation(player, hand, oldStack, newStack);
+        boolean didFuelChange = oldStack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).fuel() == oldStack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).fuel();
+        return !didFuelChange && oldStack.getDamage() != newStack.getDamage();
     }
 
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> lines, TooltipType type) {
+        if (stack.contains(MythicDataComponents.DRILL)) {
+            stack.get(MythicDataComponents.DRILL).appendTooltip(context, lines::add, type);
+        }
+        if (stack.contains(MythicDataComponents.UPGRADES)) {
+            stack.get(MythicDataComponents.UPGRADES).appendTooltip(context, lines::add, type);
+        }
+    }
 
     @Override
     public boolean allowContinuingBlockBreaking(PlayerEntity player, ItemStack oldStack, ItemStack newStack) {
@@ -267,17 +256,19 @@ public class MythrilDrill extends PickaxeItem {
      * @return whether you can eat the food-related itemstack in question
      */
     private boolean respectFood(ItemStack foodStack, PlayerEntity user) {
-        return user.canConsume(foodStack.getItem().getComponents() != null && foodStack.getItem().getComponents().contains(DataComponentTypes.FOOD));
+        return foodStack.contains(DataComponentTypes.FOOD) && user.canConsume(false);
     }
 
     @Override
-    public AttributeModifiersComponent getAttributeModifiers(ItemStack stack) {
-//        var component = this.getAttributeModifiers(stack);
-//        if (hasUpgradeItem(stack, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem())) {
-//            mapnite.put(EntityAttributes.GENERIC_LUCK, new EntityAttributeModifier(UUID.fromString("dc61bf90-67b4-414e-8ecf-994065208b3e"), "Drill Luck", 2.0f, EntityAttributeModifier.Operation.ADDITION));
-//        }
-//        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
-        // TODO - Reimplement adding luck on Enchanted Midas Gold Block Upgrade
-        return super.getAttributeModifiers(stack);
+    public void postProcessComponents(ItemStack stack) {
+        if (!stack.contains(DataComponentTypes.ATTRIBUTE_MODIFIERS)) return;
+
+        var attributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        var upgrades = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
+        if (upgrades.hasUpgrade(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem())) {
+            var modifier = new EntityAttributeModifier(LUCK_BONUS_ID, "mythril drill luck bonus", 1.0, EntityAttributeModifier.Operation.ADD_VALUE);
+            var upgradeAttributes = attributes.with(EntityAttributes.GENERIC_LUCK, modifier, AttributeModifierSlot.MAINHAND);
+            stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, upgradeAttributes);
+        }
     }
 }

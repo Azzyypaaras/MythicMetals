@@ -37,8 +37,7 @@ import nourl.mythicmetals.client.CarmotShieldHudHandler;
 import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.client.rendering.*;
 import nourl.mythicmetals.compat.IsometricArmorStandExporter;
-import nourl.mythicmetals.component.GoldFoldedComponent;
-import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.entity.MythicEntities;
 import nourl.mythicmetals.item.tools.*;
 import nourl.mythicmetals.misc.*;
@@ -251,8 +250,7 @@ public class MythicMetalsClient implements ClientModInitializer {
 
         ModelPredicateProviderRegistry.register(
                 MythicTools.MYTHRIL_DRILL, new Identifier("is_active"),
-                (stack, world, entity, seed) -> 0);
-                //(stack, world, entity, seed) -> stack.get(MythrilDrill.IS_ACTIVE) ? 0 : 1);
+                (stack, world, entity, seed) -> stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive() ? 0 : 1);
 
         registerMidasPredicates(MythicTools.MIDAS_GOLD_SWORD);
         registerMidasPredicates(MythicTools.GILDED_MIDAS_GOLD_SWORD);
