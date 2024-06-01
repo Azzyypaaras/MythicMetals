@@ -103,7 +103,7 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
             .group(MythicMetals.TABBED_GROUP)
             .tab(2)
             .attributeModifiers(createAttributeModifiers(MythicToolMaterials.ROYAL_MIDAS_GOLD, 3, 1.6f))
-            .component(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0))
+            .component(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0, true))
     );
 
     public static final Item RUNITE_ARROW = new RuniteArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));

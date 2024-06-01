@@ -36,14 +36,11 @@ public class MidasGoldSword extends SwordItem {
     public void postProcessComponents(ItemStack stack) {
         var original = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
-        int bonus = MathHelper.clamp(MathHelper.floor((float) goldCount / 64), 0, 6);
-        if (goldCount >= 1280) {
-            bonus += 1;
-        }
+        double damage = computeBonusDamage(goldCount);
 
-        if (bonus > 0) {
-            var modifier = new EntityAttributeModifier(DAMAGE_BONUS_UUID, "midas_gold_attack_bonus", bonus, EntityAttributeModifier.Operation.ADD_VALUE);
-            var changedComponent = original.with(EntityAttributes.GENERIC_ATTACK_DAMAGE, modifier, AttributeModifierSlot.MAINHAND).withShowInTooltip(false);
+        if (damage > 0) {
+            var modifier = new EntityAttributeModifier(DAMAGE_BONUS_UUID, "midas_gold_attack_bonus", damage, EntityAttributeModifier.Operation.ADD_VALUE);
+            var changedComponent = original.with(EntityAttributes.GENERIC_ATTACK_DAMAGE, modifier, AttributeModifierSlot.MAINHAND);
             stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, changedComponent);
         }
     }
@@ -53,6 +50,14 @@ public class MidasGoldSword extends SwordItem {
         if (stack.contains(MythicDataComponents.GOLD_FOLDED)) {
             stack.get(MythicDataComponents.GOLD_FOLDED).appendTooltip(context, lines::add, type);
         }
+    }
+
+    public int computeBonusDamage(int goldCount) {
+        int bonus = MathHelper.clamp(MathHelper.floor((float) goldCount / 64), 0, 6);
+        if (goldCount >= 1280) {
+            bonus += 1;
+        }
+        return bonus;
     }
 
     public static float countGold(int goldCount) {
