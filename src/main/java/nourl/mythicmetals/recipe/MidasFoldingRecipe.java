@@ -16,7 +16,7 @@ import nourl.mythicmetals.registry.RegisterRecipeSerializers;
 
 import static nourl.mythicmetals.component.MythicDataComponents.GOLD_FOLDED;
 
-public record MidasFoldingRecipe(Ingredient base, Ingredient addition, Ingredient template,
+public record MidasFoldingRecipe(Ingredient template, Ingredient base, Ingredient addition,
                                  ItemStack result) implements SmithingRecipe {
 
     @Override
@@ -103,9 +103,9 @@ public record MidasFoldingRecipe(Ingredient base, Ingredient addition, Ingredien
     public static class Serializer implements RecipeSerializer<MidasFoldingRecipe> {
         private static final MapCodec<MidasFoldingRecipe> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
+                    Ingredient.ALLOW_EMPTY_CODEC.fieldOf("template").forGetter(recipe -> recipe.template),
                     Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter(recipe -> recipe.base),
                     Ingredient.ALLOW_EMPTY_CODEC.fieldOf("addition").forGetter(recipe -> recipe.addition),
-                    Ingredient.ALLOW_EMPTY_CODEC.fieldOf("template").forGetter(recipe -> recipe.template),
                     ItemStack.VALIDATED_CODEC.fieldOf("result").forGetter(recipe -> recipe.result)
                 )
                 .apply(instance, MidasFoldingRecipe::new)
