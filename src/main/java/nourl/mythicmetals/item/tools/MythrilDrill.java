@@ -26,7 +26,6 @@ import nourl.mythicmetals.abilities.DrillUpgrades;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.item.MythicItems;
-import nourl.mythicmetals.misc.PrometheumHandler;
 import nourl.mythicmetals.registry.RegisterSounds;
 import java.util.List;
 import java.util.UUID;
@@ -188,7 +187,11 @@ public class MythrilDrill extends PickaxeItem {
             }
 
             if (upgradeComponent.hasUpgrade(MythicItems.Mats.PROMETHEUM_BOUQUET)) {
-                PrometheumHandler.tickAutoRepair(stack, world.getRandom());
+                // Initialize auto repair upgrades
+                if (!stack.contains(MythicDataComponents.PROMETHEUM)) {
+                    stack.set(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
+                }
+                PrometheumComponent.tickAutoRepair(stack, world.getRandom());
             }
         }
         super.inventoryTick(stack, world, entity, slot, selected);
@@ -226,15 +229,15 @@ public class MythrilDrill extends PickaxeItem {
         return super.isCorrectForDrops(stack, state);
     }
 
-//  TODO - Redundant? Can be overridden by ToolComponent Rules
-//    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-//        if (isActive(stack)) {
-//            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.isSuitableFor(stack, state)) {
-//                return this.miningSpeed;
-//            } else return super.getMiningSpeedMultiplier(stack, state);
-//        }
-//        return super.getMiningSpeedMultiplier(stack, state) / 2.5F;
-//    }
+    @Override
+    public float getMiningSpeed(ItemStack stack, BlockState state) {
+        if (stack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).isActive()) {
+            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.isCorrectForDrops(stack, state)) {
+                return super.getMiningSpeed(stack, state) * this.getMaterial().getMiningSpeedMultiplier();
+            } else return super.getMiningSpeed(stack, state);
+        }
+        return super.getMiningSpeed(stack, state) / 2.0f;
+    }
 
     /**
      * Handles applying the drill active state by toggling its NBT keys
