@@ -5,6 +5,7 @@ import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.gui.ItemGroupButton;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.loader.api.FabricLoader;
@@ -21,8 +22,11 @@ import nourl.mythicmetals.armor.*;
 import nourl.mythicmetals.blocks.BanglumNukeHandler;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.command.MythicCommands;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.PrometheumComponent;
 import nourl.mythicmetals.config.MythicMetalsConfig;
 import nourl.mythicmetals.data.MythicOreKeys;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.effects.MythicStatusEffects;
 import nourl.mythicmetals.entity.CombustionCooldown;
 import nourl.mythicmetals.entity.MythicEntities;
@@ -100,7 +104,7 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
             factories.add(new TradeOffers.SellItemFactory(MythicItems.Templates.AEGIS_SMITHING_TEMPLATE, 48, 1, 2, 30));
         });
         registerDispenserBehaviour();
-        PrometheumHandler.registerPrometheumAttributeEvent();
+        registerPrometheumAttributeEvent();
 
 
         if (CONFIG.configVersion() < CONFIG_VERSION) {
@@ -129,6 +133,17 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
             LOGGER.info("[Mythic Metals] Many ores spawn in unexpected ways due to the new overworld. Modpack devs, take note of this");
         }
         LOGGER.info("[Mythic Metals] Mythic Metals is now initialized.");
+    }
+
+    /**
+     * Registers an event that modifies all armor items in the tag with bonus attributes when bound
+     */
+    public static void registerPrometheumAttributeEvent() {
+        DefaultItemComponentEvents.MODIFY.register(context -> {
+            context.modify(item -> item.getDefaultStack().isIn(MythicTags.PROMETHEUM_ARMOR), (builder, item) -> {
+                builder.add(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
+            });
+        });
     }
 
     // TODO - Now determined by projectile items themselves. Override ProjectileItem#getProjectileSettings() and use builder

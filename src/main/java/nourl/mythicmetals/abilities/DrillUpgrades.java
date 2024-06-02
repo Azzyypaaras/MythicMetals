@@ -7,6 +7,7 @@ import nourl.mythicmetals.item.MythicItems;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO - Migrate to the UpgradeComponent?
 public class DrillUpgrades {
     /**
      * Map used to store the different types of drill upgrades

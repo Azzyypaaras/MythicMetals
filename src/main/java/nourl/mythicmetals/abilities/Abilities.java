@@ -13,6 +13,7 @@ import static nourl.mythicmetals.misc.UsefulSingletonForColorUtil.MetalColors;
 
 /**
  * Truly hardcode abilities onto items. These act as enchantments, but they stack with them.
+ * TODO - Move/make these into components
  *
  * @author Noaaan
  */

@@ -28,4 +28,7 @@ public class MythicDataComponents {
     public static final DataComponentType<UpgradeComponent> UPGRADES = RegistryHelper.dataComponentType("upgrades", builder ->
         builder.codec(UpgradeComponent.ENDEC.codec()).packetCodec(UpgradeComponent.ENDEC.packetCodec())
     );
+    public static final DataComponentType<PrometheumComponent> PROMETHEUM = RegistryHelper.dataComponentType("prometheum", builder ->
+        builder.codec(PrometheumComponent.ENDEC.codec()).packetCodec(PrometheumComponent.ENDEC.packetCodec())
+    );
 }

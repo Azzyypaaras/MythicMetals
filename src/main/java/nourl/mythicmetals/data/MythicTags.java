@@ -12,6 +12,7 @@ public class MythicTags {
     public static final TagKey<Item> CARMOT_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("carmot_armor"));
     public static final TagKey<Item> PROMETHEUM_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("prometheum_armor"));
     public static final TagKey<Item> PROMETHEUM_TOOLS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("prometheum_tools"));
+    public static final TagKey<Item> PROMETHEUM_EQUIPMENT = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("prometheum_equipment"));
     public static final TagKey<Item> CARMOT_STAFF_BLOCKS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("carmot_staff_blocks"));
     public static final TagKey<Item> GILDED_MIDAS_SWORDS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("gilded_midas_swords"));
 
