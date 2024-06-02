@@ -160,7 +160,7 @@ public abstract class LivingEntityMixin extends Entity {
             // It only took a couple of years to find, and it was re-producible in vanilla context
             if (armorStack.isEmpty()) continue; // Don't get the item for an empty stack
             if (armorStack.getItem() == null) {
-                MythicMetals.LOGGER.error("An ItemStack was somehow marked as empty, but does contain an item.");
+                MythicMetals.LOGGER.error("An ItemStack was somehow marked as not empty, but it doesn't contain an item.");
                 MythicMetals.LOGGER.error("This is not caused by Mythic Metals, and it could potentially crash!");
                 MythicMetals.LOGGER.error("Skipping the Armor Item query");
                 continue;

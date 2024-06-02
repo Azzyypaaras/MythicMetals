@@ -209,7 +209,6 @@ public class MythicMetalsClient implements ClientModInitializer {
     }
 
     private void registerArmorRenderer() {
-        // FIXME - Render Armor Trims
         Item[] armors = Registries.ITEM.stream()
                 .filter(i -> i instanceof HallowedArmor
                              && Registries.ITEM.getKey(i).get().getValue().getNamespace().equals(MythicMetals.MOD_ID))
