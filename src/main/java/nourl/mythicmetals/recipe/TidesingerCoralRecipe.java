@@ -8,9 +8,11 @@ import io.wispforest.owo.serialization.util.EndecRecipeSerializer;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.TidesingerPatternComponent;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.registry.RegisterRecipeSerializers;
 
 public record TidesingerCoralRecipe(Ingredient base, Ingredient addition, Ingredient template,
@@ -39,14 +41,12 @@ public record TidesingerCoralRecipe(Ingredient base, Ingredient addition, Ingred
     @Override
     public ItemStack craft(Inventory inventory, RegistryWrapper.WrapperLookup lookup) {
         var armorStack = this.result.copy();
-        armorStack.applyComponentsFrom(inventory.getStack(1).getComponents());
+        var formerArmorItem = inventory.getStack(1).getItem();
+        armorStack.copyComponentsToNewStack(formerArmorItem, 1);
         var additionStack = inventory.getStack(2);
 
-        var path = Registries.ITEM.getId(additionStack.getItem()).getPath();
-
-        // TODO - Use a tag instead of string parsing?
-        if (path.contains("coral") && !(path.contains("block") || path.contains("dead"))) {
-            // FIXME - Apply Coral Type here
+        if (additionStack.isIn(MythicTags.TIDESINGER_CORAL)) {
+            armorStack.set(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.fromStack(additionStack));
         }
 
         return armorStack;

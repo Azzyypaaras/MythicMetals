@@ -15,6 +15,7 @@ public class MythicTags {
     public static final TagKey<Item> PROMETHEUM_EQUIPMENT = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("prometheum_equipment"));
     public static final TagKey<Item> CARMOT_STAFF_BLOCKS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("carmot_staff_blocks"));
     public static final TagKey<Item> GILDED_MIDAS_SWORDS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("gilded_midas_swords"));
+    public static final TagKey<Item> TIDESINGER_CORAL = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tidesinger_coral"));
 
     public static final TagKey<Block> ANVILS = TagKey.of(RegistryKeys.BLOCK, RegistryHelper.id("anvils"));
     public static final TagKey<Block> MYTHIC_ORES = TagKey.of(RegistryKeys.BLOCK, RegistryHelper.id("ores"));
