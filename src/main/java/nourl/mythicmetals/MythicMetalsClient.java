@@ -60,9 +60,6 @@ public class MythicMetalsClient implements ClientModInitializer {
         registerModelPredicates();
         registerSwirlRenderer();
 
-        registerTidesingerTooltips();
-        registerPrometheumTooltips();
-
         LivingEntityFeatureRenderEvents.ALLOW_CAPE_RENDER.register(player -> !CelestiumElytra.isWearing(player));
 
         EntityRendererRegistry.register(MythicEntities.BANGLUM_TNT_MINECART_ENTITY_TYPE, BanglumTntMinecartEntityRenderer::new);
@@ -91,48 +88,6 @@ public class MythicMetalsClient implements ClientModInitializer {
                 IsometricArmorStandExporter.register(dispatcher);
             });
         }
-    }
-
-    // FIXME - Move tooltip to a custom component?
-    private void registerPrometheumTooltips() {
-//        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
-//            if (stack.isIn(MythicTags.PROMETHEUM_TOOLS) && PrometheumHandler.isOvergrown(stack)) {
-//                Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
-//            }
-//
-//            if (stack.isIn(MythicTags.PROMETHEUM_ARMOR)) {
-//                if (PrometheumHandler.isOvergrown(stack)) {
-//                    Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
-//                }
-//
-//                if (EnchantmentHelper.hasBindingCurse(stack)) {
-//                    Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.engrained");
-//                }
-//            }
-//        });
-    }
-
-    // FIXME - Move Tidesinger stuff to a component?
-    private void registerTidesingerTooltips() {
-//        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
-//            if (stack.has(TidesingerArmor.CORAL_TYPE)) {
-//                Style style = switch (stack.get(TidesingerArmor.CORAL_TYPE)) {
-//                    case "brain" -> UsefulSingletonForColorUtil.MetalColors.BRAIN.style();
-//                    case "bubble" -> UsefulSingletonForColorUtil.MetalColors.BUBBLE.style();
-//                    case "fire" -> UsefulSingletonForColorUtil.MetalColors.FIRE.style();
-//                    case "horn" -> UsefulSingletonForColorUtil.MetalColors.HORN.style();
-//                    case "tube" -> UsefulSingletonForColorUtil.MetalColors.TUBE.style();
-//                    default -> Style.EMPTY;
-//                };
-//
-//                // Do not append tooltip if there isn't a proper coral on it
-//                if (style.isEmpty()) {
-//                    return;
-//                }
-//
-//                Ability.addTooltipOnStack(stack, lines, style, "tooltip.tidesinger.coral." + stack.get(TidesingerArmor.CORAL_TYPE));
-//            }
-//        });
     }
 
     @SuppressWarnings("unchecked")
