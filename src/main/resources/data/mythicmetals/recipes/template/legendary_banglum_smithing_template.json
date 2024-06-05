@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:legendary_banglum_smithing_template",
+    "id": "mythicmetals:legendary_banglum_smithing_template",
     "count": 1
   },
   "group": "banglum_template"

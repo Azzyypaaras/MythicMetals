@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:osmium_anvil",
+    "id": "mythicmetals:osmium_anvil",
     "count": 1
   },
   "group": "mm_anvils",

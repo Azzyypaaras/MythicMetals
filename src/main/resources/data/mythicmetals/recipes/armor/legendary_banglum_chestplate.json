@@ -7,7 +7,7 @@
     "item": "mythicmetals:banglum_chestplate"
   },
   "result": {
-    "item": "mythicmetals:legendary_banglum_chestplate"
+    "id": "mythicmetals:legendary_banglum_chestplate"
   },
   "template": {
     "item": "mythicmetals:legendary_banglum_smithing_template"

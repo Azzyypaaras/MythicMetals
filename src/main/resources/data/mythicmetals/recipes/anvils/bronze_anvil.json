@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:bronze_anvil",
+    "id": "mythicmetals:bronze_anvil",
     "count": 1
   },
   "group": "mm_anvils",

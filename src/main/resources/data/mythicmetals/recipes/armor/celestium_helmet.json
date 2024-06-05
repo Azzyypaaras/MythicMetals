@@ -7,7 +7,7 @@
     "item": "minecraft:diamond_helmet"
   },
   "result": {
-    "item": "mythicmetals:celestium_helmet"
+    "id": "mythicmetals:celestium_helmet"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

@@ -7,7 +7,7 @@
     "item": "minecraft:elytra"
   },
   "result": {
-    "item": "mythicmetals:celestium_elytra"
+    "id": "mythicmetals:celestium_elytra"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

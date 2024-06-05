@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:celestium_ingot",
+    "id": "mythicmetals:celestium_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

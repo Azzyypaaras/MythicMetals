@@ -7,7 +7,7 @@
     "item": "mythicmetals:kyber_boots"
   },
   "result": {
-    "item": "mythicmetals:carmot_boots"
+    "id": "mythicmetals:carmot_boots"
   },
   "template": {
     "item": "mythicmetals:carmot_smithing_template"

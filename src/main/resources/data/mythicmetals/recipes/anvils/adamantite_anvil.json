@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:adamantite_anvil",
+    "id": "mythicmetals:adamantite_anvil",
     "count": 1
   },
   "group": "mm_anvils",

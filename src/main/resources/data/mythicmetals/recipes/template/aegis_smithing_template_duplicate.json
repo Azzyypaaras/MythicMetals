@@ -20,7 +20,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:aegis_smithing_template",
+    "id": "mythicmetals:aegis_smithing_template",
     "count": 2
   },
   "group": "aegis_template"

@@ -103,7 +103,7 @@
     ]
   },
   "result": {
-    "item": "spectrum:infused_beverage",
+    "id": "spectrum:infused_beverage",
     "count": 4,
     "nbt": "{Variant: \"wormhole_special\", Color: 1258295 }"
   },

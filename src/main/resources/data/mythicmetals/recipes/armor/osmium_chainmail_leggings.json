@@ -7,7 +7,7 @@
     "item": "minecraft:chainmail_leggings"
   },
   "result": {
-    "item": "mythicmetals:osmium_chainmail_leggings"
+    "id": "mythicmetals:osmium_chainmail_leggings"
   },
   "template": {
     "item": "mythicmetals:osmium_chainmail_smithing_template"

@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:palladium_ingot",
+    "id": "mythicmetals:palladium_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

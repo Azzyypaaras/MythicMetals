@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:kyber_nugget",
+    "id": "mythicmetals:kyber_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": [
+    {
+      "item": "mythicmetals:prometheum_helmet"
+    },
+    {
+      "item": "mythicmetals:prometheum_chestplate"
+    },
+    {
+      "item": "mythicmetals:prometheum_leggings"
+    },
+    {
+      "item": "mythicmetals:prometheum_boots"
+    }
+  ],
+  "result": {
+    "id": "mythicmetals:prometheum_nugget"
+  }
+}

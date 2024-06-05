@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:raw_mythril_block",
+    "id": "mythicmetals:raw_mythril_block",
     "count": 1
   }
 }

@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:platinum_ingot",
+    "id": "mythicmetals:platinum_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

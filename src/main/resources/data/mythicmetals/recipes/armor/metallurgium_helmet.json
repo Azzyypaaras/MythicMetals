@@ -7,7 +7,7 @@
     "item": "minecraft:netherite_helmet"
   },
   "result": {
-    "item": "mythicmetals:metallurgium_helmet"
+    "id": "mythicmetals:metallurgium_helmet"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

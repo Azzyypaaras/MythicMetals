@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:copper_nugget",
+    "id": "mythicmetals:copper_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:mythril_anvil",
+    "id": "mythicmetals:mythril_anvil",
     "count": 1
   },
   "group": "mm_anvils",

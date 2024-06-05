@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:banglum_nugget",
+    "id": "mythicmetals:banglum_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

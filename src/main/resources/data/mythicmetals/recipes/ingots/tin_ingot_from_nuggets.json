@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:tin_ingot",
+    "id": "mythicmetals:tin_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:steel_nugget",
+    "id": "mythicmetals:steel_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:quadrillum_nugget",
+    "id": "mythicmetals:quadrillum_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

@@ -7,7 +7,7 @@
     "item": "mythicmetals:banglum_leggings"
   },
   "result": {
-    "item": "mythicmetals:legendary_banglum_leggings"
+    "id": "mythicmetals:legendary_banglum_leggings"
   },
   "template": {
     "item": "mythicmetals:legendary_banglum_smithing_template"

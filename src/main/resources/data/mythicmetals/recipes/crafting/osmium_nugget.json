@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:osmium_nugget",
+    "id": "mythicmetals:osmium_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

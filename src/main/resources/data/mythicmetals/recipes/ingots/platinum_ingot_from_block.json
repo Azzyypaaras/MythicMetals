@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:platinum_ingot",
+    "id": "mythicmetals:platinum_ingot",
     "count": 9
   },
   "group": "mm_platinum"

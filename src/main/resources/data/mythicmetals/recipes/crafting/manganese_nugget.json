@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:manganese_nugget",
+    "id": "mythicmetals:manganese_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "c:tin_ores"
-  },
-  "result": "mythicmetals:tin_ingot",
-  "experience": 0.2,
-  "cookingtime": 100
-}

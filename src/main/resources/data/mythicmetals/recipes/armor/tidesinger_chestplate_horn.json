@@ -10,6 +10,6 @@
     "item": "minecraft:horn_coral"
   },
   "result": {
-    "item": "mythicmetals:tidesinger_chestplate"
+    "id": "mythicmetals:tidesinger_chestplate"
   }
 }

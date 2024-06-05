@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "c:manganese_ores"
-  },
-  "result": "mythicmetals:manganese_ingot",
-  "experience": 0.2,
-  "cookingtime": 200
-}

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "mythicmetals:raw_palladium"
-  },
-  "result": "mythicmetals:palladium_ingot",
-  "experience": 1.5,
-  "cookingtime": 100
-}

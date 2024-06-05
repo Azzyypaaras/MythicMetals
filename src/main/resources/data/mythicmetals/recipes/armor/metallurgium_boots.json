@@ -7,7 +7,7 @@
     "item": "minecraft:netherite_boots"
   },
   "result": {
-    "item": "mythicmetals:metallurgium_boots"
+    "id": "mythicmetals:metallurgium_boots"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

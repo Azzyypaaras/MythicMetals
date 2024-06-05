@@ -7,7 +7,7 @@
     "item": "mythicmetals:celestium_ingot"
   },
   "result": {
-    "item": "mythicmetals:celestium_shovel"
+    "id": "mythicmetals:celestium_shovel"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

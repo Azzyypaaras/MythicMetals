@@ -7,7 +7,7 @@
     "item": "minecraft:diamond_leggings"
   },
   "result": {
-    "item": "mythicmetals:celestium_leggings"
+    "id": "mythicmetals:celestium_leggings"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

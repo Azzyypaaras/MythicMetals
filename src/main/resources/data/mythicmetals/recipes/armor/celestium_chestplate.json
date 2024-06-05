@@ -7,7 +7,7 @@
     "item": "minecraft:diamond_chestplate"
   },
   "result": {
-    "item": "mythicmetals:celestium_chestplate"
+    "id": "mythicmetals:celestium_chestplate"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

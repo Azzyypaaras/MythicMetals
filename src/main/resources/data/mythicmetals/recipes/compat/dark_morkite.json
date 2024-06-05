@@ -81,7 +81,7 @@
     ]
   },
   "result": {
-    "item": "spectrum:infused_beverage",
+    "id": "spectrum:infused_beverage",
     "count": 4,
     "nbt": "{Variant: \"morkite\", Color: 16494 }"
   },
