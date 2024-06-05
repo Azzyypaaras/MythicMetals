@@ -8,9 +8,9 @@ import nourl.mythicmetals.blocks.BlockSet;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import java.util.concurrent.CompletableFuture;
 
-public class MythicBlockDataProvider extends FabricTagProvider.BlockTagProvider {
+public class MythicBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
-    public MythicBlockDataProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public MythicBlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
     }
 

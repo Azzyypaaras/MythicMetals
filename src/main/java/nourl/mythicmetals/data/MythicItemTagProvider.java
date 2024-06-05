@@ -16,9 +16,9 @@ import nourl.mythicmetals.item.tools.ToolSet;
 
 import java.util.concurrent.CompletableFuture;
 
-public class MythicItemDataProvider extends FabricTagProvider.ItemTagProvider {
+public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
-    public MythicItemDataProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+    public MythicItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
     }
 

@@ -24,6 +24,7 @@ import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.command.MythicCommands;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.component.PrometheumComponent;
+import nourl.mythicmetals.conditions.MythicResourceConditions;
 import nourl.mythicmetals.config.MythicMetalsConfig;
 import nourl.mythicmetals.data.MythicOreKeys;
 import nourl.mythicmetals.data.MythicTags;
@@ -93,7 +94,7 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
         TABBED_GROUP.initialize();
         FuelRegistry.INSTANCE.add(MythicItems.Mats.MORKITE, 1200);
         FuelRegistry.INSTANCE.add(MythicBlocks.MORKITE.getStorageBlock(), 12800);
-        RegisterResourceConditions.init();
+        MythicResourceConditions.init();
         RegisterLootConditions.init();
         MythicStatusEffects.init();
         RegisterRecipeSerializers.init();

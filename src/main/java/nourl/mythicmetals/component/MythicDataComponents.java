@@ -21,7 +21,9 @@ public class MythicDataComponents {
     public static final DataComponentType<CarmotStaffComponent> CARMOT_STAFF_BLOCK = RegistryHelper.dataComponentType("carmot_staff_block",
         builder -> builder.codec(CarmotStaffComponent.ENDEC.codec()).packetCodec(CarmotStaffComponent.ENDEC.packetCodec())
     );
-
+    public static final DataComponentType<TidesingerPatternComponent> TIDESINGER = RegistryHelper.dataComponentType("tidesinger",
+      builder -> builder.codec(TidesingerPatternComponent.ENDEC.codec()).packetCodec(TidesingerPatternComponent.ENDEC.packetCodec())
+    );
     public static final DataComponentType<DrillComponent> DRILL = RegistryHelper.dataComponentType("drill", builder ->
         builder.codec(DrillComponent.ENDEC.codec()).packetCodec(DrillComponent.ENDEC.packetCodec())
     );
