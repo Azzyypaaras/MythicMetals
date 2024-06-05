@@ -7,9 +7,10 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import nourl.mythicmetals.armor.TidesingerArmor;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.TidesingerPatternComponent;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.recipe.TidesingerCoralRecipe;
 import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
@@ -39,12 +40,9 @@ public class TidesingerEMIRecipe implements EmiRecipe {
             );
 
             var output = Arrays.stream(this.addition.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();
-            var path = Registries.ITEM.getId(output.getItem()).getPath();
-            if (path.contains("coral") && !(path.contains("block") || path.contains("dead"))) {
-                // Show different coral types
-                // FIXME - Properly handle EMI rendering of Tidesinger Armor
-                //var outputWithNbt = outputStack.copyComponentsToNewStack(outputStack.getItem(), outputStack.getCount());
-                //outputWithNbt.put(TidesingerArmor.CORAL_TYPE, path.split("_")[0]);
+            if (output.isIn(MythicTags.TIDESINGER_CORAL)) {
+                var outputWithComponents = outputStack.copyComponentsToNewStack(outputStack.getItem(), outputStack.getCount());
+                outputWithComponents.set(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.fromStack(outputStack));
                 outputs = EmiStack.of(output);
             }
         }
