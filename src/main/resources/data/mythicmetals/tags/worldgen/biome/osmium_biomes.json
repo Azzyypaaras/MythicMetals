@@ -2,11 +2,11 @@
   "replace": false,
   "values": [
     {
-      "id": "#c:mountain",
+      "id": "#c:is_mountain",
       "replace": false
     },
     {
-      "id": "#c:extreme_hills",
+      "id": "#c:is_hill",
       "replace": false
     }
   ]
