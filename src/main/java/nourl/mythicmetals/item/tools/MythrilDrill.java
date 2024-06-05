@@ -22,7 +22,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import nourl.mythicmetals.abilities.DrillUpgrades;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.item.MythicItems;
@@ -136,7 +135,7 @@ public class MythrilDrill extends PickaxeItem {
             var upgrades = drill.get(MythicDataComponents.UPGRADES);
             if (upgrades.hasFreeSlots()) {
                 if (cursorItem.equals(Items.AIR)) return false;
-                if (!DrillUpgrades.MAP.containsKey(cursorItem) || upgrades.hasUpgrade(cursorItem)) return false;
+                if (!drillUpgrades.containsKey(cursorItem) || upgrades.hasUpgrade(cursorItem)) return false;
                 // Apply drill upgrade
                 cursorStack.decrement(1);
                 drill.set(MythicDataComponents.UPGRADES, UpgradeComponent.addItem(upgrades, cursorItem));
@@ -215,7 +214,6 @@ public class MythrilDrill extends PickaxeItem {
 
     @Override
     public boolean allowContinuingBlockBreaking(PlayerEntity player, ItemStack oldStack, ItemStack newStack) {
-        // TODO - Review if purely checking components is effective
         // Allow you to break blocks when fuel ticks down
         return oldStack.contains(MythicDataComponents.DRILL) && newStack.contains(MythicDataComponents.DRILL) || oldStack.getDamage() != newStack.getDamage();
     }

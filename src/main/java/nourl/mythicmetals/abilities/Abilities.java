@@ -6,6 +6,7 @@ import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
 import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.blocks.MythicBlocks;
+import nourl.mythicmetals.component.DrillComponent;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.MythicTools;
 
@@ -49,7 +50,6 @@ public class Abilities {
     public static final Ability RIPTIDE = new Ability("riptide", 3);
 
     public static void init() {
-        DrillUpgrades.init();
         UniqueStaffBlocks.init();
 
         AQUA_AFFINITY.addItem(MythicArmor.AQUARIUM.getHelmet(), MetalColors.AQUA_STYLE);
@@ -76,7 +76,7 @@ public class Abilities {
         KNOCKBACK.addItem(MythicTools.LEGENDARY_BANGLUM.getSword(), MetalColors.GOLD_STYLE);
         KNOCKBACK.addItem(MythicTools.LEGENDARY_BANGLUM.getAxe(), MetalColors.GOLD_STYLE);
         KNOCKBACK.addItem(MythicTools.LEGENDARY_BANGLUM.getHoe(), MetalColors.GOLD_STYLE);
-        DrillUpgrades.MAP.forEach((item, s) -> {
+        DrillComponent.drillUpgrades.forEach((item, s) -> {
             if (item != Items.AIR)
                 UPGRADE_TOOLTIP.addItem(item, Style.EMPTY.withColor(MetalColors.MYTHRIL.rgb()));
         });

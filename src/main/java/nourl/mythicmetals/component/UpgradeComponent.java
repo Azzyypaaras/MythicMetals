@@ -9,7 +9,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import nourl.mythicmetals.MythicMetals;
-import nourl.mythicmetals.abilities.DrillUpgrades;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -62,7 +61,7 @@ public record UpgradeComponent(List<Item> items, int size) implements TooltipApp
 
         for (int i = 0; i < this.size; i++) {
             var item = this.items.get(i);
-            tooltip.accept(Text.translatable("tooltip.mythril_drill.upgrade_slot", i + 1, Text.translatable("tooltip.mythril_drill.upgrade." + DrillUpgrades.MAP.get(item))));
+            tooltip.accept(Text.translatable("tooltip.mythril_drill.upgrade_slot", i + 1, Text.translatable("tooltip.mythril_drill.upgrade." + DrillComponent.drillUpgrades.get(item))));
         }
 
     }

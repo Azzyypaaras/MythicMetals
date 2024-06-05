@@ -4,12 +4,16 @@ import io.wispforest.owo.serialization.Endec;
 import io.wispforest.owo.serialization.endec.StructEndecBuilder;
 import io.wispforest.owo.ui.core.Color;
 import net.minecraft.client.item.TooltipType;
-import net.minecraft.item.Item;
-import net.minecraft.item.TooltipAppender;
+import net.minecraft.item.*;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Util;
+import nourl.mythicmetals.blocks.MythicBlocks;
+import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public record DrillComponent(int fuel, boolean isActive) implements TooltipAppender {
@@ -28,6 +32,19 @@ public record DrillComponent(int fuel, boolean isActive) implements TooltipAppen
      * Each piece of Morkite will fuel the drill by this constant worth of units
      */
     public static final int FUEL_CONSTANT = 10;
+
+    /**
+     * Map used to store the different types of drill upgrades
+     * Used for handling tooltips
+     */
+    public static Map<Item, String> drillUpgrades = Util.make(new HashMap<>(), map -> {
+        map.put(MythicItems.Mats.AQUARIUM_PEARL, "aquarium");
+        map.put(MythicItems.Mats.CARMOT_STONE, "carmot");
+        map.put(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem(), "midas_gold");
+        map.put(MythicItems.Mats.PROMETHEUM_BOUQUET, "prometheum");
+        map.put(MythicItems.Mats.STORMYX_SHELL, "stormyx");
+        map.put(Items.AIR, "empty");
+    });
 
     public boolean hasFuel() {
         return this.fuel > 0;
