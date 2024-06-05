@@ -13,8 +13,6 @@ public class MythicLootOps {
     public static void init() {
         if (MythicMetals.CONFIG.unobtainium()) {
             LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.01F, LootTables.ANCIENT_CITY_CHEST.getValue());
-            // TODO - Remove
-            MythicMetals.LOGGER.info("VALUE OF ANCIENT CITY TABLE: {}", LootTables.ANCIENT_CITY_CHEST.getValue());
             LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.00042F, BETTER_PIGLIN_BARTERING);
             if (FabricLoader.getInstance().isModLoaded("custom_piglin_bartering")) {
                 LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.00042F, CUSTOM_PIGLIN_BARTERING);

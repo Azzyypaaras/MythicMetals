@@ -101,7 +101,7 @@ public class BanglumNukeEntity extends BanglumTntEntity {
 
         int soundRadius = radius * 3;
 
-        // TODO - Verify the explosion sounds correct
+        // FIXME - the explosion sounds incorrect
         for (PlayerEntity player : getWorld().getPlayers()) {
             if (player.squaredDistanceTo(this) > soundRadius * soundRadius) continue;
 

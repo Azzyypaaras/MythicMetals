@@ -1,11 +1,12 @@
 package nourl.mythicmetals.recipe;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.wispforest.owo.serialization.Endec;
+import io.wispforest.owo.serialization.StructEndec;
+import io.wispforest.owo.serialization.endec.BuiltInEndecs;
+import io.wispforest.owo.serialization.endec.StructEndecBuilder;
+import io.wispforest.owo.serialization.util.EndecRecipeSerializer;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.*;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
@@ -99,45 +100,17 @@ public record MidasFoldingRecipe(Ingredient template, Ingredient base, Ingredien
         return this.addition.test(stack);
     }
 
-    // TODO - Convert to use Endec instead of Codec
-    public static class Serializer implements RecipeSerializer<MidasFoldingRecipe> {
-        private static final MapCodec<MidasFoldingRecipe> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(
-                    Ingredient.ALLOW_EMPTY_CODEC.fieldOf("template").forGetter(recipe -> recipe.template),
-                    Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter(recipe -> recipe.base),
-                    Ingredient.ALLOW_EMPTY_CODEC.fieldOf("addition").forGetter(recipe -> recipe.addition),
-                    ItemStack.VALIDATED_CODEC.fieldOf("result").forGetter(recipe -> recipe.result)
-                )
-                .apply(instance, MidasFoldingRecipe::new)
+    public static class Serializer extends EndecRecipeSerializer<MidasFoldingRecipe> {
+        private static final StructEndec<MidasFoldingRecipe> ENDEC = StructEndecBuilder.of(
+            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("template", recipe -> recipe.template),
+            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("base", recipe -> recipe.base),
+            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("addition", recipe -> recipe.addition),
+            BuiltInEndecs.ITEM_STACK.fieldOf("result", recipe -> recipe.result),
+            MidasFoldingRecipe::new
         );
 
-        public static final PacketCodec<RegistryByteBuf, MidasFoldingRecipe> PACKET_CODEC = PacketCodec.ofStatic(
-            MidasFoldingRecipe.Serializer::write, MidasFoldingRecipe.Serializer::read
-        );
-
-        @Override
-        public PacketCodec<RegistryByteBuf, MidasFoldingRecipe> packetCodec() {
-            return PACKET_CODEC;
-        }
-
-        @Override
-        public MapCodec<MidasFoldingRecipe> codec() {
-            return CODEC;
-        }
-
-        private static MidasFoldingRecipe read(RegistryByteBuf buf) {
-            Ingredient ingredient = Ingredient.PACKET_CODEC.decode(buf);
-            Ingredient ingredient2 = Ingredient.PACKET_CODEC.decode(buf);
-            Ingredient ingredient3 = Ingredient.PACKET_CODEC.decode(buf);
-            ItemStack itemStack = ItemStack.PACKET_CODEC.decode(buf);
-            return new MidasFoldingRecipe(ingredient, ingredient2, ingredient3, itemStack);
-        }
-
-        private static void write(RegistryByteBuf buf, MidasFoldingRecipe smithingRecipe) {
-            Ingredient.PACKET_CODEC.encode(buf, smithingRecipe.template);
-            Ingredient.PACKET_CODEC.encode(buf, smithingRecipe.base);
-            Ingredient.PACKET_CODEC.encode(buf, smithingRecipe.addition);
-            ItemStack.PACKET_CODEC.encode(buf, smithingRecipe.result);
+        public Serializer() {
+            super(ENDEC);
         }
     }
 }
