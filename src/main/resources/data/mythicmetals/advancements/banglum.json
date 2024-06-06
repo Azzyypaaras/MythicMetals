@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.banglum.description"
     },
     "icon": {
-      "item": "mythicmetals:banglum_ore"
+      "id": "mythicmetals:banglum_ore"
     },
     "frame": "task",
     "show_toast": true,

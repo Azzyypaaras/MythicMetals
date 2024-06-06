@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.mythril.description"
     },
     "icon": {
-      "item": "mythicmetals:deepslate_mythril_ore"
+      "id": "mythicmetals:deepslate_mythril_ore"
     },
     "frame": "task",
     "show_toast": true,

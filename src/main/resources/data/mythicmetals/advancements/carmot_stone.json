@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.carmot_stone.description"
     },
     "icon": {
-      "item": "mythicmetals:carmot_stone"
+      "id": "mythicmetals:carmot_stone"
     },
     "frame": "task",
     "show_toast": true,

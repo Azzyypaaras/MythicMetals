@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.adamantite.description"
     },
     "icon": {
-      "item": "mythicmetals:deepslate_adamantite_ore"
+      "id": "mythicmetals:deepslate_adamantite_ore"
     },
     "frame": "task",
     "show_toast": true,

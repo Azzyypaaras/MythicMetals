@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.starrite.description"
     },
     "icon": {
-      "item": "mythicmetals:end_stone_starrite_ore"
+      "id": "mythicmetals:end_stone_starrite_ore"
     },
     "frame": "task",
     "show_toast": true,

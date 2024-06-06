@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.osmium.description"
     },
     "icon": {
-      "item": "mythicmetals:osmium_ore"
+      "id": "mythicmetals:osmium_ore"
     },
     "frame": "task",
     "show_toast": true,

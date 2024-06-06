@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.prometheum.description"
     },
     "icon": {
-      "item": "mythicmetals:deepslate_prometheum_ore"
+      "id": "mythicmetals:deepslate_prometheum_ore"
     },
     "frame": "task",
     "show_toast": true,

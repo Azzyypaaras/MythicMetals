@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.kyber.description"
     },
     "icon": {
-      "item": "mythicmetals:calcite_kyber_ore"
+      "id": "mythicmetals:calcite_kyber_ore"
     },
     "frame": "task",
     "show_toast": true,

@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.intentional_combusting_mechanics.description"
     },
     "icon": {
-      "item": "mythicmetals:palladium_ingot"
+      "id": "mythicmetals:palladium_ingot"
     },
     "frame": "challenge",
     "show_toast": true,

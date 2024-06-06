@@ -25,7 +25,7 @@ public class SimpleCriteria extends AbstractCriterion<SimpleCriteria.Conditions>
     public record Conditions(Optional<LootContextPredicate> player) implements AbstractCriterion.Conditions {
 
         public static final Codec<Conditions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codecs.optional(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC).fieldOf("player").forGetter(Conditions::player)
+                EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(Conditions::player)
         ).apply(instance, Conditions::new));
     }
 }

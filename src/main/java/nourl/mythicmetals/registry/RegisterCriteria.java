@@ -1,5 +1,6 @@
 package nourl.mythicmetals.registry;
 
+import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.Criterion;
@@ -21,6 +22,6 @@ public class RegisterCriteria implements SimpleFieldProcessingSubject<Criterion<
 
     @Override
     public Class<Criterion<?>> getTargetFieldType() {
-        return ((Class<Criterion<?>>) (Object) Criterion.class);
+        return AutoRegistryContainer.conform(Criterion.class);
     }
 }

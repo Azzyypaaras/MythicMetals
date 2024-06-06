@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.gilded_midas_gold_sword.description"
     },
     "icon": {
-      "item": "mythicmetals:gilded_midas_gold_sword"
+      "id": "mythicmetals:gilded_midas_gold_sword"
     },
     "frame": "goal",
     "show_toast": true,

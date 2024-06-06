@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.metallurgium.description"
     },
     "icon": {
-      "item": "mythicmetals:metallurgium_ingot"
+      "id": "mythicmetals:metallurgium_ingot"
     },
     "frame": "challenge",
     "show_toast": true,

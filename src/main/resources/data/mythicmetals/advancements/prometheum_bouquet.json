@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.prometheum_bouquet.description"
     },
     "icon": {
-      "item": "mythicmetals:prometheum_bouquet"
+      "id": "mythicmetals:prometheum_bouquet"
     },
     "frame": "goal",
     "show_toast": true,

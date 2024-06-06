@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.royal_midas_smithing_template.description"
     },
     "icon": {
-      "item": "mythicmetals:royal_midas_smithing_template"
+      "id": "mythicmetals:royal_midas_smithing_template"
     },
     "frame": "goal",
     "show_toast": true,

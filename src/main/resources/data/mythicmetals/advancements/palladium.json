@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.palladium.description"
     },
     "icon": {
-      "item": "mythicmetals:palladium_ore"
+      "id": "mythicmetals:palladium_ore"
     },
     "frame": "goal",
     "show_toast": true,
