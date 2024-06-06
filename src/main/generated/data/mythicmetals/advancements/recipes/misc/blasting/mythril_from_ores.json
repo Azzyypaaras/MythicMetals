@@ -5,7 +5,10 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:mythril_ingot"
+            "items": [
+              "mythicmetals:deepslate_mythril_ore",
+              "mythicmetals:mythril_ore"
+            ]
           }
         ]
       },

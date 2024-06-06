@@ -5,7 +5,10 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:adamantite_ingot"
+            "items": [
+              "mythicmetals:deepslate_adamantite_ore",
+              "mythicmetals:adamantite_ore"
+            ]
           }
         ]
       },

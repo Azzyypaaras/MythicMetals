@@ -5,7 +5,10 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:stormyx_ingot"
+            "items": [
+              "mythicmetals:blackstone_stormyx_ore",
+              "mythicmetals:stormyx_ore"
+            ]
           }
         ]
       },

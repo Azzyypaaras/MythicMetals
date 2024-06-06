@@ -18,7 +18,7 @@ public class MythicMetalsData implements DataGeneratorEntrypoint {
         data.addProvider(MythicBlockTagProvider::new);
         data.addProvider(MythicItemTagProvider::new);
         data.addProvider(MythicMetalsDynamicRegistryProvider::new);
-        data.addProvider(MythicRecipeProviders::new);
+        data.addProvider(MythicRecipeProvider::new);
     }
 
     @Override

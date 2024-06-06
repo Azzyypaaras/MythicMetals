@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:midas_gold_ingot"
+            "items": "mythicmetals:raw_midas_gold"
           }
         ]
       },

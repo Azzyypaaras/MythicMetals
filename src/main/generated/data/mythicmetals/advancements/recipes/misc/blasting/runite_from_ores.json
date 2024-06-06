@@ -5,7 +5,10 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:runite_ingot"
+            "items": [
+              "mythicmetals:deepslate_runite_ore",
+              "mythicmetals:runite_ore"
+            ]
           }
         ]
       },

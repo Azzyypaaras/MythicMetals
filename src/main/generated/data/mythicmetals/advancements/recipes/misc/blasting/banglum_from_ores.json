@@ -5,7 +5,10 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:banglum_ingot"
+            "items": [
+              "mythicmetals:nether_banglum_ore",
+              "mythicmetals:banglum_ore"
+            ]
           }
         ]
       },
