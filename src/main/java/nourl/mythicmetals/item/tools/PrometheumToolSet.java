@@ -1,23 +1,22 @@
 package nourl.mythicmetals.item.tools;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import io.wispforest.owo.nbt.NbtKey;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.*;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.*;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import nourl.mythicmetals.data.MythicTags;
-
 import java.util.UUID;
 
+/**
+ * Prometheum Tools use the {@link AutoRepairable} interface and
+ * {@link MythicTags#PROMETHEUM_TOOLS} tag in order to provide their functionality
+ */
 public class PrometheumToolSet extends ToolSet {
     public static final NbtKey<Integer> DURABILITY_REPAIRED = new NbtKey<>("DurabilityRepaired", NbtKey.Type.INT);
-    private static final int OVERGROWN_THRESHOLD = 1200;
+    public static final int OVERGROWN_THRESHOLD = 1200;
 
     public PrometheumToolSet(ToolMaterial material, int[] damage, float[] speed) {
         super(material, damage, speed);
@@ -54,19 +53,8 @@ public class PrometheumToolSet extends ToolSet {
         }
 
         @Override
-        public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-            if (slot != EquipmentSlot.MAINHAND || (stack.get(DURABILITY_REPAIRED) < OVERGROWN_THRESHOLD)) return super.getAttributeModifiers(slot);
-
-            var modifiers = HashMultimap.create(super.getAttributeModifiers(slot));
-
-            modifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, createToolModifier(stack));
-
-            return modifiers;
-        }
-
-        @Override
         public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-            if (!world.isClient()) tickAutoRepair(stack, world.getRandom());
+            tickAutoRepair(stack, world);
             super.inventoryTick(stack, world, entity, slot, selected);
         }
     }
@@ -77,19 +65,8 @@ public class PrometheumToolSet extends ToolSet {
         }
 
         @Override
-        public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-            if (slot != EquipmentSlot.MAINHAND || (stack.get(DURABILITY_REPAIRED) < OVERGROWN_THRESHOLD)) return super.getAttributeModifiers(slot);
-
-            var modifiers = HashMultimap.create(super.getAttributeModifiers(slot));
-
-            modifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, createToolModifier(stack));
-
-            return modifiers;
-        }
-
-        @Override
         public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-            if (!world.isClient()) tickAutoRepair(stack, world.getRandom());
+            tickAutoRepair(stack, world);
             super.inventoryTick(stack, world, entity, slot, selected);
         }
     }
@@ -100,19 +77,8 @@ public class PrometheumToolSet extends ToolSet {
         }
 
         @Override
-        public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-            if (slot != EquipmentSlot.MAINHAND || (stack.get(DURABILITY_REPAIRED) < OVERGROWN_THRESHOLD)) return super.getAttributeModifiers(slot);
-
-            var modifiers = HashMultimap.create(super.getAttributeModifiers(slot));
-
-            modifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, createToolModifier(stack));
-
-            return modifiers;
-        }
-
-        @Override
         public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-            if (!world.isClient()) tickAutoRepair(stack, world.getRandom());
+            tickAutoRepair(stack, world);
             super.inventoryTick(stack, world, entity, slot, selected);
         }
     }
@@ -123,19 +89,8 @@ public class PrometheumToolSet extends ToolSet {
         }
 
         @Override
-        public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-            if (slot != EquipmentSlot.MAINHAND || (stack.get(DURABILITY_REPAIRED) < OVERGROWN_THRESHOLD)) return super.getAttributeModifiers(slot);
-
-            var modifiers = HashMultimap.create(super.getAttributeModifiers(slot));
-
-            modifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, createToolModifier(stack));
-
-            return modifiers;
-        }
-
-        @Override
         public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-            if (!world.isClient()) tickAutoRepair(stack, world.getRandom());
+            tickAutoRepair(stack, world);
             super.inventoryTick(stack, world, entity, slot, selected);
         }
     }
@@ -146,19 +101,8 @@ public class PrometheumToolSet extends ToolSet {
         }
 
         @Override
-        public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-            if (slot != EquipmentSlot.MAINHAND || (stack.get(DURABILITY_REPAIRED) < OVERGROWN_THRESHOLD)) return super.getAttributeModifiers(slot);
-
-            var modifiers = HashMultimap.create(super.getAttributeModifiers(slot));
-
-            modifiers.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, createToolModifier(stack));
-
-            return modifiers;
-        }
-
-        @Override
         public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-            if (!world.isClient()) tickAutoRepair(stack, world.getRandom());
+            tickAutoRepair(stack, world);
             super.inventoryTick(stack, world, entity, slot, selected);
         }
     }
@@ -176,12 +120,13 @@ public class PrometheumToolSet extends ToolSet {
 
     /**
      * Applies auto repair onto the item in question
-     * Only call this on the server, not on the client!
      *
      * @param stack ItemStack to repair
-     * @param r     Any Minecraft Math {@link Random}
+     * @param world The world the item stack exists in
      */
-    public static void tickAutoRepair(ItemStack stack, Random r) {
+    public static void tickAutoRepair(ItemStack stack, World world) {
+        if (world.isClient()) return;
+        var random = world.getRandom();
         if (!stack.isDamaged()) return; // Don't handle auto repair if item is fully repaired
 
         if (!stack.has(PrometheumToolSet.DURABILITY_REPAIRED)) {
@@ -189,7 +134,7 @@ public class PrometheumToolSet extends ToolSet {
         }
 
         var dmg = stack.getDamage();
-        var rng = r.nextInt(200);
+        var rng = random.nextInt(200);
 
         if (rng != 177) return; // Roll for repair, ignore if roll fails. Number is arbitrary
 
@@ -207,6 +152,10 @@ public class PrometheumToolSet extends ToolSet {
         PrometheumToolSet.incrementRepairCounter(stack, damageToRepair);
     }
 
+    /**
+     * Create and return a modifier for extra attack damage depending on durability repaired
+     * @param stack Used to query the NBT on the tool
+     */
     public static EntityAttributeModifier createToolModifier(ItemStack stack) {
         return new EntityAttributeModifier(
                 UUID.fromString("69def8b1-1baa-401e-a7cb-b27ab9a55558"),

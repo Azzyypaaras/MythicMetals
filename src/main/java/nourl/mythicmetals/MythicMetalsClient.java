@@ -111,11 +111,15 @@ public class MythicMetalsClient implements ClientModInitializer {
 
     private void registerPrometheumTooltips() {
         ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
-            if (stack.isIn(MythicTags.PROMETHEUM_TOOLS) && PrometheumToolSet.isOvergrown(stack)) {
-                Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
+            if (stack.isIn(MythicTags.PROMETHEUM_TOOLS)) {
+                Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.mending");
+                if (PrometheumToolSet.isOvergrown(stack)) {
+                    Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
+                }
             }
 
             if (stack.isIn(MythicTags.PROMETHEUM_ARMOR)) {
+                Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.mending");
                 if (PrometheumToolSet.isOvergrown(stack)) {
                     Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.overgrown");
                 }
