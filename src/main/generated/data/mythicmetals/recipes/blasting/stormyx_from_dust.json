@@ -1,7 +1,7 @@
 {
   "fabric:load_conditions": [
     {
-      "condition": "mythicmetals:nuggets_enabled"
+      "condition": "mythicmetals:dust_enabled"
     }
   ],
   "type": "minecraft:blasting",

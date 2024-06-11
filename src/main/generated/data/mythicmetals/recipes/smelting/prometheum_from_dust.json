@@ -1,4 +1,9 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "mythicmetals:dust_enabled"
+    }
+  ],
   "type": "minecraft:smelting",
   "category": "misc",
   "cookingtime": 200,

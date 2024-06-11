@@ -12,7 +12,7 @@ public class DustLoadedCondition implements ResourceCondition {
 
     @Override
     public ResourceConditionType<?> getType() {
-        return MythicResourceConditions.NUGGETS;
+        return MythicResourceConditions.DUSTS;
     }
 
     @Override
