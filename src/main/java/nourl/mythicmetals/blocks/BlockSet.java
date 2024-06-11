@@ -190,7 +190,7 @@ public class BlockSet {
         private float currentResistance = -1;
         private final Multimap<Block, Identifier> miningLevels = HashMultimap.create();
         private final Multimap<AnvilBlock, Identifier> anvilMap = HashMultimap.create();
-        private final Consumer<FabricBlockSettings> settingsProcessor = fabricBlockSettings -> {
+        private final Consumer<AbstractBlock.Settings> settingsProcessor = settings -> {
         };
 
         private final Identifier SHOVEL = new Identifier("mineable/shovel");
@@ -231,8 +231,8 @@ public class BlockSet {
          * @param resistance Determines blast resistance of a block.
          * @param sounds     Determines the sounds that blocks play when interacted with.
          */
-        private static FabricBlockSettings blockSettings(float hardness, float resistance, BlockSoundGroup sounds) {
-            return FabricBlockSettings.create()
+        private static AbstractBlock.Settings blockSettings(float hardness, float resistance, BlockSoundGroup sounds) {
+            return AbstractBlock.Settings.create()
                     .strength(hardness, resistance)
                     .sounds(sounds)
                     .solid()
@@ -387,7 +387,7 @@ public class BlockSet {
          * @see Builder
          */
         public Builder createLuminantOre(Identifier miningLevel, UniformIntProvider experience, int luminance) {
-            final var settings = blockSettings(currentHardness, currentResistance, currentSounds).luminance(luminance);
+            final var settings = blockSettings(currentHardness, currentResistance, currentSounds).luminance(blockState -> luminance);
             settingsProcessor.accept(settings);
             this.ore = new ExperienceDroppingBlock(ConstantIntProvider.ZERO, settings);
             miningLevels.put(ore, miningLevel);
@@ -436,7 +436,7 @@ public class BlockSet {
          * @param experience  An {@link UniformIntProvider}, which holds the range of xp that can drop.
          */
         public Builder createOreVariant(String name, Identifier miningLevel, UniformIntProvider experience, int luminance) {
-            final var settings = blockSettings(currentHardness, currentResistance, currentSounds).luminance(luminance);
+            final var settings = blockSettings(currentHardness, currentResistance, currentSounds).luminance(blockState -> luminance);
             settingsProcessor.accept(settings);
             this.oreVariants.put(name, new ExperienceDroppingBlock(experience, settings));
             miningLevels.put(oreVariants.get(name), miningLevel);
@@ -579,7 +579,7 @@ public class BlockSet {
             return this;
         }
 
-        public Builder createCustomStorageBlock(Identifier miningLevel, FabricBlockSettings settings) {
+        public Builder createCustomStorageBlock(Identifier miningLevel, AbstractBlock.Settings settings) {
             settingsProcessor.accept(settings);
             this.storageBlock = new Block(settings);
             miningLevels.put(storageBlock, miningLevel);
