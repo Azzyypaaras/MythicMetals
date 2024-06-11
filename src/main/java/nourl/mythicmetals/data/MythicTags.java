@@ -9,10 +9,10 @@ import nourl.mythicmetals.misc.RegistryHelper;
 
 public class MythicTags {
 
-    public static final TagKey<Item> CARMOT_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("carmot_armor"));
-    public static final TagKey<Item> PROMETHEUM_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("prometheum_armor"));
-    public static final TagKey<Item> PROMETHEUM_TOOLS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("prometheum_tools"));
-    public static final TagKey<Item> PROMETHEUM_EQUIPMENT = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("prometheum_equipment"));
+    public static final TagKey<Item> CARMOT_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("armor/carmot"));
+    public static final TagKey<Item> PROMETHEUM_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("armor/prometheum"));
+    public static final TagKey<Item> PROMETHEUM_TOOLS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tools/prometheum"));
+    public static final TagKey<Item> PROMETHEUM_EQUIPMENT = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("equipment/prometheum"));
     public static final TagKey<Item> CARMOT_STAFF_BLOCKS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("carmot_staff_blocks"));
     public static final TagKey<Item> GILDED_MIDAS_SWORDS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("gilded_midas_swords"));
     public static final TagKey<Item> TIDESINGER_CORAL = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tidesinger_coral"));
