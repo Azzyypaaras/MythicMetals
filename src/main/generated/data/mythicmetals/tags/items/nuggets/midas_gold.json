@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:midas_gold_nugget"
+    {
+      "id": "mythicmetals:midas_gold_nugget",
+      "required": false
+    }
   ]
 }

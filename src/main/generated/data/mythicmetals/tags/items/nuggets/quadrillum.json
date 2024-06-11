@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:quadrillum_nugget"
+    {
+      "id": "mythicmetals:quadrillum_nugget",
+      "required": false
+    }
   ]
 }

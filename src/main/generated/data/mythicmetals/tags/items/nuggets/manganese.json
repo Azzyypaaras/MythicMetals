@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:manganese_nugget"
+    {
+      "id": "mythicmetals:manganese_nugget",
+      "required": false
+    }
   ]
 }

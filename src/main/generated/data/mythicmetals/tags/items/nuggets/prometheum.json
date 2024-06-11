@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:prometheum_nugget"
+    {
+      "id": "mythicmetals:prometheum_nugget",
+      "required": false
+    }
   ]
 }

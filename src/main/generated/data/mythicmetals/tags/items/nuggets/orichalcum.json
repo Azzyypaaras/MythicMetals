@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:orichalcum_nugget"
+    {
+      "id": "mythicmetals:orichalcum_nugget",
+      "required": false
+    }
   ]
 }

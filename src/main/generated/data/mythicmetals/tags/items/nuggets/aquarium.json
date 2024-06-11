@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:aquarium_nugget"
+    {
+      "id": "mythicmetals:aquarium_nugget",
+      "required": false
+    }
   ]
 }

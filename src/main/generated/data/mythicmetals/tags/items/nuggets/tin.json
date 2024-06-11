@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:tin_nugget"
+    {
+      "id": "mythicmetals:tin_nugget",
+      "required": false
+    }
   ]
 }

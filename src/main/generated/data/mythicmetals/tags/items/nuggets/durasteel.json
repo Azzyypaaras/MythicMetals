@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:durasteel_nugget"
+    {
+      "id": "mythicmetals:durasteel_nugget",
+      "required": false
+    }
   ]
 }

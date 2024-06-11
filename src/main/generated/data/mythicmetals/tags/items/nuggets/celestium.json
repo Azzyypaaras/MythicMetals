@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:celestium_nugget"
+    {
+      "id": "mythicmetals:celestium_nugget",
+      "required": false
+    }
   ]
 }

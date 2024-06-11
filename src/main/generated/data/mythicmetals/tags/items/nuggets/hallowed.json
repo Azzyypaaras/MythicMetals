@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:hallowed_nugget"
+    {
+      "id": "mythicmetals:hallowed_nugget",
+      "required": false
+    }
   ]
 }

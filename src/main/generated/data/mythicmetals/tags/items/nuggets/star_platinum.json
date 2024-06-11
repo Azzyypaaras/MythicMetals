@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:star_platinum_nugget"
+    {
+      "id": "mythicmetals:star_platinum_nugget",
+      "required": false
+    }
   ]
 }

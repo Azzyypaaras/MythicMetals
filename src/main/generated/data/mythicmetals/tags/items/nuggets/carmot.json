@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:carmot_nugget"
+    {
+      "id": "mythicmetals:carmot_nugget",
+      "required": false
+    }
   ]
 }

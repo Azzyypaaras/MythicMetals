@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:osmium_nugget"
+    {
+      "id": "mythicmetals:osmium_nugget",
+      "required": false
+    }
   ]
 }

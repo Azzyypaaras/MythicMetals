@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:kyber_nugget"
+    {
+      "id": "mythicmetals:kyber_nugget",
+      "required": false
+    }
   ]
 }

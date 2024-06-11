@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:mythril_nugget"
+    {
+      "id": "mythicmetals:mythril_nugget",
+      "required": false
+    }
   ]
 }

@@ -117,11 +117,11 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 var modTag = MythicMetalsData.createModItemTag(string);
                 var commonTag = ConventionalItemTags.NUGGETS;
                 getOrCreateTagBuilder(modTag)
-                    .add(itemSet.getNugget());
+                    .addOptional(Registries.ITEM.getId(itemSet.getNugget()));
                 getOrCreateTagBuilder(modRawOreTag)
-                    .add(itemSet.getNugget());
+                    .addOptional(Registries.ITEM.getId(itemSet.getNugget()));
                 getOrCreateTagBuilder(commonTag)
-                    .addTag(modTag);
+                    .addOptionalTag(modTag);
             }
 
             /*

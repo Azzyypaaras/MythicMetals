@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:palladium_nugget"
+    {
+      "id": "mythicmetals:palladium_nugget",
+      "required": false
+    }
   ]
 }

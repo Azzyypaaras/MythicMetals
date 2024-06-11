@@ -1,5 +1,8 @@
 {
   "values": [
-    "mythicmetals:banglum_nugget"
+    {
+      "id": "mythicmetals:banglum_nugget",
+      "required": false
+    }
   ]
 }
