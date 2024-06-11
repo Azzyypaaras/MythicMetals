@@ -108,7 +108,13 @@ public class MythicBlocks {
         .createAnvil(IRON_MINING_LEVEL)
         .finish();
 
-    public static final Block ENCHANTED_MIDAS_GOLD_BLOCK = new EnchantedMidasGoldBlock(FabricBlockSettings.copyOf(MIDAS_GOLD.getStorageBlock()));
+    public static final Block ENCHANTED_MIDAS_GOLD_BLOCK = new EnchantedMidasGoldBlock(AbstractBlock.Settings.copy(MIDAS_GOLD.getStorageBlock()));
+    public static final Item ENCHANTED_MIDAS_GOLD_BLOCK_ITEM = new BlockItem(ENCHANTED_MIDAS_GOLD_BLOCK, new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(1).rarity(Rarity.UNCOMMON)) {
+        @Override
+        public boolean hasGlint(ItemStack stack) {
+            return true;
+        }
+    };
 
     public static final BlockSet MYTHRIL = BlockSet.Builder.begin("mythril", false)
         .createDefaultSet(5F, DIAMOND_MINING_LEVEL, DIAMOND_MINING_LEVEL)
@@ -204,14 +210,9 @@ public class MythicBlocks {
         RegistryHelper.block("banglum_tnt", BANGLUM_TNT_BLOCK);
         RegistryHelper.block("banglum_nuke_core", BANGLUM_NUKE_CORE);
         RegistryHelper.block("carmot_nuke_core", CARMOT_NUKE_CORE);
-        // Manually registering these in order to get the glint. Using RegistryHelper creates a block item, I don't want that
+        // Manually registering these in order to get the glint
         Registry.register(Registries.BLOCK, RegistryHelper.id("enchanted_midas_gold_block"), ENCHANTED_MIDAS_GOLD_BLOCK);
-        Registry.register(Registries.ITEM, RegistryHelper.id("enchanted_midas_gold_block"), new BlockItem(ENCHANTED_MIDAS_GOLD_BLOCK, new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(1).rarity(Rarity.UNCOMMON)) {
-            @Override
-            public boolean hasGlint(ItemStack stack) {
-                return true;
-            }
-        });
+        Registry.register(Registries.ITEM, RegistryHelper.id("enchanted_midas_gold_block"), ENCHANTED_MIDAS_GOLD_BLOCK_ITEM);
         RegistryHelper.block("quadrillum_nuke_core", QUADRILLUM_NUKE_CORE);
         RegistryHelper.block("sponge_nuke_core", SPONGE_NUKE_CORE);
     }

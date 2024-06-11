@@ -133,7 +133,7 @@ public class MythrilDrill extends PickaxeItem {
             if (!drill.contains(MythicDataComponents.UPGRADES)) return false;
 
             var upgrades = drill.get(MythicDataComponents.UPGRADES);
-            if (upgrades.hasFreeSlots()) {
+            if (upgrades != null && upgrades.hasFreeSlots()) {
                 if (cursorItem.equals(Items.AIR)) return false;
                 if (!drillUpgrades.containsKey(cursorItem) || upgrades.hasUpgrade(cursorItem)) return false;
                 // Apply drill upgrade
@@ -190,7 +190,7 @@ public class MythrilDrill extends PickaxeItem {
                 if (!stack.contains(MythicDataComponents.PROMETHEUM)) {
                     stack.set(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
                 }
-                PrometheumComponent.tickAutoRepair(stack, world.getRandom());
+                PrometheumComponent.tickAutoRepair(stack, world);
             }
         }
         super.inventoryTick(stack, world, entity, slot, selected);
@@ -266,7 +266,7 @@ public class MythrilDrill extends PickaxeItem {
 
         var attributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         var upgrades = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
-        if (upgrades.hasUpgrade(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem())) {
+        if (upgrades.hasUpgrade(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK_ITEM)) {
             var modifier = new EntityAttributeModifier(LUCK_BONUS_ID, "mythril drill luck bonus", 1.0, EntityAttributeModifier.Operation.ADD_VALUE);
             var upgradeAttributes = attributes.with(EntityAttributes.GENERIC_LUCK, modifier, AttributeModifierSlot.MAINHAND);
             stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, upgradeAttributes);

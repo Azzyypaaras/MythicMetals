@@ -40,7 +40,7 @@ public record DrillComponent(int fuel, boolean isActive) implements TooltipAppen
     public static Map<Item, String> drillUpgrades = Util.make(new HashMap<>(), map -> {
         map.put(MythicItems.Mats.AQUARIUM_PEARL, "aquarium");
         map.put(MythicItems.Mats.CARMOT_STONE, "carmot");
-        map.put(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem(), "midas_gold");
+        map.put(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK_ITEM, "midas_gold");
         map.put(MythicItems.Mats.PROMETHEUM_BOUQUET, "prometheum");
         map.put(MythicItems.Mats.STORMYX_SHELL, "stormyx");
         map.put(Items.AIR, "empty");
