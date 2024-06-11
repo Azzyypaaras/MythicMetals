@@ -1,11 +1,9 @@
 package nourl.mythicmetals.item;
 
 import io.wispforest.owo.itemgroup.OwoItemSettings;
-import io.wispforest.owo.util.TagInjector;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.misc.RegistryHelper;
 import java.util.function.Consumer;
@@ -50,8 +48,6 @@ public class ItemSet {
         }
         if (nuggetItem != null) {
             Registry.register(Registries.ITEM, RegistryHelper.id(name + "_nugget"), nuggetItem);
-            // Conditionally add nuggets to nuggets tag
-            TagInjector.inject(Registries.ITEM, new Identifier("c", "nuggets"), nuggetItem);
         }
         if (dustItem != null) {
             Registry.register(Registries.ITEM, RegistryHelper.id(name + "_dust"), dustItem);

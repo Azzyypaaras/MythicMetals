@@ -13,6 +13,7 @@ import nourl.mythicmetals.item.ItemSet;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.MythicTools;
 import nourl.mythicmetals.item.tools.ToolSet;
+import nourl.mythicmetals.misc.RegistryHelper;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -83,18 +84,70 @@ public class MythicItemDataProvider extends FabricTagProvider.ItemTagProvider {
              * #mythicmetals:raw_adamantite_ores
              * #c:raw_adamantite_ores
              * #mythicmetals:raw_ores
+             * At the end #mythicmetals:raw_ores is nested into #c:raw_ores
              */
+            var modRawOreTag = MythicMetalsData.createModItemTag("raw_ores");
+            var commonRawOreTag = MythicMetalsData.createCommonItemTag("raw_ores");
             if (itemSet.getRawOre() != null) {
                 var string = "raw_" + name + "_ores";
-                var modRawOreTag = MythicMetalsData.createModItemTag("raw_ores");
-
                 var modTag = MythicMetalsData.createModItemTag(string);
                 var commonTag = MythicMetalsData.createCommonItemTag(string);
                 getOrCreateTagBuilder(modTag).add(itemSet.getRawOre());
                 getOrCreateTagBuilder(modRawOreTag).add(itemSet.getRawOre());
                 getOrCreateTagBuilder(commonTag).addTag(modTag);
             }
+            getOrCreateTagBuilder(commonRawOreTag).addTag(modRawOreTag);
+
+            /*
+             * Create (optional) dust tags. Example:
+             * Adamantite Dust is added to the following:
+             * #mythicmetals:adamantite_dusts
+             * #c:adamantite_dusts
+             * #mythicmetals:dusts
+             * At the end #mythicmetals:dusts is nested into #c:dusts
+             */
+            var modDustsTag = MythicMetalsData.createModItemTag("dusts");
+            var commonDustsTag = MythicMetalsData.createCommonItemTag("dusts");
+            if (itemSet.getDust() != null) {
+                var string = name + "_dusts";
+                var modTag = MythicMetalsData.createModItemTag(string);
+                var commonTag = MythicMetalsData.createCommonItemTag(string);
+                getOrCreateTagBuilder(modTag).addOptional(reverseLookup(itemSet.getDust()));
+                getOrCreateTagBuilder(modDustsTag).addOptional(reverseLookup(itemSet.getDust()));
+                getOrCreateTagBuilder(commonTag).addTag(modTag);
+            }
+            getOrCreateTagBuilder(commonDustsTag).addTag(modDustsTag);
+
+            /*
+             * Create (optional) nugget tags. Example:
+             * Adamantite Nugget is added to the following:
+             * #mythicmetals:adamantite_nuggets
+             * #c:adamantite_nuggets
+             * #mythicmetals:nuggets
+             * At the end #mythicmetals:nuggets is nested into #c:nuggets
+             */
+            var modNuggetsTag = MythicMetalsData.createModItemTag("nuggets");
+            var commonNuggetsTag = MythicMetalsData.createCommonItemTag("nuggets");
+            if (itemSet.getNugget() != null) {
+                var string = name + "_nuggets";
+                var modTag = MythicMetalsData.createModItemTag(string);
+                var commonTag = MythicMetalsData.createCommonItemTag(string);
+                getOrCreateTagBuilder(modTag).addOptional(reverseLookup(itemSet.getNugget()));
+                getOrCreateTagBuilder(modNuggetsTag).addOptional(reverseLookup(itemSet.getNugget()));
+                getOrCreateTagBuilder(commonTag).addTag(modTag);
+            }
+            getOrCreateTagBuilder(commonNuggetsTag).addTag(modNuggetsTag);
         });
+
+        /*
+         * Edge cases for Copper
+         */
+        getOrCreateTagBuilder(MythicMetalsData.createModItemTag("copper_dusts")).addOptional(RegistryHelper.id("copper_dust"));
+        getOrCreateTagBuilder(MythicMetalsData.createCommonItemTag("copper_dusts")).addTag(MythicMetalsData.createModItemTag("copper_dusts"));
+        getOrCreateTagBuilder(MythicMetalsData.createModItemTag("dusts")).addOptional(RegistryHelper.id("copper_dust"));
+        getOrCreateTagBuilder(MythicMetalsData.createModItemTag("copper_nuggets")).addOptional(RegistryHelper.id("copper_nugget"));
+        getOrCreateTagBuilder(MythicMetalsData.createCommonItemTag("copper_nuggets")).addTag(MythicMetalsData.createModItemTag("copper_nuggets"));
+        getOrCreateTagBuilder(MythicMetalsData.createModItemTag("nuggets")).addOptional(RegistryHelper.id("copper_nugget"));
 
         ReflectionUtils.iterateAccessibleStaticFields(MythicItems.Mats.class, Item.class, (item, name, field) -> {
             if (item.equals(MythicItems.Mats.STARRITE) || item.equals(MythicItems.Mats.UNOBTAINIUM) || item.equals(MythicItems.Mats.MORKITE)) {
