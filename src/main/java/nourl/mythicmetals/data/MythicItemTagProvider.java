@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import nourl.mythicmetals.armor.ArmorSet;
@@ -15,7 +16,6 @@ import nourl.mythicmetals.item.ItemSet;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.MythicTools;
 import nourl.mythicmetals.item.tools.ToolSet;
-
 import java.util.concurrent.CompletableFuture;
 
 public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
@@ -80,9 +80,9 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
             /*
              * Create raw ore tags. Example:
              * Raw Adamantite is added to the following:
-             * #mythicmetals:raw_adamantite_ores
-             * #c:raw_adamantite_ores
-             * #mythicmetals:raw_ores
+             * - #mythicmetals:raw_materials/adamantite
+             * - #c:raw_materials/adamantite
+             * - #mythicmetals:raw_materials
              */
             if (itemSet.getRawOre() != null) {
                 var string = "raw_materials/" + name;
@@ -101,6 +101,48 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
                     .add(itemSet.getRawOre());
                 getOrCreateTagBuilder(commonTag)
                     .addTag(modTag);
+            }
+
+            /*
+             * Create nugget tags. Example:
+             * Adamantite Nugget is added to the following:
+             * #mythicmetals:nuggets/adamantite
+             * #c:nuggets/adamantite
+             * #mythicmetals:nuggets
+             */
+            if (itemSet.getNugget() != null) {
+                var string = "nuggets/" + name;
+                var modRawOreTag = MythicMetalsData.createModItemTag("nuggets");
+
+                var modTag = MythicMetalsData.createModItemTag(string);
+                var commonTag = ConventionalItemTags.NUGGETS;
+                getOrCreateTagBuilder(modTag)
+                    .add(itemSet.getNugget());
+                getOrCreateTagBuilder(modRawOreTag)
+                    .add(itemSet.getNugget());
+                getOrCreateTagBuilder(commonTag)
+                    .addTag(modTag);
+            }
+
+            /*
+             * Create nugget tags. Example:
+             * Adamantite Nugget is added to the following:
+             * #mythicmetals:nuggets/adamantite
+             * #c:nuggets/adamantite
+             * #mythicmetals:nuggets
+             */
+            if (itemSet.getDust() != null) {
+                var string = "dusts/" + name;
+                var modRawOreTag = MythicMetalsData.createModItemTag("dusts");
+
+                var modTag = MythicMetalsData.createModItemTag(string);
+                var commonTag = ConventionalItemTags.DUSTS;
+                getOrCreateTagBuilder(modTag)
+                    .addOptional(Registries.ITEM.getId(itemSet.getDust()));
+                getOrCreateTagBuilder(modRawOreTag)
+                    .addOptionalTag(Registries.ITEM.getId(itemSet.getDust()));
+                getOrCreateTagBuilder(commonTag)
+                    .addOptionalTag(modTag);
             }
         });
 

@@ -11,7 +11,9 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.TagKey;
 import nourl.mythicmetals.armor.ArmorSet;
 import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.blocks.BlockSet;
@@ -45,6 +47,7 @@ public class MythicRecipeProvider extends FabricRecipeProvider {
             blockSets.put(name, blockSet);
         });
 
+        // Smelting armor into nuggets
         ReflectionUtils.iterateAccessibleStaticFields(MythicArmor.class, ArmorSet.class, (armorSet, name, field) -> {
             if (itemSets.containsKey(name) && itemSets.get(name).getNugget() != null) {
                 var itemSet = itemSets.get(name);
@@ -55,15 +58,16 @@ public class MythicRecipeProvider extends FabricRecipeProvider {
 
                 if (!requiresBlasting) {
                     CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(armorItems), RecipeCategory.MISC, nugget, 0.1f, 200)
-                        .criterion("has_material", conditionsFromItem(nugget))
+                        .criterion("has_material", conditionsFromTag(TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("nuggets/" + name))))
                         .offerTo(exporter, RegistryHelper.id("smelting/" + name.toLowerCase(Locale.ROOT) + "_nugget_from_armor"));
                 }
                 CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(armorItems), RecipeCategory.MISC, nugget, 0.1f, 100)
-                    .criterion("has_material", conditionsFromItem(nugget))
+                    .criterion("has_material", conditionsFromTag(TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("nuggets/" + name))))
                     .offerTo(withConditions(exporter, new NuggetsLoadedCondition()), RegistryHelper.id("blasting/" + name.toLowerCase(Locale.ROOT) + "_nugget_from_armor"));
             }
         });
 
+        // Smelting ore blocks into ingots
         itemSets.forEach((name, itemSet) -> {
             // Smelting Ore Blocks into ingots
             if (blockSets.containsKey(name) && blockSets.get(name).getOre() != null) {
@@ -98,14 +102,15 @@ public class MythicRecipeProvider extends FabricRecipeProvider {
                     .criterion("has_material", conditionsFromItem(itemSet.getRawOre()))
                     .offerTo(exporter, RegistryHelper.id("blasting/" + name.toLowerCase(Locale.ROOT) + "_from_raw_ore"));
             }
+            // Smelting dusts into ingots
             if (itemSet.getDust() != null) {
                 if (!itemSet.requiresBlasting()) {
                     CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(itemSet.getDust()), RecipeCategory.MISC, itemSet.getIngot(), itemSet.getXp(), 200)
-                        .criterion("has_material", conditionsFromItem(itemSet.getDust()))
+                        .criterion("has_material", conditionsFromTag(TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("dusts/" + name))))
                         .offerTo(exporter, RegistryHelper.id("smelting/" + name.toLowerCase(Locale.ROOT) + "_from_dust"));
                 }
                 CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(itemSet.getDust()), RecipeCategory.MISC, itemSet.getIngot(), itemSet.getXp(), 100)
-                    .criterion("has_material", conditionsFromItem(itemSet.getDust()))
+                    .criterion("has_material", conditionsFromTag(TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("dusts/" + name))))
                     .offerTo(withConditions(exporter, new DustLoadedCondition()), RegistryHelper.id("blasting/" + name.toLowerCase(Locale.ROOT) + "_from_dust"));
             }
         });
