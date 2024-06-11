@@ -246,7 +246,7 @@ public class MythrilDrill extends PickaxeItem {
                 stack.put(IS_ACTIVE, false);
             }
             if (hasUpgradeItem(stack, MythicItems.Mats.PROMETHEUM_BOUQUET)) {
-                PrometheumToolSet.tickAutoRepair(stack, world.getRandom());
+                PrometheumToolSet.tickAutoRepair(stack, world);
             }
         }
         super.inventoryTick(stack, world, entity, slot, selected);
