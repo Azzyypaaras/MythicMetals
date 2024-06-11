@@ -17,6 +17,6 @@ public class DustLoadedCondition implements ResourceCondition {
 
     @Override
     public boolean test(@Nullable RegistryWrapper.WrapperLookup registryLookup) {
-        return MythicMetals.CONFIG.enableAnvils();
+        return MythicMetals.CONFIG.enableDusts();
     }
 }
