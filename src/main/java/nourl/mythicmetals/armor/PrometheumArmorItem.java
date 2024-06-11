@@ -15,7 +15,7 @@ public class PrometheumArmorItem extends ArmorItem {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if (!world.isClient()) PrometheumComponent.tickAutoRepair(stack, world.getRandom());
+        PrometheumComponent.tickAutoRepair(stack, world);
         super.inventoryTick(stack, world, entity, slot, selected);
     }
 }

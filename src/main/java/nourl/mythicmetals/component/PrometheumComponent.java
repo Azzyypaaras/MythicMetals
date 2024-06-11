@@ -9,7 +9,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 import nourl.mythicmetals.data.MythicTags;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -27,20 +27,21 @@ public record PrometheumComponent(int durabilityRepaired) implements TooltipAppe
 
     /**
      * Applies auto repair onto the item in question
-     * Only call this on the server, not on the client!
      *
      * @param stack ItemStack to repair
-     * @param r     Any Minecraft Math {@link Random}
+     * @param world World where the ItemStack exists
      */
-    public static void tickAutoRepair(ItemStack stack, Random r) {
+    public static void tickAutoRepair(ItemStack stack, World world) {
         if (!stack.isDamaged()) return; // Don't handle auto repair if item is fully repaired
         if (!stack.contains(MythicDataComponents.PROMETHEUM)) return;
+        if (world.isClient()) return; // Desyncs if done on client
+        var random = world.getRandom();
 
         var component = stack.get(MythicDataComponents.PROMETHEUM);
         assert component != null;
 
         var dmg = stack.getDamage();
-        var rng = r.nextInt(200);
+        var rng = random.nextInt(200);
 
         if (rng != 177) return; // Roll for repair, ignore if roll fails. Number is arbitrary
 

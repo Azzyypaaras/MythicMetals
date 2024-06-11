@@ -47,7 +47,7 @@ public class ItemMixin {
         if (world.isClient()) return;
 
         if (stack.contains(MythicDataComponents.PROMETHEUM)) {
-            PrometheumComponent.tickAutoRepair(stack, world.getRandom());
+            PrometheumComponent.tickAutoRepair(stack, world);
         }
     }
 }
