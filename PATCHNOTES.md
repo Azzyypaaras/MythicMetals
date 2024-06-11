@@ -1,3 +1,16 @@
+# 0.19.9
+
+This is the final release for 1.20.1.
+Only critical issues that prevent the game from running will be fixed.
+
+## Changes
+
+- Add German translations (#187, thanks Kurty00!)
+- Add tags for raw ores, dusts, and nuggets (#243, thanks unilock!)
+- Rework Prometheum handling internally. 
+  - Generally this improves the methods to implement auto repair
+  - This could break compat with some mods until they update
+
 # 0.19.8
 
 ## Changes
