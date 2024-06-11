@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:metallurgium_nugget"
+            "items": "#mythicmetals:nuggets/metallurgium"
           }
         ]
       },

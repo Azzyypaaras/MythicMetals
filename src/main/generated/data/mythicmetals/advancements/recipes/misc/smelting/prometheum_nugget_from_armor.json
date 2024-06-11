@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:prometheum_nugget"
+            "items": "#mythicmetals:nuggets/prometheum"
           }
         ]
       },

@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:celestium_nugget"
+            "items": "#mythicmetals:nuggets/celestium"
           }
         ]
       },

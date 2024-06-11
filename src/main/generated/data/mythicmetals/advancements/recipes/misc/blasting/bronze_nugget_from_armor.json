@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:bronze_nugget"
+            "items": "#mythicmetals:nuggets/bronze"
           }
         ]
       },

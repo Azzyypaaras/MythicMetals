@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:banglum_nugget"
+            "items": "#mythicmetals:nuggets/banglum"
           }
         ]
       },

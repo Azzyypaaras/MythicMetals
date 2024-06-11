@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:hallowed_nugget"
+            "items": "#mythicmetals:nuggets/hallowed"
           }
         ]
       },

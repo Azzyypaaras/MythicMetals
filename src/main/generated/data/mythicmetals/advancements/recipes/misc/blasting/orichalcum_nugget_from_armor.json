@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:orichalcum_nugget"
+            "items": "#mythicmetals:nuggets/orichalcum"
           }
         ]
       },

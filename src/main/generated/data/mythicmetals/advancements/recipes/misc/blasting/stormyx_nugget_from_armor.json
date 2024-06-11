@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:stormyx_nugget"
+            "items": "#mythicmetals:nuggets/stormyx"
           }
         ]
       },

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:kyber_nugget"
+            "items": "#mythicmetals:nuggets/kyber"
           }
         ]
       },

@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:runite_nugget"
+            "items": "#mythicmetals:nuggets/runite"
           }
         ]
       },

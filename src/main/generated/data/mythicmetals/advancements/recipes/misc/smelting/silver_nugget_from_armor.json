@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:silver_nugget"
+            "items": "#mythicmetals:nuggets/silver"
           }
         ]
       },

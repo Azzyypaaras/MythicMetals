@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:palladium_nugget"
+            "items": "#mythicmetals:nuggets/palladium"
           }
         ]
       },

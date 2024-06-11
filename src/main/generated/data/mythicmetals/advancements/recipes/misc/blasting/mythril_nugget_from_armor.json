@@ -10,7 +10,7 @@
       "conditions": {
         "items": [
           {
-            "items": "mythicmetals:mythril_nugget"
+            "items": "#mythicmetals:nuggets/mythril"
           }
         ]
       },
