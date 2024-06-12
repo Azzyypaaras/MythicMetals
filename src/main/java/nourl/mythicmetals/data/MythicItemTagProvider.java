@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
 import nourl.mythicmetals.armor.ArmorSet;
 import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.blocks.BlockSet;
@@ -225,9 +226,7 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         });
 
-        /*
-         * Edge cases from Mythic Tools
-         */
+        // Edge cases from Mythic Tools
         // Swords
         getOrCreateTagBuilder(MythicMetalsData.createModItemTag("tools/melee_weapons"))
             .add(MythicTools.RED_AEGIS_SWORD)
@@ -243,12 +242,21 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
             .add(MythicTools.MIDAS_GOLD_SWORD)
             .add(MythicTools.GILDED_MIDAS_GOLD_SWORD)
             .add(MythicTools.ROYAL_MIDAS_GOLD_SWORD);
+        getOrCreateTagBuilder(ItemTags.SWORD_ENCHANTABLE)
+            .add(MythicTools.RED_AEGIS_SWORD)
+            .add(MythicTools.WHITE_AEGIS_SWORD)
+            .add(MythicTools.WHITE_AEGIS_SWORD)
+            .add(MythicTools.MIDAS_GOLD_SWORD)
+            .add(MythicTools.GILDED_MIDAS_GOLD_SWORD)
+            .add(MythicTools.ROYAL_MIDAS_GOLD_SWORD);
+        // Mining Tools
         getOrCreateTagBuilder(MythicMetalsData.createModItemTag("tools/mining_tools"))
             .add(MythicTools.MYTHRIL_DRILL)
             .add(MythicTools.ORICHALCUM_HAMMER);
         getOrCreateTagBuilder(ConventionalItemTags.MINING_TOOLS)
             .add(MythicTools.MYTHRIL_DRILL)
             .add(MythicTools.ORICHALCUM_HAMMER);
+        // Arrows
         getOrCreateTagBuilder(MythicMetalsData.createModItemTag("arrows"))
             .add(MythicTools.RUNITE_ARROW)
             .add(MythicTools.TIPPED_RUNITE_ARROW)
@@ -270,7 +278,7 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
         ReflectionUtils.iterateAccessibleStaticFields(MythicArmor.class, ArmorSet.class, (armorSet, name, field) -> {
             var modTag = MythicMetalsData.createModItemTag("armor/" + name);
             var modArmorTag = MythicMetalsData.createModItemTag("armors");
-            net.minecraft.registry.tag.TagKey<Item> modEquipmentTag;
+            TagKey<Item> modEquipmentTag;
             var commonTag = ConventionalItemTags.ARMORS;
             var commonEquipmentTag = MythicMetalsData.createModItemTag("equipment");
             // Edge case - Osmium Chainmail is Osmium Equipment
@@ -283,6 +291,23 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
             } else {
                 modEquipmentTag = MythicMetalsData.createModItemTag("equipment/" + name);
                 armorSet.getArmorItems().forEach(armorItem -> {
+                    switch (armorItem.getSlotType()) {
+                        case HEAD -> {
+                            getOrCreateTagBuilder(ItemTags.HEAD_ARMOR_ENCHANTABLE).add(armorItem);
+                        }
+                        case CHEST -> {
+                            getOrCreateTagBuilder(ItemTags.CHEST_ARMOR_ENCHANTABLE).add(armorItem);
+                        }
+                        case LEGS -> {
+                            getOrCreateTagBuilder(ItemTags.LEG_ARMOR_ENCHANTABLE).add(armorItem);
+                        }
+                        case FEET -> {
+                            getOrCreateTagBuilder(ItemTags.FOOT_ARMOR_ENCHANTABLE).add(armorItem);
+                        }
+                        case null, default -> {
+                            // no-op
+                        }
+                    }
                     getOrCreateTagBuilder(modTag).add(armorItem);
                     getOrCreateTagBuilder(modEquipmentTag).add(armorItem);
                 });
