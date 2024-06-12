@@ -199,7 +199,7 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(toolSet.getPickaxe());
 
             // Pickaxes
-            getOrCreateTagBuilder(MythicMetalsData.createModItemTag("pickaxe"))
+            getOrCreateTagBuilder(MythicMetalsData.createModItemTag("pickaxes"))
                 .add(toolSet.getPickaxe());
             getOrCreateTagBuilder(ItemTags.PICKAXES)
                 .add(toolSet.getPickaxe());
