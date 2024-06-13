@@ -1,14 +1,13 @@
 package nourl.mythicmetals.armor;
 
-import net.minecraft.registry.RegistryWrapper;
-import org.ladysnake.cca.api.v3.component.Component;
-import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.MathHelper;
 import nourl.mythicmetals.MythicMetals;
-import nourl.mythicmetals.data.MythicTags;
+import nourl.mythicmetals.registry.RegisterEntityAttributes;
+import org.ladysnake.cca.api.v3.component.Component;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 public class CarmotShield implements Component, AutoSyncedComponent {
     private final PlayerEntity player;
@@ -79,13 +78,11 @@ public class CarmotShield implements Component, AutoSyncedComponent {
         }
     }
 
+    // TODO - Will the rounding here cause issues?
     public float getMaxHealth() {
-        // For loop using the players armor items
         int result = 0;
-        for (ItemStack armorItems : player.getArmorItems()) {
-            if (armorItems.isIn(MythicTags.CARMOT_ARMOR)) {
-                result += SHIELD_HEALTH_PER_PIECE;
-            }
+        if (this.player.getAttributes().hasAttribute(RegisterEntityAttributes.CARMOT_SHIELD)) {
+            return (float) this.player.getAttributes().getValue(RegisterEntityAttributes.CARMOT_SHIELD);
         }
         return result;
     }

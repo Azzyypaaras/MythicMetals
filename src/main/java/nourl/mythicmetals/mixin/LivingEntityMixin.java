@@ -82,6 +82,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "createLivingAttributes()Lnet/minecraft/entity/attribute/DefaultAttributeContainer$Builder;", require = 1, allow = 1, at = @At("RETURN"))
     private static void mythicmetals$addAttributes(final CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
+        info.getReturnValue().add(RegisterEntityAttributes.CARMOT_SHIELD);
         info.getReturnValue().add(RegisterEntityAttributes.FIRE_VULNERABILITY);
         info.getReturnValue().add(RegisterEntityAttributes.ELYTRA_ROCKET_SPEED);
     }

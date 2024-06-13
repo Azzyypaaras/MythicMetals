@@ -14,7 +14,7 @@ import static nourl.mythicmetals.misc.UsefulSingletonForColorUtil.MetalColors;
 
 /**
  * Truly hardcode abilities onto items. These act as enchantments, but they stack with them.
- * TODO - Move/make these into components
+ * TODO - Move/make these into components, attributes, or move them to more appropriate places
  *
  * @author Noaaan
  */
@@ -28,8 +28,6 @@ public class Abilities {
     public static final Ability BLAST_PROTECTION = new Ability("blast_protection", 6);
     public static final Ability BONUS_FORTUNE = new Ability("bonus_fortune", 1, false);
     public static final Ability BONUS_LOOTING = new Ability("bonus_looting", 1, false);
-    // Tooltip only, applies to items in #mythicmetals:carmot_armor
-    public static final Ability CARMOT_SHIELD = new Ability("carmot_shield", 0, false);
     public static final Ability DEPTH_STRIDER = new Ability("depth_strider", 3);
     public static final Ability FEATHER_FALLING = new Ability("feather_falling", 3);
     public static final Ability FIRE_ASPECT = new Ability("fire_aspect", 4);
@@ -65,7 +63,6 @@ public class Abilities {
         BONUS_FORTUNE.addItem(MythicTools.CARMOT.getHoe(), MetalColors.CARMOT_STYLE);
         BONUS_FORTUNE.addItem(MythicTools.CARMOT.getShovel(), MetalColors.CARMOT_STYLE);
         BONUS_LOOTING.addItem(MythicTools.CARMOT.getSword(), MetalColors.CARMOT_STYLE);
-        CARMOT_SHIELD.addArmorSet(MythicArmor.CARMOT, MetalColors.CARMOT_STYLE);
         DEPTH_STRIDER.addItem(MythicArmor.AQUARIUM.getBoots(), MetalColors.AQUA_STYLE);
         DEPTH_STRIDER.addItem(MythicArmor.TIDESINGER.getBoots(), MetalColors.TIDESINGER_BLUE);
         FEATHER_FALLING.addItem(MythicArmor.LEGENDARY_BANGLUM.getBoots(), MetalColors.GOLD_STYLE);

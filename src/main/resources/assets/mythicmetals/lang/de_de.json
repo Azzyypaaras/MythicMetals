@@ -689,7 +689,7 @@
   "abilities.mythicmetals.blast_protection": "Natürliche Blast Resistenz",
   "abilities.mythicmetals.bonus_fortune": "Bonus Glück",
   "abilities.mythicmetals.bonus_looting": "Bonus Plünderung",
-  "abilities.mythicmetals.carmot_shield": "+5 Carmotschild",
+  "attribute.name.generic.mythicmetals.carmot_shield": "Carmotschild",
   "abilities.mythicmetals.depth_strider": "Natürlicher Wasserläufer",
   "abilities.mythicmetals.hot": "Eingebrannt",
   "abilities.mythicmetals.feather_falling": "Natürlicher Federfall",

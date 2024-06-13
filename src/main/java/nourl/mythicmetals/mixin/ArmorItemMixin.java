@@ -9,6 +9,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.registry.entry.RegistryEntry;
 import nourl.mythicmetals.armor.MythicArmorMaterials;
+import nourl.mythicmetals.registry.RegisterEntityAttributes;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -45,6 +46,7 @@ public abstract class ArmorItemMixin {
             mythicmetals$armorMapBuilder(builder, uUID, EntityAttributes.GENERIC_ATTACK_DAMAGE, "Star Platinum attack bonus", 1.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
         }
         if (material == MythicArmorMaterials.CARMOT) {
+            mythicmetals$armorMapBuilder(builder, uUID, RegisterEntityAttributes.CARMOT_SHIELD, "Carmot health bonus", 5.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
             mythicmetals$armorMapBuilder(builder, uUID, EntityAttributes.GENERIC_MAX_HEALTH, "Carmot health bonus", 2.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
         }
         if (material == MythicArmorMaterials.STORMYX) {
