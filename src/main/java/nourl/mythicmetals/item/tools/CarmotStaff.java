@@ -3,6 +3,7 @@ package nourl.mythicmetals.item.tools;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Instrument;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
@@ -43,6 +44,7 @@ import nourl.mythicmetals.registry.RegisterSounds;
 import java.util.List;
 
 import static nourl.mythicmetals.component.MythicDataComponents.CARMOT_STAFF_BLOCK;
+import static nourl.mythicmetals.component.MythicDataComponents.ENCORE;
 
 public class CarmotStaff extends ToolItem {
 
@@ -55,13 +57,13 @@ public class CarmotStaff extends ToolItem {
     public static AttributeModifiersComponent createDefaultAttributes(double damage, float attackSpeed) {
         return AttributeModifiersComponent.builder()
             .add(
-            EntityAttributes.GENERIC_ATTACK_DAMAGE,
-            new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", damage, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .add(
-            EntityAttributes.GENERIC_ATTACK_SPEED,
-            new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
+                EntityAttributes.GENERIC_ATTACK_SPEED,
+                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .build();
@@ -147,7 +149,7 @@ public class CarmotStaff extends ToolItem {
             if (cursorStackReference.get().isEmpty() && staff.contains(CARMOT_STAFF_BLOCK)) {
                 if (cursorStackReference.set(getBlockInStaff(staff).asItem().getDefaultStack())) {
                     staff.remove(CARMOT_STAFF_BLOCK);
-                    player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY,0.25F, 0.5F);
+                    player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY, 0.25F, 0.5F);
                     return true;
                 }
                 return false;
@@ -176,7 +178,7 @@ public class CarmotStaff extends ToolItem {
                 if (validStaffBlock && cursorStack.getCount() >= 1) {
                     staff.set(CARMOT_STAFF_BLOCK, new CarmotStaffComponent(blockItem.getBlock()));
                     cursorStack.decrement(1);
-                    player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(),0.85F, 0.5F);
+                    player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), 0.85F, 0.5F);
                     return true;
                 }
             }
@@ -367,13 +369,14 @@ public class CarmotStaff extends ToolItem {
 
         // Note Block - Play a tune!
         if (hasBlockInStaff(stack, Blocks.NOTE_BLOCK)) {
-            if (random.nextInt(500) == 321) {
+            if (random.nextInt(500) >= 321) {
                 world.playSound(null, user.getX(), user.getY(), user.getZ(), RegisterSounds.MELODY, SoundCategory.PLAYERS, 1.0f, 1.0f, 1);
                 stack.damage(60, user, EquipmentSlot.MAINHAND);
                 stack.set(MythicDataComponents.ENCORE, true);
                 user.getItemCooldownManager().set(stack.getItem(), 1500);
                 return TypedActionResult.success(stack);
             }
+            world.emitGameEvent(user, GameEvent.NOTE_BLOCK_PLAY, user.getPos());
             MythicParticleSystem.COLORED_NOTE.spawn(world, user.getPos().add(0, 2.35, 0));
             playRandomSound(random, user, world);
             user.getItemCooldownManager().set(stack.getItem(), 15);
@@ -504,6 +507,12 @@ public class CarmotStaff extends ToolItem {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        // Try to cancel an encore in a rare edge case
+        if (endEncore(stack, world)) {
+            ((PlayerEntity) user).getItemCooldownManager().set(stack.getItem(), 400);
+            return;
+        }
+
         // Handle Carmot Staff after using the Stormyx ability
         if (!world.isClient && user.isPlayer()) {
             ((PlayerEntity) user).getItemCooldownManager().set(stack.getItem(), 240);
@@ -514,13 +523,19 @@ public class CarmotStaff extends ToolItem {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        // Try to cancel an encore in a rare edge case
+        if (endEncore(stack, world)) {
+            ((PlayerEntity) user).getItemCooldownManager().set(stack.getItem(), 400);
+            return stack;
+        }
+
         // Handle Carmot Staff after using the Stormyx ability
         if (!world.isClient && user.isPlayer()) {
             ((PlayerEntity) user).getItemCooldownManager().set(stack.getItem(), 320);
         }
         stack.set(MythicDataComponents.IS_USED, false);
         WorldOps.playSound(world, user.getBlockPos(), RegisterSounds.PROJECTILE_BARRIER_END, SoundCategory.AMBIENT, 0.9F, 1.5F);
-        return super.finishUsing(stack, world, user);
+        return stack;
     }
 
     @Override
@@ -544,8 +559,6 @@ public class CarmotStaff extends ToolItem {
     public boolean isUsedOnRelease(ItemStack stack) {
         return stack.isOf(this);
     }
-
-
 
     // FIXME - Dehardcode or something
 //    @Override
@@ -633,8 +646,8 @@ public class CarmotStaff extends ToolItem {
                 world.emitGameEvent(GameEvent.INSTRUMENT_PLAY, user.getPos(), GameEvent.Emitter.of(user));
             }
 
-            // Remove encore if cooling down
-            if (stack.getOrDefault(MythicDataComponents.ENCORE, false) && user.getItemCooldownManager().isCoolingDown(item)) {
+            // Remove encore if you finished cooling down
+            if (stack.getOrDefault(MythicDataComponents.ENCORE, false) && isNotOnCooldown(user, stack)) {
                 stack.set(MythicDataComponents.ENCORE, false);
             }
         }
@@ -674,5 +687,20 @@ public class CarmotStaff extends ToolItem {
      */
     public static boolean encore(ItemStack stack, World world) {
         return stack.getOrDefault(MythicDataComponents.ENCORE, false) && world.getTime() % 20 == (world.isClient() ? 0 : 10);
+    }
+
+    /**
+     * Call this method to end the encore, which attempts to cancel the sound from playing as well
+     * @return whether the encore was ended or not
+     */
+    public boolean endEncore(ItemStack stack, World world) {
+        if (stack.contains(ENCORE)) {
+            stack.remove(ENCORE);
+            if (world.isClient()) {
+                MinecraftClient.getInstance().getSoundManager().stopSounds(RegistryHelper.id("melody"), SoundCategory.PLAYERS);
+                return true; // attempt was made
+            }
+        }
+        return false;
     }
 }
