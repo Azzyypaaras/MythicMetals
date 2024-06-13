@@ -2,19 +2,16 @@ package nourl.mythicmetals.component;
 
 import io.wispforest.owo.serialization.StructEndec;
 import io.wispforest.owo.serialization.endec.StructEndecBuilder;
-import net.minecraft.client.item.TooltipType;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.item.*;
-import net.minecraft.text.Text;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import nourl.mythicmetals.data.MythicTags;
 import java.util.UUID;
-import java.util.function.Consumer;
 
-public record PrometheumComponent(int durabilityRepaired) implements TooltipAppender {
+public record PrometheumComponent(int durabilityRepaired) {
     public static final int OVERGROWN_THRESHOLD = 1200;
     public static final StructEndec<PrometheumComponent> ENDEC = StructEndecBuilder.of(
         StructEndec.INT.fieldOf("durability_repaired", PrometheumComponent::durabilityRepaired),
@@ -98,18 +95,5 @@ public record PrometheumComponent(int durabilityRepaired) implements TooltipAppe
             "Overgrown Prometheum bonus",
             bonus,
             EntityAttributeModifier.Operation.ADD_VALUE);
-    }
-
-    // TODO - Use TooltipCallback to render this tooltip on tagged entries
-    @Override
-    public void appendTooltip(Item.TooltipContext context, Consumer<Text> tooltip, TooltipType type) {
-        tooltip.accept(Text.translatable("abilities.mythicmetals.mending"));
-        if (this.isOvergrown()) {
-            tooltip.accept(Text.translatable("tooltip.prometheum.overgrown"));
-        }
-        // FIXME - Move engrained to a TooltipCallback?
-        //if (EnchantmentHelper.hasBindingCurse(stack)) {
-        //    Ability.addTooltipOnStack(stack, lines, Style.EMPTY.withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()), "tooltip.prometheum.engrained");
-        //}
     }
 }

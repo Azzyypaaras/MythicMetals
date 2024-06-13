@@ -141,7 +141,7 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
      */
     public static void registerPrometheumAttributeEvent() {
         DefaultItemComponentEvents.MODIFY.register(context -> {
-            context.modify(item -> item.getDefaultStack().isIn(MythicTags.PROMETHEUM_ARMOR), (builder, item) -> {
+            context.modify(item -> item.getDefaultStack().isIn(MythicTags.PROMETHEUM_EQUIPMENT), (builder, item) -> {
                 builder.add(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
             });
         });

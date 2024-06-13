@@ -5,6 +5,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.fabricmc.loader.api.FabricLoader;
@@ -20,11 +21,13 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +41,7 @@ import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.client.rendering.*;
 import nourl.mythicmetals.compat.IsometricArmorStandExporter;
 import nourl.mythicmetals.component.*;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.entity.MythicEntities;
 import nourl.mythicmetals.item.tools.*;
 import nourl.mythicmetals.misc.*;
@@ -88,6 +92,8 @@ public class MythicMetalsClient implements ClientModInitializer {
                 IsometricArmorStandExporter.register(dispatcher);
             });
         }
+
+        registerTooltipCallbacks();
     }
 
     @SuppressWarnings("unchecked")
@@ -229,6 +235,33 @@ public class MythicMetalsClient implements ClientModInitializer {
             }
             return this.getTime(entity.getWorld());
         });
+
+    }
+
+    public void registerTooltipCallbacks() {
+        ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
+            int index = 1;
+
+            if (lines.size() > 2) {
+                index += stack.getEnchantments().getSize();
+            }
+
+            if (stack.contains(MythicDataComponents.PROMETHEUM)) {
+                var component = stack.getOrDefault(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
+                if (type.isAdvanced()) {
+                    lines.add(index, Text.translatable("tooltip.prometheum.repaired", component.durabilityRepaired()));
+                }
+
+                lines.add(index, Text.translatable("tooltip.prometheum.regrowth").withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()));
+                if (component.isOvergrown()) {
+                    lines.add(index, Text.translatable("tooltip.prometheum.overgrown").withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()));
+                }
+                if (EnchantmentHelper.hasBindingCurse(stack)) {
+                    lines.add(index, Text.translatable("tooltip.prometheum.engrained").withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()));
+                }
+            }
+        });
+
 
     }
 
