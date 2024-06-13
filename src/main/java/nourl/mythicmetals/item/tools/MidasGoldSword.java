@@ -3,6 +3,7 @@ package nourl.mythicmetals.item.tools;
 import net.minecraft.client.item.TooltipType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -15,11 +16,9 @@ import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.MythicItems;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MidasGoldSword extends SwordItem {
-    public static final UUID DAMAGE_BONUS_UUID = UUID.fromString("b05f5f65-6abf-4d78-85c5-8d690f0c55ee");
-
     public MidasGoldSword(ToolMaterial material, Settings settings) {
         super(material, settings);
     }
@@ -34,13 +33,43 @@ public class MidasGoldSword extends SwordItem {
 
     @Override
     public void postProcessComponents(ItemStack stack) {
-        var original = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        // TODO - Surely there is a better way to do dynamic attributes, right? Right??
+        //  Or maybe it isn't due to the hardcoded UUID check for the correct green tooltip... Thanks Mojang
+        var currentAttributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
-        double damage = computeBonusDamage(goldCount);
+        var originalDamage = new AtomicReference<>(0.0);
+        stack.getDefaultComponents().get(DataComponentTypes.ATTRIBUTE_MODIFIERS).modifiers().forEach(entry -> {
+            if (entry.modifier().uuid().equals(ATTACK_DAMAGE_MODIFIER_ID)) {
+                originalDamage.set(entry.modifier().value());
+            }
+        });
+        double goldDmgBonus = computeBonusDamage(goldCount);
 
-        if (damage > 0) {
-            var modifier = new EntityAttributeModifier(DAMAGE_BONUS_UUID, "midas_gold_attack_bonus", damage, EntityAttributeModifier.Operation.ADD_VALUE);
-            var changedComponent = original.with(EntityAttributes.GENERIC_ATTACK_DAMAGE, modifier, AttributeModifierSlot.MAINHAND);
+        var speed = new AtomicReference<>(0.0);
+        // Copy attack speed over. We want to re-build, not add anything
+        currentAttributes.modifiers().forEach(entry -> {
+            if (entry.attribute().equals(EntityAttributes.GENERIC_ATTACK_SPEED)) {
+                speed.set(entry.modifier().value());
+            }
+        });
+
+        if (goldDmgBonus > 0) {
+            var changedComponent = AttributeModifiersComponent.builder()
+                .add(
+                    EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                    new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID,
+                        "Weapon modifier with Midas bonus",
+                        originalDamage.get() + goldDmgBonus,
+                        EntityAttributeModifier.Operation.ADD_VALUE
+                    ),
+                    AttributeModifierSlot.MAINHAND
+                )
+                .add(
+                    EntityAttributes.GENERIC_ATTACK_SPEED,
+                    new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", speed.get(), EntityAttributeModifier.Operation.ADD_VALUE),
+                    AttributeModifierSlot.MAINHAND
+                )
+                .build();
             stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, changedComponent);
         }
     }
