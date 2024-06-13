@@ -110,7 +110,7 @@ public class CarmotStaff extends ToolItem {
 
                     // Try to replace block in staff
                     if (slot.tryTakeStackRange(1, 1, player).isPresent()) {
-                        var staffBlock = staff.get(CARMOT_STAFF_BLOCK).getBlock().asItem().getDefaultStack();
+                        var staffBlock = getBlockInStaff(staff).asItem().getDefaultStack();
                         slot.takeStack(1);
                         staff.set(CARMOT_STAFF_BLOCK, new CarmotStaffComponent(blockItem.getBlock()));
                         slot.insertStack(staffBlock, 1);
@@ -124,8 +124,8 @@ public class CarmotStaff extends ToolItem {
             }
 
             // Try empty block into inventory
-            if (slot.getStack().isEmpty()) {
-                slot.insertStack(staff.get(CARMOT_STAFF_BLOCK).getBlock().asItem().getDefaultStack());
+            if (slot.getStack().isEmpty() && !staff.getOrDefault(CARMOT_STAFF_BLOCK, CarmotStaffComponent.DEFAULT).isEmpty()) {
+                slot.insertStack(getBlockInStaff(staff).asItem().getDefaultStack());
                 staff.remove(CARMOT_STAFF_BLOCK);
                 player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY, 0.85F, 0.5F);
                 return true;
@@ -145,7 +145,7 @@ public class CarmotStaff extends ToolItem {
         if (clickType == ClickType.RIGHT) {
             // If cursor is empty, but staff has block, take block out of staff
             if (cursorStackReference.get().isEmpty() && staff.contains(CARMOT_STAFF_BLOCK)) {
-                if (cursorStackReference.set(staff.get(CARMOT_STAFF_BLOCK).getBlock().asItem().getDefaultStack())) {
+                if (cursorStackReference.set(getBlockInStaff(staff).asItem().getDefaultStack())) {
                     staff.remove(CARMOT_STAFF_BLOCK);
                     player.playSound(RegisterSounds.CARMOT_STAFF_EMPTY,0.25F, 0.5F);
                     return true;
@@ -160,8 +160,7 @@ public class CarmotStaff extends ToolItem {
             // If staff has block, and cursor has valid block, swap them
             if (staff.contains(CARMOT_STAFF_BLOCK)) {
                 if (validStaffBlock && cursorStack.getCount() == 1) {
-                    //noinspection DataFlowIssue
-                    if (cursorStackReference.set(staff.get(CARMOT_STAFF_BLOCK).getBlock().asItem().getDefaultStack())) {
+                    if (cursorStackReference.set(getBlockInStaff(staff).asItem().getDefaultStack())) {
                         staff.remove(CARMOT_STAFF_BLOCK);
                         staff.set(CARMOT_STAFF_BLOCK, new CarmotStaffComponent(blockItem.getBlock()));
                         player.playSound(blockItem.getBlock().getDefaultState().getSoundGroup().getPlaceSound(), 0.85F, 0.5F);
@@ -634,7 +633,8 @@ public class CarmotStaff extends ToolItem {
                 world.emitGameEvent(GameEvent.INSTRUMENT_PLAY, user.getPos(), GameEvent.Emitter.of(user));
             }
 
-            if (!user.getItemCooldownManager().isCoolingDown(item)) {
+            // Remove encore if cooling down
+            if (stack.getOrDefault(MythicDataComponents.ENCORE, false) && user.getItemCooldownManager().isCoolingDown(item)) {
                 stack.set(MythicDataComponents.ENCORE, false);
             }
         }
@@ -673,6 +673,6 @@ public class CarmotStaff extends ToolItem {
      * Returns whether the player goes on an encore, playing a really sick melody
      */
     public static boolean encore(ItemStack stack, World world) {
-        return stack.contains(MythicDataComponents.ENCORE) && stack.getOrDefault(MythicDataComponents.ENCORE, false) && world.getTime() % 20 == (world.isClient() ? 0 : 10);
+        return stack.getOrDefault(MythicDataComponents.ENCORE, false) && world.getTime() % 20 == (world.isClient() ? 0 : 10);
     }
 }

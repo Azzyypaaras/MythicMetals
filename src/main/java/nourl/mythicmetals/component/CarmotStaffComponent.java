@@ -42,4 +42,8 @@ public record CarmotStaffComponent(Block block, boolean showTooltip) implements 
         }
 
     }
+
+    public boolean isEmpty() {
+        return this.block.equals(Blocks.AIR);
+    }
 }
