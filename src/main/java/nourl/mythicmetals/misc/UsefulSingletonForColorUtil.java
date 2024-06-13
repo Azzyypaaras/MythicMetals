@@ -36,7 +36,7 @@ public class UsefulSingletonForColorUtil {
             }
 
             if (component.hasEffects()) {
-                PotionContentsComponent.getColor(component.getEffects());
+                return PotionContentsComponent.getColor(component.getEffects());
             }
         }
         return -1;
