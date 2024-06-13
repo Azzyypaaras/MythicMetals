@@ -9,7 +9,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.tools.MythicTools;
 
@@ -19,11 +18,22 @@ public class RuniteArrowEntity extends PersistentProjectileEntity {
     public static final ItemStack RUNITE_ARROW_STACK = new ItemStack(MythicTools.RUNITE_ARROW);
 
     public RuniteArrowEntity(EntityType<RuniteArrowEntity> type, World world) {
-        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world, RUNITE_ARROW_STACK);
+        super(type, world);
+        this.initColor();
     }
 
     public RuniteArrowEntity(LivingEntity shooter, World world) {
         super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, shooter, world, RUNITE_ARROW_STACK);
+        this.initColor();
+    }
+
+    public RuniteArrowEntity(World world, double x, double y, double z, ItemStack stack) {
+        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, x, y, z, world, stack);
+    }
+
+    public RuniteArrowEntity(World world, LivingEntity owner, ItemStack stack) {
+        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, owner, world, stack);
+        this.initColor();
     }
 
     private PotionContentsComponent getPotionContents() {
@@ -36,19 +46,8 @@ public class RuniteArrowEntity extends PersistentProjectileEntity {
     }
 
     @Override
-    protected void setStack(ItemStack stack) {
-        super.setStack(stack);
-        this.initColor();
-    }
-
-    @Override
     protected ItemStack getDefaultItemStack() {
         return RUNITE_ARROW_STACK;
-    }
-
-    @Override
-    protected void onEntityHit(EntityHitResult entityHitResult) {
-        super.onEntityHit(entityHitResult);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class RuniteArrowEntity extends PersistentProjectileEntity {
         Entity entity = this.getEffectCause();
         PotionContentsComponent potionContentsComponent = this.getPotionContents();
         if (potionContentsComponent.potion().isPresent()) {
-            for (StatusEffectInstance statusEffectInstance : potionContentsComponent.getEffects()) {
+            for (var statusEffectInstance : potionContentsComponent.potion().get().value().getEffects()) {
                 target.addStatusEffect(
                     new StatusEffectInstance(
                         statusEffectInstance.getEffectType(),
@@ -74,7 +73,6 @@ public class RuniteArrowEntity extends PersistentProjectileEntity {
         for (StatusEffectInstance statusEffectInstance : potionContentsComponent.customEffects()) {
             target.addStatusEffect(statusEffectInstance, entity);
         }
-
     }
 
     public int getColor() {
@@ -113,33 +111,6 @@ public class RuniteArrowEntity extends PersistentProjectileEntity {
                         EntityEffectParticleEffect.create(ParticleTypes.ENTITY_EFFECT, i), this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), 0.0, 0.0, 0.0
                     );
             }
-        }
-    }
-
-    @Override
-    public void handleStatus(byte status) {
-        if (status == 0) {
-            int i = this.getColor();
-            if (i != -1) {
-                float f = (float) (i >> 16 & 0xFF) / 255.0F;
-                float g = (float) (i >> 8 & 0xFF) / 255.0F;
-                float h = (float) (i & 0xFF) / 255.0F;
-
-                for (int j = 0; j < 20; ++j) {
-                    this.getWorld()
-                        .addParticle(
-                            EntityEffectParticleEffect.create(ParticleTypes.ENTITY_EFFECT, f, g, h),
-                            this.getParticleX(0.5),
-                            this.getRandomBodyY(),
-                            this.getParticleZ(0.5),
-                            0.0,
-                            0.0,
-                            0.0
-                        );
-                }
-            }
-        } else {
-            super.handleStatus(status);
         }
     }
 }

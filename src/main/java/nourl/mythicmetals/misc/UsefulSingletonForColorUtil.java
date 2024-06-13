@@ -27,7 +27,7 @@ public class UsefulSingletonForColorUtil {
      */
     public static int potionColor(ItemStack stack, int tintIndex) {
         if (tintIndex == 1) {
-            var component = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, null);
+            var component = stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
             if (component == null) {
                 return -1;
             }

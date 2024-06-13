@@ -3,6 +3,7 @@ package nourl.mythicmetals.item.tools;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.*;
 import net.minecraft.entity.passive.FrogEntity;
@@ -107,14 +108,18 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     );
 
     public static final Item RUNITE_ARROW = new RuniteArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));
-    public static final Item TIPPED_RUNITE_ARROW = new TippedRuniteArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2).stackGenerator((item, stacks) -> {
-        for (Potion potion : Registries.POTION) {
-            var stack = PotionContentsComponent.createStack(item, RegistryHelper.getEntry(potion));
-            if (!potion.getEffects().isEmpty()) {
-                stacks.add(stack);
+    public static final Item TIPPED_RUNITE_ARROW = new TippedRuniteArrowItem(new OwoItemSettings()
+        .group(MythicMetals.TABBED_GROUP).tab(2)
+        .stackGenerator((item, stacks) -> {
+            for (Potion potion : Registries.POTION) {
+                var stack = PotionContentsComponent.createStack(item, RegistryHelper.getEntry(potion));
+                if (!potion.getEffects().isEmpty()) {
+                    stacks.add(stack);
+                }
             }
-        }
-    }));
+        })
+        .component(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT)
+    );
 
     public static final Item STAR_PLATINUM_ARROW = new StarPlatinumArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));
     public static final Item STORMYX_SHIELD = new StormyxShield(new OwoItemSettings()
