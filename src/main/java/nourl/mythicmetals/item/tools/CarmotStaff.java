@@ -1,5 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
+import de.dafuqs.additionalentityattributes.AdditionalEntityAttributes;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Instrument;
@@ -42,6 +43,7 @@ import nourl.mythicmetals.misc.*;
 import nourl.mythicmetals.registry.RegisterCriteria;
 import nourl.mythicmetals.registry.RegisterSounds;
 import java.util.List;
+import java.util.UUID;
 
 import static nourl.mythicmetals.component.MythicDataComponents.CARMOT_STAFF_BLOCK;
 import static nourl.mythicmetals.component.MythicDataComponents.ENCORE;
@@ -65,6 +67,29 @@ public class CarmotStaff extends ToolItem {
                 EntityAttributes.GENERIC_ATTACK_SPEED,
                 new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
+            )
+            .build();
+    }
+
+    public static AttributeModifiersComponent createAttributesWithXp(double damage, float attackSpeed) {
+        return AttributeModifiersComponent.builder()
+            .add(
+                EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .add(
+                EntityAttributes.GENERIC_ATTACK_SPEED,
+                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
+                AttributeModifierSlot.MAINHAND
+            )
+            .add(AdditionalEntityAttributes.DROPPED_EXPERIENCE,
+                new EntityAttributeModifier(UUID.fromString("5a902603-f288-4a12-bf13-4e0c1a12f6cd"), "Carmot Staff XP Bonus Main", 1.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+                AttributeModifierSlot.MAINHAND
+            )
+            .add(AdditionalEntityAttributes.DROPPED_EXPERIENCE,
+                new EntityAttributeModifier(UUID.fromString("5a902603-f288-4a12-bf13-4e0c1a12f6cc"), "Carmot Staff XP Bonus Offhand", 0.3, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+                AttributeModifierSlot.OFFHAND
             )
             .build();
     }
@@ -560,68 +585,55 @@ public class CarmotStaff extends ToolItem {
         return stack.isOf(this);
     }
 
-    // FIXME - Dehardcode or something
-//    @Override
-//    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-//
-//        var mapnite = HashMultimap.create(this.getAttributeModifiers(slot));
-//
-//        var block = getBlockInStaff(stack);
-//
-//        if (block != Blocks.AIR) {
-//            float damage = 3.0F;
-//            float speed = -4.0F;
-//            float experience = 0.0F;
-//
-//            if (Blocks.GOLD_BLOCK.equals(block)) {
-//                damage = 5.0F;
-//                speed += 1.2F;
-//            } else if (Blocks.IRON_BLOCK.equals(block)) {
-//                damage = 7.0F;
-//                speed += 0.9F;
-//            } else if (Blocks.DIAMOND_BLOCK.equals(block)) {
-//                damage = 9.0F;
-//                speed += 1.0F;
-//            } else if (Blocks.LAPIS_BLOCK.equals(block)) {
-//                damage = 4.0F;
-//                speed += 1.0F;
-//                experience = slot == EquipmentSlot.MAINHAND ? 1.0F : .25F;
-//            } else if (Blocks.NETHERITE_BLOCK.equals(block)) {
-//                damage = 11.0F;
-//                speed += 0.8F;
-//            } else if (MythicBlocks.HALLOWED.getStorageBlock().equals(block)) {
-//                damage = 12.0F;
-//                speed += 0.75F;
-//            } else if (MythicBlocks.ADAMANTITE.getStorageBlock().equals(block)) {
-//                damage = 12.0F;
-//                speed += 0.7F;
-//            } else if (MythicBlocks.METALLURGIUM.getStorageBlock().equals(block)) {
-//                damage = 14.0F;
-//                speed += 0.6F;
-//            } else if (MythicBlocks.STAR_PLATINUM.getStorageBlock().equals(block)) {
-//                damage = 4.0F;
-//                speed += 3.0F;
-//            } else {
-//                speed += 1.0F;
-//            }
-//
-//            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-//            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_SPEED);
-//            mapnite.removeAll(AdditionalEntityAttributes.DROPPED_EXPERIENCE);
-//
-//            mapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(Item.ATTACK_DAMAGE_MODIFIER_ID, "Damage modifier", damage, EntityAttributeModifier.Operation.ADDITION));
-//            mapnite.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(Item.ATTACK_SPEED_MODIFIER_ID, "Attack speed modifier", speed, EntityAttributeModifier.Operation.ADDITION));
-//            mapnite.put(AdditionalEntityAttributes.DROPPED_EXPERIENCE, new EntityAttributeModifier(UUID.fromString("5a902603-f288-4a12-bf13-4e0c1a12f6cd"), "Bonus Experience", experience, EntityAttributeModifier.Operation.MULTIPLY_BASE));
-//
-//            if (Blocks.LAPIS_BLOCK.equals(block) && slot == EquipmentSlot.OFFHAND) {
-//                mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-//                mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_SPEED);
-//                return mapnite;
-//            }
-//        }
-//
-//        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
-//    }
+    // TODO - Data driven at some point?
+    @Override
+    public void postProcessComponents(ItemStack stack) {
+        var block = stack.getOrDefault(CARMOT_STAFF_BLOCK, CarmotStaffComponent.DEFAULT).block();
+
+        double damage = 0.0;
+        float speed = 0.0f;
+
+        if (Blocks.GOLD_BLOCK.equals(block)) {
+            damage = 5.0;
+            speed += 1.2f;
+        } else if (Blocks.IRON_BLOCK.equals(block)) {
+            damage = 7.0;
+            speed += 0.9f;
+        } else if (Blocks.DIAMOND_BLOCK.equals(block)) {
+            damage = 9.0;
+            speed += 1.0f;
+        } else if (Blocks.LAPIS_BLOCK.equals(block)) {
+            damage = 4.0;
+            speed += 1.0f;
+        } else if (Blocks.NETHERITE_BLOCK.equals(block)) {
+            damage = 11.0;
+            speed += 0.8f;
+        } else if (MythicBlocks.HALLOWED.getStorageBlock().equals(block)) {
+            damage = 12.0;
+            speed += 0.75f;
+        } else if (MythicBlocks.ADAMANTITE.getStorageBlock().equals(block)) {
+            damage = 12.0;
+            speed += 0.7f;
+        } else if (MythicBlocks.METALLURGIUM.getStorageBlock().equals(block)) {
+            damage = 14.0;
+            speed += 0.6f;
+        } else if (MythicBlocks.STAR_PLATINUM.getStorageBlock().equals(block)) {
+            damage = 4.0;
+            speed += 3.0f;
+        }
+
+        var attributes = stack.getDefaultComponents().get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+
+        // TODO - Refactor?
+        if (speed > 0.0f || damage > 0) {
+            attributes = createDefaultAttributes(damage, speed);
+        }
+        if (block.equals(Blocks.LAPIS_BLOCK)) {
+            attributes = createAttributesWithXp(damage, speed);
+        }
+
+        stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, attributes);
+    }
 
     public static boolean hasBlockInStaff(ItemStack stack, Block block) {
         return stack.getOrDefault(CARMOT_STAFF_BLOCK, CarmotStaffComponent.DEFAULT).getBlock().equals(block);
@@ -691,6 +703,7 @@ public class CarmotStaff extends ToolItem {
 
     /**
      * Call this method to end the encore, which attempts to cancel the sound from playing as well
+     *
      * @return whether the encore was ended or not
      */
     public boolean endEncore(ItemStack stack, World world) {
