@@ -147,36 +147,10 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
         });
     }
 
-    // TODO - Now determined by projectile items themselves. Override ProjectileItem#getProjectileSettings() and use builder
     private void registerDispenserBehaviour() {
         DispenserBlock.registerBehavior(() -> MythicTools.STAR_PLATINUM_ARROW, new ProjectileDispenserBehavior(MythicTools.STAR_PLATINUM_ARROW));
-//            @Override
-//            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-//                var arrow = new StarPlatinumArrowEntity(MythicEntities.STAR_PLATINUM_ARROW_ENTITY_TYPE, world);
-//                arrow.setPos(position.getX(), position.getY(), position.getZ());
-//                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-//                return arrow;
-//            }
-//        });
-
         DispenserBlock.registerBehavior(() -> MythicTools.RUNITE_ARROW, new ProjectileDispenserBehavior(MythicTools.RUNITE_ARROW));
-//            @Override
-//            private ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-//                var arrow = new RuniteArrowEntity(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world);
-//                arrow.setPos(position.getX(), position.getY(), position.getZ());
-//                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-//                return arrow;
-//            }
-
         DispenserBlock.registerBehavior(() -> MythicTools.TIPPED_RUNITE_ARROW, new ProjectileDispenserBehavior(MythicTools.TIPPED_RUNITE_ARROW));
-//            @Override
-//            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-//                var arrow = new RuniteArrowEntity(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world);
-//                arrow.setPos(position.getX(), position.getY(), position.getZ());
-//                arrow.initFromStack(stack);
-//                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-//                return arrow;
-//            }
     }
 
 

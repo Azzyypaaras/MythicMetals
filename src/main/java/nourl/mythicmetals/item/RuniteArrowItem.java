@@ -25,4 +25,12 @@ public class RuniteArrowItem extends ArrowItem {
         entity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
         return entity;
     }
+
+    @Override
+    public ProjectileItem.Settings getProjectileSettings() {
+        return new ProjectileItem.Settings.Builder()
+            .power(1.4f)
+            .uncertainty(5.0f)
+            .build();
+    }
 }

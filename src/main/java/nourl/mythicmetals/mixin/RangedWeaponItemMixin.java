@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import java.util.List;
 
 @Mixin(RangedWeaponItem.class)
-public abstract class BowItemMixin {
+public abstract class RangedWeaponItemMixin {
 
-    // Increases the velocity of Runite Arrows
+    // Increases the velocity of Runite Arrows when shot from Ranged Weapons
     // Also decreases divergence, leading to better accuracy
     @ModifyArgs(method = "shootAll", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/RangedWeaponItem;shoot(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/projectile/ProjectileEntity;IFFFLnet/minecraft/entity/LivingEntity;)V"))
     private void mythicmetals$modifyArrowsForRunite(Args args, World world, LivingEntity shooter, Hand hand, ItemStack stack, List<ItemStack> projectiles, float speed, float divergence, boolean critical, @Nullable LivingEntity target) {
