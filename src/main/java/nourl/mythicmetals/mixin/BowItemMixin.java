@@ -1,27 +1,35 @@
 package nourl.mythicmetals.mixin;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.tools.MythicTools;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+import java.util.List;
 
-@Mixin(BowItem.class)
+@Mixin(RangedWeaponItem.class)
 public abstract class BowItemMixin {
 
-    // FIXME - Should be moved to the shootAll method
-    // Increases the velocity of Runite Arrows from 3.0 to 4.0, roughly 33%
+    // Increases the velocity of Runite Arrows
     // Also decreases divergence, leading to better accuracy
-//    @Inject(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"), locals = LocalCapture.CAPTURE_FAILHARD)
-//    private void mythicmetals$runiteArrows(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci, PlayerEntity playerEntity, boolean bl, ItemStack itemStack, int i, float f, boolean bl2, ArrowItem arrowItem, PersistentProjectileEntity persistentProjectileEntity) {
-//        if (arrowItem.equals(MythicTools.RUNITE_ARROW) || arrowItem.equals(MythicTools.TIPPED_RUNITE_ARROW)) {
-//            persistentProjectileEntity.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, f * 4.0F, 0.75F);
-//        }
-//    }
+    @ModifyArgs(method = "shootAll", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/RangedWeaponItem;shoot(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/projectile/ProjectileEntity;IFFFLnet/minecraft/entity/LivingEntity;)V"))
+    private void mythicmetals$modifyArrowsForRunite(Args args, World world, LivingEntity shooter, Hand hand, ItemStack stack, List<ItemStack> projectiles, float speed, float divergence, boolean critical, @Nullable LivingEntity target) {
+        boolean shouldModify = false;
+        for (var arrow : projectiles) {
+            if (arrow.isOf(MythicTools.RUNITE_ARROW) || arrow.isOf(MythicTools.TIPPED_RUNITE_ARROW)) {
+                shouldModify = true;
+                break;
+            }
+        }
+        if (shouldModify) {
+            args.set(3, speed * 1.3f);
+            args.set(4, divergence * 0.9f);
+        }
+    }
 }
