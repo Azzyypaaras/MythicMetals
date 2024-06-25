@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:stormyx_nugget",
+    "id": "mythicmetals:stormyx_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

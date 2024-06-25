@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -29,7 +30,7 @@ import java.util.function.Predicate;
 
 public class BanglumNukeEntity extends BanglumTntEntity {
     private static final int DEFAULT_FUSE = 200;
-    private static final KeyedEndec<Block> CORE_BLOCK_KEY = Endec.ofCodec(Block.CODEC.codec()).keyed("core_block", MythicBlocks.BANGLUM_NUKE_CORE);
+    private static final KeyedEndec<Block> CORE_BLOCK_KEY = Endec.ofCodec(Registries.BLOCK.getCodec()).keyed("core_block", MythicBlocks.BANGLUM_NUKE_CORE);
 
     private Block coreBlock = MythicBlocks.BANGLUM_NUKE_CORE;
 
@@ -100,10 +101,11 @@ public class BanglumNukeEntity extends BanglumTntEntity {
 
         int soundRadius = radius * 3;
 
+        // FIXME - the explosion sounds incorrect
         for (PlayerEntity player : getWorld().getPlayers()) {
             if (player.squaredDistanceTo(this) > soundRadius * soundRadius) continue;
 
-            player.playSound(RegisterSounds.BANGLUM_NUKE_EXPLOSION, SoundCategory.BLOCKS, 5.0F, (1.0F + (this.getWorld().random.nextFloat() - this.getWorld().random.nextFloat()) * 0.2F) * 0.7F);
+            player.getWorld().playSound(this, this.getBlockPos(), RegisterSounds.BANGLUM_NUKE_EXPLOSION, SoundCategory.BLOCKS, 5.0F, (1.0F + (this.getWorld().random.nextFloat() - this.getWorld().random.nextFloat()) * 0.2F) * 0.7F);
         }
 
         // Handle damaging entities near the nuke explosion

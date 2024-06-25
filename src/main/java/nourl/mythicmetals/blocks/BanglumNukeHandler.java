@@ -3,6 +3,7 @@ package nourl.mythicmetals.blocks;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
@@ -34,7 +35,7 @@ public class BanglumNukeHandler {
                 for (int y = 0; y < 3; y++) {
                     for (int z = 0; z < 3; z++) {
                         if (tryLightBigTntAt(world, player, pos.getX() - x, pos.getY() - y, pos.getZ() - z)) {
-                            stack.damage(1, player, p -> p.sendToolBreakStatus(hand));
+                            stack.damage(1, player, LivingEntity.getSlotForHand(hand));
 
                             return ActionResult.SUCCESS;
                         }

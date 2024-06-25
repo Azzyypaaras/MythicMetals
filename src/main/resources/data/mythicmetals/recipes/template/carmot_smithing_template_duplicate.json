@@ -20,7 +20,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:carmot_smithing_template",
+    "id": "mythicmetals:carmot_smithing_template",
     "count": 2
   },
   "fabric:load_conditions": [

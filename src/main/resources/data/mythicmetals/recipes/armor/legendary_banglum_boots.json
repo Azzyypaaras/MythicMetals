@@ -7,7 +7,7 @@
     "item": "mythicmetals:banglum_boots"
   },
   "result": {
-    "item": "mythicmetals:legendary_banglum_boots"
+    "id": "mythicmetals:legendary_banglum_boots"
   },
   "template": {
     "item": "mythicmetals:legendary_banglum_smithing_template"

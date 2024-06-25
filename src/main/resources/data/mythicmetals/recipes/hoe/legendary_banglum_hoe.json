@@ -7,7 +7,7 @@
     "item": "mythicmetals:banglum_chunk"
   },
   "result": {
-    "item": "mythicmetals:legendary_banglum_hoe"
+    "id": "mythicmetals:legendary_banglum_hoe"
   },
   "template": {
     "item": "mythicmetals:legendary_banglum_smithing_template"

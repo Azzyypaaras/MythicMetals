@@ -24,7 +24,7 @@ public class HallowedArmor extends ArmorItem {
     }
 
     public HallowedArmor(ArmorMaterial material, ArmorItem.Type slot, Settings settings) {
-        super(material, slot, settings);
+        super(RegistryHelper.getEntry(material), slot, settings);
         this.type = slot;
     }
 

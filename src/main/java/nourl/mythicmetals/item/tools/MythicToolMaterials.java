@@ -1,10 +1,14 @@
 package nourl.mythicmetals.item.tools;
 
 import com.google.common.base.Suppliers;
+import net.minecraft.block.Block;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.TagKey;
 import nourl.mythicmetals.blocks.MythicBlocks;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.item.MythicItems;
 import java.util.function.Supplier;
 
@@ -72,8 +76,15 @@ public enum MythicToolMaterials implements ToolMaterial {
     }
 
     @Override
-    public int getMiningLevel() {
-        return this.miningLevel;
+    public TagKey<Block> getInverseTag() {
+        return switch (this.miningLevel) {
+            case 1 -> BlockTags.INCORRECT_FOR_STONE_TOOL;
+            case 2 -> BlockTags.INCORRECT_FOR_IRON_TOOL;
+            case 3 -> BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
+            case 4 -> BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
+            case 5 -> MythicTags.INCORRECT_FOR_UNOBTAINIUM_ALLOY_TOOLS;
+            default -> throw new IllegalStateException("Unexpected value: " + this.miningLevel);
+        };
     }
 
     @Override

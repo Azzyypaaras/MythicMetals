@@ -10,11 +10,11 @@
       "item": "mythicmetals:palladium_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:palladium_hoe",
+    "id": "mythicmetals:palladium_hoe",
     "count": 1
   }
 }

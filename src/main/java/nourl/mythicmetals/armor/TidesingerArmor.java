@@ -1,24 +1,25 @@
 package nourl.mythicmetals.armor;
 
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.endec.KeyedEndec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.client.models.TidesingerBipedModel;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.TidesingerPatternComponent;
 import nourl.mythicmetals.misc.RegistryHelper;
 import org.jetbrains.annotations.NotNull;
+import java.util.List;
 
 public class TidesingerArmor extends HallowedArmor {
-    // TODO - Minecraft finally unified their style somewhat - NBT fields are all PascalCase
-    public static KeyedEndec<String> CORAL_TYPE = new KeyedEndec<>("mm_coral_type", Endec.STRING, "none");
 
     @Environment(EnvType.CLIENT)
     private BipedEntityModel<LivingEntity> model;
@@ -29,7 +30,7 @@ public class TidesingerArmor extends HallowedArmor {
     }
 
     public TidesingerArmor(ArmorMaterial material, Type slot, Settings settings) {
-        super(material, slot, settings);
+        super(material, slot, settings.component(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.empty()));
         this.type = slot;
     }
 
@@ -49,10 +50,12 @@ public class TidesingerArmor extends HallowedArmor {
         return new TidesingerBipedModel(root, slot);
     }
 
+    // TODO - Feels like magic string, maybe refactor
     @NotNull
     @Override
     public Identifier getArmorTexture(ItemStack stack, EquipmentSlot slot) {
-        String model = switch (stack.get(CORAL_TYPE)) {
+        var component = stack.getOrDefault(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.empty());
+        String model = switch (component.pattern()) {
             case "brain" -> "textures/models/tidesinger_model_brain.png";
             case "bubble" -> "textures/models/tidesinger_model_bubble.png";
             case "fire" -> "textures/models/tidesinger_model_fire.png";
@@ -61,5 +64,12 @@ public class TidesingerArmor extends HallowedArmor {
             default -> "textures/models/tidesinger_model.png";
         };
         return RegistryHelper.id(model);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> lines, TooltipType type) {
+        if (stack.contains(MythicDataComponents.TIDESINGER)) {
+            stack.get(MythicDataComponents.TIDESINGER).appendTooltip(context, lines::add, type);
+        }
     }
 }

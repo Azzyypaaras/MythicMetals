@@ -10,11 +10,11 @@
       "item": "mythicmetals:stormyx_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:stormyx_pickaxe",
+    "id": "mythicmetals:stormyx_pickaxe",
     "count": 1
   }
 }

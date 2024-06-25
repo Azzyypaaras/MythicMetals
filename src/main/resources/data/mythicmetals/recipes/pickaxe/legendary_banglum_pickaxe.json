@@ -7,7 +7,7 @@
     "item": "mythicmetals:banglum_chunk"
   },
   "result": {
-    "item": "mythicmetals:legendary_banglum_pickaxe"
+    "id": "mythicmetals:legendary_banglum_pickaxe"
   },
   "template": {
     "item": "mythicmetals:legendary_banglum_smithing_template"

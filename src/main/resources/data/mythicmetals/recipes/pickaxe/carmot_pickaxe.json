@@ -7,7 +7,7 @@
     "item": "mythicmetals:carmot_ingot"
   },
   "result": {
-    "item": "mythicmetals:carmot_pickaxe"
+    "id": "mythicmetals:carmot_pickaxe"
   },
   "template": {
     "item": "mythicmetals:carmot_smithing_template"

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "c:mythril_ores"
-  },
-  "result": "mythicmetals:mythril_ingot",
-  "experience": 1.5,
-  "cookingtime": 100
-}

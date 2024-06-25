@@ -13,11 +13,11 @@
       "item": "minecraft:redstone_torch"
     },
     "e": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "minecraft:activator_rail",
+    "id": "minecraft:activator_rail",
     "count": 6
   }
 }

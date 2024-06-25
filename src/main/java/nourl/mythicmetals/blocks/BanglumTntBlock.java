@@ -9,8 +9,7 @@ import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -54,7 +53,29 @@ public class BanglumTntBlock extends TntBlock {
         }
     }
 
-    
+    @Override
+    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        ItemStack itemStack = player.getStackInHand(hand);
+        if (!itemStack.isOf(Items.FLINT_AND_STEEL) && !itemStack.isOf(Items.FIRE_CHARGE)) {
+            return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
+        } else {
+            primeBangTnt(world, pos, player);
+            world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD);
+            Item item = itemStack.getItem();
+            if (!player.isCreative()) {
+                if (itemStack.isOf(Items.FLINT_AND_STEEL)) {
+                    itemStack.damage(1, player, LivingEntity.getSlotForHand(hand));
+                } else {
+                    itemStack.decrement(1);
+                }
+            }
+
+            player.incrementStat(Stats.USED.getOrCreateStat(item));
+            return ItemActionResult.success(world.isClient);
+        }
+    }
+
+
     public static void primeBangTnt(World world, BlockPos pos) {
         primeBangTnt(world, pos, null);
     }
@@ -67,28 +88,6 @@ public class BanglumTntBlock extends TntBlock {
                     null, banglumTnt.getX(), banglumTnt.getY(), banglumTnt.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F
             );
             world.emitGameEvent(igniter, GameEvent.PRIME_FUSE, pos);
-        }
-    }
-
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        ItemStack itemStack = player.getStackInHand(hand);
-        if (!itemStack.isOf(Items.FLINT_AND_STEEL) && !itemStack.isOf(Items.FIRE_CHARGE)) {
-            return super.onUse(state, world, pos, player, hand, hit);
-        } else {
-            primeBangTnt(world, pos, player);
-            world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD);
-            Item item = itemStack.getItem();
-            if (!player.isCreative()) {
-                if (itemStack.isOf(Items.FLINT_AND_STEEL)) {
-                    itemStack.damage(1, player, playerx -> playerx.sendToolBreakStatus(hand));
-                } else {
-                    itemStack.decrement(1);
-                }
-            }
-
-            player.incrementStat(Stats.USED.getOrCreateStat(item));
-            return ActionResult.success(world.isClient);
         }
     }
 

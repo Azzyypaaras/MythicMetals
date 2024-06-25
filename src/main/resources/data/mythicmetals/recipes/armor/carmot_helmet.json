@@ -7,7 +7,7 @@
     "item": "mythicmetals:kyber_helmet"
   },
   "result": {
-    "item": "mythicmetals:carmot_helmet"
+    "id": "mythicmetals:carmot_helmet"
   },
   "template": {
     "item": "mythicmetals:carmot_smithing_template"

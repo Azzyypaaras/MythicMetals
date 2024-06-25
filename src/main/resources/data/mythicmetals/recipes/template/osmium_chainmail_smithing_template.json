@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:osmium_chainmail_smithing_template",
+    "id": "mythicmetals:osmium_chainmail_smithing_template",
     "count": 1
   },
   "group": "osmium_template"

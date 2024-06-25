@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:aquarium_anvil",
+    "id": "mythicmetals:aquarium_anvil",
     "count": 1
   },
   "group": "mm_anvils",

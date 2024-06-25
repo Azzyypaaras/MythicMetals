@@ -32,8 +32,8 @@ public class BanglumTntEntity extends Entity {
     }
 
     @Override
-    protected void initDataTracker() {
-        this.dataTracker.startTracking(FUSE, DEFAULT_FUSE);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        builder.add(FUSE, DEFAULT_FUSE);
     }
 
     @Override
@@ -80,11 +80,6 @@ public class BanglumTntEntity extends Entity {
 
     protected void explode() {
         this.getWorld().createExplosion(this, this.getX(), this.getY(), this.getZ(), 6.0F, World.ExplosionSourceType.TNT);
-    }
-
-    @Override
-    protected float getEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-        return 0.15F;
     }
 
     public int getFuse() {

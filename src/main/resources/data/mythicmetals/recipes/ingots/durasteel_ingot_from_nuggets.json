@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:durasteel_ingot",
+    "id": "mythicmetals:durasteel_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

@@ -7,7 +7,7 @@
     "item": "minecraft:chainmail_boots"
   },
   "result": {
-    "item": "mythicmetals:osmium_chainmail_boots"
+    "id": "mythicmetals:osmium_chainmail_boots"
   },
   "template": {
     "item": "mythicmetals:osmium_chainmail_smithing_template"

@@ -10,11 +10,11 @@
       "item": "mythicmetals:hallowed_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:hallowed_sword",
+    "id": "mythicmetals:hallowed_sword",
     "count": 1
   }
 }

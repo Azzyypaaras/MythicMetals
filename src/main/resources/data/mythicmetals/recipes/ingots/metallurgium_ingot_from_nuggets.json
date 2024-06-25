@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:metallurgium_ingot",
+    "id": "mythicmetals:metallurgium_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

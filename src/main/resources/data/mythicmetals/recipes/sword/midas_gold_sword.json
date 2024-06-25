@@ -10,11 +10,11 @@
       "item": "mythicmetals:midas_gold_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:midas_gold_sword",
+    "id": "mythicmetals:midas_gold_sword",
     "count": 1
   }
 }

@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.banglum_chunk.description"
     },
     "icon": {
-      "item": "mythicmetals:banglum_chunk"
+      "id": "mythicmetals:banglum_chunk"
     },
     "frame": "task",
     "show_toast": true,

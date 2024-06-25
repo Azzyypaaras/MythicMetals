@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.durasteel.description"
     },
     "icon": {
-      "item": "mythicmetals:durasteel_ingot"
+      "id": "mythicmetals:durasteel_ingot"
     },
     "frame": "goal",
     "show_toast": true,

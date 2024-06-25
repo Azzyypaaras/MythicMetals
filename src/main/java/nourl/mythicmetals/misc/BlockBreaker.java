@@ -74,7 +74,7 @@ public class BlockBreaker {
             var stack = player.getMainHandStack();
 
             if (!(stack.getItem() instanceof HammerBase hammer)) return true; // don't do this for non-hammers
-            if (!hammer.isSuitableFor(state)) return true; // don't break anything extra if you are not mining rocks or stones
+            if (!hammer.isCorrectForDrops(stack, state)) return true; // don't break anything extra if you are not mining rocks or stones
             var reach = BlockBreaker.getReachDistance(player);
 
             BlockHitResult blockHitResult = (BlockHitResult) player.raycast(reach, 1, false);
@@ -88,7 +88,7 @@ public class BlockBreaker {
                 if (pos.equals(originalBlockPos)) {
                     continue;
                 }
-                if (hammer.canBreak(world, pos) && !player.isCreative()) {
+                if (hammer.canBreak(stack, world, pos) && !player.isCreative()) {
                     // Call Block.onBreak here, to allow interactions when a player breaks blocks
                     // Note that the center block still calls onBreak twice
                     world.getBlockState(pos).getBlock().onBreak(world, pos, state, player);
@@ -100,7 +100,7 @@ public class BlockBreaker {
                     world.breakBlock(pos, false, null);
                 }
             }
-            if (hasMined) stack.damage(2, player, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            if (hasMined) stack.damage(2, player, EquipmentSlot.MAINHAND);
 
             return true;
         });
@@ -118,7 +118,7 @@ public class BlockBreaker {
         for (BlockPos pos : hammeredBlocks) {
             var state = player.getWorld().getBlockState(pos);
             // Ignore any blocks that are not minable
-            if (!state.isAir() && hammer.isSuitableFor(state)) {
+            if (!state.isAir() && hammer.isCorrectForDrops(hammer.getDefaultStack(), state)) {
                 // Set the current delta to the lowest value in the block iterator
                 var delta = player.getBlockBreakingSpeed(state) / 30 / state.getHardness(player.getWorld(), pos);
                 if (hardestDelta > delta) {

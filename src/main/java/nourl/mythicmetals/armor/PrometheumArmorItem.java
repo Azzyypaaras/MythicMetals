@@ -5,16 +5,17 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import nourl.mythicmetals.misc.PrometheumHandler;
+import nourl.mythicmetals.component.PrometheumComponent;
+import nourl.mythicmetals.misc.RegistryHelper;
 
 public class PrometheumArmorItem extends ArmorItem {
     public PrometheumArmorItem(ArmorMaterial material, Type type, Settings settings) {
-        super(material, type, settings);
+        super(RegistryHelper.getEntry(material), type, settings);
     }
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if (!world.isClient()) PrometheumHandler.tickAutoRepair(stack, world.getRandom());
+        PrometheumComponent.tickAutoRepair(stack, world);
         super.inventoryTick(stack, world, entity, slot, selected);
     }
 }

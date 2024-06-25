@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:kyber_anvil",
+    "id": "mythicmetals:kyber_anvil",
     "count": 1
   },
   "group": "mm_anvils",

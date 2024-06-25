@@ -7,7 +7,7 @@
     "item": "mythicmetals:kyber_leggings"
   },
   "result": {
-    "item": "mythicmetals:carmot_leggings"
+    "id": "mythicmetals:carmot_leggings"
   },
   "template": {
     "item": "mythicmetals:carmot_smithing_template"

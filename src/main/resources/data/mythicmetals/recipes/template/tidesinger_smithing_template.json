@@ -32,7 +32,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:tidesinger_smithing_template",
+    "id": "mythicmetals:tidesinger_smithing_template",
     "count": 2
   },
   "group": "tidesinger_template"

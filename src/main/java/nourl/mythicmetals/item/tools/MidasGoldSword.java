@@ -1,133 +1,92 @@
 package nourl.mythicmetals.item.tools;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.endec.KeyedEndec;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.*;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.*;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import nourl.mythicmetals.MythicMetals;
+import nourl.mythicmetals.component.GoldFoldedComponent;
+import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.MythicItems;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MidasGoldSword extends SwordItem {
-    /**
-     * Counter that tracks how much gold is folded on the sword.
-     * Used for dynamically changing damage and transforming the sword
-     * @deprecated will be replaced by "mm_gold_folded"
-     */
-    @Deprecated
-    public static final KeyedEndec<Integer> GOLD_FOLDED = new KeyedEndec<>("GoldFolded", Endec.INT, 0);
-    /**
-     * Tracks if the sword is gilded, so that the upgrade text after transforming into a Royal Midas Gold Sword changes
-     * @deprecated will be replaced by "mm_is_gilded_midas"
-     */
-    @Deprecated
-    public static final KeyedEndec<Boolean> IS_GILDED = new KeyedEndec<>("IsGilded", Endec.BOOLEAN, false);
-    /**
-     * Tracks if the sword is royal, which causes the sword to drop Raw Midas Gold on mob kills
-     * @deprecated will be replaced by "mm_is_royal_midas"
-     */
-    @Deprecated
-    public static final KeyedEndec<Boolean> IS_ROYAL = new KeyedEndec<>("IsRoyal", Endec.BOOLEAN, false);
-
-    public MidasGoldSword(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings);
+    public MidasGoldSword(ToolMaterial material, Settings settings) {
+        super(material, settings);
     }
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!attacker.getWorld().isClient && MythicMetals.CONFIG.midasGold() && stack.has(IS_ROYAL) && stack.get(IS_ROYAL) && target.isDead()) {
+        if (!attacker.getWorld().isClient && MythicMetals.CONFIG.midasGold() && stack.contains(MythicDataComponents.GOLD_FOLDED) && stack.get(MythicDataComponents.GOLD_FOLDED).isRoyal() && target.isDead()) {
             target.dropItem(MythicItems.MIDAS_GOLD.getRawOre());
         }
         return super.postHit(stack, target, attacker);
     }
 
     @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-
-        Multimap<EntityAttribute, EntityAttributeModifier> mapnite = this.getAttributeModifiers(slot);
-
-        int goldCount = stack.get(GOLD_FOLDED);
-        if (goldCount > 0) {
-
-            mapnite = HashMultimap.create(mapnite);
-
-            // Store and clear so that we can modify the vanilla attack damage modifier independently
-            var damageValues = mapnite.get(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-            mapnite.removeAll(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-
-            float baseDamage = getAttackDamage();
-            int bonus = MathHelper.clamp(MathHelper.floor((float) goldCount / 64), 0, 6);
-            if (goldCount >= 1280) {
-                bonus += 1;
+    public void postProcessComponents(ItemStack stack) {
+        // TODO - Surely there is a better way to do dynamic attributes, right? Right??
+        //  Or maybe it isn't due to the hardcoded UUID check for the correct green tooltip... Thanks Mojang
+        var currentAttributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
+        var originalDamage = new AtomicReference<>(0.0);
+        stack.getDefaultComponents().get(DataComponentTypes.ATTRIBUTE_MODIFIERS).modifiers().forEach(entry -> {
+            if (entry.modifier().uuid().equals(ATTACK_DAMAGE_MODIFIER_ID)) {
+                originalDamage.set(entry.modifier().value());
             }
-            mapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(Item.ATTACK_DAMAGE_MODIFIER_ID, "Damage modifier", baseDamage + bonus, EntityAttributeModifier.Operation.ADDITION));
+        });
+        double goldDmgBonus = computeBonusDamage(goldCount);
 
-            var finalMapnite = mapnite;
-            damageValues.forEach(entityAttributeModifier -> finalMapnite.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, entityAttributeModifier));
+        var speed = new AtomicReference<>(0.0);
+        // Copy attack speed over. We want to re-build, not add anything
+        currentAttributes.modifiers().forEach(entry -> {
+            if (entry.attribute().equals(EntityAttributes.GENERIC_ATTACK_SPEED)) {
+                speed.set(entry.modifier().value());
+            }
+        });
+
+        if (goldDmgBonus > 0) {
+            var changedComponent = AttributeModifiersComponent.builder()
+                .add(
+                    EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                    new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID,
+                        "Weapon modifier with Midas bonus",
+                        originalDamage.get() + goldDmgBonus,
+                        EntityAttributeModifier.Operation.ADD_VALUE
+                    ),
+                    AttributeModifierSlot.MAINHAND
+                )
+                .add(
+                    EntityAttributes.GENERIC_ATTACK_SPEED,
+                    new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", speed.get(), EntityAttributeModifier.Operation.ADD_VALUE),
+                    AttributeModifierSlot.MAINHAND
+                )
+                .build();
+            stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, changedComponent);
         }
-        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> lines, TooltipContext context) {
-        int lineIndex = 1;
-
-        if (lines.size() > 2) {
-            var enchantCount = stack.getEnchantments().size();
-            lineIndex = enchantCount + 1;
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> lines, TooltipType type) {
+        if (stack.contains(MythicDataComponents.GOLD_FOLDED)) {
+            stack.get(MythicDataComponents.GOLD_FOLDED).appendTooltip(context, lines::add, type);
         }
+    }
 
-        int goldCount = stack.get(MidasGoldSword.GOLD_FOLDED);
-        int level = calculateSwordLevel(goldCount);
-
-        if (level > 20) {
-            level = 20 + level / 6;
-        }
-
-        if (goldCount < 704 && stack.get(MidasGoldSword.IS_ROYAL)) {
-            level = 11;
-        }
-
-        // Spout fun facts and lore while leveling up the sword
-        lines.add(lineIndex, Text.translatable("tooltip.midas_gold.level." + level).formatted(Formatting.GOLD));
-        if (goldCount == 0) {
-            return;
-        }
-
-        // Remove the cap from tooltip when maxed
+    public int computeBonusDamage(int goldCount) {
+        int bonus = MathHelper.clamp(MathHelper.floor((float) goldCount / 64), 0, 6);
         if (goldCount >= 1280) {
-            if (goldCount == 10000) {
-                // e.g. **⭐10000 FOLDS - MAXED⭐**
-                lines.add(lineIndex + 1, Text.translatable("tooltip.midas_gold.maxed", goldCount).formatted(Formatting.GOLD, Formatting.BOLD));
-            } else {
-                // e.g. Folds: 2500
-                lines.add(lineIndex + 1, Text.translatable("tooltip.midas_gold.fold_counter", goldCount).formatted(Formatting.GOLD));
-            }
-            return;
+            bonus += 1;
         }
-
-        // Handle the cap format
-        if (stack.has(IS_ROYAL)) {
-            // e.g. 63/1280
-            lines.add(lineIndex + 1, Text.literal(goldCount + " / " + 1280).formatted(Formatting.GOLD));
-        } else if (stack.has(IS_GILDED)) {
-            // e.g. 63/640
-            lines.add(lineIndex + 1, Text.literal(goldCount + " / " + 640).formatted(Formatting.GOLD));
-        } else {
-            // e.g. 63/128
-            lines.add(lineIndex + 1, Text.literal(goldCount + " / " + (64 + level * 64)).formatted(Formatting.GOLD));
-        }
-
+        return bonus;
     }
 
     public static float countGold(int goldCount) {
@@ -137,10 +96,10 @@ public class MidasGoldSword extends SwordItem {
             case 2, 3 -> 0.2f;
             case 4 -> 0.3f;
             case 5, 6, 7, 8, 9 -> 0.4f;
-            case 10,11 -> 0.5f;
-            case 12,13 -> 0.6f;
-            case 14,15 -> 0.7f;
-            case 16,17 -> 0.8f;
+            case 10, 11 -> 0.5f;
+            case 12, 13 -> 0.6f;
+            case 14, 15 -> 0.7f;
+            case 16, 17 -> 0.8f;
             case 18 -> 0.9f;
             case 19 -> 1.0f;
             default -> 0.0f;
@@ -150,6 +109,7 @@ public class MidasGoldSword extends SwordItem {
     /**
      * Calculates a level from intervals of 64.
      * Used for appending specific text to a Midas Gold Sword tooltip
+     *
      * @param goldCount The amount of gold that is currently applied on this stack
      * @return amount of gold divided by 64, or 0 if less than 64 gold
      */

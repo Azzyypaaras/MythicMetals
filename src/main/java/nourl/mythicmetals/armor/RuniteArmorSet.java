@@ -6,8 +6,8 @@ import net.minecraft.item.ArmorMaterial;
 
 public class RuniteArmorSet extends ArmorSet {
 
-    public RuniteArmorSet(ArmorMaterial material) {
-        super(material);
+    public RuniteArmorSet(ArmorMaterial material, int duraMod) {
+        super(material, duraMod);
     }
 
     @Override

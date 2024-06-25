@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.runite.description"
     },
     "icon": {
-      "item": "mythicmetals:runite_ore"
+      "id": "mythicmetals:runite_ore"
     },
     "frame": "task",
     "show_toast": true,

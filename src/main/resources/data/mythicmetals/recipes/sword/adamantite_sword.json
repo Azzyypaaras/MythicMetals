@@ -10,11 +10,11 @@
       "item": "mythicmetals:adamantite_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:adamantite_sword",
+    "id": "mythicmetals:adamantite_sword",
     "count": 1
   }
 }

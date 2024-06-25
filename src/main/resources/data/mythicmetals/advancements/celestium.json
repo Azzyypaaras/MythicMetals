@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.celestium.description"
     },
     "icon": {
-      "item": "mythicmetals:celestium_ingot"
+      "id": "mythicmetals:celestium_ingot"
     },
     "frame": "challenge",
     "show_toast": true,

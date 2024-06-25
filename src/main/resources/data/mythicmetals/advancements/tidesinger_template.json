@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.tidesinger_template.description"
     },
     "icon": {
-      "item": "mythicmetals:tidesinger_smithing_template"
+      "id": "mythicmetals:tidesinger_smithing_template"
     },
     "frame": "goal",
     "show_toast": true,

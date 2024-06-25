@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:adamantite_nugget",
+    "id": "mythicmetals:adamantite_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

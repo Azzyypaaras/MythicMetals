@@ -10,11 +10,11 @@
       "tag": "c:bronze_ingots"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:bronze_axe",
+    "id": "mythicmetals:bronze_axe",
     "count": 1
   }
 }

@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.mythril_drill_template.description"
     },
     "icon": {
-      "item": "mythicmetals:mythril_drill_smithing_template"
+      "id": "mythicmetals:mythril_drill_smithing_template"
     },
     "frame": "goal",
     "show_toast": true,

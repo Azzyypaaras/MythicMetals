@@ -1,6 +1,5 @@
 package nourl.mythicmetals.entity;
 
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.*;
 import nourl.mythicmetals.misc.RegistryHelper;
 
@@ -19,25 +18,31 @@ public class MythicEntities {
         RegistryHelper.entityType("runite_arrow", RUNITE_ARROW_ENTITY_TYPE);
 
     }
+
     static {
-        BANGLUM_TNT_MINECART_ENTITY_TYPE = FabricEntityTypeBuilder.<BanglumTntMinecartEntity>create(
-                SpawnGroup.MISC, BanglumTntMinecartEntity::new).dimensions(new EntityDimensions(0.98F, 0.7F, false)).trackRangeBlocks(8).build();
-       BANGLUM_TNT_ENTITY_TYPE = FabricEntityTypeBuilder.<BanglumTntEntity>create(
-               SpawnGroup.MISC, BanglumTntEntity::new).dimensions(EntityDimensions.fixed(1,1)).build();
+        BANGLUM_TNT_MINECART_ENTITY_TYPE = EntityType.Builder.<BanglumTntMinecartEntity>create(
+            BanglumTntMinecartEntity::new, SpawnGroup.MISC)
+            .dimensions(0.98f, 0.7f)
+            .maxTrackingRange(8)
+            .build();
+        BANGLUM_TNT_ENTITY_TYPE = EntityType.Builder.<BanglumTntEntity>create(
+            BanglumTntEntity::new, SpawnGroup.MISC).dimensions(1f, 1f).build();
 
-       BANGLUM_NUKE_ENTITY_TYPE = FabricEntityTypeBuilder.<BanglumNukeEntity>create(
-               SpawnGroup.MISC, BanglumNukeEntity::new).dimensions(EntityDimensions.fixed(3,3)).build();
+        BANGLUM_NUKE_ENTITY_TYPE = EntityType.Builder.<BanglumNukeEntity>create(
+            BanglumNukeEntity::new, SpawnGroup.MISC).dimensions(3f, 3f).build();
 
-       STAR_PLATINUM_ARROW_ENTITY_TYPE = FabricEntityTypeBuilder.<StarPlatinumArrowEntity>create(
-               SpawnGroup.MISC, StarPlatinumArrowEntity::new)
-                       .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-               .trackRangeBlocks(4)
-               .trackedUpdateRate(20).build();
+        STAR_PLATINUM_ARROW_ENTITY_TYPE = EntityType.Builder.<StarPlatinumArrowEntity>create(
+                StarPlatinumArrowEntity::new, SpawnGroup.MISC)
+            .dimensions(.5f, .5f)
+            .maxTrackingRange(4)
+            .trackingTickInterval(20)
+            .build();
 
-        RUNITE_ARROW_ENTITY_TYPE = FabricEntityTypeBuilder.<RuniteArrowEntity>create(
-                        SpawnGroup.MISC, RuniteArrowEntity::new)
-                .dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-                .trackRangeBlocks(4)
-                .trackedUpdateRate(20).build();
+        RUNITE_ARROW_ENTITY_TYPE = EntityType.Builder.<RuniteArrowEntity>create(
+            RuniteArrowEntity::new, SpawnGroup.MISC)
+            .dimensions(0.5F, 0.5F)
+            .maxTrackingRange(4)
+            .trackingTickInterval(20)
+            .build();
     }
 }

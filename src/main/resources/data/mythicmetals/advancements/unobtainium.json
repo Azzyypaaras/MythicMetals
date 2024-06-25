@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.unobtainium.description"
     },
     "icon": {
-      "item": "mythicmetals:deepslate_unobtainium_ore"
+      "id": "mythicmetals:deepslate_unobtainium_ore"
     },
     "frame": "challenge",
     "show_toast": true,

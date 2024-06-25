@@ -5,6 +5,7 @@ import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.mob.PiglinEntity;
 import net.minecraft.item.*;
 import net.minecraft.loot.LootTable;
+import net.minecraft.registry.*;
 import nourl.mythicmetals.armor.MythicArmorMaterials;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.MythicLootOps;
@@ -31,7 +32,7 @@ public class PiglinBrainMixin {
     private static void checkForMidasGoldArmor(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         for(ItemStack itemStack : entity.getArmorItems()) {
             Item item = itemStack.getItem();
-            if (item instanceof ArmorItem armorItem && armorItem.getMaterial() == MythicArmorMaterials.MIDAS_GOLD) {
+            if (item instanceof ArmorItem armorItem && armorItem.getMaterial().value() == MythicArmorMaterials.MIDAS_GOLD) {
                 cir.setReturnValue(true);
             }
         }
@@ -45,7 +46,7 @@ public class PiglinBrainMixin {
     @ModifyVariable(method = "getBarteredItem", at = @At(value = "LOAD"))
     private static LootTable giveLootForMidasGold(LootTable table, PiglinEntity piglin) {
         if (mythicmetals$cachedBarterItem.isOf(MythicItems.MIDAS_GOLD.getIngot()) && piglin.getWorld().getServer() != null) {
-            return piglin.getWorld().getServer().getLootManager().getLootTable(MythicLootOps.BETTER_PIGLIN_BARTERING);
+            return piglin.getWorld().getServer().getReloadableRegistries().getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, MythicLootOps.BETTER_PIGLIN_BARTERING));
         }
         return table;
     }

@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:hallowed_anvil",
+    "id": "mythicmetals:hallowed_anvil",
     "count": 1
   },
   "group": "mm_anvils",

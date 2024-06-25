@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:kyber_ingot",
+    "id": "mythicmetals:kyber_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

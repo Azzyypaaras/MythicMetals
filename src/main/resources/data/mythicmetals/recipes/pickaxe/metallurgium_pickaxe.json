@@ -7,7 +7,7 @@
     "item": "mythicmetals:metallurgium_ingot"
   },
   "result": {
-    "item": "mythicmetals:metallurgium_pickaxe"
+    "id": "mythicmetals:metallurgium_pickaxe"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

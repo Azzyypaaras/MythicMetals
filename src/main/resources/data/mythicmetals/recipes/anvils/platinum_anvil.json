@@ -14,7 +14,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:platinum_anvil",
+    "id": "mythicmetals:platinum_anvil",
     "count": 1
   },
   "group": "mm_anvils",

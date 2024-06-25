@@ -3,20 +3,8 @@ package nourl.mythicmetals.client.models;
 import net.minecraft.client.model.*;
 
 public class TidesingerArmorModel {
-    //public final ModelPart head;
-    //public final ModelPart body;
-    //public final ModelPart rightArm;
-    //public final ModelPart leftArm;
-    //public final ModelPart rightLeg;
-    //public final ModelPart leftLeg;
 
     public TidesingerArmorModel(ModelPart root) {
-        //this.head = root.getChild("head");
-        //this.body = root.getChild("body");
-        //this.rightArm = root.getChild("right_arm");
-        //this.leftArm = root.getChild("left_arm");
-        //this.rightLeg = root.getChild("right_leg");
-        //this.leftLeg = root.getChild("left_leg");
     }
 
     @SuppressWarnings("unused")

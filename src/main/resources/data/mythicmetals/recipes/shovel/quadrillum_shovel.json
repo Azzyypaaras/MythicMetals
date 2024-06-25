@@ -10,11 +10,11 @@
       "item": "mythicmetals:quadrillum_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:quadrillum_shovel",
+    "id": "mythicmetals:quadrillum_shovel",
     "count": 1
   }
 }

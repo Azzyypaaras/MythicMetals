@@ -42,7 +42,7 @@ public interface RiptideTool {
         if (i >= 10 && user instanceof PlayerEntity playerEntity) {
             if (playerEntity.isTouchingWaterOrRain()) {
                 if (!world.isClient) {
-                    stack.damage(1, playerEntity, p -> p.sendToolBreakStatus(user.getActiveHand()));
+                    stack.damage(1, playerEntity, LivingEntity.getSlotForHand(user.getActiveHand()));
                 }
 
                 playerEntity.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));

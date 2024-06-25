@@ -10,11 +10,11 @@
       "item": "mythicmetals:aquarium_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:aquarium_sword",
+    "id": "mythicmetals:aquarium_sword",
     "count": 1
   }
 }

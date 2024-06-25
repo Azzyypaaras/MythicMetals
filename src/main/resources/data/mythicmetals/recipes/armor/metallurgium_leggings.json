@@ -7,7 +7,7 @@
     "item": "minecraft:netherite_leggings"
   },
   "result": {
-    "item": "mythicmetals:metallurgium_leggings"
+    "id": "mythicmetals:metallurgium_leggings"
   },
   "template": {
     "item": "mythicmetals:unobtainium_smithing_template"

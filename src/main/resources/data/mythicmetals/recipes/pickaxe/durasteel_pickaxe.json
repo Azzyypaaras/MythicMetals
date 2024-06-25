@@ -10,11 +10,11 @@
       "item": "mythicmetals:durasteel_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:durasteel_pickaxe",
+    "id": "mythicmetals:durasteel_pickaxe",
     "count": 1
   }
 }

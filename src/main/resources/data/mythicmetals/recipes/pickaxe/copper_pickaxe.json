@@ -10,11 +10,11 @@
       "tag": "c:copper_ingots"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:copper_pickaxe",
+    "id": "mythicmetals:copper_pickaxe",
     "count": 1
   }
 }

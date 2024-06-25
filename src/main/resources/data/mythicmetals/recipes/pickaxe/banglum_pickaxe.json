@@ -10,11 +10,11 @@
       "item": "mythicmetals:banglum_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:banglum_pickaxe",
+    "id": "mythicmetals:banglum_pickaxe",
     "count": 1
   }
 }

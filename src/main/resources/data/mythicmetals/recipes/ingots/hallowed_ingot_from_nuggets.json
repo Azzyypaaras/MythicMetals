@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:hallowed_ingot",
+    "id": "mythicmetals:hallowed_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

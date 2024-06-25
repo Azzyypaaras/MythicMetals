@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:metallurgium_block",
+    "id": "mythicmetals:metallurgium_block",
     "count": 1
   }
 }

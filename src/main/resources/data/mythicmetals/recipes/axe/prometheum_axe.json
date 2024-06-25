@@ -10,11 +10,11 @@
       "item": "mythicmetals:prometheum_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:prometheum_axe",
+    "id": "mythicmetals:prometheum_axe",
     "count": 1
   }
 }

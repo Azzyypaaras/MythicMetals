@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:tin_ingot",
+    "id": "mythicmetals:tin_ingot",
     "count": 9
   },
   "group": "mm_tin"

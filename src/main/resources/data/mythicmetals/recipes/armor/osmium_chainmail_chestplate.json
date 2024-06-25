@@ -7,7 +7,7 @@
     "item": "minecraft:chainmail_chestplate"
   },
   "result": {
-    "item": "mythicmetals:osmium_chainmail_chestplate"
+    "id": "mythicmetals:osmium_chainmail_chestplate"
   },
   "template": {
     "item": "mythicmetals:osmium_chainmail_smithing_template"

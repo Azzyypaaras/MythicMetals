@@ -10,11 +10,11 @@
       "tag": "c:orichalcum_ingots"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:orichalcum_shovel",
+    "id": "mythicmetals:orichalcum_shovel",
     "count": 1
   }
 }

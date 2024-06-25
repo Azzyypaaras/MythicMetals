@@ -1,5 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -12,19 +13,19 @@ public class TidesingerToolSet extends ToolSet {
     }
 
     @Override
-    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new TidesingerSword(material, damage, speed, settings);
+    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+        return new TidesingerSword(material, damage, speed, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
-    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new TidesingerAxe(material, damage, speed, settings);
+    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+        return new TidesingerAxe(material, damage, speed, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     public static class TidesingerSword extends SwordItem implements RiptideTool {
 
         public TidesingerSword(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-            super(material, attackDamage, attackSpeed, settings);
+            super(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, attackDamage, attackSpeed)));
         }
 
         @Override
@@ -51,7 +52,7 @@ public class TidesingerToolSet extends ToolSet {
     public static class TidesingerAxe extends AxeItem implements RiptideTool {
 
         public TidesingerAxe(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-            super(material, attackDamage, attackSpeed, settings);
+            super(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, attackDamage, attackSpeed)));
         }
 
         @Override

@@ -1,78 +1,42 @@
 package nourl.mythicmetals.item.tools;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.endec.BuiltInEndecs;
-import io.wispforest.owo.serialization.endec.KeyedEndec;
-import io.wispforest.owo.ui.core.Color;
-import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
-import net.minecraft.entity.attribute.*;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import nourl.mythicmetals.MythicMetals;
-import nourl.mythicmetals.abilities.DrillUpgrades;
 import nourl.mythicmetals.blocks.MythicBlocks;
+import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.item.MythicItems;
-import nourl.mythicmetals.misc.PrometheumHandler;
-import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 import nourl.mythicmetals.registry.RegisterSounds;
-import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class MythrilDrill extends PickaxeItem {
-    /**
-     * NbtKey that stores the amount of fuel inside the drill
-     * @deprecated Will be replaced with "mm_fuel" (lowercase)
-     */
-    @Deprecated
-    public static final KeyedEndec<Integer> FUEL = new KeyedEndec<>("Fuel", Endec.INT, 0);
-    /**
-     * KeyedEndec that determines whether the drill should consume fuel and mine faster
-     */
-    public static final KeyedEndec<Boolean> IS_ACTIVE = new KeyedEndec<>("mm_is_active", Endec.BOOLEAN, false);
-    /**
-     * Holds an item, which determines what upgrades the drill has
-     * @deprecated Will be replaced by "mm_upgrade_slot_one"
-     */
-    @Deprecated
-    public static final KeyedEndec<Item> UPGRADE_SLOT_ONE = new KeyedEndec<>("UpgradeSlot1", BuiltInEndecs.ofRegistry(Registries.ITEM), Items.AIR);
-    /**
-     * Holds another item, which determines what upgrades the drill has
-     * @deprecated Will be replaced by "mm_upgrade_slot_two"
-     */
-    public static final KeyedEndec<Item> UPGRADE_SLOT_TWO = new KeyedEndec<>("UpgradeSlot2", BuiltInEndecs.ofRegistry(Registries.ITEM), Items.AIR);
-    /**
-     * A fully fueled drill should last 30 minutes
-     */
-    public static final int MAX_FUEL = 1000;
-    /**
-     * Each piece of Morkite will fuel the drill by this constant worth of units
-     */
-    public static final int FUEL_CONSTANT = 10;
+import static nourl.mythicmetals.component.DrillComponent.*;
 
-    public MythrilDrill(ToolMaterial material, int attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings);
+public class MythrilDrill extends PickaxeItem {
+
+    public static final UUID LUCK_BONUS_ID = UUID.fromString("ed484613-f159-4758-b00f-094a1c99358c");
+
+    public MythrilDrill(ToolMaterial material, Settings settings) {
+        super(material, settings);
     }
 
     @Override
@@ -85,7 +49,7 @@ public class MythrilDrill extends PickaxeItem {
         if (context.getHand().equals(Hand.MAIN_HAND) && context.getPlayer() != null) {
             var offhandStack = context.getPlayer().getStackInHand(Hand.OFF_HAND);
             if (offhandStack != null && offhandStack.getItem() != null && offhandStack.getItem() instanceof BlockItem blockItem) {
-                blockItem.useOnBlock(new ItemUsageContext(context.getWorld(), context.getPlayer(), Hand.OFF_HAND, offhandStack,new BlockHitResult(context.getHitPos(), context.getSide(), context.getBlockPos(), context.hitsInsideBlock())));
+                blockItem.useOnBlock(new ItemUsageContext(context.getWorld(), context.getPlayer(), Hand.OFF_HAND, offhandStack, new BlockHitResult(context.getHitPos(), context.getSide(), context.getBlockPos(), context.hitsInsideBlock())));
                 context.getPlayer().swingHand(Hand.OFF_HAND);
                 return ActionResult.CONSUME_PARTIAL;
             }
@@ -107,14 +71,14 @@ public class MythrilDrill extends PickaxeItem {
         }
 
         // If you have fuel, toggle the state of the drill
-        if (hasFuel(stack)) {
+        if (stack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).hasFuel()) {
             toggleDrillState(world, user, stack);
             return TypedActionResult.success(stack);
         }
 
         if (world.isClient) {
             user.sendMessage(Text.translatable("tooltip.mythril_drill.out_of_fuel"), true);
-            user.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASS.value(), SoundCategory.PLAYERS, 0.8f, 0.5f);
+            user.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASS.value(), 0.8f, 0.5f);
         }
         return TypedActionResult.pass(stack);
     }
@@ -122,12 +86,13 @@ public class MythrilDrill extends PickaxeItem {
     @Override
     public boolean onStackClicked(ItemStack drill, Slot slot, ClickType clickType, PlayerEntity player) {
         if (clickType == ClickType.RIGHT) {
+            var drillComponent = drill.getOrDefault(MythicDataComponents.DRILL, DEFAULT);
             // If right-clicking Drill onto Morkite, try to fuel it
             if (slot.getStack().getItem().equals(MythicItems.Mats.MORKITE)) {
                 int morkiteCount = slot.getStack().getCount();
-                if (slot.tryTakeStackRange((MAX_FUEL - drill.get(FUEL)) / FUEL_CONSTANT, morkiteCount, player).isPresent()) {
-                    int fuel = MathHelper.clamp(drill.get(FUEL) + (morkiteCount * FUEL_CONSTANT), 0, MAX_FUEL);
-                    drill.put(FUEL, fuel);
+                if (slot.tryTakeStackRange((MAX_FUEL - drillComponent.fuel()) / FUEL_CONSTANT, morkiteCount, player).isPresent()) {
+                    int fuel = MathHelper.clamp(drillComponent.fuel() + (morkiteCount * FUEL_CONSTANT), 0, MAX_FUEL);
+                    drill.set(MythicDataComponents.DRILL, new DrillComponent(fuel, drillComponent.isActive()));
                     return true;
                 }
             }
@@ -142,45 +107,39 @@ public class MythrilDrill extends PickaxeItem {
             var cursorItem = cursorStack.getItem();
             // If right-clicking with Morkite on Drill, try to fuel it
             if (cursorItem.equals(MythicItems.Mats.MORKITE)) {
+                var drillComponent = drill.getOrDefault(MythicDataComponents.DRILL, DEFAULT);
 
                 // Don't bother interacting if the Drills fuel is full
-                if (drill.get(FUEL).equals(MAX_FUEL)) return false;
+                if (drillComponent.fuel() >= MAX_FUEL) return false;
 
                 // Greedily take all the morkite if we can, otherwise calculate how much to take
                 int morkiteCount = cursorStack.getCount();
-                if (morkiteCount * FUEL_CONSTANT < (MAX_FUEL) - drill.get(FUEL)) {
-                    int fuel = MathHelper.clamp(drill.get(FUEL) + (morkiteCount * FUEL_CONSTANT), 0, MAX_FUEL);
+                if (morkiteCount * FUEL_CONSTANT < (MAX_FUEL) - drillComponent.fuel()) {
+                    int fuel = MathHelper.clamp(drillComponent.fuel() + (morkiteCount * FUEL_CONSTANT), 0, MAX_FUEL);
                     cursorStack.decrement(morkiteCount);
-                    drill.put(FUEL, fuel);
+                    drill.set(MythicDataComponents.DRILL, new DrillComponent(fuel, drillComponent.isActive()));
                     return true;
                 }
                 // Manually calculate how much Morkite to take
-                if (morkiteCount * FUEL_CONSTANT >= (MAX_FUEL) - drill.get(FUEL)) {
-                    int morkiteToTake = (MAX_FUEL / FUEL_CONSTANT) - (drill.get(FUEL) / FUEL_CONSTANT);
-                    int fuel = MathHelper.clamp(drill.get(FUEL) + (morkiteToTake * FUEL_CONSTANT), 0, MAX_FUEL);
+                if (morkiteCount * FUEL_CONSTANT >= (MAX_FUEL) - drillComponent.fuel()) {
+                    int morkiteToTake = (MAX_FUEL / FUEL_CONSTANT) - (drillComponent.fuel() / FUEL_CONSTANT);
+                    int fuel = MathHelper.clamp(drillComponent.fuel() + (morkiteToTake * FUEL_CONSTANT), 0, MAX_FUEL);
                     cursorStack.decrement(morkiteToTake);
-                    drill.put(FUEL, fuel);
+                    drill.set(MythicDataComponents.DRILL, new DrillComponent(fuel, drillComponent.isActive()));
                     return true;
                 }
             }
 
-            removeAirFromDrill(drill);
+            if (!drill.contains(MythicDataComponents.UPGRADES)) return false;
 
-            // Drill Upgrade logic. You are not allowed duplicate upgrades
-            if ((!hasUpgrade(drill, 0) || !hasUpgrade(drill, 1))) {
-                if (!DrillUpgrades.MAP.containsKey(cursorItem) || hasUpgradeItem(drill, cursorItem)) return false;
+            var upgrades = drill.get(MythicDataComponents.UPGRADES);
+            if (upgrades != null && upgrades.hasFreeSlots()) {
                 if (cursorItem.equals(Items.AIR)) return false;
-
-                if (!drill.has(MythrilDrill.UPGRADE_SLOT_ONE)) {
-                    cursorStack.decrement(1);
-                    drill.put(MythrilDrill.UPGRADE_SLOT_ONE, cursorItem);
-                    return true;
-                }
-                else if (!drill.has(MythrilDrill.UPGRADE_SLOT_TWO)) {
-                    cursorStack.decrement(1);
-                    drill.put(MythrilDrill.UPGRADE_SLOT_TWO, cursorItem);
-                    return true;
-                }
+                if (!drillUpgrades.containsKey(cursorItem) || upgrades.hasUpgrade(cursorItem)) return false;
+                // Apply drill upgrade
+                cursorStack.decrement(1);
+                drill.set(MythicDataComponents.UPGRADES, UpgradeComponent.addItem(upgrades, cursorItem));
+                return true;
             }
         }
         return false;
@@ -191,16 +150,19 @@ public class MythrilDrill extends PickaxeItem {
         if (!world.isClient && state.getHardness(world, pos) != 0.0F) {
             // Randomly cancel damage while active
             var random = world.getRandom();
-            if (isActive(stack) && random.nextInt(10) > 3) return true;
-            stack.damage(1, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            var drillComponent = stack.getOrDefault(MythicDataComponents.DRILL, DEFAULT);
+            var upgradeComponent = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
 
-            if (!EnchantmentHelper.get(stack).containsKey(Enchantments.SILK_TOUCH) && state.isIn(ConventionalBlockTags.ORES)) {
+            if (drillComponent.isActive() && random.nextInt(10) > 3) return true;
+            stack.damage(1, miner, EquipmentSlot.MAINHAND);
+
+            if (!stack.contains(DataComponentTypes.ENCHANTMENTS) && stack.get(DataComponentTypes.ENCHANTMENTS).getEnchantments().contains(Registries.ENCHANTMENT.getEntry(Enchantments.SILK_TOUCH)) && state.isIn(ConventionalBlockTags.ORES)) {
                 // Restore air when mining ores underwater
-                if (hasUpgradeItem(stack, MythicItems.Mats.AQUARIUM_PEARL)) {
+                if (upgradeComponent.hasUpgrade(MythicItems.Mats.AQUARIUM_PEARL)) {
                     miner.setAir(Math.min(miner.getAir() + 24, miner.getMaxAir()));
                 }
                 // Randomly drop gold from midas gold
-                if (hasUpgradeItem(stack, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem()) && random.nextInt(40) == 27) {
+                if (upgradeComponent.hasUpgrade(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem()) && random.nextInt(40) == 27) {
                     miner.dropItem(Items.RAW_GOLD);
                 }
             }
@@ -209,157 +171,70 @@ public class MythrilDrill extends PickaxeItem {
         return true;
     }
 
-    public boolean hasFuel(ItemStack stack) {
-        return stack.has(FUEL) && stack.get(FUEL) > 0;
-    }
-
-    public boolean isActive(ItemStack stack) {
-        return stack.has(IS_ACTIVE) && stack.get(IS_ACTIVE);
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        int fuel = stack.has(FUEL) ? stack.get(FUEL) : 0;
-        // Upgrade slots
-        var format2 = hasUpgrade(stack, 1) ? Formatting.RESET : Formatting.GRAY;
-        var format1 = hasUpgrade(stack, 0) ? Formatting.RESET : Formatting.GRAY;
-        if (hasEmptyUpgradeSlot(stack)) {
-            tooltip.add(1, Text.translatable("tooltip.mythril_drill.upgrade_tip"));
-        }
-        tooltip.add(1, Text.translatable("tooltip.mythril_drill.upgrade_slot_2", Text.translatable("tooltip.mythril_drill.upgrade." + getUpgradeString(stack, 2))).formatted(format2));
-        tooltip.add(1, Text.translatable("tooltip.mythril_drill.upgrade_slot_1", Text.translatable("tooltip.mythril_drill.upgrade." + getUpgradeString(stack, 1))).formatted(format1));
-
-        // Activation Status
-        if (isActive(stack)) {
-            tooltip.add(1, Text.translatable("tooltip.mythril_drill.activated").formatted(Formatting.AQUA));
-        } else {
-            tooltip.add(1, Text.translatable("tooltip.mythril_drill.deactivated").setStyle(Style.EMPTY.withColor(Color.ofRgb(0x622622).rgb()).withFormatting(Formatting.ITALIC)));
-        }
-        if (fuel == 0) {
-            tooltip.add(1, Text.translatable("tooltip.mythril_drill.refuel").setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
-        }
-        // Fuel Gauge
-        tooltip.add(1, Text.translatable("tooltip.mythril_drill.fuel", fuel, MAX_FUEL)
-                .fillStyle(Style.EMPTY.withColor(UsefulSingletonForColorUtil.getSlightlyDarkerOwoBlueToRedGradient(fuel, MAX_FUEL))));
-
-    }
-
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (!world.isClient()) {
-            if (hasFuel(stack) && isActive(stack) && world.getTime() % (4 * FUEL_CONSTANT) == 1) {
-                stack.put(FUEL, stack.get(FUEL) - 1);
+            if (stack.get(MythicDataComponents.DRILL) == null) return;
+            if (stack.get(MythicDataComponents.UPGRADES) == null) return;
+            var drillComponent = stack.getOrDefault(MythicDataComponents.DRILL, DEFAULT);
+            var upgradeComponent = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
+            if (drillComponent.hasFuel() && drillComponent.isActive() && world.getTime() % (4 * FUEL_CONSTANT) == 1) {
+                stack.set(MythicDataComponents.DRILL, new DrillComponent(drillComponent.fuel() - 1, true));
             }
-            if (!hasFuel(stack)) {
-                stack.put(IS_ACTIVE, false);
+            if (!drillComponent.hasFuel()) {
+                stack.set(MythicDataComponents.DRILL, DrillComponent.DEFAULT);
             }
-            if (hasUpgradeItem(stack, MythicItems.Mats.PROMETHEUM_BOUQUET)) {
-                PrometheumHandler.tickAutoRepair(stack, world.getRandom());
+
+            if (upgradeComponent.hasUpgrade(MythicItems.Mats.PROMETHEUM_BOUQUET)) {
+                // Initialize auto repair upgrades
+                if (!stack.contains(MythicDataComponents.PROMETHEUM)) {
+                    stack.set(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
+                }
+                PrometheumComponent.tickAutoRepair(stack, world);
             }
         }
         super.inventoryTick(stack, world, entity, slot, selected);
     }
 
+    @Override
+    public boolean allowComponentsUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+        boolean didFuelChange = oldStack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).fuel() == oldStack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).fuel();
+        return !didFuelChange && oldStack.getDamage() != newStack.getDamage();
+    }
 
     @Override
-    public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
-        // Cancel animation when fuel ticks down
-        return oldStack.get(FUEL).equals(newStack.get(FUEL)) && oldStack.getDamage() == newStack.getDamage();
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> lines, TooltipType type) {
+        if (stack.contains(MythicDataComponents.DRILL)) {
+            stack.get(MythicDataComponents.DRILL).appendTooltip(context, lines::add, type);
+        }
+        if (stack.contains(MythicDataComponents.UPGRADES)) {
+            stack.get(MythicDataComponents.UPGRADES).appendTooltip(context, lines::add, type);
+        }
     }
 
     @Override
     public boolean allowContinuingBlockBreaking(PlayerEntity player, ItemStack oldStack, ItemStack newStack) {
         // Allow you to break blocks when fuel ticks down
-        return !oldStack.get(FUEL).equals(newStack.get(FUEL)) || oldStack.getDamage() != newStack.getDamage();
+        return oldStack.contains(MythicDataComponents.DRILL) && newStack.contains(MythicDataComponents.DRILL) || oldStack.getDamage() != newStack.getDamage();
     }
 
     @Override
-    public boolean isSuitableFor(ItemStack stack, BlockState state) {
-        if (isActive(stack)) {
-            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.getMaterial().getMiningLevel() >= MiningLevelManager.getRequiredMiningLevel(state))
+    public boolean isCorrectForDrops(ItemStack stack, BlockState state) {
+        if (stack.contains(MythicDataComponents.DRILL) && stack.get(MythicDataComponents.DRILL).isActive()) {
+            if (state.isIn(BlockTags.SHOVEL_MINEABLE))
                 return true;
         }
-        return super.isSuitableFor(stack, state);
+        return super.isCorrectForDrops(stack, state);
     }
 
     @Override
-    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        if (isActive(stack)) {
-            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.getMaterial().getMiningLevel() >= MiningLevelManager.getRequiredMiningLevel(state)) {
-                return this.miningSpeed;
-            } else return super.getMiningSpeedMultiplier(stack, state);
+    public float getMiningSpeed(ItemStack stack, BlockState state) {
+        if (stack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).isActive()) {
+            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.isCorrectForDrops(stack, state)) {
+                return super.getMiningSpeed(stack, state) * this.getMaterial().getMiningSpeedMultiplier();
+            } else return super.getMiningSpeed(stack, state);
         }
-        return super.getMiningSpeedMultiplier(stack, state) / 2.5F;
-    }
-
-    /**
-     * Checks the NBT on the stack and checks if an upgrade is installed
-     *
-     * @param drillStack  The Drill to be checked
-     * @param upgradeItem The upgrade item you wish to check against
-     */
-    public static boolean hasUpgradeItem(ItemStack drillStack, Item upgradeItem) {
-        boolean result = false;
-
-        // Check if the upgrade exists in slot one
-        if (drillStack.has(UPGRADE_SLOT_ONE)) {
-            result = (drillStack.get(UPGRADE_SLOT_ONE) == upgradeItem);
-        }
-
-        // Check if the upgrade exists in slot two, unless we already found it
-        if (drillStack.has(UPGRADE_SLOT_TWO) && !result) {
-            result = (drillStack.get(UPGRADE_SLOT_TWO) == upgradeItem);
-        }
-        return result;
-    }
-
-    /**
-     * Check if any upgrade is installed in a specified slot
-     * @param drillStack    The Drill in question
-     * @param slot          Specified slot, anything else will always return false with an error
-     */
-    public static boolean hasUpgrade(ItemStack drillStack, int slot) {
-        if (slot == 1) {
-            return drillStack.has(UPGRADE_SLOT_TWO);
-        } else if (slot == 0) {
-            return drillStack.has(UPGRADE_SLOT_ONE);
-        } else {
-            MythicMetals.LOGGER.error("BAD DRILL QUERY - Upgrade slot " + slot + " does NOT exist on this Drill!");
-            return false;
-        }
-    }
-
-    /**
-     * Check if there is a free upgrade slot
-     * @param drillStack  The Drill in question
-     */
-    public static boolean hasEmptyUpgradeSlot(ItemStack drillStack) {
-            return !(drillStack.has(UPGRADE_SLOT_TWO) || drillStack.has(UPGRADE_SLOT_ONE));
-    }
-
-    /**
-     * Fixes a bug where you were allowed to insert air into the Drill
-     */
-    public static void removeAirFromDrill(ItemStack drillStack) {
-        if (drillStack.get(UPGRADE_SLOT_ONE).asItem().equals(Items.AIR)) {
-            drillStack.delete(UPGRADE_SLOT_ONE);
-        }
-        if (drillStack.get(UPGRADE_SLOT_TWO).asItem().equals(Items.AIR)) {
-            drillStack.delete(UPGRADE_SLOT_TWO);
-        }
-    }
-
-    public static String getUpgradeString(ItemStack stack, int slot) {
-        if (slot == 2) {
-            if (stack.has(UPGRADE_SLOT_TWO)) {
-                return DrillUpgrades.MAP.get(stack.get(UPGRADE_SLOT_TWO));
-            }
-        } else {
-            if (stack.has(UPGRADE_SLOT_ONE)) {
-                return DrillUpgrades.MAP.get(stack.get(UPGRADE_SLOT_ONE));
-            }
-        }
-        return "empty";
+        return super.getMiningSpeed(stack, state) / 2.0f;
     }
 
     /**
@@ -367,34 +242,34 @@ public class MythrilDrill extends PickaxeItem {
      * Includes playing sound effects and applying a cooldown to prevent spam
      */
     public void toggleDrillState(World world, PlayerEntity user, ItemStack drill) {
-
-        // Put the bool in there for the first time
-        if (!drill.has(IS_ACTIVE)) {
-            drill.put(IS_ACTIVE, false);
-        }
-
+        var drillComponent = drill.getOrDefault(MythicDataComponents.DRILL, DEFAULT);
         if (world.isClient) {
-            var sound = drill.get(IS_ACTIVE) ? RegisterSounds.MYTHRIL_DRILL_DEACTIVATE : RegisterSounds.MYTHRIL_DRILL_ACTIVATE;
-            user.playSound(sound, SoundCategory.PLAYERS, 1.0f, 1.0f);
+            var sound = drillComponent.isActive() ? RegisterSounds.MYTHRIL_DRILL_DEACTIVATE : RegisterSounds.MYTHRIL_DRILL_ACTIVATE;
+            user.playSound(sound, 1.0f, 1.0f);
         }
         user.getItemCooldownManager().set(drill.getItem(), 20);
-        drill.put(IS_ACTIVE, !drill.get(IS_ACTIVE));
+        drill.set(MythicDataComponents.DRILL, DrillComponent.toggleActiveState(drillComponent));
     }
 
     /**
      * Used for prioritizing eating food in off-hand over activating the drill
+     *
      * @return whether you can eat the food-related itemstack in question
      */
     private boolean respectFood(ItemStack foodStack, PlayerEntity user) {
-        return foodStack.isFood() && user.canConsume(foodStack.getItem().getFoodComponent() != null && foodStack.getItem().getFoodComponent().isAlwaysEdible());
+        return foodStack.contains(DataComponentTypes.FOOD) && user.canConsume(false);
     }
 
     @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-        var mapnite = HashMultimap.create(this.getAttributeModifiers(slot));
-        if (hasUpgradeItem(stack, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK.asItem())) {
-            mapnite.put(EntityAttributes.GENERIC_LUCK, new EntityAttributeModifier(UUID.fromString("dc61bf90-67b4-414e-8ecf-994065208b3e"), "Drill Luck", 2.0f, EntityAttributeModifier.Operation.ADDITION));
+    public void postProcessComponents(ItemStack stack) {
+        if (!stack.contains(DataComponentTypes.ATTRIBUTE_MODIFIERS)) return;
+
+        var attributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        var upgrades = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
+        if (upgrades.hasUpgrade(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK_ITEM)) {
+            var modifier = new EntityAttributeModifier(LUCK_BONUS_ID, "mythril drill luck bonus", 1.0, EntityAttributeModifier.Operation.ADD_VALUE);
+            var upgradeAttributes = attributes.with(EntityAttributes.GENERIC_LUCK, modifier, AttributeModifierSlot.MAINHAND);
+            stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, upgradeAttributes);
         }
-        return slot == EquipmentSlot.MAINHAND ? mapnite : super.getAttributeModifiers(slot);
     }
 }

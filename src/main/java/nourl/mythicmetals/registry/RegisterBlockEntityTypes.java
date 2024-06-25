@@ -17,7 +17,7 @@ public class RegisterBlockEntityTypes implements BlockEntityRegistryContainer {
      */
 
     public static final BlockEntityType<EnchantedMidasGoldBlockEntity> ENCHANTED_MIDAS_GOLD_BLOCK =
-            FabricBlockEntityTypeBuilder.create(EnchantedMidasGoldBlockEntity::new, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK).build();
+        BlockEntityType.Builder.create(EnchantedMidasGoldBlockEntity::new, MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK).build();
 
     @Override
     public boolean shouldProcessField(BlockEntityType<?> value, String identifier, Field field) {

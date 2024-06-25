@@ -17,7 +17,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:mythril_drill_smithing_template",
+    "id": "mythicmetals:mythril_drill_smithing_template",
     "count": 2
   }
 }

@@ -10,11 +10,11 @@
       "item": "mythicmetals:runite_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:runite_axe",
+    "id": "mythicmetals:runite_axe",
     "count": 1
   }
 }

@@ -1,29 +1,22 @@
 package nourl.mythicmetals.recipe;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.wispforest.owo.serialization.Endec;
+import io.wispforest.owo.serialization.StructEndec;
+import io.wispforest.owo.serialization.endec.BuiltInEndecs;
+import io.wispforest.owo.serialization.endec.StructEndecBuilder;
+import io.wispforest.owo.serialization.util.EndecRecipeSerializer;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
-import nourl.mythicmetals.armor.TidesingerArmor;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.TidesingerPatternComponent;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.registry.RegisterRecipeSerializers;
 
-public class TidesingerCoralRecipe implements SmithingRecipe {
-    public final Ingredient base;
-    public final Ingredient addition;
-    public final ItemStack result;
-    public final Ingredient template;
-
-    public TidesingerCoralRecipe(Ingredient base, Ingredient addition, Ingredient template, ItemStack result) {
-        this.base = base;
-        this.addition = addition;
-        this.result = result;
-        this.template = template;
-    }
+public record TidesingerCoralRecipe(Ingredient base, Ingredient addition, Ingredient template,
+                                    ItemStack result) implements SmithingRecipe {
 
     @Override
     public boolean testTemplate(ItemStack stack) {
@@ -46,22 +39,21 @@ public class TidesingerCoralRecipe implements SmithingRecipe {
     }
 
     @Override
-    public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(Inventory inventory, RegistryWrapper.WrapperLookup lookup) {
         var armorStack = this.result.copy();
-        armorStack.setNbt(inventory.getStack(1).getNbt());
+        var formerArmorItem = inventory.getStack(1).getItem();
+        armorStack.copyComponentsToNewStack(formerArmorItem, 1);
         var additionStack = inventory.getStack(2);
 
-        var path = Registries.ITEM.getId(additionStack.getItem()).getPath();
-
-        if (path.contains("coral") && !(path.contains("block") || path.contains("dead"))) {
-            armorStack.put(TidesingerArmor.CORAL_TYPE, path.split("_")[0]);
+        if (additionStack.isIn(MythicTags.TIDESINGER_CORAL)) {
+            armorStack.set(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.fromStack(additionStack));
         }
 
         return armorStack;
     }
 
     @Override
-    public ItemStack getResult(DynamicRegistryManager registryManager) {
+    public ItemStack getResult(RegistryWrapper.WrapperLookup lookup) {
         return this.result;
     }
 
@@ -70,37 +62,18 @@ public class TidesingerCoralRecipe implements SmithingRecipe {
         return RegisterRecipeSerializers.TIDESINGER_CORAL_RECIPE;
     }
 
-    public static class Serializer implements RecipeSerializer<TidesingerCoralRecipe> {
-        private static final Codec<TidesingerCoralRecipe> CODEC = RecordCodecBuilder.create(
-                instance -> instance.group(
-                                Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter(recipe -> recipe.base),
-                                Ingredient.ALLOW_EMPTY_CODEC.fieldOf("addition").forGetter(recipe -> recipe.addition),
-                                Ingredient.ALLOW_EMPTY_CODEC.fieldOf("template").forGetter(recipe -> recipe.template),
-                                ItemStack.RECIPE_RESULT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result)
-                        )
-                        .apply(instance, TidesingerCoralRecipe::new)
+    public static class Serializer extends EndecRecipeSerializer<TidesingerCoralRecipe> {
+
+        public static final StructEndec<TidesingerCoralRecipe> ENDEC = StructEndecBuilder.of(
+            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("base", recipe -> recipe.base),
+            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("addition", recipe -> recipe.addition),
+            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("template", recipe -> recipe.template),
+            BuiltInEndecs.ITEM_STACK.fieldOf("result", recipe -> recipe.result),
+            TidesingerCoralRecipe::new
         );
 
-        @Override
-        public Codec<TidesingerCoralRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public TidesingerCoralRecipe read(PacketByteBuf buf) {
-            Ingredient ingredient = Ingredient.fromPacket(buf);
-            Ingredient ingredient2 = Ingredient.fromPacket(buf);
-            Ingredient ingredient3 = Ingredient.fromPacket(buf);
-            ItemStack itemStack = buf.readItemStack();
-            return new TidesingerCoralRecipe(ingredient, ingredient2, ingredient3, itemStack);
-        }
-
-        @Override
-        public void write(PacketByteBuf packetByteBuf, TidesingerCoralRecipe smithingRecipe) {
-            smithingRecipe.base.write(packetByteBuf);
-            smithingRecipe.addition.write(packetByteBuf);
-            smithingRecipe.template.write(packetByteBuf);
-            packetByteBuf.writeItemStack(smithingRecipe.result);
+        public Serializer(StructEndec<TidesingerCoralRecipe> endec) {
+            super(endec);
         }
     }
 }

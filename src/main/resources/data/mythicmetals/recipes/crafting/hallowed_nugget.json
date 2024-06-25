@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:hallowed_nugget",
+    "id": "mythicmetals:hallowed_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

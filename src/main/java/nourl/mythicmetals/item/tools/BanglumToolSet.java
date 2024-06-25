@@ -1,21 +1,22 @@
 package nourl.mythicmetals.item.tools;
 
+import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.item.*;
 import java.util.function.Consumer;
 
 public class BanglumToolSet extends ToolSet {
 
     @Override
-    protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new BanglumPick(material, damage, speed, settings);
+    protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+        return new BanglumPick(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
     @Override
-    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new BanglumShovel(material, damage, speed, settings);
+    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+        return new BanglumShovel(material, settings.attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed)));
     }
 
-    public BanglumToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<Item.Settings> settingsProcessor) {
+    public BanglumToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<OwoItemSettings> settingsProcessor) {
         super(material, damage, speed, settingsProcessor);
     }
 

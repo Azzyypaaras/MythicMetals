@@ -7,9 +7,10 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import nourl.mythicmetals.armor.TidesingerArmor;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.TidesingerPatternComponent;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.recipe.TidesingerCoralRecipe;
 import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
@@ -25,10 +26,10 @@ public class TidesingerEMIRecipe implements EmiRecipe {
     Identifier id;
 
     public TidesingerEMIRecipe(TidesingerCoralRecipe recipe) {
-        this.template = recipe.template;
-        this.base = recipe.base;
-        this.addition = recipe.addition;
-        var outputStack = recipe.result;
+        this.template = recipe.template();
+        this.base = recipe.base();
+        this.addition = recipe.addition();
+        var outputStack = recipe.result();
 
         if (this.base != null && this.addition != null && outputStack != null) {
             var inputStack = Arrays.stream(this.base.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();
@@ -39,12 +40,10 @@ public class TidesingerEMIRecipe implements EmiRecipe {
             );
 
             var output = Arrays.stream(this.addition.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();
-            var path = Registries.ITEM.getId(output.getItem()).getPath();
-            if (path.contains("coral") && !(path.contains("block") || path.contains("dead"))) {
-                // Show different coral types
-                var outputWithNbt = outputStack.copy();
-                outputWithNbt.put(TidesingerArmor.CORAL_TYPE, path.split("_")[0]);
-                outputs = EmiStack.of(outputWithNbt);
+            if (output.isIn(MythicTags.TIDESINGER_CORAL)) {
+                var outputWithComponents = outputStack.copyComponentsToNewStack(outputStack.getItem(), outputStack.getCount());
+                outputWithComponents.set(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.fromStack(outputStack));
+                outputs = EmiStack.of(output);
             }
         }
 

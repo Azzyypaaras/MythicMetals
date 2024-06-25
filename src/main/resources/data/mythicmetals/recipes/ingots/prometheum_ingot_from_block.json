@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:prometheum_ingot",
+    "id": "mythicmetals:prometheum_ingot",
     "count": 9
   },
   "group": "mm_prometheum"

@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:stormyx_ingot",
+    "id": "mythicmetals:stormyx_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

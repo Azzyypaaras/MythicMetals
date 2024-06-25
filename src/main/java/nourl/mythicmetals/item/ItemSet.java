@@ -15,6 +15,9 @@ public class ItemSet {
     private Item rawOreItem = null;
     private Item nuggetItem = null;
     private Item dustItem = null;
+    private boolean requiresBlasting = false;
+    // Used for smelting recipes during datagen
+    private final float xp;
 
     private static Item.Settings createSettings(Consumer<Item.Settings> settingsProcessor) {
         final var settings = new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(0);
@@ -22,15 +25,31 @@ public class ItemSet {
         return settings;
     }
 
-    public ItemSet() {
-        this(false, settings -> {});
+    public ItemSet(float xp) {
+        this(false, false, xp, settings -> {});
+    }
+
+    public ItemSet(float xp, boolean requiresBlasting) {
+        this(false, requiresBlasting, xp, settings -> {});
     }
 
     public ItemSet(boolean isAlloy) {
-        this(isAlloy, settings -> {});
+        this(isAlloy, true, 0.1f, settings -> {});
     }
 
-    public ItemSet(boolean isAlloy, Consumer<Item.Settings> settingsConsumer) {
+    public ItemSet(boolean isAlloy, float xp) {
+        this(isAlloy, false,xp, settings -> {});
+    }
+
+    public ItemSet(boolean isAlloy, float xp, boolean requiresBlasting) {
+        this(isAlloy, requiresBlasting, xp, settings -> {});
+    }
+
+    public ItemSet(boolean isAlloy, boolean requiresBlasting, Consumer<Item.Settings> settingsConsumer) {
+        this(isAlloy, requiresBlasting, 0.1f, settingsConsumer);
+    }
+
+    public ItemSet(boolean isAlloy, boolean requiresBlasting, float xp, Consumer<Item.Settings> settingsConsumer) {
         this.ingotItem = makeItem(createSettings(settingsConsumer));
         if (!isAlloy) {
             this.rawOreItem = makeItem(createSettings(settingsConsumer));
@@ -41,6 +60,8 @@ public class ItemSet {
         if (MythicMetals.CONFIG.enableDusts()) {
             this.dustItem = makeItem(createSettings(settingsConsumer));
         }
+        this.xp = xp;
+        this.requiresBlasting = requiresBlasting;
     }
 
     public void register(String name) {
@@ -91,5 +112,13 @@ public class ItemSet {
 
     public Item getDust() {
         return dustItem;
+    }
+
+    public boolean requiresBlasting() {
+        return requiresBlasting;
+    }
+
+    public float getXp() {
+        return this.xp > 0 ? this.xp : 0.0f;
     }
 }

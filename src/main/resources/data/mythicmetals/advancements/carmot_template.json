@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.carmot_template.description"
     },
     "icon": {
-      "item": "mythicmetals:carmot_smithing_template"
+      "id": "mythicmetals:carmot_smithing_template"
     },
     "frame": "task",
     "show_toast": true,

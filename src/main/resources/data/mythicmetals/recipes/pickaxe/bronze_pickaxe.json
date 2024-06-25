@@ -10,11 +10,11 @@
       "tag": "c:bronze_ingots"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:bronze_pickaxe",
+    "id": "mythicmetals:bronze_pickaxe",
     "count": 1
   }
 }

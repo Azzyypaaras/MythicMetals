@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:palladium_nugget",
+    "id": "mythicmetals:palladium_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

@@ -14,8 +14,9 @@ import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.CarmotShield;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.client.models.RainbowShieldModel;
+import nourl.mythicmetals.component.DrillComponent;
+import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.tools.CarmotStaff;
-import nourl.mythicmetals.item.tools.MythrilDrill;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -63,15 +64,15 @@ public class PlayerEntityRendererMixin {
     private void mythicmetals$renderRainbowShield(AbstractClientPlayerEntity player, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         var stack = player.getStackInHand(Hand.MAIN_HAND);
         if (CarmotStaff.hasBlockInStaff(stack, MythicBlocks.STORMYX.getStorageBlock())) {
-            if (!stack.get(CarmotStaff.IS_USED)) return; // Only render if the staff is actively being used
+            if (!stack.getOrDefault(MythicDataComponents.IS_USED, false)) return; // Only render if the staff is actively being used
             matrixStack.push();
             double delta = System.currentTimeMillis() / 45.0;
 
             double hue = delta % 360.0;
             float saturation = 1;
-            float constantvalue = 1;
+            float constantValue = 1;
 
-            int color = MathHelper.hsvToRgb((float) (hue / 360), saturation, constantvalue);
+            int color = MathHelper.hsvToRgb((float) (hue / 360), saturation, constantValue);
 
             float[] rgbColors = UsefulSingletonForColorUtil.splitRGBToFloats(color);
 
@@ -92,7 +93,7 @@ public class PlayerEntityRendererMixin {
     @Inject(method = "getArmPose", at = @At("RETURN"), cancellable = true)
     private static void mythicmetals$mythrilDrillPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
         var stack = player.getStackInHand(hand);
-        if (stack.getItem() instanceof MythrilDrill drill && drill.isActive(stack)) {
+        if (stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
             cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
         }
     }

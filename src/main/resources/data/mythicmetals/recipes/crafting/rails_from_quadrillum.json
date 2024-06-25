@@ -10,11 +10,11 @@
       "item": "mythicmetals:quadrillum_ingot"
     },
     "i": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "minecraft:rail",
+    "id": "minecraft:rail",
     "count": 12
   }
 }

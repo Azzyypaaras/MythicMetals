@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:bronze_nugget",
+    "id": "mythicmetals:bronze_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

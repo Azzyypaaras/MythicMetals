@@ -10,11 +10,11 @@
       "item": "mythicmetals:kyber_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:kyber_hoe",
+    "id": "mythicmetals:kyber_hoe",
     "count": 1
   }
 }

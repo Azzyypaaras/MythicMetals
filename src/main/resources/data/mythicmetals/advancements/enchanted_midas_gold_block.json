@@ -8,7 +8,7 @@
       "translate": "advancement.mythicmetals.enchanted_midas_gold_block.description"
     },
     "icon": {
-      "item": "mythicmetals:enchanted_midas_gold_block"
+      "id": "mythicmetals:enchanted_midas_gold_block"
     },
     "frame": "goal",
     "show_toast": true,

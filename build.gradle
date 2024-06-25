@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -30,20 +30,21 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // Alloy Forgery
-    modImplementation("maven.modrinth:alloy-forgery:${project.alloyforgery_version}")
+    //modImplementation("maven.modrinth:alloy-forgery:${project.alloyforgery_version}")
 
     // OwO
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
     include "io.wispforest:owo-sentinel:${project.owo_version}"
 
     // Isometric Renders + Worldmesher
-    modImplementation("maven.modrinth:isometric-renders:${project.isorender_version}")
-    modImplementation("io.wispforest:worldmesher:${project.worldmesher_version}")
+    // TODO - Re-enable
+    //modImplementation("maven.modrinth:isometric-renders:${project.isorender_version}")
+    //modImplementation("io.wispforest:worldmesher:${project.worldmesher_version}")
 
     // REI + Arch
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${project.rei_version}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+    //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
     modCompileOnly "dev.architectury:architectury-fabric:${project.architectury_version}"
 
     // EMI
@@ -58,12 +59,10 @@ dependencies {
 
     // Origins compat via Apoli
     // Excludes Daf's libraries from it, as its out of date and produces duplicate transitive dependencies
+    // TODO - Re-enable, or migrate to Bridges
     //modCompileOnly("com.github.apace100:Apoli:${project.apoli_version}") {
     //    exclude(group: "com.github.DaFuqs")
     //}
-
-    // Reach Entity Attributes
-    //modImplementation include("com.jamieswhiteshirt:reach-entity-attributes:${project.rea_version}")
 
     // Common Protection API
     modImplementation include("eu.pb4:common-protection-api:${project.cpa_version}")
@@ -72,8 +71,8 @@ dependencies {
     //modRuntimeOnly("nourl:MythicMetalsDecorations:${project.mmdecorations_version}")
 
     // Cardinal Components
-    modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}")
-    modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}")
+    modImplementation include("org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
 
     // Explosive Enhancement
     modApi("maven.modrinth:explosive-enhancement:${project.ee_version}")
@@ -132,6 +131,14 @@ publishing {
             artifact(sourcesJar) {
                 builtBy remapSourcesJar
             }
+        }
+    }
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xmaxerrs" << "1000"
         }
     }
 }

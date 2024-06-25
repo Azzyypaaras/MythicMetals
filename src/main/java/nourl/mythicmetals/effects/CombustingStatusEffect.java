@@ -13,16 +13,6 @@ public class CombustingStatusEffect extends StatusEffect {
     }
 
     @Override
-    public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        super.applyUpdateEffect(entity, amplifier);
-    }
-
-//    @Override
-//    public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-//        entity.getComponent(MythicMetals.COMBUSTION_COOLDOWN).setCooldown(500);
-//    }
-
-    @Override
     public void onRemoved(AttributeContainer attributeContainer) {
         super.onRemoved(attributeContainer);
     }

@@ -1,3 +1,16 @@
+# 0.19.8
+
+## Changes
+
+- Fix an issue where the Mythril Drill fortune upgrade did not work (thanks Leyline Explorer!)
+- Fixed an issue where the Bronze Block would show the Copper Block tooltip in a Carmot Staff (thanks Sakura Willows!)
+- Updated the `#mythicmetals:carmot_staff_blocks` tag
+- Doubled the range of AoE Carmot Staff abilities
+  - Carmot: 2 -> 4 block radius
+  - Midas Gold: 2 -> 4 block radius
+  - Beacon: 8 -> 16 block radius
+- Use `#c:wood_sticks` tag for all recipes (#209)
+
 # 0.19.7
 
 ## Changes

@@ -10,11 +10,11 @@
       "item": "mythicmetals:orichalcum_block"
     },
     "s": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:orichalcum_hammer",
+    "id": "mythicmetals:orichalcum_hammer",
     "count": 1
   }
 }

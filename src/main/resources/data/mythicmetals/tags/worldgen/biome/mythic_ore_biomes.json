@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     {
-      "id": "#c:in_overworld",
+      "id": "#c:is_overworld",
       "replace": false
     }
   ]

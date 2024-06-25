@@ -10,11 +10,11 @@
       "item": "mythicmetals:banglum_ingot"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:banglum_shovel",
+    "id": "mythicmetals:banglum_shovel",
     "count": 1
   }
 }

@@ -1,51 +1,50 @@
 package nourl.mythicmetals;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.entity.*;
 import io.wispforest.owo.itemgroup.Icon;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.gui.ItemGroupButton;
 import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
-import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.math.Position;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
-import net.minecraft.world.World;
 import nourl.mythicmetals.abilities.Abilities;
-import nourl.mythicmetals.armor.CarmotShield;
-import nourl.mythicmetals.armor.MythicArmor;
+import nourl.mythicmetals.armor.*;
 import nourl.mythicmetals.blocks.BanglumNukeHandler;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.command.MythicCommands;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.PrometheumComponent;
+import nourl.mythicmetals.conditions.MythicResourceConditions;
 import nourl.mythicmetals.config.MythicMetalsConfig;
 import nourl.mythicmetals.data.MythicOreKeys;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.effects.MythicStatusEffects;
-import nourl.mythicmetals.entity.*;
+import nourl.mythicmetals.entity.CombustionCooldown;
+import nourl.mythicmetals.entity.MythicEntities;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.MythicTools;
 import nourl.mythicmetals.misc.*;
 import nourl.mythicmetals.registry.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.entity.*;
 
 public class MythicMetals implements ModInitializer, EntityComponentInitializer {
     public static Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "mythicmetals";
-    public static final int CONFIG_VERSION = 11;
+    public static final int CONFIG_VERSION = 12;
 
     public static final AbstractMinecartEntity.Type BANGLUM_TNT = Enum.valueOf(AbstractMinecartEntity.Type.class, "BANGLUM_TNT");
 
@@ -79,6 +78,7 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
             RegisterPointOfInterests.init();
         }
         FieldRegistrationHandler.processSimple(MythicItems.Copper.class, false);
+        FieldRegistrationHandler.register(MythicArmorMaterials.class, MOD_ID, false);
         FieldRegistrationHandler.processSimple(MythicTools.class, true);
         FieldRegistrationHandler.processSimple(MythicArmor.class, false);
         FieldRegistrationHandler.register(RegisterBlockEntityTypes.class, MOD_ID, false);
@@ -94,7 +94,7 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
         TABBED_GROUP.initialize();
         FuelRegistry.INSTANCE.add(MythicItems.Mats.MORKITE, 1200);
         FuelRegistry.INSTANCE.add(MythicBlocks.MORKITE.getStorageBlock(), 12800);
-        RegisterResourceConditions.init();
+        MythicResourceConditions.init();
         RegisterLootConditions.init();
         MythicStatusEffects.init();
         RegisterRecipeSerializers.init();
@@ -105,7 +105,7 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
             factories.add(new TradeOffers.SellItemFactory(MythicItems.Templates.AEGIS_SMITHING_TEMPLATE, 48, 1, 2, 30));
         });
         registerDispenserBehaviour();
-        PrometheumHandler.registerPrometheumAttributeEvent();
+        registerPrometheumAttributeEvent();
 
 
         if (CONFIG.configVersion() < CONFIG_VERSION) {
@@ -136,37 +136,21 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
         LOGGER.info("[Mythic Metals] Mythic Metals is now initialized.");
     }
 
+    /**
+     * Registers an event that modifies all armor items in the tag with bonus attributes when bound
+     */
+    public static void registerPrometheumAttributeEvent() {
+        DefaultItemComponentEvents.MODIFY.register(context -> {
+            context.modify(item -> item.getDefaultStack().isIn(MythicTags.PROMETHEUM_EQUIPMENT), (builder, item) -> {
+                builder.add(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
+            });
+        });
+    }
+
     private void registerDispenserBehaviour() {
-        DispenserBlock.registerBehavior(() -> MythicTools.STAR_PLATINUM_ARROW, new ProjectileDispenserBehavior() {
-            @Override
-            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-                var arrow = new StarPlatinumArrowEntity(MythicEntities.STAR_PLATINUM_ARROW_ENTITY_TYPE, world);
-                arrow.setPos(position.getX(), position.getY(), position.getZ());
-                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-                return arrow;
-            }
-        });
-
-        DispenserBlock.registerBehavior(() -> MythicTools.RUNITE_ARROW, new ProjectileDispenserBehavior() {
-            @Override
-            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-                var arrow = new RuniteArrowEntity(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world);
-                arrow.setPos(position.getX(), position.getY(), position.getZ());
-                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-                return arrow;
-            }
-        });
-
-        DispenserBlock.registerBehavior(() -> MythicTools.TIPPED_RUNITE_ARROW, new ProjectileDispenserBehavior() {
-            @Override
-            protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
-                var arrow = new RuniteArrowEntity(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, world);
-                arrow.setPos(position.getX(), position.getY(), position.getZ());
-                arrow.initFromStack(stack);
-                arrow.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-                return arrow;
-            }
-        });
+        DispenserBlock.registerBehavior(() -> MythicTools.STAR_PLATINUM_ARROW, new ProjectileDispenserBehavior(MythicTools.STAR_PLATINUM_ARROW));
+        DispenserBlock.registerBehavior(() -> MythicTools.RUNITE_ARROW, new ProjectileDispenserBehavior(MythicTools.RUNITE_ARROW));
+        DispenserBlock.registerBehavior(() -> MythicTools.TIPPED_RUNITE_ARROW, new ProjectileDispenserBehavior(MythicTools.TIPPED_RUNITE_ARROW));
     }
 
 

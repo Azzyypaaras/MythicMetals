@@ -1,13 +1,17 @@
 package nourl.mythicmetals.mixin;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalEntityTypeTags;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.registry.tag.EntityTypeTags;
 import nourl.mythicmetals.abilities.Abilities;
+import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.*;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,7 +27,7 @@ public class EnchantmentHelperMixin {
         for (ItemStack armorItems : user.getArmorItems()) {
             if (Abilities.SPIKED_HELM.getItems().contains(armorItems.getItem())) {
                 if (armorItems.getItem() != null)
-                    armorItems.damage(1, user, player -> player.sendEquipmentBreakStatus(EquipmentSlot.HEAD));
+                    armorItems.damage(1, user, EquipmentSlot.HEAD);
 
                 if (attacker != null)
                     attacker.damage(user.getWorld().getDamageSources().thorns(user), 2.2F);
@@ -70,7 +74,7 @@ public class EnchantmentHelperMixin {
             if (Abilities.AQUA_AFFINITY.getItems().contains(mainHand.getItem())) {
                 cir.setReturnValue(true);
             }
-            if (mainHand.getItem().equals(MythicTools.MYTHRIL_DRILL) && MythrilDrill.hasUpgradeItem(mainHand, MythicItems.Mats.AQUARIUM_PEARL)) {
+            if (mainHand.getItem().equals(MythicTools.MYTHRIL_DRILL) && mainHand.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2)).hasUpgrade(MythicItems.Mats.AQUARIUM_PEARL)) {
                 cir.setReturnValue(true);
             }
         }
@@ -104,7 +108,7 @@ public class EnchantmentHelperMixin {
         int level = cir.getReturnValue();
         int change = 0;
         for (ItemStack mainHand : entity.getHandItems()) {
-            if (mainHand.getItem() instanceof MythrilDrill drill && drill.hasFuel(mainHand) && drill.isActive(mainHand)) {
+            if (mainHand.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
                 change += 1;
             }
         }
@@ -149,10 +153,10 @@ public class EnchantmentHelperMixin {
     }
 
     @Inject(method = "getAttackDamage", at = @At("TAIL"), cancellable = true)
-    private static void mythicmetals$increaseDamage(ItemStack stack, EntityGroup group, CallbackInfoReturnable<Float> cir) {
+    private static void mythicmetals$increaseDamage(ItemStack stack, @Nullable EntityType<?> entityType, CallbackInfoReturnable<Float> cir) {
         var amount = cir.getReturnValue();
         int change = 0;
-        if (Abilities.SMITE.getItems().contains(stack.getItem()) && group == EntityGroup.UNDEAD) {
+        if (Abilities.SMITE.getItems().contains(stack.getItem()) && entityType != null && entityType.isIn(EntityTypeTags.UNDEAD)) {
             change += (int) (Abilities.SMITE.getLevel() * 2.5f);
         }
         if (change != 0) {

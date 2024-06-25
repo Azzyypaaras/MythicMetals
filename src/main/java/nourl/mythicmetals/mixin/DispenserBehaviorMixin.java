@@ -9,14 +9,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 // [ConjuringCopy] https://github.com/wisp-forest/conjuring/blob/1.18/src/main/java/com/glisco/conjuring/mixin/DispenserBehaviorMixin.java
-@Mixin(targets = {"net.minecraft.block.dispenser.DispenserBehavior$10"})
+@Mixin(targets = {"net.minecraft.block.dispenser.DispenserBehavior$17"})
 public class DispenserBehaviorMixin {
 
     @Inject(method = "dispenseSilently(Lnet/minecraft/util/math/BlockPointer;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"), cancellable = true)
     private void pleaseDoNotCommitWarCrimes(BlockPointer pointer, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (!BanglumNukeHandler.tryLightBigTntWithDispenser(pointer)) return;
 
-        stack.damage(1, pointer.world().getRandom(), null);
+        stack.damage(1, pointer.world().getRandom(), null, null);
 
         cir.setReturnValue(stack.getDamage() > stack.getMaxDamage() ? ItemStack.EMPTY : stack);
 

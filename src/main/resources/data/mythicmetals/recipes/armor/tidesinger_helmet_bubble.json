@@ -10,6 +10,6 @@
     "item": "minecraft:bubble_coral"
   },
   "result": {
-    "item": "mythicmetals:tidesinger_helmet"
+    "id": "mythicmetals:tidesinger_helmet"
   }
 }

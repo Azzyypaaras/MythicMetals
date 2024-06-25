@@ -4,16 +4,15 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.effect.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
@@ -23,23 +22,19 @@ import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.MythicArmor;
+import nourl.mythicmetals.component.DrillComponent;
+import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.effects.MythicStatusEffects;
 import nourl.mythicmetals.entity.CombustionCooldown;
-import nourl.mythicmetals.item.tools.MythrilDrill;
 import nourl.mythicmetals.misc.MythicParticleSystem;
 import nourl.mythicmetals.misc.WasSpawnedFromCreeper;
 import nourl.mythicmetals.registry.RegisterCriteria;
 import nourl.mythicmetals.registry.RegisterEntityAttributes;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import java.util.Random;
 
 @Mixin(LivingEntity.class)
@@ -54,25 +49,10 @@ public abstract class LivingEntityMixin extends Entity {
     public abstract int getArmor();
 
     @Shadow
-    public abstract ItemStack getMainHandStack();
-
-    @Shadow
     public abstract boolean damage(DamageSource source, float amount);
 
     @Shadow
-    public abstract boolean hasStatusEffect(StatusEffect effect);
-
-    @Shadow
-    public abstract boolean removeStatusEffect(StatusEffect type);
-
-    @Shadow
-    public abstract @Nullable StatusEffectInstance getStatusEffect(StatusEffect effect);
-
-    @Shadow
     public abstract boolean addStatusEffect(StatusEffectInstance effect);
-
-    @Shadow
-    public abstract double getAttributeValue(EntityAttribute attribute);
 
     @Shadow
     private @Nullable LivingEntity attacker;
@@ -85,6 +65,14 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow public abstract void stopRiding();
 
+    @Shadow public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
+
+    @Shadow public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+
+    @Shadow public abstract @Nullable StatusEffectInstance getStatusEffect(RegistryEntry<StatusEffect> effect);
+
+    @Shadow public abstract boolean removeStatusEffect(RegistryEntry<StatusEffect> effect);
+
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -94,11 +82,12 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "createLivingAttributes()Lnet/minecraft/entity/attribute/DefaultAttributeContainer$Builder;", require = 1, allow = 1, at = @At("RETURN"))
     private static void mythicmetals$addAttributes(final CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
+        info.getReturnValue().add(RegisterEntityAttributes.CARMOT_SHIELD);
         info.getReturnValue().add(RegisterEntityAttributes.FIRE_VULNERABILITY);
         info.getReturnValue().add(RegisterEntityAttributes.ELYTRA_ROCKET_SPEED);
     }
 
-    @ModifyExpressionValue(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z"))
+    @ModifyExpressionValue(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasStatusEffect(Lnet/minecraft/registry/entry/RegistryEntry;)Z"))
     private boolean mythicmetals$bypassFireResistance(boolean original) {
         // We respect Fire Invulnerability, but not Fire Resistance
         // original = source.isFire() && this.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)
@@ -139,20 +128,24 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     private void mythicmetals$handleCombustion(CombustionCooldown component) {
-        if (this.isOnFire() && this.hasStatusEffect(MythicStatusEffects.HEAT) && component.isCombustible()) {
-            var effect = this.getStatusEffect(MythicStatusEffects.HEAT);
+        var entry = Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.HEAT);
+        if (this.isOnFire() && this.hasStatusEffect(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.HEAT)) && component.isCombustible()) {
+            var effect = this.getStatusEffect(entry);
             if (effect != null) {
                 int level = effect.getAmplifier();
                 int duration = effect.getDuration();
-                this.removeStatusEffect(MythicStatusEffects.HEAT);
+                this.removeStatusEffect(entry);
 
                 MythicParticleSystem.COMBUSTION_EXPLOSION.spawn(getWorld(), this.getPos());
 
-                if (this.attacker != null && this.attacker.getMainHandStack() != null && EnchantmentHelper.get(this.attacker.getMainHandStack()).containsKey(Enchantments.FIRE_ASPECT)) {
-                    duration *= 2;
+                if (this.attacker != null && this.attacker.getMainHandStack() != null) {
+                    var stack = this.attacker.getMainHandStack();
+                    if (stack.getEnchantments().getEnchantments().contains(Registries.ENCHANTMENT.getEntry(Enchantments.FIRE_ASPECT))) {
+                        duration *= 2;
+                    }
                 }
 
-                this.addStatusEffect(new StatusEffectInstance(MythicStatusEffects.COMBUSTION, duration + 40, Math.max(MathHelper.floor(level / 2.0f), 0), false, true));
+                this.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.COMBUSTION), duration + 40, Math.max(MathHelper.floor(level / 2.0f), 0), false, true));
 
                 this.setFireTicks(duration + 40);
                 component.setCooldown(1800);
@@ -168,7 +161,7 @@ public abstract class LivingEntityMixin extends Entity {
             // It only took a couple of years to find, and it was re-producible in vanilla context
             if (armorStack.isEmpty()) continue; // Don't get the item for an empty stack
             if (armorStack.getItem() == null) {
-                MythicMetals.LOGGER.error("An ItemStack was somehow marked as empty, but does contain an item.");
+                MythicMetals.LOGGER.error("An ItemStack was somehow marked as not empty, but it doesn't contain an item.");
                 MythicMetals.LOGGER.error("This is not caused by Mythic Metals, and it could potentially crash!");
                 MythicMetals.LOGGER.error("Skipping the Armor Item query");
                 continue;
@@ -223,8 +216,8 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     private void mythicmetals$palladiumParticles() {
-        if (this.hasStatusEffect(MythicStatusEffects.HEAT)) {
-            var status = this.getStatusEffect(MythicStatusEffects.HEAT);
+        if (this.hasStatusEffect(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.HEAT))) {
+            var status = this.getStatusEffect(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.HEAT));
             if (status == null) return;
             if (status.getAmplifier() < 3) return;
             Vec3d velocity = this.getVelocity();
@@ -233,7 +226,7 @@ public abstract class LivingEntityMixin extends Entity {
             }
         }
 
-        if (this.hasStatusEffect(MythicStatusEffects.COMBUSTION)) {
+        if (this.hasStatusEffect(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.COMBUSTION))) {
             Vec3d velocity = this.getVelocity();
             if (velocity.length() >= 0.1 && r.nextInt(6) < 1) {
                 MythicParticleSystem.OVERENGINEERED_PALLADIUM_PARTICLE.spawn(getWorld(), this.getPos().add(0, 0.25, 0));
@@ -264,7 +257,7 @@ public abstract class LivingEntityMixin extends Entity {
         }
         var stack = this.getStackInHand(hand);
         var camera = MinecraftClient.getInstance().getEntityRenderDispatcher().camera;
-        if (camera.isThirdPerson() && stack.getItem() instanceof MythrilDrill drill && drill.isActive(stack)) {
+        if (camera.isThirdPerson() && stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
             ci.cancel();
         }
     }

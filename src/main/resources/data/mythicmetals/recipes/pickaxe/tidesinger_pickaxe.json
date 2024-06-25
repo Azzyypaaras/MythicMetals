@@ -7,7 +7,7 @@
     "item": "mythicmetals:aquarium_ingot"
   },
   "result": {
-    "item": "mythicmetals:tidesinger_pickaxe"
+    "id": "mythicmetals:tidesinger_pickaxe"
   },
   "template": {
     "item": "mythicmetals:tidesinger_smithing_template"

@@ -10,11 +10,11 @@
       "tag": "c:osmium_ingots"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:osmium_pickaxe",
+    "id": "mythicmetals:osmium_pickaxe",
     "count": 1
   }
 }

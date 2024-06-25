@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:aquarium_block",
+    "id": "mythicmetals:aquarium_block",
     "count": 1
   }
 }

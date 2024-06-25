@@ -7,7 +7,7 @@
     "item": "mythicmetals:mythril_pickaxe"
   },
   "result": {
-    "item": "mythicmetals:mythril_drill"
+    "id": "mythicmetals:mythril_drill"
   },
   "template": {
     "item": "mythicmetals:mythril_drill_smithing_template"

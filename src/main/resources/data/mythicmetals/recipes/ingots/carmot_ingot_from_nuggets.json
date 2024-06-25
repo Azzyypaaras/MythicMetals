@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:carmot_ingot",
+    "id": "mythicmetals:carmot_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

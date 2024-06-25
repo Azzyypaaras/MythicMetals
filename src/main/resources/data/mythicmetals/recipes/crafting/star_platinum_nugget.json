@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "mythicmetals:star_platinum_nugget",
+    "id": "mythicmetals:star_platinum_nugget",
     "count": 9
   },
   "fabric:load_conditions": [

@@ -10,11 +10,11 @@
       "tag": "c:bronze_ingots"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:bronze_shovel",
+    "id": "mythicmetals:bronze_shovel",
     "count": 1
   }
 }

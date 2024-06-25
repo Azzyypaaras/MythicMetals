@@ -11,7 +11,7 @@
     }
   },
   "result": {
-    "item": "mythicmetals:mythril_ingot",
+    "id": "mythicmetals:mythril_ingot",
     "count": 1
   },
   "fabric:load_conditions": [

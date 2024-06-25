@@ -2,12 +2,10 @@ package nourl.mythicmetals.abilities;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.data.MythicTags;
-import nourl.mythicmetals.item.tools.CarmotStaff;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,11 +17,8 @@ public class UniqueStaffBlocks {
      */
     public static final Map<Block, String> MAP = new HashMap<>();
 
-    public static boolean hasUniqueBlockInStaff(ItemStack stack) {
-        if (stack.has(CarmotStaff.STORED_BLOCK)) {
-            return stack.get(CarmotStaff.STORED_BLOCK).asItem().getDefaultStack().isIn(MythicTags.CARMOT_STAFF_BLOCKS);
-        }
-        return false;
+    public static boolean hasUniqueBlockInStaff(Block block) {
+        return block.asItem().getDefaultStack().isIn(MythicTags.CARMOT_STAFF_BLOCKS);
     }
 
     public static Text getBlockTranslationKey(Block block) {
@@ -40,7 +35,7 @@ public class UniqueStaffBlocks {
         MAP.put(Blocks.SPONGE, "sponge");
         MAP.put(Blocks.COMMAND_BLOCK, "command_block");
         MAP.put(Blocks.NOTE_BLOCK, "note_block");
-        MAP.put(MythicBlocks.BRONZE.getStorageBlock(), "copper");
+        MAP.put(MythicBlocks.BRONZE.getStorageBlock(), "bronze");
         MAP.put(MythicBlocks.CARMOT.getStorageBlock(), "carmot");
         MAP.put(MythicBlocks.MIDAS_GOLD.getStorageBlock(), "midas_gold");
         MAP.put(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK, "enchanted_midas_gold");

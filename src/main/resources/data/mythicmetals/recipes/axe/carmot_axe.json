@@ -7,7 +7,7 @@
     "item": "mythicmetals:carmot_ingot"
   },
   "result": {
-    "item": "mythicmetals:carmot_axe"
+    "id": "mythicmetals:carmot_axe"
   },
   "template": {
     "item": "mythicmetals:carmot_smithing_template"

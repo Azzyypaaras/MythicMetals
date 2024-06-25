@@ -10,11 +10,11 @@
       "tag": "c:mythril_ingots"
     },
     "/": {
-      "item": "minecraft:stick"
+      "tag": "c:wood_sticks"
     }
   },
   "result": {
-    "item": "mythicmetals:mythril_shovel",
+    "id": "mythicmetals:mythril_shovel",
     "count": 1
   }
 }

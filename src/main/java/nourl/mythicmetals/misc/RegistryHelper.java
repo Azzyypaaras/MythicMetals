@@ -1,19 +1,24 @@
 package nourl.mythicmetals.misc;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.component.DataComponentType;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.item.*;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.LootConditionType;
+import net.minecraft.potion.Potion;
 import net.minecraft.registry.*;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import nourl.mythicmetals.MythicMetals;
+import java.util.function.UnaryOperator;
 
 /**
  * A helper class containing methods for registering various blocks and items.
@@ -64,11 +69,32 @@ public class RegistryHelper {
         return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, RegistryHelper.id(path));
     }
 
-    public static LootConditionType lootConditionType(String path, Codec<? extends LootCondition> lootCodec) {
+    public static LootConditionType lootConditionType(String path, MapCodec<? extends LootCondition> lootCodec) {
         return Registry.register(Registries.LOOT_CONDITION_TYPE, RegistryHelper.id(path), new LootConditionType(lootCodec));
     }
 
     public static void blockEntity(String path, BlockEntityType<?> type) {
         Registry.register(Registries.BLOCK_ENTITY_TYPE, RegistryHelper.id(path), type);
+    }
+
+    public static RegistryEntry<EntityAttribute> entityAttribute(String path, EntityAttribute attribute) {
+        return Registry.registerReference(Registries.ATTRIBUTE, id(path), attribute);
+    }
+
+    public static RegistryEntry<StatusEffect> getEntry(StatusEffect effect) {
+        return Registries.STATUS_EFFECT.getEntry(effect);
+    }
+
+    public static RegistryEntry<ArmorMaterial> getEntry(ArmorMaterial material) {
+        return Registries.ARMOR_MATERIAL.getEntry(material);
+    }
+
+    public static RegistryEntry<Potion> getEntry(Potion potion) {
+        return Registries.POTION.getEntry(potion);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static <T> DataComponentType<T> dataComponentType(String path, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
+        return Registry.register(Registries.DATA_COMPONENT_TYPE, id(path), ((DataComponentType.Builder)builderOperator.apply(DataComponentType.builder())).build());
     }
 }
