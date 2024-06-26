@@ -1,6 +1,7 @@
 package nourl.mythicmetals.data;
 
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
@@ -27,6 +28,7 @@ public class MythicTags {
     public static final TagKey<Biome> PROMETHEUM_BIOMES = TagKey.of(RegistryKeys.BIOME, RegistryHelper.id("prometheum_biomes"));
     public static final TagKey<Biome> OSMIUM_BIOMES = TagKey.of(RegistryKeys.BIOME, RegistryHelper.id("osmium_biomes"));
     public static final TagKey<Biome> MYTHIC_ORE_BIOMES = TagKey.of(RegistryKeys.BIOME, RegistryHelper.id("mythic_ore_biomes"));
+    public static final TagKey<Enchantment> SILK_TOUCH_LIKE = TagKey.of(RegistryKeys.ENCHANTMENT, RegistryHelper.id("silk_touch_like"));
 }
 
 

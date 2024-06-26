@@ -35,7 +35,7 @@ public class OreFeatureHelper {
     public static void modBiomeOres(String modId, String path, RegistryKey<PlacedFeature> ore) {
         if (FabricLoader.getInstance().isModLoaded(modId)) {
             BiomeModifications.addFeature(
-                    BiomeSelectors.includeByKey(RegistryKey.of(RegistryKeys.BIOME, new Identifier(modId, path))),
+                    BiomeSelectors.includeByKey(RegistryKey.of(RegistryKeys.BIOME, Identifier.of(modId, path))),
                     GenerationStep.Feature.UNDERGROUND_ORES, ore);
         }
     }

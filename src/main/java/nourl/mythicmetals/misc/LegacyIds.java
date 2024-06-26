@@ -24,10 +24,10 @@ public class LegacyIds {
     private static final Identifier OLD_UNOBTAINIUM_DUST = RegistryHelper.id("unobtainium_dust");
     private static final Identifier OLD_VERMICULITE = RegistryHelper.id("vermiculite_ore");
 
-    private static final Identifier VANILLA_COPPER_ORE = new Identifier("copper_ore");
-    private static final Identifier VANILLA_COPPER_INGOT = new Identifier("copper_ingot");
-    private static final Identifier VANILLA_NETHERRACK = new Identifier("netherrack");
-    private static final Identifier VANILLA_STONE = new Identifier("stone");
+    private static final Identifier VANILLA_COPPER_ORE = Identifier.of("copper_ore");
+    private static final Identifier VANILLA_COPPER_INGOT = Identifier.of("copper_ingot");
+    private static final Identifier VANILLA_NETHERRACK = Identifier.of("netherrack");
+    private static final Identifier VANILLA_STONE = Identifier.of("stone");
     private static final Identifier NEW_UNOBTAINIUM = RegistryHelper.id("unobtainium");
     private static final Identifier NEW_PALLADIUM_ORE = RegistryHelper.id("palladium_ore");
     private static final Identifier NEW_PALLADIUM_INGOT = RegistryHelper.id("palladium_ingot");

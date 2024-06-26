@@ -1,6 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ public interface RiptideTool {
         ItemStack itemStack = user.getStackInHand(hand);
         if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
             return TypedActionResult.fail(itemStack);
-        } else if (EnchantmentHelper.getRiptide(itemStack) > 0 && !user.isTouchingWaterOrRain()) {
+        } else if (itemStack.contains(EnchantmentEffectComponentTypes.TRIDENT_SPIN_ATTACK_STRENGTH) && !user.isTouchingWaterOrRain()) {
             return TypedActionResult.fail(itemStack);
         } else if (user.getItemCooldownManager().isCoolingDown(itemStack.getItem())) {
             return TypedActionResult.fail(itemStack);
@@ -56,13 +56,14 @@ public interface RiptideTool {
                 k *= TRIDENT_POWER / m;
                 l *= TRIDENT_POWER / m;
                 playerEntity.addVelocity(h, k, l);
-                playerEntity.useRiptide(20);
+                // TODO - Buff?
+                playerEntity.useRiptide(20, 8.0f, stack);
                 if (playerEntity.isOnGround()) {
                     float o = 1.1999999F;
                     playerEntity.move(MovementType.SELF, new Vec3d(0.0, o, 0.0));
                 }
 
-                world.playSoundFromEntity(null, playerEntity, SoundEvents.ITEM_TRIDENT_RIPTIDE_3, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.playSoundFromEntity(null, playerEntity, SoundEvents.ITEM_TRIDENT_RIPTIDE_3.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
                 playerEntity.getItemCooldownManager().set(stack.getItem(), COOLDOWN);
             }
         }

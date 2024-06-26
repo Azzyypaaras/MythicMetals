@@ -1,36 +1,37 @@
 package nourl.mythicmetals.component;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.component.DataComponentType;
+import io.wispforest.owo.serialization.CodecUtils;
+import net.minecraft.component.ComponentType;
 import net.minecraft.network.codec.PacketCodecs;
 import nourl.mythicmetals.misc.RegistryHelper;
 
 public class MythicDataComponents {
-    public static final DataComponentType<GoldFoldedComponent> GOLD_FOLDED = RegistryHelper.dataComponentType(
-        "gold_folded", builder -> builder.codec(GoldFoldedComponent.ENDEC.codec()).packetCodec(GoldFoldedComponent.ENDEC.packetCodec())
+    public static final ComponentType<GoldFoldedComponent> GOLD_FOLDED = RegistryHelper.dataComponentType(
+        "gold_folded", builder -> builder.codec(CodecUtils.toCodec(GoldFoldedComponent.ENDEC)).packetCodec(CodecUtils.toPacketCodec(GoldFoldedComponent.ENDEC))
     );
-    public static final DataComponentType<Boolean> LOCKED = RegistryHelper.dataComponentType(
+    public static final ComponentType<Boolean> LOCKED = RegistryHelper.dataComponentType(
         "locked", builder -> builder.codec(Codec.BOOL).packetCodec(PacketCodecs.BOOL)
     );
-    public static final DataComponentType<Boolean> ENCORE = RegistryHelper.dataComponentType(
+    public static final ComponentType<Boolean> ENCORE = RegistryHelper.dataComponentType(
         "encore", builder -> builder.codec(Codec.BOOL).packetCodec(PacketCodecs.BOOL)
     );
-    public static final DataComponentType<Boolean> IS_USED = RegistryHelper.dataComponentType(
+    public static final ComponentType<Boolean> IS_USED = RegistryHelper.dataComponentType(
         "encore", builder -> builder.codec(Codec.BOOL).packetCodec(PacketCodecs.BOOL)
     );
-    public static final DataComponentType<CarmotStaffComponent> CARMOT_STAFF_BLOCK = RegistryHelper.dataComponentType("carmot_staff_block",
-        builder -> builder.codec(CarmotStaffComponent.ENDEC.codec()).packetCodec(CarmotStaffComponent.ENDEC.packetCodec())
+    public static final ComponentType<CarmotStaffComponent> CARMOT_STAFF_BLOCK = RegistryHelper.dataComponentType("carmot_staff_block",
+        builder -> builder.codec(CodecUtils.toCodec(CarmotStaffComponent.ENDEC)).packetCodec(CodecUtils.toPacketCodec(CarmotStaffComponent.ENDEC))
     );
-    public static final DataComponentType<TidesingerPatternComponent> TIDESINGER = RegistryHelper.dataComponentType("tidesinger",
-      builder -> builder.codec(TidesingerPatternComponent.ENDEC.codec()).packetCodec(TidesingerPatternComponent.ENDEC.packetCodec())
+    public static final ComponentType<TidesingerPatternComponent> TIDESINGER = RegistryHelper.dataComponentType("tidesinger",
+      builder -> builder.codec(CodecUtils.toCodec(TidesingerPatternComponent.ENDEC)).packetCodec(CodecUtils.toPacketCodec(TidesingerPatternComponent.ENDEC))
     );
-    public static final DataComponentType<DrillComponent> DRILL = RegistryHelper.dataComponentType("drill", builder ->
-        builder.codec(DrillComponent.ENDEC.codec()).packetCodec(DrillComponent.ENDEC.packetCodec())
+    public static final ComponentType<DrillComponent> DRILL = RegistryHelper.dataComponentType("drill", builder ->
+        builder.codec(CodecUtils.toCodec(DrillComponent.ENDEC)).packetCodec(CodecUtils.toPacketCodec(DrillComponent.ENDEC))
     );
-    public static final DataComponentType<UpgradeComponent> UPGRADES = RegistryHelper.dataComponentType("upgrades", builder ->
-        builder.codec(UpgradeComponent.ENDEC.codec()).packetCodec(UpgradeComponent.ENDEC.packetCodec())
+    public static final ComponentType<UpgradeComponent> UPGRADES = RegistryHelper.dataComponentType("upgrades", builder ->
+        builder.codec(CodecUtils.toCodec(UpgradeComponent.ENDEC)).packetCodec(CodecUtils.toPacketCodec(UpgradeComponent.ENDEC))
     );
-    public static final DataComponentType<PrometheumComponent> PROMETHEUM = RegistryHelper.dataComponentType("prometheum", builder ->
-        builder.codec(PrometheumComponent.ENDEC.codec()).packetCodec(PrometheumComponent.ENDEC.packetCodec())
+    public static final ComponentType<PrometheumComponent> PROMETHEUM = RegistryHelper.dataComponentType("prometheum", builder ->
+        builder.codec(CodecUtils.toCodec(PrometheumComponent.ENDEC)).packetCodec(CodecUtils.toPacketCodec(PrometheumComponent.ENDEC))
     );
 }

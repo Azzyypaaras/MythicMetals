@@ -3,14 +3,10 @@ package nourl.mythicmetals.item.tools;
 import de.dafuqs.additionalentityattributes.AdditionalEntityAttributes;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.Instrument;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.TooltipType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -21,6 +17,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
+import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.screen.slot.Slot;
@@ -43,7 +41,6 @@ import nourl.mythicmetals.misc.*;
 import nourl.mythicmetals.registry.RegisterCriteria;
 import nourl.mythicmetals.registry.RegisterSounds;
 import java.util.List;
-import java.util.UUID;
 
 import static nourl.mythicmetals.component.MythicDataComponents.CARMOT_STAFF_BLOCK;
 import static nourl.mythicmetals.component.MythicDataComponents.ENCORE;
@@ -60,12 +57,12 @@ public class CarmotStaff extends ToolItem {
         return AttributeModifiersComponent.builder()
             .add(
                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, damage, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .add(
                 EntityAttributes.GENERIC_ATTACK_SPEED,
-                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
+                new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .build();
@@ -75,20 +72,20 @@ public class CarmotStaff extends ToolItem {
         return AttributeModifiersComponent.builder()
             .add(
                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, damage, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .add(
                 EntityAttributes.GENERIC_ATTACK_SPEED,
-                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
+                new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -4.0f + attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .add(AdditionalEntityAttributes.DROPPED_EXPERIENCE,
-                new EntityAttributeModifier(UUID.fromString("5a902603-f288-4a12-bf13-4e0c1a12f6cd"), "Carmot Staff XP Bonus Main", 1.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+                new EntityAttributeModifier(RegistryHelper.id("carmot_staff_xp_bonus"), 1.0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
                 AttributeModifierSlot.MAINHAND
             )
             .add(AdditionalEntityAttributes.DROPPED_EXPERIENCE,
-                new EntityAttributeModifier(UUID.fromString("5a902603-f288-4a12-bf13-4e0c1a12f6cc"), "Carmot Staff XP Bonus Offhand", 0.3, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+                new EntityAttributeModifier(RegistryHelper.id("carmot_staff_offhand_xp_bonus"), 0.3, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
                 AttributeModifierSlot.OFFHAND
             )
             .build();
@@ -290,8 +287,8 @@ public class CarmotStaff extends ToolItem {
                     return TypedActionResult.success(stack);
                 }
 
-                int damage = stack.getMaxDamage() / (1 + EnchantmentHelper.getLevel(Enchantments.UNBREAKING, stack));
-                stack.damage(damage, user, EquipmentSlot.MAINHAND);
+                stack.setDamage(stack.getMaxDamage());
+                stack.damage(stack.getMaxDamage(), user, EquipmentSlot.MAINHAND);
                 user.getItemCooldownManager().set(stack.getItem(), 6000);
                 ((ServerPlayerEntity) user).changeGameMode(GameMode.CREATIVE);
                 explode(world, user);
@@ -508,9 +505,9 @@ public class CarmotStaff extends ToolItem {
             if (entity instanceof ExplosiveProjectileEntity projectile && !projectile.getCommandTags().contains(PROJECTILE_MODIFIED.toString())) {
                 var bounceVec = projectile.getVelocity().multiply(-0.25, -0.25, -0.25);
                 projectile.setVelocity(bounceVec.x, bounceVec.y, bounceVec.z, 1.05F, 0.5F);
-                projectile.powerX = -projectile.powerX;
-                projectile.powerY = -projectile.powerY;
-                projectile.powerZ = -projectile.powerZ;
+//                projectile.powerX = -projectile.powerX;
+//                projectile.powerY = -projectile.powerY;
+//                projectile.powerZ = -projectile.powerZ;
                 projectile.setOwner(user);
                 projectile.addCommandTag(PROJECTILE_MODIFIED.toString());
                 stack.damage(2, user, EquipmentSlot.MAINHAND);
@@ -564,7 +561,7 @@ public class CarmotStaff extends ToolItem {
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack) {
+    public int getMaxUseTime(ItemStack stack, LivingEntity entity) {
         if (!hasBlockInStaff(stack, MythicBlocks.STORMYX.getStorageBlock())) {
             return 0;
         }
@@ -690,8 +687,9 @@ public class CarmotStaff extends ToolItem {
 
     private void playRandomSound(Random random, LivingEntity user, World world) {
         float pitch = MathHelper.clamp(random.nextInt(20) / 10f, 0.1f, 2.0f);
-        int instrument = random.nextInt(15);
-        world.playSound(null, user.getX(), user.getY(), user.getZ(), Instrument.values()[instrument].getSound().value(), SoundCategory.PLAYERS, 1.0f, pitch, random.nextLong());
+        var instrumentList = Registries.INSTRUMENT.stream().toList();
+        int instrument = random.nextInt(instrumentList.size());
+        world.playSound(null, user.getX(), user.getY(), user.getZ(), instrumentList.get(instrument).soundEvent().value(), SoundCategory.PLAYERS, 1.0f, pitch, random.nextLong());
     }
 
     /**

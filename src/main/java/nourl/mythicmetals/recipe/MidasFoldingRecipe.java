@@ -1,13 +1,13 @@
 package nourl.mythicmetals.recipe;
 
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.StructEndec;
-import io.wispforest.owo.serialization.endec.BuiltInEndecs;
-import io.wispforest.owo.serialization.endec.StructEndecBuilder;
-import io.wispforest.owo.serialization.util.EndecRecipeSerializer;
-import net.minecraft.inventory.Inventory;
+import io.wispforest.endec.StructEndec;
+import io.wispforest.endec.impl.StructEndecBuilder;
+import io.wispforest.owo.serialization.CodecUtils;
+import io.wispforest.owo.serialization.EndecRecipeSerializer;
+import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
+import net.minecraft.recipe.input.SmithingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import nourl.mythicmetals.component.GoldFoldedComponent;
@@ -21,30 +21,30 @@ public record MidasFoldingRecipe(Ingredient template, Ingredient base, Ingredien
                                  ItemStack result) implements SmithingRecipe {
 
     @Override
-    public boolean matches(Inventory inventory, World world) {
-        if (this.template.test(inventory.getStack(0)) && this.base.test(inventory.getStack(1)) && this.addition.test(inventory.getStack(2))) {
-            var stack = inventory.getStack(1);
+    public boolean matches(SmithingRecipeInput input, World world) {
+        // Regular test
+        if (!(this.template.test(input.template()) && this.base.test(input.base()) && this.addition.test(input.addition()))) {
+            return false;
+        }
+        var stack = input.base();
 
-            if (!stack.contains(GOLD_FOLDED)) return false;
-            int goldCount = stack.contains(GOLD_FOLDED) ? stack.get(GOLD_FOLDED).goldFolded() : 0;
+        if (!stack.contains(GOLD_FOLDED)) return false;
+        int goldCount = stack.contains(GOLD_FOLDED) ? stack.get(GOLD_FOLDED).goldFolded() : 0;
 
-            if (inventory.getStack(0).getItem().equals(MythicItems.Templates.ROYAL_MIDAS_SMITHING_TEMPLATE)) {
-                return goldCount >= 640;
-            }
-
-            if (stack.getItem().equals(MythicTools.ROYAL_MIDAS_GOLD_SWORD)) {
-                return goldCount >= 640 && goldCount < 10000;
-            }
-
-            return goldCount < 640;
+        if (input.template().getItem().equals(MythicItems.Templates.ROYAL_MIDAS_SMITHING_TEMPLATE)) {
+            return goldCount >= 640;
         }
 
-        return false;
+        if (stack.getItem().equals(MythicTools.ROYAL_MIDAS_GOLD_SWORD)) {
+            return goldCount >= 640 && goldCount < 10000;
+        }
+
+        return goldCount < 640;
     }
 
     @Override
-    public ItemStack craft(Inventory inventory, RegistryWrapper.WrapperLookup lookup) {
-        var swordInputStack = inventory.getStack(1).copy();
+    public ItemStack craft(SmithingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+        var swordInputStack = input.base().copy();
 
         int goldCount = swordInputStack.get(GOLD_FOLDED).goldFolded();
         swordInputStack.set(GOLD_FOLDED, GoldFoldedComponent.of(goldCount + 1));
@@ -102,10 +102,10 @@ public record MidasFoldingRecipe(Ingredient template, Ingredient base, Ingredien
 
     public static class Serializer extends EndecRecipeSerializer<MidasFoldingRecipe> {
         private static final StructEndec<MidasFoldingRecipe> ENDEC = StructEndecBuilder.of(
-            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("template", recipe -> recipe.template),
-            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("base", recipe -> recipe.base),
-            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("addition", recipe -> recipe.addition),
-            BuiltInEndecs.ITEM_STACK.fieldOf("result", recipe -> recipe.result),
+            CodecUtils.toEndec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("template", recipe -> recipe.template),
+            CodecUtils.toEndec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("base", recipe -> recipe.base),
+            CodecUtils.toEndec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("addition", recipe -> recipe.addition),
+            MinecraftEndecs.ITEM_STACK.fieldOf("result", recipe -> recipe.result),
             MidasFoldingRecipe::new
         );
 

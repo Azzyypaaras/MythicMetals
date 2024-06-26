@@ -7,6 +7,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
 import nourl.mythicmetals.entity.RuniteArrowEntity;
+import org.jetbrains.annotations.Nullable;
 
 public class RuniteArrowItem extends ArrowItem {
 
@@ -15,13 +16,13 @@ public class RuniteArrowItem extends ArrowItem {
     }
 
     @Override
-    public PersistentProjectileEntity createArrow(World world, ItemStack stack, LivingEntity shooter) {
-        return new RuniteArrowEntity(world, shooter, stack);
+    public PersistentProjectileEntity createArrow(World world, ItemStack stack, LivingEntity shooter, @Nullable ItemStack shotFrom) {
+        return new RuniteArrowEntity(world, shooter, stack, shotFrom);
     }
 
     @Override
     public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
-        var entity = new RuniteArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1));
+        var entity = new RuniteArrowEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack.copyWithCount(1), null);
         entity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
         return entity;
     }

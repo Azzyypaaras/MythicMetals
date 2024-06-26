@@ -45,9 +45,10 @@ public class BanglumOreBlock extends ExperienceDroppingBlock {
 
         // This living ore is allergic to Efficiency and Fortune, but is defused by Silk Touch
         if (stack.hasEnchantments()) {
-            chance += (EnchantmentHelper.getLevel(Enchantments.EFFICIENCY, stack) * 5);
-            chance += (EnchantmentHelper.getLevel(Enchantments.FORTUNE, stack) * 8);
-            chance -= (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) * 45);
+            // FIXME - tagify the conditions in a better way
+            //chance += (EnchantmentHelper.getLevel(Enchantments.EFFICIENCY, stack) * 5);
+            //chance += (EnchantmentHelper.getLevel(Enchantments.FORTUNE, stack) * 8);
+            //chance -= (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) * 45);
         }
 
         // Extra fortune = more allergic

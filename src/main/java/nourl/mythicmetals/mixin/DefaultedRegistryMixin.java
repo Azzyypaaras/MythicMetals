@@ -20,11 +20,11 @@ public class DefaultedRegistryMixin {
         if (id != null) {
             // Various MOD_ID renames across mod versions, including Mythic Metals Decorations
             if (id.getNamespace().equals("mm_decorations"))
-                return new Identifier("mythicmetals_decorations", id.getPath());
+                return Identifier.of("mythicmetals_decorations", id.getPath());
             if (id.getNamespace().equals("mythicaddons") && !id.getPath().contains("aegis"))
-                return new Identifier("mythicmetals_decorations", id.getPath());
+                return Identifier.of("mythicmetals_decorations", id.getPath());
             if (id.getNamespace().equals("mythicaddons") && id.getPath().contains("aegis"))
-                return new Identifier(MythicMetals.MOD_ID, id.getPath());
+                return Identifier.of(MythicMetals.MOD_ID, id.getPath());
             if (LegacyIds.getLegacyIds().containsKey(id)) return LegacyIds.getLegacyIds().get(id);
 
         }

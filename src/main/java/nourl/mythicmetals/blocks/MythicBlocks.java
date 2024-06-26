@@ -5,6 +5,7 @@ import net.minecraft.block.*;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
@@ -19,11 +20,11 @@ import java.util.Map;
 public class MythicBlocks {
 
     public static final Map<String, BlockSet> BLOCKSET_MAP = new HashMap<>();
-    private static final Identifier STONE_MINING_LEVEL = new Identifier("minecraft:needs_stone_tool");
-    private static final Identifier IRON_MINING_LEVEL = new Identifier("minecraft:needs_iron_tool");
-    private static final Identifier DIAMOND_MINING_LEVEL = new Identifier("minecraft:needs_diamond_tool");
-    private static final Identifier NETHERITE_MINING_LEVEL = new Identifier("fabric:needs_tool_level_4");
-    private static final Identifier MYTHIC_MINING_LEVEL = new Identifier("fabric:needs_tool_level_5");
+    private static final Identifier STONE_MINING_LEVEL = BlockTags.NEEDS_STONE_TOOL.id();
+    private static final Identifier IRON_MINING_LEVEL = BlockTags.NEEDS_IRON_TOOL.id();
+    private static final Identifier DIAMOND_MINING_LEVEL = BlockTags.NEEDS_DIAMOND_TOOL.id();
+    private static final Identifier NETHERITE_MINING_LEVEL = Identifier.of("fabric:needs_tool_level_4");
+    private static final Identifier MYTHIC_MINING_LEVEL = Identifier.of("fabric:needs_tool_level_5");
 
     public static final BlockSet ADAMANTITE = BlockSet.Builder.begin("adamantite", false)
         .createDefaultSet(4, DIAMOND_MINING_LEVEL, DIAMOND_MINING_LEVEL)

@@ -20,11 +20,10 @@ import nourl.mythicmetals.client.models.RainbowShieldModel;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.tools.CarmotStaff;
 import nourl.mythicmetals.misc.RegistryHelper;
-import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 
 public class CarmotStaffBlockRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer, ModelLoadingPlugin {
     public static final ModelIdentifier CARMOT_STAFF_ID = new ModelIdentifier(RegistryHelper.id("carmot_staff_base"), "inventory");
-    private static final Identifier WORLD_BORDER = new Identifier("textures/misc/forcefield.png");
+    private static final Identifier WORLD_BORDER = Identifier.of("textures/misc/forcefield.png");
 
     @Override
     public void render(ItemStack staff, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumerProvider, int light, int overlay) {
@@ -75,9 +74,9 @@ public class CarmotStaffBlockRenderer implements BuiltinItemRendererRegistry.Dyn
         float saturation = 1;
         float constantvalue = 1;
 
-        int color = MathHelper.hsvToRgb((float) (hue / 360), saturation, constantvalue);
+        int color = MathHelper.hsvToArgb((float) (hue / 360), saturation, constantvalue, 128);
 
-        float[] rgbColors = UsefulSingletonForColorUtil.splitRGBToFloats(color);
+        //float[] rgbColors = UsefulSingletonForColorUtil.splitRGBToFloats(color);
 
         // Model handling, tries to reverse the rotation of the shield from the Bow UseAction
         if (mode.equals(ModelTransformationMode.FIRST_PERSON_RIGHT_HAND)) {
@@ -97,15 +96,12 @@ public class CarmotStaffBlockRenderer implements BuiltinItemRendererRegistry.Dyn
                 vcp.getBuffer(RenderLayer.getEnergySwirl(WORLD_BORDER, (float) ((delta * .005f) % 1f), (float) (delta * .005f % 1f))),
                 light,
                 OverlayTexture.DEFAULT_UV,
-                rgbColors[0],
-                rgbColors[1],
-                rgbColors[2],
-                0.5F);
+                color);
         matrices.pop();
     }
 
     @Override
     public void onInitializeModelLoader(Context pluginContext) {
-        pluginContext.addModels(CARMOT_STAFF_ID);
+        pluginContext.addModels(CARMOT_STAFF_ID.id());
     }
 }

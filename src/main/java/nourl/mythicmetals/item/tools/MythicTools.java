@@ -16,7 +16,6 @@ import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.component.*;
 import nourl.mythicmetals.item.*;
 import nourl.mythicmetals.misc.RegistryHelper;
-import nourl.mythicmetals.registry.RegisterSounds;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -179,14 +178,18 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
             @Override
             public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
                 if (entity.getType() == EntityType.FROG && FabricLoader.getInstance().isModLoaded("delightful-froge")) {
-                    ((FrogEntity) entity).setVariant(Registries.FROG_VARIANT.getEntry(new Identifier("delightful", "froge")).get());
+                    ((FrogEntity) entity).setVariant(Registries.FROG_VARIANT.getEntry(Identifier.of("delightful", "froge")).get());
                     return ActionResult.SUCCESS;
                 }
                 return super.useOnEntity(stack, user, entity, hand);
             }
         }
 
-        public static final Item FROGE = new Froger(new Item.Settings().rarity(Rarity.EPIC).fireproof().equipmentSlot(stack -> EquipmentSlot.HEAD));
-        public static final Item DOGE = new MusicDiscItem(42, RegisterSounds.DOG, new Item.Settings().rarity(Rarity.EPIC).fireproof().equipmentSlot(stack -> EquipmentSlot.HEAD).maxCount(1), 162);
+        public static final Item FROGE = new Froger(new Item.Settings().rarity(Rarity.EPIC).fireproof().equipmentSlot((entity, stack) -> EquipmentSlot.HEAD));
+        public static final Item DOGE = new Item(new Item.Settings()
+            .rarity(Rarity.EPIC).fireproof()
+            .equipmentSlot((entity, stack) -> EquipmentSlot.HEAD)
+            .maxCount(1));
+            //.component(DataComponentTypes.JUKEBOX_PLAYABLE, new JukeboxPlayableComponent()), 162);
     }
 }

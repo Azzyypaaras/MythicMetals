@@ -21,6 +21,7 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -192,7 +193,7 @@ public class MythicMetalsClient implements ClientModInitializer {
                     VertexConsumer trimVertexConsumer = sprite.getTextureSpecificVertexConsumer(
                         ItemRenderer.getDirectItemGlintConsumer(vertexConsumer, TexturedRenderLayers.getArmorTrims(trimComponent.getPattern().value().decal()), true, stack.hasGlint())
                     );
-                    model.render(matrices, trimVertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+                    model.render(matrices, trimVertexConsumer, light, OverlayTexture.DEFAULT_UV);
                 }
             }
         };
@@ -201,15 +202,15 @@ public class MythicMetalsClient implements ClientModInitializer {
 
     private void registerModelPredicates() {
         ModelPredicateProviderRegistry.register(
-                MythicTools.LEGENDARY_BANGLUM.getPickaxe(), new Identifier("is_primed"),
+                MythicTools.LEGENDARY_BANGLUM.getPickaxe(), RegistryHelper.id("is_primed"),
                 (stack, world, entity, seed) -> BanglumPick.getCooldown(entity, stack) ? 0 : 1);
 
         ModelPredicateProviderRegistry.register(
-                MythicTools.LEGENDARY_BANGLUM.getShovel(), new Identifier("is_primed"),
+                MythicTools.LEGENDARY_BANGLUM.getShovel(), RegistryHelper.id("is_primed"),
                 (stack, world, entity, seed) -> BanglumShovel.getCooldown(entity, stack) ? 0 : 1);
 
         ModelPredicateProviderRegistry.register(
-                MythicTools.MYTHRIL_DRILL, new Identifier("is_active"),
+                MythicTools.MYTHRIL_DRILL, RegistryHelper.id("is_active"),
                 (stack, world, entity, seed) -> stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive() ? 0 : 1);
 
         registerMidasPredicates(MythicTools.MIDAS_GOLD_SWORD);
@@ -224,7 +225,7 @@ public class MythicMetalsClient implements ClientModInitializer {
             return mode.equals(ModelTransformationMode.GUI) ? 0.0F : 1.0f;
         });
 
-        ModelPredicateProviderRegistry.register(MythicTools.STORMYX_SHIELD, new Identifier("blocking"), new ShieldUsePredicate());
+        ModelPredicateProviderRegistry.register(MythicTools.STORMYX_SHIELD, RegistryHelper.id("blocking"), new ShieldUsePredicate());
 
         ModelPredicateProviderRegistry.register(RegistryHelper.id("funny_day"), (stack, world, entity, seed) ->
                 (Calendar.getInstance().get(Calendar.MONTH) == Calendar.APRIL && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1 && !MythicMetals.CONFIG.disableFunny()) ? 1 : 0);
@@ -256,7 +257,7 @@ public class MythicMetalsClient implements ClientModInitializer {
                 if (component.isOvergrown()) {
                     lines.add(index, Text.translatable("tooltip.prometheum.overgrown").withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()));
                 }
-                if (EnchantmentHelper.hasBindingCurse(stack)) {
+                if (stack.contains(EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE)) {
                     lines.add(index, Text.translatable("tooltip.prometheum.engrained").withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()));
                 }
             }
@@ -271,7 +272,7 @@ public class MythicMetalsClient implements ClientModInitializer {
             this.time += Delta.compute(
                     this.time,
                     (world.getTimeOfDay()) / 24000.0f,
-                    MinecraftClient.getInstance().getLastFrameDuration() / 2.0f
+                    MinecraftClient.getInstance().getRenderTickCounter().getLastFrameDuration() / 2.0f
             );
         }
 
@@ -279,7 +280,7 @@ public class MythicMetalsClient implements ClientModInitializer {
     }
 
     public void registerMidasPredicates(Item item) {
-        ModelPredicateProviderRegistry.register(item, new Identifier("midas_gold_count"),
+        ModelPredicateProviderRegistry.register(item, RegistryHelper.id("midas_gold_count"),
                 (stack, world, entity, seed) -> {
                     int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
                     return MidasGoldSword.countGold(goldCount);

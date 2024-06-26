@@ -28,7 +28,7 @@ public class MythicMetalsData implements DataGeneratorEntrypoint {
     }
 
     public static TagKey<Item> createCommonItemTag(String path) {
-        return TagKey.of(RegistryKeys.ITEM, new Identifier("c", path));
+        return TagKey.of(RegistryKeys.ITEM, Identifier.of("c", path));
     }
 
     public static TagKey<Item> createModItemTag(String path) {
@@ -36,7 +36,7 @@ public class MythicMetalsData implements DataGeneratorEntrypoint {
     }
 
     public static TagKey<Block> createCommonBlockTag(String path) {
-        return TagKey.of(RegistryKeys.BLOCK, new Identifier("c", path));
+        return TagKey.of(RegistryKeys.BLOCK, Identifier.of("c", path));
     }
 
     public static TagKey<Block> createModBlockTag(String path) {

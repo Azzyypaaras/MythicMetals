@@ -1,13 +1,13 @@
 package nourl.mythicmetals.recipe;
 
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.StructEndec;
-import io.wispforest.owo.serialization.endec.BuiltInEndecs;
-import io.wispforest.owo.serialization.endec.StructEndecBuilder;
-import io.wispforest.owo.serialization.util.EndecRecipeSerializer;
-import net.minecraft.inventory.Inventory;
+import io.wispforest.endec.StructEndec;
+import io.wispforest.endec.impl.StructEndecBuilder;
+import io.wispforest.owo.serialization.CodecUtils;
+import io.wispforest.owo.serialization.EndecRecipeSerializer;
+import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
+import net.minecraft.recipe.input.SmithingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import nourl.mythicmetals.component.MythicDataComponents;
@@ -34,19 +34,18 @@ public record TidesingerCoralRecipe(Ingredient base, Ingredient addition, Ingred
     }
 
     @Override
-    public boolean matches(Inventory inventory, World world) {
-        return this.template.test(inventory.getStack(0)) && this.base.test(inventory.getStack(1)) && this.addition.test(inventory.getStack(2));
+    public boolean matches(SmithingRecipeInput input, World world) {
+        return this.template.test(input.template()) && this.base.test(input.base()) && this.addition.test(input.addition());
     }
 
     @Override
-    public ItemStack craft(Inventory inventory, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack craft(SmithingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
         var armorStack = this.result.copy();
-        var formerArmorItem = inventory.getStack(1).getItem();
+        var formerArmorItem = input.base().getItem();
         armorStack.copyComponentsToNewStack(formerArmorItem, 1);
-        var additionStack = inventory.getStack(2);
 
-        if (additionStack.isIn(MythicTags.TIDESINGER_CORAL)) {
-            armorStack.set(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.fromStack(additionStack));
+        if (input.addition().isIn(MythicTags.TIDESINGER_CORAL)) {
+            armorStack.set(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.fromStack(input.addition()));
         }
 
         return armorStack;
@@ -65,10 +64,10 @@ public record TidesingerCoralRecipe(Ingredient base, Ingredient addition, Ingred
     public static class Serializer extends EndecRecipeSerializer<TidesingerCoralRecipe> {
 
         public static final StructEndec<TidesingerCoralRecipe> ENDEC = StructEndecBuilder.of(
-            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("base", recipe -> recipe.base),
-            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("addition", recipe -> recipe.addition),
-            Endec.ofCodec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("template", recipe -> recipe.template),
-            BuiltInEndecs.ITEM_STACK.fieldOf("result", recipe -> recipe.result),
+            CodecUtils.toEndec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("base", recipe -> recipe.base),
+            CodecUtils.toEndec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("addition", recipe -> recipe.addition),
+            CodecUtils.toEndec(Ingredient.ALLOW_EMPTY_CODEC).fieldOf("template", recipe -> recipe.template),
+            MinecraftEndecs.ITEM_STACK.fieldOf("result", recipe -> recipe.result),
             TidesingerCoralRecipe::new
         );
 

@@ -3,6 +3,7 @@ package nourl.mythicmetals.mixin;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.tools.MythicTools;
@@ -19,7 +20,7 @@ public abstract class RangedWeaponItemMixin {
     // Increases the velocity of Runite Arrows when shot from Ranged Weapons
     // Also decreases divergence, leading to better accuracy
     @ModifyArgs(method = "shootAll", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/RangedWeaponItem;shoot(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/projectile/ProjectileEntity;IFFFLnet/minecraft/entity/LivingEntity;)V"))
-    private void mythicmetals$modifyArrowsForRunite(Args args, World world, LivingEntity shooter, Hand hand, ItemStack stack, List<ItemStack> projectiles, float speed, float divergence, boolean critical, @Nullable LivingEntity target) {
+    private void mythicmetals$modifyArrowsForRunite(Args args, ServerWorld world, LivingEntity shooter, Hand hand, ItemStack stack, List<ItemStack> projectiles, float speed, float divergence, boolean critical, @Nullable LivingEntity target) {
         boolean shouldModify = false;
         for (var arrow : projectiles) {
             if (arrow.isOf(MythicTools.RUNITE_ARROW) || arrow.isOf(MythicTools.TIPPED_RUNITE_ARROW)) {

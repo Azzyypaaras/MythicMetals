@@ -1,8 +1,11 @@
 package nourl.mythicmetals.item.tools;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalEnchantmentTags;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipType;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.enchantment.Enchantments;
@@ -13,7 +16,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -24,7 +29,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.component.*;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.item.MythicItems;
+import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.registry.RegisterSounds;
 import java.util.List;
 import java.util.UUID;
@@ -156,7 +163,14 @@ public class MythrilDrill extends PickaxeItem {
             if (drillComponent.isActive() && random.nextInt(10) > 3) return true;
             stack.damage(1, miner, EquipmentSlot.MAINHAND);
 
-            if (!stack.contains(DataComponentTypes.ENCHANTMENTS) && stack.get(DataComponentTypes.ENCHANTMENTS).getEnchantments().contains(Registries.ENCHANTMENT.getEntry(Enchantments.SILK_TOUCH)) && state.isIn(ConventionalBlockTags.ORES)) {
+            if (state.isIn(ConventionalBlockTags.ORES)) {
+                // Do not perform this if silk touch is present
+                for (RegistryEntry<Enchantment> enchantment : stack.getEnchantments().getEnchantments()) {
+                    if (enchantment.isIn(MythicTags.SILK_TOUCH_LIKE)) {
+                        return true;
+                    }
+                }
+
                 // Restore air when mining ores underwater
                 if (upgradeComponent.hasUpgrade(MythicItems.Mats.AQUARIUM_PEARL)) {
                     miner.setAir(Math.min(miner.getAir() + 24, miner.getMaxAir()));
@@ -267,7 +281,7 @@ public class MythrilDrill extends PickaxeItem {
         var attributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         var upgrades = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
         if (upgrades.hasUpgrade(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK_ITEM)) {
-            var modifier = new EntityAttributeModifier(LUCK_BONUS_ID, "mythril drill luck bonus", 1.0, EntityAttributeModifier.Operation.ADD_VALUE);
+            var modifier = new EntityAttributeModifier(RegistryHelper.id("mythril_drill_luck_bonus"), 1.0, EntityAttributeModifier.Operation.ADD_VALUE);
             var upgradeAttributes = attributes.with(EntityAttributes.GENERIC_LUCK, modifier, AttributeModifierSlot.MAINHAND);
             stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, upgradeAttributes);
         }

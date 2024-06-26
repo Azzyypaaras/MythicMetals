@@ -5,7 +5,7 @@ import io.wispforest.owo.itemgroup.OwoItemGroup;
 import io.wispforest.owo.itemgroup.OwoItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.component.DataComponentType;
+import net.minecraft.component.ComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.effect.StatusEffect;
@@ -27,7 +27,7 @@ import java.util.function.UnaryOperator;
 public class RegistryHelper {
 
     public static Identifier id(String path) {
-        return new Identifier(MythicMetals.MOD_ID, path);
+        return Identifier.of(MythicMetals.MOD_ID, path);
     }
 
     public static void item(String path, Item item) {
@@ -94,7 +94,7 @@ public class RegistryHelper {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static <T> DataComponentType<T> dataComponentType(String path, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
-        return Registry.register(Registries.DATA_COMPONENT_TYPE, id(path), ((DataComponentType.Builder)builderOperator.apply(DataComponentType.builder())).build());
+    public static <T> ComponentType<T> dataComponentType(String path, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
+        return Registry.register(Registries.DATA_COMPONENT_TYPE, id(path), ((ComponentType.Builder)builderOperator.apply(ComponentType.builder())).build());
     }
 }

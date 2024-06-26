@@ -72,7 +72,7 @@ public class ItemSet {
         if (nuggetItem != null) {
             Registry.register(Registries.ITEM, RegistryHelper.id(name + "_nugget"), nuggetItem);
             // Conditionally add nuggets to nuggets tag
-            TagInjector.inject(Registries.ITEM, new Identifier("c", "nuggets"), nuggetItem);
+            TagInjector.inject(Registries.ITEM, Identifier.of("c", "nuggets"), nuggetItem);
         }
         if (dustItem != null) {
             Registry.register(Registries.ITEM, RegistryHelper.id(name + "_dust"), dustItem);

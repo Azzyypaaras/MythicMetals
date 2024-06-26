@@ -1,12 +1,12 @@
 package nourl.mythicmetals.component;
 
-import io.wispforest.owo.serialization.StructEndec;
-import io.wispforest.owo.serialization.endec.StructEndecBuilder;
-import net.minecraft.client.item.TooltipType;
+import io.wispforest.endec.StructEndec;
+import io.wispforest.endec.impl.StructEndecBuilder;
 import net.minecraft.item.*;
+import net.minecraft.item.tooltip.TooltipAppender;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.item.tools.MidasGoldSword;
 import java.util.function.Consumer;
 

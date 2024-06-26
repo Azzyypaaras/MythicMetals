@@ -59,10 +59,10 @@ public class ArmorSet {
     }
 
     public void register(String modid, String name) {
-        Registry.register(Registries.ITEM, new Identifier(modid, name + "_helmet"), helmet);
-        Registry.register(Registries.ITEM, new Identifier(modid, name + "_chestplate"), chestplate);
-        Registry.register(Registries.ITEM, new Identifier(modid, name + "_leggings"), leggings);
-        Registry.register(Registries.ITEM, new Identifier(modid, name + "_boots"), boots);
+        Registry.register(Registries.ITEM, Identifier.of(modid, name + "_helmet"), helmet);
+        Registry.register(Registries.ITEM, Identifier.of(modid, name + "_chestplate"), chestplate);
+        Registry.register(Registries.ITEM, Identifier.of(modid, name + "_leggings"), leggings);
+        Registry.register(Registries.ITEM, Identifier.of(modid, name + "_boots"), boots);
     }
 
     protected ArmorItem makeItem(ArmorMaterial material, ArmorItem.Type slot, OwoItemSettings settings) {

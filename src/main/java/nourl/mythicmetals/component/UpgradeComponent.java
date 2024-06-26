@@ -1,9 +1,10 @@
 package nourl.mythicmetals.component;
 
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.endec.BuiltInEndecs;
-import io.wispforest.owo.serialization.endec.StructEndecBuilder;
-import net.minecraft.client.item.TooltipType;
+import io.wispforest.endec.Endec;
+import io.wispforest.endec.impl.StructEndecBuilder;
+import io.wispforest.owo.serialization.endec.MinecraftEndecs;
+import net.minecraft.item.tooltip.TooltipAppender;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
@@ -24,7 +25,7 @@ public record UpgradeComponent(List<Item> items, int size) implements TooltipApp
     }
 
     public static final Endec<UpgradeComponent> ENDEC = StructEndecBuilder.of(
-        BuiltInEndecs.ofRegistry(Registries.ITEM).listOf().fieldOf("items", UpgradeComponent::items),
+        MinecraftEndecs.ofRegistry(Registries.ITEM).listOf().fieldOf("items", UpgradeComponent::items),
         Endec.INT.fieldOf("size", UpgradeComponent::size),
         UpgradeComponent::new
     );

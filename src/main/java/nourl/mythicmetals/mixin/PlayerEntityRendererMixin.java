@@ -17,7 +17,6 @@ import nourl.mythicmetals.client.models.RainbowShieldModel;
 import nourl.mythicmetals.component.DrillComponent;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.item.tools.CarmotStaff;
-import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +29,7 @@ import static nourl.mythicmetals.client.rendering.PlayerEnergySwirlFeatureRender
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerEntityRendererMixin {
     @Unique
-    private static final Identifier WORLD_BORDER = new Identifier("textures/misc/forcefield.png");
+    private static final Identifier WORLD_BORDER = Identifier.of("textures/misc/forcefield.png");
 
     /**
      * Renders the Carmot Shield on the players arm
@@ -39,7 +38,8 @@ public class PlayerEntityRendererMixin {
     private void mythicmetals$renderShieldArm(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, ModelPart arm, ModelPart sleeve, CallbackInfo ci) {
         if (player.getComponent(MythicMetals.CARMOT_SHIELD).shouldRenderShield()) {
             final var client = MinecraftClient.getInstance();
-            float f = player.age + (client.isPaused() ? 0 : client.getTickDelta());
+            // TODO - Review
+            float f = player.age + (client.isPaused() ? 0 : client.getRenderTickCounter().getTickDelta(true));
 
             var shield = player.getComponent(MythicMetals.CARMOT_SHIELD);
 
@@ -50,9 +50,10 @@ public class PlayerEntityRendererMixin {
 
             if (shield.cooldown > CarmotShield.MAX_COOLDOWN - 30) {
                 matrices.scale(1.0625f, 1.0625f, 1.0625f);
-                sleeve.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, .9f, .025f, .025f, 1);
+                // FIXME - Color
+                sleeve.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, 0xAE0000FF);
             } else // Regular animation
-                sleeve.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, .8f, .1f + health, .05f, 1);
+                sleeve.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, 0x226633FF);
         }
     }
 
@@ -72,9 +73,7 @@ public class PlayerEntityRendererMixin {
             float saturation = 1;
             float constantValue = 1;
 
-            int color = MathHelper.hsvToRgb((float) (hue / 360), saturation, constantValue);
-
-            float[] rgbColors = UsefulSingletonForColorUtil.splitRGBToFloats(color);
+            int color = MathHelper.hsvToArgb((float) (hue / 360), saturation, constantValue, 128);
 
             var part = RainbowShieldModel.getTexturedModelData();
 
@@ -83,10 +82,7 @@ public class PlayerEntityRendererMixin {
                     vertexConsumerProvider.getBuffer(RenderLayer.getEnergySwirl(WORLD_BORDER, (float) ((delta * .005f) % 1f), (float) (delta * .005f % 1f))),
                     i,
                     OverlayTexture.DEFAULT_UV,
-                    rgbColors[0],
-                    rgbColors[1],
-                    rgbColors[2],
-                    0.5F);
+                    color);
             matrixStack.pop();
         }
     }

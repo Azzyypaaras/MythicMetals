@@ -1,12 +1,12 @@
 package nourl.mythicmetals.recipe;
 
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.tools.MythicTools;
@@ -17,12 +17,11 @@ public class TippedRuniteArrowRecipe extends SpecialCraftingRecipe {
         super(craftingRecipeCategory);
     }
 
-    @Override
-    public boolean matches(RecipeInputInventory craftingInventory, World world) {
-        if (craftingInventory.getWidth() == 3 && craftingInventory.getHeight() == 3) {
-            for (int i = 0; i < craftingInventory.getWidth(); ++i) {
-                for (int j = 0; j < craftingInventory.getHeight(); ++j) {
-                    ItemStack itemStack = craftingInventory.getStack(i + j * craftingInventory.getWidth());
+    public boolean matches(CraftingRecipeInput input, World world) {
+        if (input.getWidth() == 3 && input.getHeight() == 3) {
+            for (int i = 0; i < input.getWidth(); ++i) {
+                for (int j = 0; j < input.getHeight(); ++j) {
+                    ItemStack itemStack = input.getStackInSlot(i + j * input.getWidth());
                     if (itemStack.isEmpty()) {
                         return false;
                     }
@@ -43,9 +42,8 @@ public class TippedRuniteArrowRecipe extends SpecialCraftingRecipe {
         }
     }
 
-    @Override
-    public ItemStack craft(RecipeInputInventory inventory, RegistryWrapper.WrapperLookup wrapperLookup) {
-        ItemStack itemStack = inventory.getStack(1 + inventory.getWidth());
+    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup wrapperLookup) {
+        ItemStack itemStack = input.getStackInSlot(1 + input.getWidth());
         if (!itemStack.isOf(Items.LINGERING_POTION)) {
             return ItemStack.EMPTY;
         } else {

@@ -14,16 +14,17 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.tools.MythicTools;
 import nourl.mythicmetals.misc.MythicDamageTypes;
+import org.jetbrains.annotations.Nullable;
 
 public class StarPlatinumArrowEntity extends PersistentProjectileEntity {
     public static final ItemStack STAR_PLAT_STACK = new ItemStack(MythicTools.STAR_PLATINUM_ARROW);
 
-    public StarPlatinumArrowEntity(LivingEntity owner, World world) {
-        super(MythicEntities.STAR_PLATINUM_ARROW_ENTITY_TYPE, owner, world, STAR_PLAT_STACK);
+    public StarPlatinumArrowEntity(LivingEntity owner, World world, @Nullable ItemStack shotFrom) {
+        super(MythicEntities.STAR_PLATINUM_ARROW_ENTITY_TYPE, owner, world, STAR_PLAT_STACK, shotFrom);
     }
 
     public StarPlatinumArrowEntity(EntityType<StarPlatinumArrowEntity> type, World world) {
-        super(MythicEntities.STAR_PLATINUM_ARROW_ENTITY_TYPE, world, STAR_PLAT_STACK);
+        super(type, world);
     }
 
     @Override

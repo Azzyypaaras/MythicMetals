@@ -2,11 +2,10 @@ package nourl.mythicmetals.entity;
 
 import com.mojang.authlib.GameProfile;
 import eu.pb4.common.protection.api.CommonProtection;
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.endec.KeyedEndec;
+import io.wispforest.endec.impl.KeyedEndec;
+import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.ProtectionEnchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,7 +29,7 @@ import java.util.function.Predicate;
 
 public class BanglumNukeEntity extends BanglumTntEntity {
     private static final int DEFAULT_FUSE = 200;
-    private static final KeyedEndec<Block> CORE_BLOCK_KEY = Endec.ofCodec(Registries.BLOCK.getCodec()).keyed("core_block", MythicBlocks.BANGLUM_NUKE_CORE);
+    private static final KeyedEndec<Block> CORE_BLOCK_KEY = MinecraftEndecs.ofRegistry(Registries.BLOCK).keyed("core_block", MythicBlocks.BANGLUM_NUKE_CORE);
 
     private Block coreBlock = MythicBlocks.BANGLUM_NUKE_CORE;
 
@@ -130,7 +129,8 @@ public class BanglumNukeEntity extends BanglumTntEntity {
                     entity.damage(banglumNukeSource, MathHelper.floor((distanceModifier * distanceModifier + distanceModifier) * 7.0 * radius + 1.0));
                     double knockback = distanceModifier * 5;
                     if (entity instanceof LivingEntity living) {
-                        knockback = ProtectionEnchantment.transformExplosionKnockback(living, knockback);
+                        // FIXME - Find out what this did
+                        //knockback = ProtectionEnchantment.transformExplosionKnockback(living, knockback);
                     }
 
                     entity.addVelocity(x * knockback, y * knockback, z * knockback);

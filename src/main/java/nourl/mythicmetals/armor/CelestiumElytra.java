@@ -14,9 +14,9 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.event.GameEvent;
 import nourl.mythicmetals.item.MythicItems;
+import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.registry.RegisterEntityAttributes;
 import nourl.mythicmetals.registry.RegisterSounds;
-import java.util.UUID;
 
 public class CelestiumElytra extends ElytraItem implements FabricElytraItem {
     public CelestiumElytra(Settings settings) {
@@ -53,10 +53,10 @@ public class CelestiumElytra extends ElytraItem implements FabricElytraItem {
 
     public static AttributeModifiersComponent createDefaultAttributes() {
             var builder = AttributeModifiersComponent.builder();
-            var armor = new EntityAttributeModifier(UUID.fromString("d680f1ed-ff18-4a87-941a-dade3b331f31"),"Armor", 5.0F, EntityAttributeModifier.Operation.ADD_VALUE);
-            var toughness = new EntityAttributeModifier(UUID.fromString("a15a58bd-547d-4e2a-8af5-8e70cefbb570"),"Toughness", 3.0F, EntityAttributeModifier.Operation.ADD_VALUE);
-            var speed = new EntityAttributeModifier(UUID.fromString("cac9c98e-3724-4d7a-8b1a-239ad2439cad"),"Speed bonus", 0.08F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-            var rocketSpeedBonus = new EntityAttributeModifier(UUID.fromString("9713febd-8a31-4abb-9f33-2e3da530f96e"),"Rocket speed bonus", 0.20F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+            var armor = new EntityAttributeModifier(RegistryHelper.id("celestium_elytra_armor_protection"), 5.0F, EntityAttributeModifier.Operation.ADD_VALUE);
+            var toughness = new EntityAttributeModifier(RegistryHelper.id("celestium_elytra_armor_toughness"), 3.0F, EntityAttributeModifier.Operation.ADD_VALUE);
+            var speed = new EntityAttributeModifier(RegistryHelper.id("celestium_elytra_speed_bonus"), 0.08F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+            var rocketSpeedBonus = new EntityAttributeModifier(RegistryHelper.id("celestium_elytra_rocket_speed_bonus"), 0.20F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
             builder.add(EntityAttributes.GENERIC_ARMOR, armor, AttributeModifierSlot.CHEST);
             builder.add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, toughness, AttributeModifierSlot.CHEST);
             builder.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, speed, AttributeModifierSlot.CHEST);

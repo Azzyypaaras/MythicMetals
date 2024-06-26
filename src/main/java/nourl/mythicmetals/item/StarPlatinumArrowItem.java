@@ -5,6 +5,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.*;
 import net.minecraft.world.World;
 import nourl.mythicmetals.entity.StarPlatinumArrowEntity;
+import org.jetbrains.annotations.Nullable;
 
 public class StarPlatinumArrowItem extends ArrowItem {
 
@@ -13,7 +14,7 @@ public class StarPlatinumArrowItem extends ArrowItem {
     }
 
     @Override
-    public PersistentProjectileEntity createArrow(World world, ItemStack stack, LivingEntity shooter) {
-        return new StarPlatinumArrowEntity(shooter, world);
+    public PersistentProjectileEntity createArrow(World world, ItemStack stack, LivingEntity shooter, @Nullable ItemStack shotFrom) {
+        return new StarPlatinumArrowEntity(shooter, world, shotFrom);
     }
 }

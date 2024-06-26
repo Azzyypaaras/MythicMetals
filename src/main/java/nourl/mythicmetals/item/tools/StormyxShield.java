@@ -1,7 +1,8 @@
 package nourl.mythicmetals.item.tools;
 
 import de.dafuqs.additionalentityattributes.AdditionalEntityAttributes;
-import net.minecraft.client.item.TooltipType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -13,6 +14,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.MythicItems;
+import nourl.mythicmetals.misc.RegistryHelper;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,8 +36,8 @@ public class StormyxShield extends ShieldItem {
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return super.getMaxUseTime(stack);
+    public int getMaxUseTime(ItemStack stack, LivingEntity entity) {
+        return super.getMaxUseTime(stack, entity);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class StormyxShield extends ShieldItem {
     }
 
     public static AttributeModifiersComponent createStormyxShieldAttributes() {
-        var modifier = new EntityAttributeModifier(STORMYX_SHIELD_MAGIC_PROTECTION_ID, "stormyx shield magic protection", MAGIC_DAMAGE_REDUCTION, EntityAttributeModifier.Operation.ADD_VALUE);
+        var modifier = new EntityAttributeModifier(RegistryHelper.id("stormyx_shield_magic_protection"), MAGIC_DAMAGE_REDUCTION, EntityAttributeModifier.Operation.ADD_VALUE);
         return AttributeModifiersComponent.builder()
             .add(AdditionalEntityAttributes.MAGIC_PROTECTION, modifier, AttributeModifierSlot.MAINHAND)
             .add(AdditionalEntityAttributes.MAGIC_PROTECTION, modifier, AttributeModifierSlot.OFFHAND)

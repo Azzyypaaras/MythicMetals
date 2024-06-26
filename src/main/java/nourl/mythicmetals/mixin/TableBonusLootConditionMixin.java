@@ -1,7 +1,7 @@
 package nourl.mythicmetals.mixin;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalEnchantmentTags;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.loot.condition.TableBonusLootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
@@ -31,7 +31,7 @@ public class TableBonusLootConditionMixin {
             return level;
         }
         // only modify when the loot table bonus loot checks for fortune
-        if (this.enchantment.value() != Enchantments.FORTUNE) {
+        if (!this.enchantment.isIn(ConventionalEnchantmentTags.INCREASE_BLOCK_DROPS)) {
             return level;
         }
 

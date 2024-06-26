@@ -20,8 +20,8 @@ public class PlayerEnergySwirlFeatureRenderer extends FeatureRenderer<AbstractCl
     private final PlayerEntityModel<AbstractClientPlayerEntity> swirlModel;
 
     public PlayerEnergySwirlFeatureRenderer(
-            FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> context,
-            EntityModelLoader loader) {
+        FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> context,
+        EntityModelLoader loader) {
         super(context);
         this.swirlModel = new PlayerEntityModel<>(loader.getModelPart(MythicModelHandler.CARMOT_SWIRL), false);
     }
@@ -43,9 +43,10 @@ public class PlayerEnergySwirlFeatureRenderer extends FeatureRenderer<AbstractCl
             // Break animation
             if (shield.cooldown > CarmotShield.MAX_COOLDOWN - 30) {
                 matrices.scale(1.125f, 1.0625f, 1.125f);
-                this.swirlModel.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, .9f, .025f, .025f, 1);
+                this.swirlModel.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, 0xAE0000FF);
             } else // Regular animation
-                this.swirlModel.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, .8f, .1f + health, .05f, 1);
+                // FIXME - Color
+                this.swirlModel.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, 0x226633FF);
         }
     }
 }

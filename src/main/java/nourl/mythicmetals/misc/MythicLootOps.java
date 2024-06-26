@@ -9,7 +9,7 @@ import nourl.mythicmetals.item.MythicItems;
 
 public class MythicLootOps {
     public static final Identifier BETTER_PIGLIN_BARTERING = RegistryHelper.id("gameplay/better_piglin_bartering");
-    public static final Identifier CUSTOM_PIGLIN_BARTERING = new Identifier("custom_piglin_bartering", "mythicmetals/midas_gold_ingot");
+    public static final Identifier CUSTOM_PIGLIN_BARTERING = Identifier.of("custom_piglin_bartering", "mythicmetals/midas_gold_ingot");
     public static void init() {
         if (MythicMetals.CONFIG.unobtainium()) {
             LootOps.injectItem(MythicItems.Mats.UNOBTAINIUM, 0.01F, LootTables.ANCIENT_CITY_CHEST.getValue());

@@ -1,6 +1,5 @@
 package nourl.mythicmetals.item.tools;
 
-import net.minecraft.client.item.TooltipType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -8,6 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.*;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import nourl.mythicmetals.MythicMetals;
@@ -39,7 +39,7 @@ public class MidasGoldSword extends SwordItem {
         int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
         var originalDamage = new AtomicReference<>(0.0);
         stack.getDefaultComponents().get(DataComponentTypes.ATTRIBUTE_MODIFIERS).modifiers().forEach(entry -> {
-            if (entry.modifier().uuid().equals(ATTACK_DAMAGE_MODIFIER_ID)) {
+            if (entry.modifier().id().equals(BASE_ATTACK_DAMAGE_MODIFIER_ID)) {
                 originalDamage.set(entry.modifier().value());
             }
         });
@@ -57,8 +57,7 @@ public class MidasGoldSword extends SwordItem {
             var changedComponent = AttributeModifiersComponent.builder()
                 .add(
                     EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                    new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID,
-                        "Weapon modifier with Midas bonus",
+                    new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID,
                         originalDamage.get() + goldDmgBonus,
                         EntityAttributeModifier.Operation.ADD_VALUE
                     ),
@@ -66,7 +65,7 @@ public class MidasGoldSword extends SwordItem {
                 )
                 .add(
                     EntityAttributes.GENERIC_ATTACK_SPEED,
-                    new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", speed.get(), EntityAttributeModifier.Operation.ADD_VALUE),
+                    new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, speed.get(), EntityAttributeModifier.Operation.ADD_VALUE),
                     AttributeModifierSlot.MAINHAND
                 )
                 .build();

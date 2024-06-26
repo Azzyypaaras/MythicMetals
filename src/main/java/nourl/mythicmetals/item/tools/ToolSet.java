@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static net.minecraft.item.Item.ATTACK_DAMAGE_MODIFIER_ID;
-import static net.minecraft.item.Item.ATTACK_SPEED_MODIFIER_ID;
-
 public class ToolSet {
 
     private final SwordItem sword;
@@ -120,12 +117,12 @@ public class ToolSet {
         return AttributeModifiersComponent.builder()
             .add(
                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, damage, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .add(
                 EntityAttributes.GENERIC_ATTACK_SPEED,
-                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0 + speed, EntityAttributeModifier.Operation.ADD_VALUE),
+                new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -4.0 + speed, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .build();
@@ -138,12 +135,12 @@ public class ToolSet {
         return AttributeModifiersComponent.builder()
             .add(
                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", material.getAttackDamage() + damage, EntityAttributeModifier.Operation.ADD_VALUE),
+                new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, material.getAttackDamage() + damage, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .add(
                 EntityAttributes.GENERIC_ATTACK_SPEED,
-                new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -4.0 + speed, EntityAttributeModifier.Operation.ADD_VALUE),
+                new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -4.0 + speed, EntityAttributeModifier.Operation.ADD_VALUE),
                 AttributeModifierSlot.MAINHAND
             )
             .build();

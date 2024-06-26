@@ -11,6 +11,7 @@ import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.world.World;
 import nourl.mythicmetals.item.tools.MythicTools;
+import org.jetbrains.annotations.Nullable;
 
 // [VanillaCopy]
 public class RuniteArrowEntity extends PersistentProjectileEntity {
@@ -22,17 +23,17 @@ public class RuniteArrowEntity extends PersistentProjectileEntity {
         this.initColor();
     }
 
-    public RuniteArrowEntity(LivingEntity shooter, World world) {
-        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, shooter, world, RUNITE_ARROW_STACK);
+    public RuniteArrowEntity(LivingEntity shooter, World world, @Nullable ItemStack shotFrom) {
+        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, shooter, world, RUNITE_ARROW_STACK, shotFrom);
         this.initColor();
     }
 
-    public RuniteArrowEntity(World world, double x, double y, double z, ItemStack stack) {
-        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, x, y, z, world, stack);
+    public RuniteArrowEntity(World world, double x, double y, double z, ItemStack stack, @Nullable ItemStack shotFrom) {
+        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, x, y, z, world, stack, shotFrom);
     }
 
-    public RuniteArrowEntity(World world, LivingEntity owner, ItemStack stack) {
-        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, owner, world, stack);
+    public RuniteArrowEntity(World world, LivingEntity owner, ItemStack stack, @Nullable ItemStack shotFrom) {
+        super(MythicEntities.RUNITE_ARROW_ENTITY_TYPE, owner, world, stack, shotFrom);
         this.initColor();
     }
 

@@ -1,13 +1,14 @@
 package nourl.mythicmetals.component;
 
-import io.wispforest.owo.serialization.Endec;
-import io.wispforest.owo.serialization.StructEndec;
-import io.wispforest.owo.serialization.endec.StructEndecBuilder;
+import io.wispforest.endec.Endec;
+import io.wispforest.endec.StructEndec;
+import io.wispforest.endec.impl.StructEndecBuilder;
+import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import io.wispforest.owo.ui.core.Color;
 import net.minecraft.block.*;
-import net.minecraft.client.item.TooltipType;
 import net.minecraft.item.Item;
-import net.minecraft.item.TooltipAppender;
+import net.minecraft.item.tooltip.TooltipAppender;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -20,7 +21,7 @@ public record CarmotStaffComponent(Block block, boolean showTooltip) implements 
     public static final CarmotStaffComponent DEFAULT = new CarmotStaffComponent(Blocks.AIR, true);
 
     public static final StructEndec<CarmotStaffComponent> ENDEC = StructEndecBuilder.of(
-        Endec.ofCodec(Registries.BLOCK.getCodec()).fieldOf("block", CarmotStaffComponent::getBlock),
+        MinecraftEndecs.ofRegistry(Registries.BLOCK).fieldOf("block", CarmotStaffComponent::getBlock),
         Endec.BOOLEAN.fieldOf("show", carmotStaffComponent -> carmotStaffComponent.showTooltip),
         CarmotStaffComponent::new
     );

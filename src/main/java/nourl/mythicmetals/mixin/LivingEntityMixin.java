@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -14,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -36,6 +36,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -134,20 +135,23 @@ public abstract class LivingEntityMixin extends Entity {
             if (effect != null) {
                 int level = effect.getAmplifier();
                 int duration = effect.getDuration();
+                var multiplier = new AtomicInteger(effect.getDuration());
                 this.removeStatusEffect(entry);
 
                 MythicParticleSystem.COMBUSTION_EXPLOSION.spawn(getWorld(), this.getPos());
 
                 if (this.attacker != null && this.attacker.getMainHandStack() != null) {
                     var stack = this.attacker.getMainHandStack();
-                    if (stack.getEnchantments().getEnchantments().contains(Registries.ENCHANTMENT.getEntry(Enchantments.FIRE_ASPECT))) {
-                        duration *= 2;
-                    }
+                    stack.getEnchantments().getEnchantments().forEach(enchantmentRegistryEntry -> {
+                        if (enchantmentRegistryEntry.isIn(EnchantmentTags.SMELTS_LOOT)) {
+                            multiplier.addAndGet(1);
+                        }
+                    });
                 }
 
-                this.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.COMBUSTION), duration + 40, Math.max(MathHelper.floor(level / 2.0f), 0), false, true));
+                this.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.COMBUSTION), multiplier.get() + 40, Math.max(MathHelper.floor(level / 2.0f), 0), false, true));
 
-                this.setFireTicks(duration + 40);
+                this.setFireTicks((duration * multiplier.get()) + 40);
                 component.setCooldown(1800);
             }
 
