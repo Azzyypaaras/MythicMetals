@@ -8,6 +8,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import nourl.mythicmetals.item.tools.MidasGoldSword;
+import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 import java.util.function.Consumer;
 
 public record GoldFoldedComponent(int goldFolded, boolean isRoyal, boolean showTooltip) implements TooltipAppender {
@@ -56,6 +57,9 @@ public record GoldFoldedComponent(int goldFolded, boolean isRoyal, boolean showT
                 // e.g. Folds: 2500
                 tooltip.accept(Text.translatable("tooltip.midas_gold.fold_counter", this.goldFolded).formatted(Formatting.GOLD));
             }
+            if (this.isRoyal) {
+                tooltip.accept(Text.translatable("tooltip.midas_gold.is_royal").setStyle(UsefulSingletonForColorUtil.MetalColors.GOLD_STYLE));
+            }
             return;
         }
 
@@ -69,6 +73,11 @@ public record GoldFoldedComponent(int goldFolded, boolean isRoyal, boolean showT
         } else {
             // e.g. 63/128
             tooltip.accept(Text.literal(this.goldFolded + " / " + (64 + level * 64)).formatted(Formatting.GOLD));
+        }
+
+        // If this isn't done here, the ability text won't show up due to return guard
+        if (this.isRoyal) {
+            tooltip.accept(Text.translatable("tooltip.midas_gold.is_royal").setStyle(UsefulSingletonForColorUtil.MetalColors.GOLD_STYLE));
         }
     }
 }

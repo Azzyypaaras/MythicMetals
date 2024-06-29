@@ -32,8 +32,6 @@ public class Abilities {
     public static final Ability KNOCKBACK = new Ability("knockback", 3);
     public static final Ability UPGRADE_TOOLTIP = new Ability("upgrade_tooltip", 0, false);
     public static final Ability MATERIAL_TOOLTIP = new Ability("material_tooltip", 0, false);
-    // Tooltip only, applies to Royal Midas Gold Swords
-    public static final Ability MIDAS_TOUCH = new Ability("midas_touch", 0, false);
     public static final Ability PROJECTILE_PROTECTION = new Ability("projectile_protection", 5);
     public static final Ability SMITE = new Ability("smite", 3);
     public static final Ability WATER_PROTECTION = new Ability("water_protection", 3);
@@ -61,7 +59,6 @@ public class Abilities {
                 UPGRADE_TOOLTIP.addItem(item, Style.EMPTY.withColor(MetalColors.MYTHRIL.rgb()));
             }
         });
-        MIDAS_TOUCH.addItem(MythicTools.ROYAL_MIDAS_GOLD_SWORD, MetalColors.GOLD_STYLE);
         // Aegis Sword abilities
         FIRE_ASPECT.addItem(MythicTools.RED_AEGIS_SWORD, Style.EMPTY.withColor(MetalColors.RED_AEGIS.rgb()));
         SMITE.addItem(MythicTools.WHITE_AEGIS_SWORD, Style.EMPTY.withColor(Formatting.YELLOW));

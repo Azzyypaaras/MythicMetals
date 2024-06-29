@@ -22,14 +22,12 @@ import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -42,7 +40,6 @@ import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.client.rendering.*;
 import nourl.mythicmetals.compat.IsometricArmorStandExporter;
 import nourl.mythicmetals.component.*;
-import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.entity.MythicEntities;
 import nourl.mythicmetals.item.tools.*;
 import nourl.mythicmetals.misc.*;
@@ -102,9 +99,9 @@ public class MythicMetalsClient implements ClientModInitializer {
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
             if (entityType != EntityType.PLAYER) return;
             registrationHelper.register(
-                    new PlayerEnergySwirlFeatureRenderer(
-                            (FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>>) entityRenderer,
-                            context.getModelLoader()));
+                new PlayerEnergySwirlFeatureRenderer(
+                    (FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>>) entityRenderer,
+                    context.getModelLoader()));
         });
     }
 
@@ -119,8 +116,8 @@ public class MythicMetalsClient implements ClientModInitializer {
             // Only render the outline if you are hovering over something the hammer can break
             var stack = player.getMainHandStack();
             if (stack.getItem() instanceof HammerBase hammer
-                    && !blockOutlineContext.blockState().isAir()
-                    && hammer.isCorrectForDrops(stack, blockOutlineContext.blockState())) {
+                && !blockOutlineContext.blockState().isAir()
+                && hammer.isCorrectForDrops(stack, blockOutlineContext.blockState())) {
 
                 var reach = BlockBreaker.getReachDistance(player);
                 BlockHitResult blockHitResult = (BlockHitResult) player.raycast(reach, 1, false);
@@ -136,12 +133,12 @@ public class MythicMetalsClient implements ClientModInitializer {
                     var blockState = player.getWorld().getBlockState(blockPos);
                     if (!blockState.isAir() && hammer.isCorrectForDrops(stack, blockState)) {
                         voxels.add(blockState.getOutlineShape(
-                                        worldRenderContext.world(),
-                                        blockPos,
-                                        ShapeContext.of(blockOutlineContext.entity())
-                                ).offset(blockPos.getX() - originalPos.getX(),
-                                        blockPos.getY() - originalPos.getY(),
-                                        blockPos.getZ() - originalPos.getZ())
+                                worldRenderContext.world(),
+                                blockPos,
+                                ShapeContext.of(blockOutlineContext.entity())
+                            ).offset(blockPos.getX() - originalPos.getX(),
+                                blockPos.getY() - originalPos.getY(),
+                                blockPos.getZ() - originalPos.getZ())
                         );
                     }
                 }
@@ -153,13 +150,13 @@ public class MythicMetalsClient implements ClientModInitializer {
                 var outlineShape = outlineOptional.get();
 
                 WorldRendererInvoker.mythicmetals$drawShapeOutline(
-                        worldRenderContext.matrixStack(),
-                        worldRenderContext.consumers().getBuffer(RenderLayer.getLines()),
-                        outlineShape,
-                        originalPos.getX() - blockOutlineContext.cameraX(),
-                        originalPos.getY() - blockOutlineContext.cameraY(),
-                        originalPos.getZ() - blockOutlineContext.cameraZ(),
-                        0, 0, 0, 0.4F //RGBA
+                    worldRenderContext.matrixStack(),
+                    worldRenderContext.consumers().getBuffer(RenderLayer.getLines()),
+                    outlineShape,
+                    originalPos.getX() - blockOutlineContext.cameraX(),
+                    originalPos.getY() - blockOutlineContext.cameraY(),
+                    originalPos.getZ() - blockOutlineContext.cameraZ(),
+                    0, 0, 0, 0.4F //RGBA
                 );
                 // Cancel the event to prevent the middle outline from rendering
                 return false;
@@ -172,9 +169,9 @@ public class MythicMetalsClient implements ClientModInitializer {
 
     private void registerArmorRenderer() {
         Item[] armors = Registries.ITEM.stream()
-                .filter(i -> i instanceof HallowedArmor
-                             && Registries.ITEM.getKey(i).get().getValue().getNamespace().equals(MythicMetals.MOD_ID))
-                .toArray(Item[]::new);
+            .filter(i -> i instanceof HallowedArmor
+                         && Registries.ITEM.getKey(i).get().getValue().getNamespace().equals(MythicMetals.MOD_ID))
+            .toArray(Item[]::new);
 
         ArmorRenderer renderer = (matrices, vertexConsumer, stack, entity, slot, light, original) -> {
 
@@ -202,16 +199,16 @@ public class MythicMetalsClient implements ClientModInitializer {
 
     private void registerModelPredicates() {
         ModelPredicateProviderRegistry.register(
-                MythicTools.LEGENDARY_BANGLUM.getPickaxe(), RegistryHelper.id("is_primed"),
-                (stack, world, entity, seed) -> BanglumPick.getCooldown(entity, stack) ? 0 : 1);
+            MythicTools.LEGENDARY_BANGLUM.getPickaxe(), RegistryHelper.id("is_primed"),
+            (stack, world, entity, seed) -> BanglumPick.getCooldown(entity, stack) ? 0 : 1);
 
         ModelPredicateProviderRegistry.register(
-                MythicTools.LEGENDARY_BANGLUM.getShovel(), RegistryHelper.id("is_primed"),
-                (stack, world, entity, seed) -> BanglumShovel.getCooldown(entity, stack) ? 0 : 1);
+            MythicTools.LEGENDARY_BANGLUM.getShovel(), RegistryHelper.id("is_primed"),
+            (stack, world, entity, seed) -> BanglumShovel.getCooldown(entity, stack) ? 0 : 1);
 
         ModelPredicateProviderRegistry.register(
-                MythicTools.MYTHRIL_DRILL, RegistryHelper.id("is_active"),
-                (stack, world, entity, seed) -> stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive() ? 0 : 1);
+            MythicTools.MYTHRIL_DRILL, RegistryHelper.id("is_active"),
+            (stack, world, entity, seed) -> stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive() ? 0 : 1);
 
         registerMidasPredicates(MythicTools.MIDAS_GOLD_SWORD);
         registerMidasPredicates(MythicTools.GILDED_MIDAS_GOLD_SWORD);
@@ -228,7 +225,7 @@ public class MythicMetalsClient implements ClientModInitializer {
         ModelPredicateProviderRegistry.register(MythicTools.STORMYX_SHIELD, RegistryHelper.id("blocking"), new ShieldUsePredicate());
 
         ModelPredicateProviderRegistry.register(RegistryHelper.id("funny_day"), (stack, world, entity, seed) ->
-                (Calendar.getInstance().get(Calendar.MONTH) == Calendar.APRIL && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1 && !MythicMetals.CONFIG.disableFunny()) ? 1 : 0);
+            (Calendar.getInstance().get(Calendar.MONTH) == Calendar.APRIL && Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 1 && !MythicMetals.CONFIG.disableFunny()) ? 1 : 0);
 
         ModelPredicateProviderRegistry.register(MythicTools.PLATINUM_WATCH, RegistryHelper.id("time"), (stack, world, entity, seed) -> {
             if (entity == null || entity.getWorld() == null) {
@@ -250,7 +247,9 @@ public class MythicMetalsClient implements ClientModInitializer {
             if (stack.contains(MythicDataComponents.PROMETHEUM)) {
                 var component = stack.getOrDefault(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
                 if (type.isAdvanced()) {
-                    lines.add(index, Text.translatable("tooltip.prometheum.repaired", component.durabilityRepaired()));
+                    lines.add(index, Text.translatable("tooltip.prometheum.repaired", component.durabilityRepaired())
+                        .withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb())
+                    );
                 }
 
                 lines.add(index, Text.translatable("tooltip.prometheum.regrowth").withColor(UsefulSingletonForColorUtil.MetalColors.PROMETHEUM.rgb()));
@@ -270,9 +269,9 @@ public class MythicMetalsClient implements ClientModInitializer {
         if (world.getTimeOfDay() != this.lastTime) {
             this.lastTime = world.getTimeOfDay();
             this.time += Delta.compute(
-                    this.time,
-                    (world.getTimeOfDay()) / 24000.0f,
-                    MinecraftClient.getInstance().getRenderTickCounter().getLastFrameDuration() / 2.0f
+                this.time,
+                (world.getTimeOfDay()) / 24000.0f,
+                MinecraftClient.getInstance().getRenderTickCounter().getLastFrameDuration() / 2.0f
             );
         }
 
@@ -281,10 +280,10 @@ public class MythicMetalsClient implements ClientModInitializer {
 
     public void registerMidasPredicates(Item item) {
         ModelPredicateProviderRegistry.register(item, RegistryHelper.id("midas_gold_count"),
-                (stack, world, entity, seed) -> {
-                    int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
-                    return MidasGoldSword.countGold(goldCount);
-                });
+            (stack, world, entity, seed) -> {
+                int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
+                return MidasGoldSword.countGold(goldCount);
+            });
     }
 
 }

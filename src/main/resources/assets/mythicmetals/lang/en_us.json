@@ -728,7 +728,6 @@
   "abilities.mythicmetals.material_tooltip": "Rare Crafting Material",
   "tooltip.prometheum.regrowth": "Regrowth",
   "tooltip.prometheum.repaired": "Durability Repaired: %s",
-  "abilities.mythicmetals.midas_touch": "Midas Touch",
   "abilities.mythicmetals.projectile_protection": "Natural Projectile Protection",
   "abilities.mythicmetals.respiration": "Natural Respiration",
   "abilities.mythicmetals.riptide": "Riptide",
@@ -737,6 +736,7 @@
   "abilities.mythicmetals.upgrade_tooltip": "Mythril Drill Upgrade",
   "abilities.mythicmetals.water_protection": "Natural Water Protection",
 
+  "tooltip.midas_gold.is_royal": "Midas Touch",
   "tooltip.midas_gold.level.0": "Can be folded in a smithing table, using Midas Gold Blocks",
   "tooltip.midas_gold.level.1": "You need quite a bit in order to unlock its true power...",
   "tooltip.midas_gold.level.2": "Over a hundred blocks. Impressive! Keep going!",

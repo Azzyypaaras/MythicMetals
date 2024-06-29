@@ -790,7 +790,7 @@
   "abilities.mythicmetals.fire_aspect": "발화",
   "abilities.mythicmetals.knockback": "밀치기",
   "abilities.mythicmetals.material_tooltip": "희귀한 제작 재료",
-  "abilities.mythicmetals.mending": "자가수리",
+  "tooltip.prometheum.regrowth": "자가수리",
   "abilities.mythicmetals.projectile_protection": "발사체로부터 보호",
   "abilities.mythicmetals.respiration": "호흡",
   "abilities.mythicmetals.smite": "강타",
