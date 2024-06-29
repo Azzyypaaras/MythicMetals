@@ -183,7 +183,7 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
             getOrCreateTagBuilder(MythicMetalsData.createModItemTag("tools/melee_weapons"))
                 .add(toolSet.getSword())
                 .add(toolSet.getAxe());
-            getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPONS_TOOLS)
+            getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS)
                 .add(toolSet.getSword())
                 .add(toolSet.getAxe());
 
@@ -196,7 +196,7 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
             // Mining tools
             getOrCreateTagBuilder(MythicMetalsData.createModItemTag("tools/mining_tools"))
                 .add(toolSet.getPickaxe());
-            getOrCreateTagBuilder(ConventionalItemTags.MINING_TOOLS)
+            getOrCreateTagBuilder(ConventionalItemTags.MINING_TOOL_TOOLS)
                 .add(toolSet.getPickaxe());
 
             // Pickaxes

@@ -11,12 +11,12 @@
     "ApplyBonusLootFunctionMixin",
     "AreaEffectCloudEntityMixin",
     "ArmorItemMixin",
-    "RangedWeaponItemMixin",
     "CampfireBlockMixin",
     "ConduitBlockEntityMixin",
     "CreeperEntityMixin",
     "DefaultedRegistryMixin",
     "DispenserBehaviorMixin",
+    "EnchantedCountIncreaseLootFunctionMixin",
     "EnchantmentHelperMixin",
     "ExplosionMixin",
     "FireworkRocketEntityMixin",
@@ -26,6 +26,7 @@
     "PiglinBrainMixin",
     "PlayerEntityMixin",
     "PowderSnowBlockMixin",
+    "RangedWeaponItemMixin",
     "TableBonusLootConditionMixin"
   ],
   "client": [

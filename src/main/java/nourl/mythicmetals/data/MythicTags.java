@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.biome.Biome;
 import nourl.mythicmetals.misc.RegistryHelper;
@@ -11,6 +12,7 @@ import nourl.mythicmetals.misc.RegistryHelper;
 public class MythicTags {
 
     public static final TagKey<Item> CARMOT_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("armor/carmot"));
+    public static final TagKey<Item> CARMOT_TOOLS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tools/carmot"));
     public static final TagKey<Item> PROMETHEUM_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("armor/prometheum"));
     public static final TagKey<Item> PROMETHEUM_TOOLS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tools/prometheum"));
     public static final TagKey<Item> PROMETHEUM_EQUIPMENT = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("equipment/prometheum"));

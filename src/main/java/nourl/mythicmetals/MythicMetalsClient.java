@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.client.MinecraftClient;
@@ -40,6 +41,7 @@ import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.client.rendering.*;
 import nourl.mythicmetals.compat.IsometricArmorStandExporter;
 import nourl.mythicmetals.component.*;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.entity.MythicEntities;
 import nourl.mythicmetals.item.tools.*;
 import nourl.mythicmetals.misc.*;
@@ -239,6 +241,14 @@ public class MythicMetalsClient implements ClientModInitializer {
     public void registerTooltipCallbacks() {
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             int index = 1;
+
+            if (stack.isIn(MythicTags.CARMOT_TOOLS)) {
+                if (stack.isIn(ConventionalItemTags.MELEE_WEAPON_TOOLS)) {
+                    lines.add(index, Text.translatable("abilities.mythicmetals.bonus_looting").withColor(UsefulSingletonForColorUtil.MetalColors.CARMOT.rgb()));
+                } else {
+                    lines.add(index, Text.translatable("abilities.mythicmetals.bonus_fortune").withColor(UsefulSingletonForColorUtil.MetalColors.CARMOT.rgb()));
+                }
+            }
 
             if (lines.size() > 2) {
                 index += stack.getEnchantments().getSize();

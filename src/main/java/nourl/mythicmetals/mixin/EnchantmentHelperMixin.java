@@ -19,44 +19,12 @@ public class EnchantmentHelperMixin {
 
 // FIXME
 //
-//    @Inject(method = "hasAquaAffinity", at = @At("HEAD"), cancellable = true)
-//    private static void mythicmetals$addAquaAffinity(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-//
-//        for (ItemStack armorItems : entity.getArmorItems()) {
-//            if (Abilities.AQUA_AFFINITY.getItems().contains(armorItems.getItem())) {
-//                cir.setReturnValue(true);
-//            }
-//        }
-//        for (ItemStack mainHand : entity.getHandItems()) {
-//            if (Abilities.AQUA_AFFINITY.getItems().contains(mainHand.getItem())) {
-//                cir.setReturnValue(true);
-//            }
-//            if (mainHand.getItem().equals(MythicTools.MYTHRIL_DRILL) && mainHand.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2)).hasUpgrade(MythicItems.Mats.AQUARIUM_PEARL)) {
-//                cir.setReturnValue(true);
-//            }
-//        }
-//    }
-//
 //    @Inject(method = "getFireAspect", at = @At("HEAD"), cancellable = true)
 //    private static void mythicmetals$addFireAspect(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
 //
 //        for (ItemStack mainHand : entity.getHandItems()) {
 //            if (Abilities.FIRE_ASPECT.getItems().contains(mainHand.getItem()))
 //                cir.setReturnValue(Abilities.FIRE_ASPECT.getLevel());
-//        }
-//    }
-//
-//    @Inject(method = "getLooting", at = @At("RETURN"), cancellable = true)
-//    private static void mythicmetals$increaseLooting(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
-//        int level = cir.getReturnValue();
-//        int change = 0;
-//        for (ItemStack mainHand : entity.getHandItems()) {
-//            if (Abilities.BONUS_LOOTING.getItems().contains(mainHand.getItem()))
-//                change += Abilities.BONUS_LOOTING.getLevel();
-//        }
-//
-//        if (change > 0) {
-//            cir.setReturnValue(level + change);
 //        }
 //    }
 //

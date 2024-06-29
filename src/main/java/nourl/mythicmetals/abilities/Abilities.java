@@ -1,6 +1,5 @@
 package nourl.mythicmetals.abilities;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Items;
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
@@ -23,8 +22,6 @@ public class Abilities {
     public static final Ability BLAST_MINING = new Ability("blast_mining", 0, false);
     public static final Ability BLAST_PADDING = new Ability("blast_padding", 1, false);
     public static final Ability BLAST_PROTECTION = new Ability("blast_protection", 6);
-    public static final Ability BONUS_FORTUNE = new Ability("bonus_fortune", 1, false);
-    public static final Ability BONUS_LOOTING = new Ability("bonus_looting", 1, false);
     public static final Ability FEATHER_FALLING = new Ability("feather_falling", 3);
     public static final Ability FIRE_ASPECT = new Ability("fire_aspect", 4);
     public static final Ability FIRE_PROTECTION = new Ability("fire_protection", 1, false);
@@ -44,11 +41,6 @@ public class Abilities {
         BLAST_PROTECTION.addItem(MythicArmor.LEGENDARY_BANGLUM.getChestplate(), MetalColors.GOLD_STYLE);
         PROJECTILE_PROTECTION.addItem(MythicArmor.LEGENDARY_BANGLUM.getLeggings(), MetalColors.GOLD_STYLE);
         FEATHER_FALLING.addItem(MythicArmor.LEGENDARY_BANGLUM.getBoots(), MetalColors.GOLD_STYLE);
-        BONUS_FORTUNE.addItem(MythicTools.CARMOT.getPickaxe(), MetalColors.CARMOT_STYLE);
-        BONUS_FORTUNE.addItem(MythicTools.CARMOT.getAxe(), MetalColors.CARMOT_STYLE);
-        BONUS_FORTUNE.addItem(MythicTools.CARMOT.getHoe(), MetalColors.CARMOT_STYLE);
-        BONUS_FORTUNE.addItem(MythicTools.CARMOT.getShovel(), MetalColors.CARMOT_STYLE);
-        BONUS_LOOTING.addItem(MythicTools.CARMOT.getSword(), MetalColors.CARMOT_STYLE);
         FIRE_PROTECTION.addArmorSet(MythicArmor.PALLADIUM, MetalColors.PALLADIUM_STYLE);
         HOT.addToolSet(MythicTools.PALLADIUM, MetalColors.PALLADIUM_STYLE);
         KNOCKBACK.addItem(MythicTools.LEGENDARY_BANGLUM.getSword(), MetalColors.GOLD_STYLE);
