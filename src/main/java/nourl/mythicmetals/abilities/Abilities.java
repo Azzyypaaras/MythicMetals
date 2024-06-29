@@ -19,7 +19,6 @@ import static nourl.mythicmetals.misc.UsefulSingletonForColorUtil.MetalColors;
  * @author Noaaan
  */
 public class Abilities {
-    public static final Ability AQUA_AFFINITY = new Ability("aqua_affinity", 1, false);
     public static final Ability BETTER_WATER_PROTECTION = new Ability("water_protection", 4);
     public static final Ability BLAST_MINING = new Ability("blast_mining", 0, false);
     public static final Ability BLAST_PADDING = new Ability("blast_padding", 1, false);
@@ -42,11 +41,6 @@ public class Abilities {
 
     public static void init() {
         UniqueStaffBlocks.init();
-
-        AQUA_AFFINITY.addItem(MythicArmor.AQUARIUM.getHelmet(), MetalColors.AQUA_STYLE);
-        AQUA_AFFINITY.addToolSet(MythicTools.AQUARIUM, MetalColors.AQUA_STYLE);
-        AQUA_AFFINITY.addItem(MythicArmor.TIDESINGER.getHelmet(), MetalColors.TIDESINGER_BLUE);
-        AQUA_AFFINITY.addToolSet(MythicTools.TIDESINGER, MetalColors.TIDESINGER_BLUE);
         BLAST_MINING.addItem(MythicTools.LEGENDARY_BANGLUM.getPickaxe(), MetalColors.GOLD_STYLE);
         BLAST_MINING.addItem(MythicTools.LEGENDARY_BANGLUM.getShovel(), MetalColors.GOLD_STYLE);
         BLAST_PADDING.addArmorSet(MythicArmor.BANGLUM, MetalColors.GOLD_STYLE);

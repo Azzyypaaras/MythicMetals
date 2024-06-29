@@ -1,24 +1,19 @@
 package nourl.mythicmetals.item.tools;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalEnchantmentTags;
 import net.minecraft.block.BlockState;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.enchantment.Enchantments;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -34,13 +29,10 @@ import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.registry.RegisterSounds;
 import java.util.List;
-import java.util.UUID;
 
 import static nourl.mythicmetals.component.DrillComponent.*;
 
 public class MythrilDrill extends PickaxeItem {
-
-    public static final UUID LUCK_BONUS_ID = UUID.fromString("ed484613-f159-4758-b00f-094a1c99358c");
 
     public MythrilDrill(ToolMaterial material, Settings settings) {
         super(material, settings);
@@ -278,12 +270,22 @@ public class MythrilDrill extends PickaxeItem {
     public void postProcessComponents(ItemStack stack) {
         if (!stack.contains(DataComponentTypes.ATTRIBUTE_MODIFIERS)) return;
 
+        boolean changes = false;
         var attributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         var upgrades = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
         if (upgrades.hasUpgrade(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK_ITEM)) {
             var modifier = new EntityAttributeModifier(RegistryHelper.id("mythril_drill_luck_bonus"), 1.0, EntityAttributeModifier.Operation.ADD_VALUE);
-            var upgradeAttributes = attributes.with(EntityAttributes.GENERIC_LUCK, modifier, AttributeModifierSlot.MAINHAND);
-            stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, upgradeAttributes);
+            attributes = attributes.with(EntityAttributes.GENERIC_LUCK, modifier, AttributeModifierSlot.MAINHAND);
+            changes = true;
+        }
+        if (upgrades.hasUpgrade(MythicItems.Mats.AQUARIUM_PEARL)) {
+            var modifier = new EntityAttributeModifier(RegistryHelper.id("mythril_drill_underwater_mining_bonus"), 3.0, EntityAttributeModifier.Operation.ADD_VALUE);
+            attributes = attributes.with(EntityAttributes.PLAYER_SUBMERGED_MINING_SPEED, modifier, AttributeModifierSlot.MAINHAND);
+
+            changes = true;
+        }
+        if (changes) {
+            stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, attributes);
         }
     }
 }
