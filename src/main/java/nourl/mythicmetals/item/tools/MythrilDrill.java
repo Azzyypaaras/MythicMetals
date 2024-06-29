@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -226,7 +226,7 @@ public class MythrilDrill extends PickaxeItem {
 
     @Override
     public boolean isCorrectForDrops(ItemStack stack, BlockState state) {
-        if (stack.contains(MythicDataComponents.DRILL) && stack.get(MythicDataComponents.DRILL).isActive()) {
+        if (stack.contains(MythicDataComponents.DRILL) && stack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).isActive()) {
             if (state.isIn(BlockTags.SHOVEL_MINEABLE))
                 return true;
         }
@@ -236,7 +236,7 @@ public class MythrilDrill extends PickaxeItem {
     @Override
     public float getMiningSpeed(ItemStack stack, BlockState state) {
         if (stack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).isActive()) {
-            if (state.isIn(BlockTags.SHOVEL_MINEABLE) && this.isCorrectForDrops(stack, state)) {
+            if (this.isCorrectForDrops(stack, state)) {
                 return super.getMiningSpeed(stack, state) * this.getMaterial().getMiningSpeedMultiplier();
             } else return super.getMiningSpeed(stack, state);
         }
@@ -274,15 +274,35 @@ public class MythrilDrill extends PickaxeItem {
         var attributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         var upgrades = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
         if (upgrades.hasUpgrade(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK_ITEM)) {
-            var modifier = new EntityAttributeModifier(RegistryHelper.id("mythril_drill_luck_bonus"), 1.0, EntityAttributeModifier.Operation.ADD_VALUE);
+            var modifier = new EntityAttributeModifier(
+                RegistryHelper.id("mythril_drill_luck_bonus"),
+                1.0,
+                EntityAttributeModifier.Operation.ADD_VALUE
+            );
             attributes = attributes.with(EntityAttributes.GENERIC_LUCK, modifier, AttributeModifierSlot.MAINHAND);
             changes = true;
         }
         if (upgrades.hasUpgrade(MythicItems.Mats.AQUARIUM_PEARL)) {
-            var modifier = new EntityAttributeModifier(RegistryHelper.id("mythril_drill_underwater_mining_bonus"), 3.0, EntityAttributeModifier.Operation.ADD_VALUE);
+            var modifier = new EntityAttributeModifier(
+                RegistryHelper.id("mythril_drill_underwater_mining_bonus"),
+                3.0,
+                EntityAttributeModifier.Operation.ADD_VALUE
+            );
             attributes = attributes.with(EntityAttributes.PLAYER_SUBMERGED_MINING_SPEED, modifier, AttributeModifierSlot.MAINHAND);
 
             changes = true;
+        }
+        // Gives +1 level of efficiency
+        for (var entry : stack.getEnchantments().getEnchantmentEntries()) {
+            if (entry.getKey().matches(key -> key.equals(Enchantments.EFFICIENCY))) {
+                int level = EnchantmentHelper.getLevel(entry.getKey(), stack);
+                var modifier = new EntityAttributeModifier(
+                    RegistryHelper.id("mythril_drill_speed_bonus"),
+                    1 + (level * 2),
+                    EntityAttributeModifier.Operation.ADD_VALUE
+                );
+                attributes.with(EntityAttributes.PLAYER_MINING_EFFICIENCY, modifier, AttributeModifierSlot.MAINHAND);
+            }
         }
         if (changes) {
             stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, attributes);

@@ -16,7 +16,7 @@
   "overrides": [
     {
       "predicate": {
-        "is_active": 1
+        "mythicmetals:is_active": 1
       },
       "model": "mythicmetals:item/mythril_drill_activated"
     }
