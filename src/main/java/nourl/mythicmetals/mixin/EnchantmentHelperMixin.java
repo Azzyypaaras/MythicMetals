@@ -19,15 +19,6 @@ public class EnchantmentHelperMixin {
 
 // FIXME
 //
-//    @Inject(method = "getFireAspect", at = @At("HEAD"), cancellable = true)
-//    private static void mythicmetals$addFireAspect(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
-//
-//        for (ItemStack mainHand : entity.getHandItems()) {
-//            if (Abilities.FIRE_ASPECT.getItems().contains(mainHand.getItem()))
-//                cir.setReturnValue(Abilities.FIRE_ASPECT.getLevel());
-//        }
-//    }
-//
 //    @Inject(method = "getEfficiency", at = @At("RETURN"), cancellable = true)
 //    private static void mythicmetals$increaseEfficiency(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
 //        int level = cir.getReturnValue();

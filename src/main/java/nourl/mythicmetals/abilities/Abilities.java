@@ -23,7 +23,7 @@ public class Abilities {
     public static final Ability BLAST_PADDING = new Ability("blast_padding", 1, false);
     public static final Ability BLAST_PROTECTION = new Ability("blast_protection", 6);
     public static final Ability FEATHER_FALLING = new Ability("feather_falling", 3);
-    public static final Ability FIRE_ASPECT = new Ability("fire_aspect", 4);
+    public static final Ability FIRE_ASPECT = new Ability("fire_aspect", 4); // TODO - Move this tooltip to the RedAegisSword class
     public static final Ability FIRE_PROTECTION = new Ability("fire_protection", 1, false);
     public static final Ability HOT = new Ability("hot", 0, false);
     public static final Ability KNOCKBACK = new Ability("knockback", 3);
