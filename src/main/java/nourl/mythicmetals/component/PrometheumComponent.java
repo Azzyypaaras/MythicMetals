@@ -90,6 +90,7 @@ public record PrometheumComponent(int durabilityRepaired) {
         var component = stack.getOrDefault(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
         int bonus = base;
         bonus += component.durabilityRepaired() > (OVERGROWN_THRESHOLD * 2) ? 2 : 1;
+        bonus += stack.contains(EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE) ? 1 : 0;
         return new EntityAttributeModifier(
             TOUGHNESS_BONUS_ID,
             bonus,
