@@ -43,7 +43,6 @@ public class Abilities {
     public static final Ability SMITE = new Ability("smite", 3);
     public static final Ability SPIKED_HELM = new Ability("spiked_helm", 3, false);
     public static final Ability WATER_PROTECTION = new Ability("water_protection", 3);
-    public static final Ability RIPTIDE = new Ability("riptide", 3);
 
     public static void init() {
         UniqueStaffBlocks.init();
@@ -91,8 +90,6 @@ public class Abilities {
             WATER_PROTECTION.addItem(MythicArmor.AQUARIUM.getChestplate(), MetalColors.AQUA_STYLE);
             BETTER_WATER_PROTECTION.addItem(MythicArmor.TIDESINGER.getChestplate(), MetalColors.TIDESINGER_BLUE);
         }
-        RIPTIDE.addItem(MythicTools.TIDESINGER.getSword(), MetalColors.TIDESINGER_BLUE);
-        RIPTIDE.addItem(MythicTools.TIDESINGER.getAxe(), MetalColors.TIDESINGER_BLUE);
     }
 
 }

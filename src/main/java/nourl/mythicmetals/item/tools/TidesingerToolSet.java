@@ -1,6 +1,7 @@
 package nourl.mythicmetals.item.tools;
 
 import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -39,9 +40,10 @@ public class TidesingerToolSet extends ToolSet {
         }
 
         @Override
-        public int getMaxUseTime(ItemStack stack) {
-            return MAX_USE_TIME;
+        public int getMaxUseTime(ItemStack stack, LivingEntity user) {
+            return RiptideTool.MAX_USE_TIME;
         }
+
 
         @Override
         public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
@@ -66,13 +68,18 @@ public class TidesingerToolSet extends ToolSet {
         }
 
         @Override
-        public int getMaxUseTime(ItemStack stack) {
-            return MAX_USE_TIME;
+        public int getMaxUseTime(ItemStack stack, LivingEntity user) {
+            return RiptideTool.MAX_USE_TIME;
         }
 
         @Override
         public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
             performRiptide(stack, world, user, remainingUseTicks);
+        }
+
+        @Override
+        public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+            stack.damage(1, attacker, EquipmentSlot.MAINHAND);
         }
     }
 }

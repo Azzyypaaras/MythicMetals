@@ -164,13 +164,6 @@ public class EnchantmentHelperMixin {
         }
     }
 
-    @Inject(method = "getRiptide", at = @At("TAIL"), cancellable = true)
-    private static void mythicmetals$hasRiptide(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
-        if (stack.getItem() instanceof RiptideTool) {
-            cir.setReturnValue(Abilities.RIPTIDE.getLevel());
-        }
-    }
-
     @Inject(method = "getKnockback", at = @At("TAIL"), cancellable = true)
     private static void mythicmetals$increaseKnockback(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
         var amount = cir.getReturnValue();
