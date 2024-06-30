@@ -1,3 +1,10 @@
+# 0.20.0-alpha2
+
+- Properly declare Alloy Forgery dependency
+  - You need version 2.2.0+
+- Fixed data not being loaded correctly
+- Fixed Carmot Staff texture not rendering correctly
+
 # 0.20.0-alpha
 
 ## THIS VERSION IS NOT COMPATIBLE WITH OLDER WORLDS
