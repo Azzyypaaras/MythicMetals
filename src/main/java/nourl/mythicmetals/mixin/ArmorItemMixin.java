@@ -27,48 +27,48 @@ public abstract class ArmorItemMixin {
         boolean isChestOrLegs = type.equals(ArmorItem.Type.CHESTPLATE) || type.equals(ArmorItem.Type.LEGGINGS);
         if (material == MythicArmorMaterials.TIDESINGER) {
             if (type.equals(ArmorItem.Type.HELMET)) {
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_underwater_mining_bonus"), EntityAttributes.PLAYER_SUBMERGED_MINING_SPEED, 0.1f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_vision_bonus"), AdditionalEntityAttributes.WATER_VISIBILITY, 0.3f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_helmet_underwater_mining_bonus"), EntityAttributes.PLAYER_SUBMERGED_MINING_SPEED, 0.1f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_helmet_vision_bonus"), AdditionalEntityAttributes.WATER_VISIBILITY, 0.3f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
             }
             if (isChestOrLegs) {
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_oxygen_bonus"), EntityAttributes.GENERIC_OXYGEN_BONUS, 2.0f, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_%s_oxygen_bonus".formatted(type.getName())), EntityAttributes.GENERIC_OXYGEN_BONUS, 2.0f, EntityAttributeModifier.Operation.ADD_VALUE, slot);
             }
             if (type.equals(ArmorItem.Type.BOOTS)) {
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_depth_strider_bonus"), EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY, 1.0f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_boots_depth_strider_bonus"), EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY, 1.0f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
             }
-            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_swim_speed_bonus"), AdditionalEntityAttributes.WATER_SPEED, 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_%s_swim_speed_bonus".formatted(type.getName())), AdditionalEntityAttributes.WATER_SPEED, 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
         }
         if (material.equals(MythicArmorMaterials.AQUARIUM)) {
             if (isChestOrLegs) {
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("aquarium_oxygen_bonus"), EntityAttributes.GENERIC_OXYGEN_BONUS, 1.0f, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("aquarium_%s_oxygen_bonus".formatted(type.getName())), EntityAttributes.GENERIC_OXYGEN_BONUS, 1.0f, EntityAttributeModifier.Operation.ADD_VALUE, slot);
             }
             if (type.equals(ArmorItem.Type.BOOTS)) {
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("aquarium_depth_strider_bonus"), EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY, 0.5F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("aquarium_boots_depth_strider_bonus"), EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY, 0.5F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
             }
         }
         if (material.equals(MythicArmorMaterials.CELESTIUM)) {
-            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("celestium_speed_bonus"), EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
-            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("celestium_damage_bonus"), EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("celestium_%s_speed_bonus".formatted(type.getName())), EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("celestium_%s_damage_bonus".formatted(type.getName())), EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
         }
         if (material.equals(MythicArmorMaterials.MIDAS_GOLD)) {
-            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("midas_luck_bonus"), EntityAttributes.GENERIC_LUCK, 1.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("midas_%s_luck_bonus".formatted(type.getName())), EntityAttributes.GENERIC_LUCK, 1.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
         }
         if (material.equals(MythicArmorMaterials.STAR_PLATINUM)) {
-            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("star_platinum_attack_bonus"), EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("star_platinum_%s_attack_bonus".formatted(type.getName())), EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
         }
         if (material.equals(MythicArmorMaterials.CARMOT)) {
-            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("carmot_shield_armor_bonus"), RegisterEntityAttributes.CARMOT_SHIELD, 5.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
-            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("carmot_health_bonus"), EntityAttributes.GENERIC_MAX_HEALTH, 2.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("carmot_%s_carmot_shield_bonus".formatted(type.getName())), RegisterEntityAttributes.CARMOT_SHIELD, 5.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("carmot_%s_health_bonus".formatted(type.getName())), EntityAttributes.GENERIC_MAX_HEALTH, 2.0F, EntityAttributeModifier.Operation.ADD_VALUE, slot);
         }
         if (material.equals(MythicArmorMaterials.STORMYX)) {
             float value = isChestOrLegs ? 2.0F : 1.0F;
-            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("stormyx_magic_protection"), AdditionalEntityAttributes.MAGIC_PROTECTION, value, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("stormyx_%s_magic_protection".formatted(type.getName())), AdditionalEntityAttributes.MAGIC_PROTECTION, value, EntityAttributeModifier.Operation.ADD_VALUE, slot);
         }
         if (material.equals(MythicArmorMaterials.PALLADIUM)) {
             if (type.getEquipmentSlot().equals(EquipmentSlot.HEAD)) {
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("palladium_lava_vision_bonus"), AdditionalEntityAttributes.LAVA_VISIBILITY, 8.0f, EntityAttributeModifier.Operation.ADD_VALUE, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("palladium_%s_lava_vision_bonus".formatted(type.getName())), AdditionalEntityAttributes.LAVA_VISIBILITY, 8.0f, EntityAttributeModifier.Operation.ADD_VALUE, slot);
             } else {
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("palladium_lava_speed_bonus"), AdditionalEntityAttributes.LAVA_SPEED, 0.1f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("palladium_%s_lava_speed_bonus".formatted(type.getName())), AdditionalEntityAttributes.LAVA_SPEED, 0.1f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
             }
         }
     }

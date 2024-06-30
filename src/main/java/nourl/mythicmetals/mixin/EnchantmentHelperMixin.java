@@ -17,23 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
 
-// FIXME
-//
-//    @Inject(method = "getEfficiency", at = @At("RETURN"), cancellable = true)
-//    private static void mythicmetals$increaseEfficiency(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
-//        int level = cir.getReturnValue();
-//        int change = 0;
-//        for (ItemStack mainHand : entity.getHandItems()) {
-//            if (mainHand.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
-//                change += 1;
-//            }
-//        }
-//
-//        if (change > 0) {
-//            cir.setReturnValue(level + change);
-//        }
-//    }
-
     @Inject(method = "getProtectionAmount", at = @At("TAIL"), cancellable = true)
     private static void mythicmetals$damageReduction(ServerWorld world, LivingEntity user, DamageSource source, CallbackInfoReturnable<Float> cir) {
         // Make sure that there is any gear to check

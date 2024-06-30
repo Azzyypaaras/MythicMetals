@@ -12,6 +12,9 @@ import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.CarmotShield;
 import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.misc.RegistryHelper;
+import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
+
+import static nourl.mythicmetals.misc.UsefulSingletonForColorUtil.MetalColors.SHIELD_BREAK_COLOR;
 
 public class PlayerEnergySwirlFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
 
@@ -31,8 +34,6 @@ public class PlayerEnergySwirlFeatureRenderer extends FeatureRenderer<AbstractCl
         if (entity.getComponent(MythicMetals.CARMOT_SHIELD).shouldRenderShield()) {
             var shield = entity.getComponent(MythicMetals.CARMOT_SHIELD);
             float f = entity.age + tickDelta;
-            int pieces = (int) (shield.getMaxHealth() % 4 + 1);
-            float health = pieces < 3 ? shield.shieldHealth / 80f : shield.shieldHealth / 110f;
 
             this.swirlModel.animateModel(entity, limbAngle, limbDistance, tickDelta);
             this.getContextModel().copyStateTo(this.swirlModel);
@@ -43,10 +44,9 @@ public class PlayerEnergySwirlFeatureRenderer extends FeatureRenderer<AbstractCl
             // Break animation
             if (shield.cooldown > CarmotShield.MAX_COOLDOWN - 30) {
                 matrices.scale(1.125f, 1.0625f, 1.125f);
-                this.swirlModel.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, 0xAE0000FF);
+                this.swirlModel.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, SHIELD_BREAK_COLOR);
             } else // Regular animation
-                // FIXME - Color
-                this.swirlModel.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, 0x226633FF);
+                this.swirlModel.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, UsefulSingletonForColorUtil.rainbow());
         }
     }
 }

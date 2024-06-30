@@ -6,6 +6,7 @@ import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 
 public class UsefulSingletonForColorUtil {
     public static float[] splitRGBToFloats(int rgb) {
@@ -42,6 +43,16 @@ public class UsefulSingletonForColorUtil {
         return -1;
     }
 
+    public static int rainbow() {
+        double delta = System.currentTimeMillis() / 45.0;
+
+        double hue = delta % 360.0;
+        float saturation = 1;
+        float constantValue = 1;
+
+        return MathHelper.hsvToArgb((float) (hue / 360), saturation, constantValue, 128);
+    }
+
     /**
      * Contains constants for all the colors used for various text and particles
      */
@@ -61,6 +72,8 @@ public class UsefulSingletonForColorUtil {
         public static final Style GOLD_STYLE = Style.EMPTY.withColor(Formatting.GOLD);
         public static final Style PALLADIUM_STYLE = Style.EMPTY.withColor(MetalColors.PALLADIUM.rgb());
         public static final Style TIDESINGER_BLUE = Style.EMPTY.withColor(0x2F88FB);
+
+        public static final int SHIELD_BREAK_COLOR = MathHelper.hsvToArgb(0f, 1.0f, 1.0f, 128);
 
         public static final CoralColor BRAIN = new CoralColor("brain", Style.EMPTY.withColor(0xE17DB7));
         public static final CoralColor BUBBLE = new CoralColor("bubble", Style.EMPTY.withColor(0xCB44BD));

@@ -15,7 +15,6 @@ public class CarmotShield implements Component, AutoSyncedComponent {
     public int renderTime;
     public int cooldown;
 
-    public static final int SHIELD_HEALTH_PER_PIECE = 5;
     public static final int MAX_COOLDOWN = 160;
 
     public CarmotShield(PlayerEntity player) {
@@ -78,7 +77,7 @@ public class CarmotShield implements Component, AutoSyncedComponent {
         }
     }
 
-    // TODO - Will the rounding here cause issues?
+    // FIXME - This is likely causing some weird rendering
     public float getMaxHealth() {
         int result = 0;
         if (this.player.getAttributes().hasAttribute(RegisterEntityAttributes.CARMOT_SHIELD)) {
