@@ -9,7 +9,6 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -22,7 +21,7 @@ import nourl.mythicmetals.item.tools.CarmotStaff;
 import nourl.mythicmetals.misc.RegistryHelper;
 
 public class CarmotStaffBlockRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer, ModelLoadingPlugin {
-    public static final ModelIdentifier CARMOT_STAFF_ID = new ModelIdentifier(RegistryHelper.id("carmot_staff_base"), "inventory");
+    public static final Identifier CARMOT_STAFF_ID = RegistryHelper.id("item/carmot_staff_base");
     private static final Identifier WORLD_BORDER = Identifier.of("textures/misc/forcefield.png");
 
     @Override
@@ -102,6 +101,6 @@ public class CarmotStaffBlockRenderer implements BuiltinItemRendererRegistry.Dyn
 
     @Override
     public void onInitializeModelLoader(Context pluginContext) {
-        pluginContext.addModels(CARMOT_STAFF_ID.id());
+        pluginContext.addModels(CARMOT_STAFF_ID);
     }
 }
