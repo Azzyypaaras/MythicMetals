@@ -1,6 +1,10 @@
-# 0.20.0
+# 0.20.0-alpha
 
-This is the initial port to 1.21.
+## THIS VERSION IS NOT COMPATIBLE WITH OLDER WORLDS
+**You will lose a LOT of data upgrading your world from 1.20.x up to this version.**
+I do still want to look into datafixing before the full 0.20.0 release, but for now this version acts mainly as a test version.
+
+This is the initial port to 1.21. Full patch notes will be available for the proper launch. 
 
 # 0.19.9
 
