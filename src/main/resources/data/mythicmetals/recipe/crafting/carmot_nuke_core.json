@@ -14,7 +14,7 @@
         }
     },
     "result": {
-        "item": "mythicmetals:carmot_nuke_core",
+        "id": "mythicmetals:carmot_nuke_core",
         "count": 1
     }
 }
