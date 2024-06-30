@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
@@ -15,8 +16,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import nourl.mythicmetals.MythicMetals;
@@ -100,7 +100,7 @@ public class BanglumNukeEntity extends BanglumTntEntity {
 
         int soundRadius = radius * 3;
 
-        // FIXME - the explosion sounds incorrect
+        // FIXME - Find a better way to play the sound to far-away players. Maybe use PositionedSoundInstance and the sound manager?
         for (PlayerEntity player : getWorld().getPlayers()) {
             if (player.squaredDistanceTo(this) > soundRadius * soundRadius) continue;
 
@@ -127,10 +127,10 @@ public class BanglumNukeEntity extends BanglumTntEntity {
                             this,
                             this.getCausingEntity());
                     entity.damage(banglumNukeSource, MathHelper.floor((distanceModifier * distanceModifier + distanceModifier) * 7.0 * radius + 1.0));
+
                     double knockback = distanceModifier * 5;
                     if (entity instanceof LivingEntity living) {
-                        // FIXME - Find out what this did
-                        //knockback = ProtectionEnchantment.transformExplosionKnockback(living, knockback);
+                        knockback = distanceModifier * (5.0 - living.getAttributeValue(EntityAttributes.GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE));
                     }
 
                     entity.addVelocity(x * knockback, y * knockback, z * knockback);
