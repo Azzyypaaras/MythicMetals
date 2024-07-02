@@ -36,6 +36,9 @@
     ],
     "cardinal-components-entity": [
       "nourl.mythicmetals.MythicMetals"
+    ],
+    "cicada": [
+      "nourl.mythicmetals.compat.CicadaInit"
     ]
   },
   "mixins": [
