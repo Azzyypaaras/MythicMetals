@@ -38,8 +38,8 @@ dependencies {
 
     // Isometric Renders + Worldmesher
     // TODO - Re-enable
-    //modImplementation("maven.modrinth:isometric-renders:${project.isorender_version}")
-    //modImplementation("io.wispforest:worldmesher:${project.worldmesher_version}")
+    modImplementation("maven.modrinth:isometric-renders:${project.isorender_version}")
+    modImplementation("io.wispforest:worldmesher:${project.worldmesher_version}")
 
     // REI + Arch
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
