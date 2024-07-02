@@ -1,3 +1,10 @@
+# 0.20.0-alpha3
+
+- Fix incorrect mining levels
+- Fix broken recipes and missing tags
+- Update Isometric compat
+- Add Cicada compat
+
 # 0.20.0-alpha2
 
 - Properly declare Alloy Forgery dependency
