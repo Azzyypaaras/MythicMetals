@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:mythril_ores"
+      "tag": "c:ores/mythril"
     }
   ],
   "output": {

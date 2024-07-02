@@ -5,7 +5,7 @@
       "tag": "c:raw_materials/iron"
     },
 	{
-      "tag": "c:raw_manganese_ores"
+      "tag": "c:ores/raw_manganese"
     }
   ],
   "output": {

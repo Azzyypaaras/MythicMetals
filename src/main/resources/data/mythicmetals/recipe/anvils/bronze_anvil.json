@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "tag": "c:bronze_blocks"
+      "tag": "c:storage_blocks/bronze"
     },
     "R": {
-      "tag": "c:bronze_ingots"
+      "tag": "c:ingots/bronze"
     }
   },
   "result": {

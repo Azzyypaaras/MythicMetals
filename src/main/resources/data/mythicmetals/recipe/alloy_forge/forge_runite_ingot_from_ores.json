@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:runite_ores"
+      "tag": "mythicmetals:ores/runite"
     }
   ],
   "output": {

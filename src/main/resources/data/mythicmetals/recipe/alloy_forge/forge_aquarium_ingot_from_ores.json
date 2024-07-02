@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:aquarium_ores"
+      "tag": "mythicmetals:ores/aquarium"
     }
   ],
   "output": {

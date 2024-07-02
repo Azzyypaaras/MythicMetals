@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "tag": "c:orichalcum_blocks"
+      "tag": "c:storage_blocks/orichalcum"
     },
     "R": {
-      "tag": "c:orichalcum_ingots"
+      "tag": "c:ingots/orichalcum"
     }
   },
   "result": {

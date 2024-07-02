@@ -2,16 +2,16 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:adamantite_ingots"
+      "tag": "c:ingots/adamantite"
     },
 	{
-      "tag": "c:mythril_ingots"
+      "tag": "c:ingots/mythril"
     },
 	{
-      "tag": "c:orichalcum_ingots"
+      "tag": "c:ingots/orichalcum"
     },
 	{
-      "tag": "c:palladium_ingots"
+      "tag": "c:ingots/palladium"
     },
 	{
 	  "item": "mythicmetals:unobtainium"

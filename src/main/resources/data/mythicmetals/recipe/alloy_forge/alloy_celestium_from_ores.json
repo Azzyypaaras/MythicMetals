@@ -2,19 +2,19 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:starrite_ores"
+      "tag": "mythicmetals:ores/starrite"
     },
     {
-      "tag": "c:platinum_ores"
+      "tag": "c:ores/platinum"
     },
     {
-      "tag": "mythicmetals:carmot_ores"
+      "tag": "mythicmetals:ores/carmot"
     },
 	{
-      "tag": "mythicmetals:kyber_ores"
+      "tag": "mythicmetals:ores/kyber"
     },
     {
-      "tag": "mythicmetals:unobtainium_ores"
+      "tag": "mythicmetals:ores/unobtainium"
     }
   ],
   "output": {

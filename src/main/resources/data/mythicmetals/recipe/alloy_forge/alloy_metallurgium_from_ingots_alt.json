@@ -2,10 +2,10 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:hallowed_ingots"
+      "tag": "mythicmetals:ingots/hallowed"
     },
 	{
-      "tag": "c:palladium_ingots"
+      "tag": "c:ingots/palladium"
     },
 	{
 	  "item": "mythicmetals:unobtainium"

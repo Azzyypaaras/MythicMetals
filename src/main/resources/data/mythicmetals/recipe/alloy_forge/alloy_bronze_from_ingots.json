@@ -2,11 +2,11 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:copper_ingots",
+      "tag": "c:ingots/copper",
       "count": 2
     },
 	{
-      "tag": "c:tin_ingots"
+      "tag": "c:ingots/tin"
     }
   ],
   "output": {

@@ -2,10 +2,10 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:iron_ingots"
+      "tag": "c:ingots/iron"
     },
 	{
-      "tag": "c:manganese_ingots"
+      "tag": "c:ingots/manganese"
     }
   ],
   "output": {

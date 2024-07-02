@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:osmium_ores"
+      "tag": "c:ores/osmium"
     }
   ],
   "output": {

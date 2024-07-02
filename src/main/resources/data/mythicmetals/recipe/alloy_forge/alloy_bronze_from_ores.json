@@ -2,11 +2,11 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "minecraft:copper_ores",
+      "tag": "minecraft:ores/copper",
       "count": 2
     },
 	{
-      "tag": "c:tin_ores"
+      "tag": "c:ores/tin"
     }
   ],
   "output": {

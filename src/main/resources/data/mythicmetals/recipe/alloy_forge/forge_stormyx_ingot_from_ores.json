@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:stormyx_ores"
+      "tag": "mythicmetals:ores/stormyx"
     }
   ],
   "output": {

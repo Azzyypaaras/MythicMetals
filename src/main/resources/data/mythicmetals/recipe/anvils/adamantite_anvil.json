@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "tag": "c:adamantite_blocks"
+      "tag": "c:storage_blocks/adamantite"
     },
     "R": {
-      "tag": "c:adamantite_ingots"
+      "tag": "c:ingots/adamantite"
     }
   },
   "result": {

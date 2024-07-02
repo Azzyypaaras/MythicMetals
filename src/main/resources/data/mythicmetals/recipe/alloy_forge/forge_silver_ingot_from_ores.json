@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:silver_ores"
+      "tag": "c:ores/silver"
     }
   ],
   "output": {

@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:banglum_ores"
+      "tag": "mythicmetals:ores/banglum"
     }
   ],
   "output": {

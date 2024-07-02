@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "tag": "c:platinum_blocks"
+      "tag": "c:storage_blocks/platinum"
     },
     "R": {
-      "tag": "c:platinum_ingots"
+      "tag": "c:ingots/platinum"
     }
   },
   "result": {

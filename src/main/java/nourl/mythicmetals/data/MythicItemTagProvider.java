@@ -44,14 +44,18 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
             if (blockSet.getStorageBlock() != null) {
                 var string = "storage_blocks/" + name;
                 var modTag = MythicMetalsData.createModItemTag(string);
-                var commonTag = ConventionalItemTags.STORAGE_BLOCKS;
+                var commonTag = MythicMetalsData.createCommonItemTag(string);
+                var commonBlocksTag = ConventionalItemTags.STORAGE_BLOCKS;
                 getOrCreateTagBuilder(modTag).add(blockSet.getStorageBlock().asItem());
-                getOrCreateTagBuilder(commonTag).addTag(modTag);
+                getOrCreateTagBuilder(commonTag).add(blockSet.getStorageBlock().asItem());
+                getOrCreateTagBuilder(commonBlocksTag).addTag(modTag);
                 if (blockSet.getOreStorageBlock() != null) {
                     string = "storage_blocks/raw_" + name;
                     modTag = MythicMetalsData.createModItemTag(string);
-                    getOrCreateTagBuilder(modTag).add(blockSet.getOreStorageBlock().asItem());
-                    getOrCreateTagBuilder(commonTag).addTag(modTag);
+                    getOrCreateTagBuilder(modTag)
+                        .add(blockSet.getOreStorageBlock().asItem());
+                    getOrCreateTagBuilder(commonBlocksTag)
+                        .addTag(modTag);
                 }
             }
         });

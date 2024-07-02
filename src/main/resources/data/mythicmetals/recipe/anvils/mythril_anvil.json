@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "tag": "c:mythril_blocks"
+      "tag": "c:storage_blocks/mythril"
     },
     "R": {
-      "tag": "c:mythril_ingots"
+      "tag": "c:ingots/mythril"
     }
   },
   "result": {

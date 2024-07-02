@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "tag": "c:silver_blocks"
+      "tag": "c:storage_blocks/silver"
     },
     "R": {
-      "tag": "c:silver_ingots"
+      "tag": "c:ingots/silver"
     }
   },
   "result": {

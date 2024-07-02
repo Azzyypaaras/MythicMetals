@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "tag": "c:osmium_blocks"
+      "tag": "c:storage_blocks/osmium"
     },
     "R": {
-      "tag": "c:osmium_ingots"
+      "tag": "c:ingots/osmium"
     }
   },
   "result": {

@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:quadrillum_ores"
+      "tag": "mythicmetals:ores/quadrillum"
     }
   ],
   "output": {

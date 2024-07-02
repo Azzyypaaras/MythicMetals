@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:orichalcum_ores"
+      "tag": "c:ores/orichalcum"
     }
   ],
   "output": {

@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:tin_ores"
+      "tag": "c:ores/tin"
     }
   ],
   "output": {

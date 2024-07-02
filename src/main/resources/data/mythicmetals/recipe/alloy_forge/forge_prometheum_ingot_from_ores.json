@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:prometheum_ores"
+      "tag": "mythicmetals:ores/prometheum"
     }
   ],
   "output": {

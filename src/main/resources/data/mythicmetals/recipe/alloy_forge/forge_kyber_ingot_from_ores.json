@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "mythicmetals:kyber_ores"
+      "tag": "mythicmetals:ores/kyber"
     }
   ],
   "output": {
