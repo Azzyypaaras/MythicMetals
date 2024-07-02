@@ -202,15 +202,18 @@ public class MythicMetalsClient implements ClientModInitializer {
     private void registerModelPredicates() {
         ModelPredicateProviderRegistry.register(
             MythicTools.LEGENDARY_BANGLUM.getPickaxe(), RegistryHelper.id("is_primed"),
-            (stack, world, entity, seed) -> BanglumPick.getCooldown(entity, stack) ? 0 : 1);
+            (stack, world, entity, seed) -> BanglumPick.getCooldown(entity, stack) ? 0 : 1
+        );
 
         ModelPredicateProviderRegistry.register(
             MythicTools.LEGENDARY_BANGLUM.getShovel(), RegistryHelper.id("is_primed"),
-            (stack, world, entity, seed) -> BanglumShovel.getCooldown(entity, stack) ? 0 : 1);
+            (stack, world, entity, seed) -> BanglumShovel.getCooldown(entity, stack) ? 0 : 1
+        );
 
         ModelPredicateProviderRegistry.register(
             MythicTools.MYTHRIL_DRILL, RegistryHelper.id("is_active"),
-            (stack, world, entity, seed) -> stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive() ? 0 : 1);
+            (stack, world, entity, seed) -> stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive() ? 0 : 1
+        );
 
         registerMidasPredicates(MythicTools.MIDAS_GOLD_SWORD);
         registerMidasPredicates(MythicTools.GILDED_MIDAS_GOLD_SWORD);

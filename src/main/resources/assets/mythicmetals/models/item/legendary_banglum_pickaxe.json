@@ -18,7 +18,7 @@
   "overrides": [
     {
       "predicate": {
-        "is_primed": 1
+        "mythicmetals:is_primed": 1
       },
       "model": "mythicmetals:item/legendary_banglum_pickaxe_primed"
     }
