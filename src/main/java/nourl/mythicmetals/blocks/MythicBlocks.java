@@ -23,8 +23,8 @@ public class MythicBlocks {
     private static final Identifier STONE_MINING_LEVEL = BlockTags.NEEDS_STONE_TOOL.id();
     private static final Identifier IRON_MINING_LEVEL = BlockTags.NEEDS_IRON_TOOL.id();
     private static final Identifier DIAMOND_MINING_LEVEL = BlockTags.NEEDS_DIAMOND_TOOL.id();
-    private static final Identifier NETHERITE_MINING_LEVEL = Identifier.of("fabric:needs_tool_level_4");
-    private static final Identifier MYTHIC_MINING_LEVEL = Identifier.of("fabric:needs_tool_level_5");
+    private static final Identifier NETHERITE_MINING_LEVEL = RegistryHelper.id("needs_netherite_tool");
+    private static final Identifier MYTHIC_MINING_LEVEL = RegistryHelper.id("needs_unobtainable_tool");
 
     public static final BlockSet ADAMANTITE = BlockSet.Builder.begin("adamantite", false)
         .createDefaultSet(4, DIAMOND_MINING_LEVEL, DIAMOND_MINING_LEVEL)
