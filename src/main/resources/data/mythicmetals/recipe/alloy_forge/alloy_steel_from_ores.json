@@ -5,7 +5,7 @@
       "tag": "c:ores/iron"
     },
 	{
-      "tag": "c:ores/manganese"
+      "tag": "mythicmetals:ores/manganese"
     }
   ],
   "output": {

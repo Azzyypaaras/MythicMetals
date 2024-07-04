@@ -5,7 +5,7 @@
       "item": "mythicmetals:raw_midas_gold"
     },
     {
-      "tag": "c:ores/raw"
+      "tag": "mythicmetals:midas_raw_ores"
     }
   ],
   "output": {

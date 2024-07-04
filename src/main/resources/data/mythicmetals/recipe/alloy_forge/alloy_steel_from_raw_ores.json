@@ -5,7 +5,7 @@
       "tag": "c:raw_materials/iron"
     },
 	{
-      "tag": "c:ores/raw_manganese"
+      "tag": "mythicmetals:raw_materials/manganese"
     }
   ],
   "output": {

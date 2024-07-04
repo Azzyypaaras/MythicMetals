@@ -2,16 +2,16 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:ores/adamantite"
+      "tag": "mythicmetals:ores/adamantite"
     },
 	{
-      "tag": "c:ores/mythril"
+      "tag": "mythicmetals:ores/mythril"
     },
 	{
-      "tag": "c:ores/orichalcum"
+      "tag": "mythicmetals:ores/orichalcum"
     },
 	{
-      "tag": "c:ores/palladium"
+      "tag": "mythicmetals:ores/palladium"
     },
 	{
 	  "tag": "mythicmetals:ores/unobtainium"

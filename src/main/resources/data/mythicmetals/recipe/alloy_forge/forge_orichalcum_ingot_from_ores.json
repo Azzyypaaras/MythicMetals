@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:ores/orichalcum"
+      "tag": "mythicmetals:ores/orichalcum"
     }
   ],
   "output": {

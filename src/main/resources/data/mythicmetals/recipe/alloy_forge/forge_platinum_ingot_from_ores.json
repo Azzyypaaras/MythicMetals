@@ -2,7 +2,7 @@
   "type": "alloy_forgery:forging",
   "inputs": [
     {
-      "tag": "c:ores/platinum"
+      "tag": "mythicmetals:ores/platinum"
     }
   ],
   "output": {
