@@ -18,13 +18,13 @@ import java.util.function.Consumer;
 
 public record CarmotStaffComponent(Block block, boolean showTooltip) implements TooltipAppender {
 
-    public static final CarmotStaffComponent DEFAULT = new CarmotStaffComponent(Blocks.AIR, true);
-
     public static final StructEndec<CarmotStaffComponent> ENDEC = StructEndecBuilder.of(
         MinecraftEndecs.ofRegistry(Registries.BLOCK).fieldOf("block", CarmotStaffComponent::getBlock),
         Endec.BOOLEAN.fieldOf("show", carmotStaffComponent -> carmotStaffComponent.showTooltip),
         CarmotStaffComponent::new
     );
+
+    public static final CarmotStaffComponent DEFAULT = new CarmotStaffComponent(Blocks.AIR, true);
 
     public CarmotStaffComponent(Block block) {
         this(block, true);

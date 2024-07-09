@@ -84,6 +84,7 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
         FieldRegistrationHandler.register(RegisterBlockEntityTypes.class, MOD_ID, false);
         MythicParticleSystem.init();
         MythicBlocks.init();
+        MythicDataComponents.init();
         BanglumNukeHandler.init();
         MythicOreKeys.init();
         MythicCommands.init();

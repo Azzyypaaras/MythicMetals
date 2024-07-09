@@ -93,8 +93,7 @@ public class RegistryHelper {
         return Registries.POTION.getEntry(potion);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static <T> ComponentType<T> dataComponentType(String path, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
-        return Registry.register(Registries.DATA_COMPONENT_TYPE, id(path), ((ComponentType.Builder)builderOperator.apply(ComponentType.builder())).build());
+        return Registry.register(Registries.DATA_COMPONENT_TYPE, id(path), builderOperator.apply(ComponentType.builder()).build());
     }
 }
