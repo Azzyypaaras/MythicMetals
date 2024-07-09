@@ -24,9 +24,9 @@ This mod is licensed under a custom MIT license. Please read it before re-using 
 You can use this mod as an example/base for adding in blocks, ingots, armor, tools, and ore generation for Fabric mods.  
 Feel free to use this in any modpack you wish for.  
 Some modpacks that use Mythic Metals:  
-* Euphoric Curiosities: https://www.curseforge.com/minecraft/modpacks/euphoriccuriosity/  
-* Medieval Minecraft (Fabric): https://www.curseforge.com/minecraft/modpacks/medieval-minecraft-fabric/  
-* Another Quality Modpack 2: https://www.curseforge.com/minecraft/modpacks/another-quality-modpack-2/
+- Euphoric Curiosities: https://www.curseforge.com/minecraft/modpacks/euphoriccuriosity 
+- Medieval Minecraft (Fabric): https://www.curseforge.com/minecraft/modpacks/medieval-mc-fabric-mmc2
+- BounceSMP: https://www.curseforge.com/minecraft/modpacks/bouncesmp-public
 
 ## Credits
 See [the Credits file in the repo](CREDITS.md), as it contains a shoutout to everyone who has worked on the project!
