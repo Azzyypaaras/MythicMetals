@@ -1,3 +1,9 @@
+# 0.20.0-alpha4
+
+- Fix Blast Mining tools not using the correct predicates
+- Fix broken Alloy Forge recipes
+- Fix registry failing to remap on a disconnect
+
 # 0.20.0-alpha3
 
 - Fix incorrect mining levels
