@@ -1,3 +1,7 @@
+# 0.20.0-alpha5
+
+- Add null check to camera when holding Mythril Drill (#252)
+
 # 0.20.0-alpha4
 
 - Fix Blast Mining tools not using the correct predicates

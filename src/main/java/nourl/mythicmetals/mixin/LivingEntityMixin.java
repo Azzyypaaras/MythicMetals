@@ -198,7 +198,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     private void mythicmetals$carmotParticle() {
-        if (!getWorld().isClient) return;
+        if (!this.getWorld().isClient()) return;
         Vec3d velocity = this.getVelocity();
 
         if (this.isPlayer() && this.getComponent(MythicMetals.CARMOT_SHIELD).shieldHealth == 0) {
@@ -213,17 +213,18 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     private void mythicmetals$copperParticle() {
-        if (getWorld().isClient && r.nextInt(40) < 1) {
+        if (this.getWorld().isClient() && r.nextInt(40) < 1) {
             MythicParticleSystem.COPPER_SPARK.spawn(getWorld(), this.getPos().add(0, 1, 0));
         }
     }
 
     @Unique
     private void mythicmetals$palladiumParticles() {
-        if (this.hasStatusEffect(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.HEAT))) {
-            var status = this.getStatusEffect(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.HEAT));
-            if (status == null) return;
-            if (status.getAmplifier() < 3) return;
+        var heatEntry = Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.HEAT);
+        if (this.hasStatusEffect(heatEntry)) {
+            var status = this.getStatusEffect(heatEntry);
+            if (status == null || status.getAmplifier() < 3) return;
+
             Vec3d velocity = this.getVelocity();
             if (velocity.length() >= 0.1 && r.nextInt(6) < 1) {
                 MythicParticleSystem.SMOKING_PALLADIUM_PARTICLE.spawn(getWorld(), this.getPos().add(0, 0.25, 0));
@@ -241,11 +242,10 @@ public abstract class LivingEntityMixin extends Entity {
     /**
      * Bonus advancement if you combust yourself via a creeper. Good job.
      */
-    @SuppressWarnings("DataFlowIssue")
     @Inject(method = "addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"))
     private void mythicmetals$grantAdvancementOnStatusEffectFromCreepers(StatusEffectInstance effect, Entity source, CallbackInfoReturnable<Boolean> cir) {
-        if (source == null || !this.canHaveStatusEffect(effect)) return;
-        if (!getWorld().isClient() && effect.getEffectType().equals(MythicStatusEffects.COMBUSTION) && this.isPlayer()) {
+        if (this.getWorld().isClient() || source == null || !this.canHaveStatusEffect(effect)) return;
+        if (effect.getEffectType().value().equals(MythicStatusEffects.COMBUSTION) && this.isPlayer()) {
             if (source instanceof AreaEffectCloudEntity cloudEntity && ((WasSpawnedFromCreeper) cloudEntity).mythicmetals$isSpawnedFromCreeper()) {
                 //noinspection ConstantConditions
                 RegisterCriteria.RECEIVED_COMBUSTION_FROM_CREEPER.trigger(((ServerPlayerEntity) (Object) this));
@@ -261,6 +261,8 @@ public abstract class LivingEntityMixin extends Entity {
         }
         var stack = this.getStackInHand(hand);
         var camera = MinecraftClient.getInstance().getEntityRenderDispatcher().camera;
+        // This can be null, according to #252
+        if (camera == null) return;
         if (camera.isThirdPerson() && stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
             ci.cancel();
         }
