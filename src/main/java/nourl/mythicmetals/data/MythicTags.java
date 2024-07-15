@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.biome.Biome;
 import nourl.mythicmetals.misc.RegistryHelper;
@@ -31,6 +30,7 @@ public class MythicTags {
     public static final TagKey<Biome> OSMIUM_BIOMES = TagKey.of(RegistryKeys.BIOME, RegistryHelper.id("osmium_biomes"));
     public static final TagKey<Biome> MYTHIC_ORE_BIOMES = TagKey.of(RegistryKeys.BIOME, RegistryHelper.id("mythic_ore_biomes"));
     public static final TagKey<Enchantment> SILK_TOUCH_LIKE = TagKey.of(RegistryKeys.ENCHANTMENT, RegistryHelper.id("silk_touch_like"));
+    public static final TagKey<Block> MINEABLE_MYTHRIL_DRILL = TagKey.of(RegistryKeys.BLOCK, RegistryHelper.id("mineable/mythril_drill"));
 }
 
 

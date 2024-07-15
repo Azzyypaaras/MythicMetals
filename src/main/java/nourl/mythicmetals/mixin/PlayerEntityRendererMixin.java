@@ -80,7 +80,7 @@ public class PlayerEntityRendererMixin {
     @Inject(method = "getArmPose", at = @At("RETURN"), cancellable = true)
     private static void mythicmetals$mythrilDrillPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
         var stack = player.getStackInHand(hand);
-        if (stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
+        if (stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).hasFuel()) {
             cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
         }
     }

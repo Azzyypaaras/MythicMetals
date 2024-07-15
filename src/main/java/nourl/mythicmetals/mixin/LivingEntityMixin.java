@@ -263,7 +263,7 @@ public abstract class LivingEntityMixin extends Entity {
         var camera = MinecraftClient.getInstance().getEntityRenderDispatcher().camera;
         // This can be null, according to #252
         if (camera == null) return;
-        if (camera.isThirdPerson() && stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive()) {
+        if (camera.isThirdPerson() && stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).hasFuel()) {
             ci.cancel();
         }
     }

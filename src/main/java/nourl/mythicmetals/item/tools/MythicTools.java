@@ -5,18 +5,30 @@ import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.MinecartItem;
+import net.minecraft.item.SwordItem;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.AquariumToolSet;
 import nourl.mythicmetals.component.*;
-import nourl.mythicmetals.item.*;
+import nourl.mythicmetals.item.RedAegisSword;
+import nourl.mythicmetals.item.RuniteArrowItem;
+import nourl.mythicmetals.item.StarPlatinumArrowItem;
+import nourl.mythicmetals.item.TippedRuniteArrowItem;
 import nourl.mythicmetals.misc.RegistryHelper;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -142,7 +154,7 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
         .group(MythicMetals.TABBED_GROUP).tab(2)
         .rarity(Rarity.UNCOMMON)
         .attributeModifiers(createAttributeModifiers(3, 1.5f))
-        .component(MythicDataComponents.DRILL, new DrillComponent(0, false))
+        .component(MythicDataComponents.DRILL, new DrillComponent(0))
         .component(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2))
     );
     public static final Item PLATINUM_WATCH = new Item(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));

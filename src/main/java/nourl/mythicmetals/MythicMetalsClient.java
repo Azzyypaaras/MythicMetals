@@ -14,7 +14,10 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
@@ -34,19 +37,28 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
-import nourl.mythicmetals.armor.*;
+import nourl.mythicmetals.armor.CelestiumElytra;
+import nourl.mythicmetals.armor.HallowedArmor;
+import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.blocks.MythicBlocks;
 import nourl.mythicmetals.client.CarmotShieldHudHandler;
 import nourl.mythicmetals.client.models.MythicModelHandler;
 import nourl.mythicmetals.client.rendering.*;
 import nourl.mythicmetals.compat.IsometricArmorStandExporter;
-import nourl.mythicmetals.component.*;
+import nourl.mythicmetals.component.DrillComponent;
+import nourl.mythicmetals.component.GoldFoldedComponent;
+import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.component.PrometheumComponent;
 import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.entity.MythicEntities;
 import nourl.mythicmetals.item.tools.*;
-import nourl.mythicmetals.misc.*;
+import nourl.mythicmetals.misc.BlockBreaker;
+import nourl.mythicmetals.misc.RegistryHelper;
+import nourl.mythicmetals.misc.ShieldUsePredicate;
+import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
 import nourl.mythicmetals.mixin.WorldRendererInvoker;
 import nourl.mythicmetals.registry.RegisterBlockEntityTypes;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -212,7 +224,7 @@ public class MythicMetalsClient implements ClientModInitializer {
 
         ModelPredicateProviderRegistry.register(
             MythicTools.MYTHRIL_DRILL, RegistryHelper.id("is_active"),
-            (stack, world, entity, seed) -> stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).isActive() ? 0 : 1
+            (stack, world, entity, seed) -> stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).hasFuel() ? 0 : 1
         );
 
         registerMidasPredicates(MythicTools.MIDAS_GOLD_SWORD);
