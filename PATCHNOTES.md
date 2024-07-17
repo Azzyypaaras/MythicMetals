@@ -1,6 +1,21 @@
 # 0.20.0-alpha5
 
 - Add null check to camera when holding Mythril Drill (#252)
+- Reworked Mythril Drill
+  - Drill no longer needs to be activated
+  - Fuel is no longer consumed over time
+  - One fuel is consumed per block broken
+  - Increased max fuel capacity to 4000
+  - Fuel per Morkite: 10 -> 20
+  - Increased invisible durability reduction: 30% -> 60% chance of ignoring damage
+    - yes this has always been a thing while the drill is active
+  - Buffed upgrades:
+    - Golden Luck Bonus: 1 -> 2 Luck
+    - Golden Luck Gold Drop chance: 2.5% -> 3.33%
+    - Aqua Affinity Air: 24 -> 60 ticks air restored when mining an ore
+    - Regrowth: Will slowly increase fuel (NEW)
+- Fixed bonus mining speed not applying correctly on Mythril Drill
+  - It should now give you enough mining speed to effectively go up one level above what is enchanted
 
 # 0.20.0-alpha4
 
