@@ -423,7 +423,7 @@ public final class MythicCommands {
      * @see MythicArmor
      * @see ArmorSet
      */
-    public static boolean summonArmorStandWithTrim(World world, @Nullable ArmorTrim trim, ArmorSet armorSet, int x, int z) {
+    public static boolean summonArmorStandWithTrim(World world, @Nullable ArmorTrim trim, ArmorSet armorSet, float x, float z) {
         if (world.isClient) return false;
         if (armorSet.equals(MythicArmor.TIDESINGER)) return false; // This has custom "trims", ignore it
         AtomicBoolean success = new AtomicBoolean(true);
@@ -547,18 +547,19 @@ public final class MythicCommands {
         var armorTrims = new ArrayList<ArmorTrim>();
         var world = context.getSource().getWorld();
         var pos = context.getSource().getPosition();
+        float x = (int) pos.x + 0.5f;
+        float z = (int) pos.z + 0.5f;
 
         final String trimQuery = rawTrim == null ? "none" : rawTrim;
 
         if (trimQuery.equals("none")) {
             // Summon all permutations of the armor at once. Not recommended due to the sheer density of them
             if (material.equals("all")) {
-                int x = (int) pos.x;
-                int count = 0;
 
+                int count = 0;
                 var armorSetStrings = new TreeSet<>(MythicArmor.ARMOR_MAP.keySet());
                 for (var armorSetName : armorSetStrings) {
-                    if (summonArmorStandWithTrim(world, null, MythicArmor.ARMOR_MAP.get(armorSetName), x, 0)) {
+                    if (summonArmorStandWithTrim(world, null, MythicArmor.ARMOR_MAP.get(armorSetName), x, z)) {
                         x++;
                         count++;
                     }
@@ -567,7 +568,7 @@ public final class MythicCommands {
                 context.getSource().sendFeedback(() -> Text.literal("Summoned and dropping %d armorstands".formatted(finalCount)), true);
                 return finalCount;
             } else {
-                if (summonArmorStandWithTrim(world, null, MythicArmor.ARMOR_MAP.get(material), (int) pos.x, (int) pos.z)) {
+                if (summonArmorStandWithTrim(world, null, MythicArmor.ARMOR_MAP.get(material), x, z)) {
                     context.getSource().sendFeedback(() -> Text.literal("Summoned and dropping one armorstand"), true);
                     return 1;
                 } else {
