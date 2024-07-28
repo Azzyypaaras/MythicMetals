@@ -1,3 +1,7 @@
+# 0.20.x
+
+- Updated Alloy Forgery to 2.3.0+
+
 # 0.20.0-alpha5
 
 - Add null check to camera when holding Mythril Drill (#252)
