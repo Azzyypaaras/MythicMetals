@@ -1,4 +1,7 @@
 accessWidener v2 named
+
+accessible class net/minecraft/datafixer/fix/ItemStackComponentizationFix$StackData
+
 accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectCategory;I)V
 accessible method net/minecraft/item/SmithingTemplateItem getArmorTrimEmptyBaseSlotTextures ()Ljava/util/List;
 

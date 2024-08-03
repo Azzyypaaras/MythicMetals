@@ -21,6 +21,7 @@
     "ExplosionMixin",
     "FireworkRocketEntityMixin",
     "ItemMixin",
+    "ItemStackComponentizationFixin",
     "LivingEntityMixin",
     "MagmaBlockMixin",
     "PiglinBrainMixin",
