@@ -48,7 +48,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SuppressWarnings({"UnstableApiUsage", "CodeBlock2Expr", "RedundantSuppression"})
+@SuppressWarnings({"UnstableApiUsage", "CodeBlock2Expr"})
 public final class MythicCommands {
 
     public static final String ITEM_SCALE = "{ .sized-image style=\"--image-width: 40%;\" }";
