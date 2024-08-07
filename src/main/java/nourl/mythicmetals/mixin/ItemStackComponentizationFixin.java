@@ -80,6 +80,25 @@ public abstract class ItemStackComponentizationFixin {
                     .set("show_tooltip", dynamic.createBoolean(true))
             );
         }
+    
+    if (data.itemEquals("mythicmetals:mythril_drill")) {
+
+            var list = Util.make(new ArrayList<Dynamic<?>>(), objects -> {
+                objects.add(data.getAndRemove("UpgradeSlot1").result().orElse(dynamic.emptyMap()));
+                objects.add(data.getAndRemove("UpgradeSlot2").result().orElse(dynamic.emptyMap()));
+            });
+
+            data.setComponent("mythicmetals:drill", dynamic.emptyMap()
+                .setFieldIfPresent("fuel", data.getAndRemove("Fuel").result())
+            );
+
+            data.setComponent("mythicmetals:upgrades", dynamic.emptyMap()
+                .set("size", dynamic.createInt(2))
+                .set("items", dynamic.createList(list.stream()))
+            );
+
+            data.getAndRemove("IsActive");
+        }
 
         if (data.itemMatches(MM_TIDESINGER)) {
             data.setComponent("mythicmetals:tidesinger", dynamic.emptyMap()
