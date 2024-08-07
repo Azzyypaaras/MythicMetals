@@ -20,7 +20,7 @@ public record CarmotStaffComponent(Block block, boolean showTooltip) implements 
 
     public static final StructEndec<CarmotStaffComponent> ENDEC = StructEndecBuilder.of(
         MinecraftEndecs.ofRegistry(Registries.BLOCK).fieldOf("block", CarmotStaffComponent::getBlock),
-        Endec.BOOLEAN.fieldOf("show", carmotStaffComponent -> carmotStaffComponent.showTooltip),
+        Endec.BOOLEAN.fieldOf("show_tooltip", carmotStaffComponent -> carmotStaffComponent.showTooltip),
         CarmotStaffComponent::new
     );
 

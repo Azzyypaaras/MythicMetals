@@ -2,12 +2,14 @@ package nourl.mythicmetals.mixin;
 
 import com.mojang.serialization.Dynamic;
 import net.minecraft.datafixer.fix.ItemStackComponentizationFix;
+import net.minecraft.util.Util;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 @Mixin(ItemStackComponentizationFix.class)
@@ -48,6 +50,8 @@ public abstract class ItemStackComponentizationFixin {
                     .set("is_royal", dynamic.createBoolean(false))
                     .set("show_tooltip", dynamic.createBoolean(true))
             );
+            data.getAndRemove("IsRoyal");
+            data.getAndRemove("IsGilded");
         }
 
         if (data.itemEquals("mythicmetals:royal_midas_gold_sword")) {
@@ -56,6 +60,8 @@ public abstract class ItemStackComponentizationFixin {
                     .set("is_royal", dynamic.createBoolean(true))
                     .set("show_tooltip", dynamic.createBoolean(true))
             );
+            data.getAndRemove("IsRoyal");
+            data.getAndRemove("IsGilded");
         }
 
         if (data.itemMatches(MM_PROMETHEUM)) {
@@ -71,7 +77,7 @@ public abstract class ItemStackComponentizationFixin {
 
             data.setComponent("mythicmetals:carmot_staff_block", dynamic.emptyMap()
                     .setFieldIfPresent("block", data.getAndRemove("StoredBlock").result())
-                    .set("show", dynamic.createBoolean(true))
+                    .set("show_tooltip", dynamic.createBoolean(true))
             );
         }
 
