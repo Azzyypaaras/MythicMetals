@@ -42,8 +42,7 @@ import nourl.mythicmetals.registry.RegisterCriteria;
 import nourl.mythicmetals.registry.RegisterSounds;
 import java.util.List;
 
-import static nourl.mythicmetals.component.MythicDataComponents.CARMOT_STAFF_BLOCK;
-import static nourl.mythicmetals.component.MythicDataComponents.ENCORE;
+import static nourl.mythicmetals.component.MythicDataComponents.*;
 
 public class CarmotStaff extends ToolItem {
 
@@ -97,6 +96,10 @@ public class CarmotStaff extends ToolItem {
 
         if (stack.contains(CARMOT_STAFF_BLOCK)) {
             stack.get(CARMOT_STAFF_BLOCK).appendTooltip(context, tooltip::add, type);
+        }
+
+        if (stack.getOrDefault(LOCKED, false)) {
+            tooltip.add(Text.translatable("tooltip.carmot_staff.locked").formatted(Formatting.YELLOW));
         }
     }
 
