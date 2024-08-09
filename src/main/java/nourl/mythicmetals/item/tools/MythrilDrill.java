@@ -35,6 +35,7 @@ import nourl.mythicmetals.component.UpgradeComponent;
 import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.RegistryHelper;
+import org.joml.Math;
 
 import java.util.List;
 
@@ -183,7 +184,9 @@ public class MythrilDrill extends MiningToolItem {
                 if (!stack.contains(MythicDataComponents.PROMETHEUM)) {
                     stack.set(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
                 }
-                stack.set(MythicDataComponents.DRILL, drillComponent.increase(drillComponent.fuel()));
+                if (Math.floor(world.getTime() % 20) == 0.0) {
+                    stack.set(MythicDataComponents.DRILL, drillComponent.increase(drillComponent.fuel()));
+                }
                 PrometheumComponent.tickAutoRepair(stack, world);
             }
         }
