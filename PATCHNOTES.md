@@ -1,6 +1,19 @@
-# 0.20.x
+# 0.20.0-alpha6
 
-- Updated Alloy Forgery to 2.3.0+
+## This version implements datafixers!
+
+You should be able to use your 1.20.x worlds with this update, and all the items should transfer correctly.
+There might be some bugs surrounding these, so make sure to report them.
+
+**Don't forget that Mythic Metals Decorations isn't available on 1.21 yet**, so if you have any Chests, wait on upgrading till that is released.
+
+## Changes
+
+- Now requires Alloy Forgery 2.3.0+
+- Fix Midas Gold Sword models
+- Display locked tooltip on Carmot Staff
+- Change "show" to "show_tooltip" on the Carmot Staff Component
+  - This change might be breaking
 
 # 0.20.0-alpha5
 
