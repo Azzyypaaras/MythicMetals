@@ -1,3 +1,20 @@
+# 0.20.0
+
+## Mythril Drill Rework
+
+The Mythril Drill no longer consumes fuel over time
+
+The upgrades also got the following changes:
+- Golden Luck
+- Auto-repair from Prometheum will now slowly generate fuel
+- TODO
+
+## Other Changes
+
+- Palladium Armor now grants Burning Time reduction (25% per piece)
+- Combustion now increases Burn Time by 50% when applied
+  - Note that this doesn't *increase* burn times, but effectively removes fire protection from you
+
 # 0.20.0-alpha6
 
 ## This version implements datafixers!

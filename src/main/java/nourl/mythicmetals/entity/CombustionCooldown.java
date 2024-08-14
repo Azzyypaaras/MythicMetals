@@ -7,6 +7,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 
+/**
+ * Component used to prevent entities from constantly receiving the {@link nourl.mythicmetals.effects.CombustingStatusEffect}
+ */
 public class CombustionCooldown implements Component, AutoSyncedComponent {
     private int cooldown;
 

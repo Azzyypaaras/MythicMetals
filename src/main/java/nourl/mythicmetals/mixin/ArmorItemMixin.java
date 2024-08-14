@@ -70,6 +70,7 @@ public abstract class ArmorItemMixin {
             } else {
                 mythicmetals$armorMapBuilder(builder, RegistryHelper.id("palladium_%s_lava_speed_bonus".formatted(type.getName())), AdditionalEntityAttributes.LAVA_SPEED, 0.1f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
             }
+            mythicmetals$armorMapBuilder(builder, RegistryHelper.id("palladium_%s_burn_time_reduction_bonus".formatted(type.getName())), EntityAttributes.GENERIC_BURNING_TIME, -0.25f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE, slot);
         }
     }
 

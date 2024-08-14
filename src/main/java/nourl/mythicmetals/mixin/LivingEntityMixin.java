@@ -151,7 +151,7 @@ public abstract class LivingEntityMixin extends Entity {
 
                 this.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(MythicStatusEffects.COMBUSTION), multiplier.get() + 40, Math.max(MathHelper.floor(level / 2.0f), 0), false, true));
 
-                this.setFireTicks((duration * multiplier.get()) + 40);
+                this.setOnFireForTicks((duration * multiplier.get()) + 40);
                 component.setCooldown(1800);
             }
 
