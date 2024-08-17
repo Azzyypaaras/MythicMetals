@@ -1,19 +1,110 @@
 # 0.20.0
 
+The changelog for this one is huge. 
+Most of the changes are related to technical stuff, but the firstmost things are gameplay-related.
+
+The reason this update took so long is mainly due to a large downtick in freetime, and making sure Datafixers were available,
+meaning you can take your old worlds up to 1.21 without anything major changing.
+
 ## Mythril Drill Rework
 
-The Mythril Drill no longer consumes fuel over time
+This is an experimental rework trying to make the Mythril Drill more intuitive to use.
+Feel free to let me know what you think of these changes (preferrably via the Discord server).
+
+- Drill no longer needs to be activated
+- Fuel is no longer consumed over time
+- One fuel is consumed per block broken
+- Increased max fuel capacity: 1000 -> 4000
+- Fuel per Morkite: 10 -> 20
+- Increased invisible durability reduction: 30% -> 60% chance of ignoring damage
+  - yes this has always been a thing while the drill is active
 
 The upgrades also got the following changes:
-- Golden Luck
-- Auto-repair from Prometheum will now slowly generate fuel
-- TODO
+- Golden Luck Bonus: 1 -> 2 Luck
+- Golden Luck Gold Drop chance: 2.5% -> 3.33%
+- Aqua Affinity Air: 24 -> 60 ticks air restored when mining an ore
+- Regrowth: Will slowly increase fuel (NEW)
 
-## Other Changes
+**BUG - The Golden Luck Upgrade might be lost on updating from 1.20.x worlds!**
+
+## Balancing changes
 
 - Palladium Armor now grants Burning Time reduction (25% per piece)
 - Combustion now increases Burn Time by 50% when applied
-  - Note that this doesn't *increase* burn times, but effectively removes fire protection from you
+  - Note that this doesn't *increase* burn times, but effectively it removes fire protection from you
+- The Spiked Helmet ability (on the Legendary Banglum Helmet) was removed
+- Engrained Prometheum was changed to the following:
+  - Overgrown threshold is now 1200 durability
+  - Damage Bonus: +1 while overgrown (+2 if double the threshold)
+  - Armor Bonus: +1 while overgrown (+2 if double the threshold)
+  - Toughness Bonuses: +1 while overgrown (+2 if double the threshold), and +1 if the armor cannot be unequipped (I.E. Curse of Binding)
+- Increased Tidesinger Water vision: 25% -> 30%
+
+## Updated tags
+
+As always with newer versions of Minecraft the tags had to be updated.
+These are now data-driven, meaning they are generated with code. 
+This should make them faster to update, but also means there might be some holes where some items
+are missing from tags where they should be present.
+Make sure to report any issues you find with these, should you feel like anything is missing or broken.
+
+Some specific tag changes:
+
+- Added the `mythicmetals:mineable/mythril_drill` tag, which controls what the Mythril Drill can effectively mine
+  - By default this includes `mineable/shovel` and `mineable/pickaxe`, but now other mods/datapacks can change this
+- Added tags for all various Mythic Metals equipment (tools and armor)
+- Added tags for raw materials, storage blocks, specific tool types, ores, nuggets, and armor
+- ... and a lot more, which you can view on [GitHub](https://github.com/Noaaan/MythicMetals/tree/1.21/src/main/generated/data) yourself
+
+## Ability changes
+
+The Ability system is deprecated, and is slowly being decoupled into different places.
+The plan is to make them tag-driven where applicable, or otherwise use interfaces, attributes, or **Item Components**.
+Item Components are a new feature in Minecraft which work similarily to NBT (which are now placed under `minecraft:custom_data`).
+
+Here is a list of the new Item Components:
+
+- The Carmot Staff Component (`mythicmetals:carmot_staff_block`) holds the block inside the Carmot Staff, and handles the tooltips for it
+- The other Carmot Staff functionality, which were using NBT tags, were migrated to components. The changes are shown in this list:
+  - `Locked` -> `mythicmetals:locked`
+  - `Is_Used` -> `mythicmetals:is_used`
+  - `Encore` -> `mythicmetals:encore`
+- The Mythril Drill now uses two components: the Upgrade Component (`mythicmetals:upgrades`) and the Drill Component (`mythicmetals:drill`)
+  - The Upgrade Component is a list of items on an item. Comes with some helper methods which can be used to implement upgrade functionality. Supports sizing.
+  - The Drill Component essentially only holds fuel and handles tooltips related to it.
+- The Tidesinger Component (`mythicmetals:tidesinger`) holds a string on what pattern the Tidesinger armor is using. Also appends a tooltip for the specific type
+- The Midas Gold Sword now uses the Gold Folded Component (`mythicmetals:gold_folded`), which handles its dynamic tooltip and the Midas Touch Ability
+
+The following abilities were migrated to Attributes:
+
+- The Aqua Affinity ability now uses the `minecraft:player.submerged_mining_speed` attribute.
+- Carmot Shield now uses the `mythicmetals:carmot_shield` attribute.      
+- The Depth Strider ability is now using the `minecraft:generic.water_movement_efficiency` attribute.
+- The Respiration and Better Respiration Abilities are now using the `minecraft:generic.oxygen_bonus` attribute.
+
+The following abilites were migrated to tags:
+
+- Bonus Fortune applies to all items inside the `mythicmetals:abilities/bonus_fortune` tag.
+- Bonus Looting applies to all items inside the `mythicmetals:abilities/bonus_looting` tag.
+    
+The Riptide ability was migrated to the `RiptideTool` interface.
+
+## Other Changes
+
+- Moved armor textures from the `minecraft` folders to the `mythicmetals` namespace. This will likely break MM-related resourcepacks!
+- New Stormyx tool and item textures (#248, thanks Azzyparas!)
+- Added Cicada compat
+- Fixed an incompatibility related to Piglib
+- Added recipes for blasting Starrite and Unobtainium ores
+- Made the Carmot Shield Status bar rounded
+- Added a debug command for exporting all Armor Models via Isometric Renders
+
+### Translations
+
+- German translations are now available (thanks Kurty00!)
+- Russian translations are now updated
+- Ukrainian translations are now available
+- A sidenote is that the Macedonian, Korean, and LOLCAT translations
 
 # 0.20.0-alpha6
 
