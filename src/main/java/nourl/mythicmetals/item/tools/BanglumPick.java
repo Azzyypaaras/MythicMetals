@@ -11,7 +11,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.BlockView;
 import nourl.mythicmetals.misc.BlockBreaker;
 import nourl.mythicmetals.misc.MythicParticleSystem;
 import nourl.mythicmetals.registry.RegisterCriteria;
@@ -32,12 +31,12 @@ public class BanglumPick extends PickaxeItem {
         var world = context.getWorld();
         var player = context.getPlayer();
 
-        if (player != null && !getCooldown(player, context.getStack()) && !world.isClient()) {
+        if (player != null && !isCoolingDown(player, context.getStack()) && !world.isClient()) {
 
             var iterator = BlockBreaker.findBlocks(context, 5);
 
             for (BlockPos blockPos : iterator) {
-                if (canBreak(context.getStack(), world, blockPos)) {
+                if (isCorrectForDrops(context.getStack(), world.getBlockState(blockPos))) {
                     WorldOps.breakBlockWithItem(world, blockPos, context.getStack());
                     context.getStack().damage(2, player, EquipmentSlot.MAINHAND);
                     shouldPass = true;
@@ -62,11 +61,7 @@ public class BanglumPick extends PickaxeItem {
         return ActionResult.FAIL;
     }
 
-    public boolean canBreak(ItemStack stack, BlockView view, BlockPos pos) {
-        return super.isCorrectForDrops(stack, view.getBlockState(pos));
-    }
-
-    public static boolean getCooldown(LivingEntity entity, ItemStack stack) {
+    public static boolean isCoolingDown(LivingEntity entity, ItemStack stack) {
         if (entity != null && entity.isPlayer()) {
             return ((PlayerEntity) entity).getItemCooldownManager().isCoolingDown(stack.getItem());
         }

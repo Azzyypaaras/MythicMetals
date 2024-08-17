@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.client.MinecraftClient;
@@ -214,12 +213,12 @@ public class MythicMetalsClient implements ClientModInitializer {
     private void registerModelPredicates() {
         ModelPredicateProviderRegistry.register(
             MythicTools.LEGENDARY_BANGLUM.getPickaxe(), RegistryHelper.id("is_primed"),
-            (stack, world, entity, seed) -> BanglumPick.getCooldown(entity, stack) ? 0 : 1
+            (stack, world, entity, seed) -> BanglumPick.isCoolingDown(entity, stack) ? 0 : 1
         );
 
         ModelPredicateProviderRegistry.register(
             MythicTools.LEGENDARY_BANGLUM.getShovel(), RegistryHelper.id("is_primed"),
-            (stack, world, entity, seed) -> BanglumShovel.getCooldown(entity, stack) ? 0 : 1
+            (stack, world, entity, seed) -> BanglumShovel.isCoolingDown(entity, stack) ? 0 : 1
         );
 
         ModelPredicateProviderRegistry.register(
