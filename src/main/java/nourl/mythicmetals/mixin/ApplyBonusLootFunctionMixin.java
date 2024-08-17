@@ -41,7 +41,7 @@ public class ApplyBonusLootFunctionMixin {
             return level;
         }
 
-        if (toolCtxStack.isIn(MythicTags.CARMOT_TOOLS)) {
+        if (toolCtxStack.isIn(MythicTags.BONUS_FORTUNE)) {
             return level + 1;
         }
 

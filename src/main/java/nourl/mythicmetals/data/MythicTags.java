@@ -11,7 +11,8 @@ import nourl.mythicmetals.misc.RegistryHelper;
 public class MythicTags {
 
     public static final TagKey<Item> CARMOT_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("armor/carmot"));
-    public static final TagKey<Item> CARMOT_TOOLS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tools/carmot"));
+    public static final TagKey<Item> BONUS_FORTUNE = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/bonus_fortune"));
+    public static final TagKey<Item> BONUS_LOOTING = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/bonus_looting"));
     public static final TagKey<Item> PROMETHEUM_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("armor/prometheum"));
     public static final TagKey<Item> PROMETHEUM_TOOLS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tools/prometheum"));
     public static final TagKey<Item> PROMETHEUM_EQUIPMENT = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("equipment/prometheum"));

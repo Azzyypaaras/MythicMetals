@@ -29,7 +29,7 @@ public class EnchantedCountIncreaseLootFunctionMixin {
         Entity entity = context.get(LootContextParameters.ATTACKING_ENTITY);
         if (entity instanceof LivingEntity livingEntity) {
             var mainHandStack = livingEntity.getMainHandStack();
-            if (!mainHandStack.isIn(MythicTags.CARMOT_TOOLS)) return original;
+            if (!mainHandStack.isIn(MythicTags.BONUS_LOOTING)) return original;
             if (this.enchantment.matches((enchantmentRegistryKey) -> enchantmentRegistryKey.equals(Enchantments.LOOTING))) {
                 return original + 1;
             }

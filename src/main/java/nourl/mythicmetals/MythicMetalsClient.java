@@ -184,7 +184,7 @@ public class MythicMetalsClient implements ClientModInitializer {
     private void registerArmorRenderer() {
         Item[] armors = Registries.ITEM.stream()
             .filter(i -> i instanceof HallowedArmor
-                         && Registries.ITEM.getKey(i).get().getValue().getNamespace().equals(MythicMetals.MOD_ID))
+                && Registries.ITEM.getKey(i).get().getValue().getNamespace().equals(MythicMetals.MOD_ID))
             .toArray(Item[]::new);
 
         ArmorRenderer renderer = (matrices, vertexConsumer, stack, entity, slot, light, original) -> {
@@ -257,12 +257,12 @@ public class MythicMetalsClient implements ClientModInitializer {
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             int index = 1;
 
-            if (stack.isIn(MythicTags.CARMOT_TOOLS)) {
-                if (stack.isIn(ConventionalItemTags.MELEE_WEAPON_TOOLS)) {
-                    lines.add(index, Text.translatable("abilities.mythicmetals.bonus_looting").withColor(UsefulSingletonForColorUtil.MetalColors.CARMOT.rgb()));
-                } else {
-                    lines.add(index, Text.translatable("abilities.mythicmetals.bonus_fortune").withColor(UsefulSingletonForColorUtil.MetalColors.CARMOT.rgb()));
-                }
+            if (stack.isIn(MythicTags.BONUS_FORTUNE)) {
+                lines.add(index, Text.translatable("abilities.mythicmetals.bonus_fortune").withColor(UsefulSingletonForColorUtil.MetalColors.CARMOT.rgb()));
+            }
+
+            if (stack.isIn(MythicTags.BONUS_LOOTING)) {
+                lines.add(index, Text.translatable("abilities.mythicmetals.bonus_looting").withColor(UsefulSingletonForColorUtil.MetalColors.CARMOT.rgb()));
             }
 
             if (lines.size() > 2) {
