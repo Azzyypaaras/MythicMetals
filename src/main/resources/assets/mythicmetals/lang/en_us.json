@@ -1333,5 +1333,10 @@
   "tag.item.mythicmetals.dusts.stormyx": "Stormyx Dusts",
   "tag.item.mythicmetals.dusts.tin": "Tin Dusts",
   "tag.item.mythicmetals.dusts": "Mythic Metals Dusts",
-  "tag.item.mythicmetals.nuggets": "Mythic Metals Nuggets"
+  "tag.item.mythicmetals.nuggets": "Mythic Metals Nuggets",
+  "tag.item.mythicmetals.tools.melee_weapon": "Mythic Metals Melee Weapons",
+  "tag.item.mythicmetals.tools.shield": "Mythic Metals Shields",
+  "tag.item.mythicmetals.tools.mining_tool": "Mythic Metals Mining Tools",
+  "tag.item.mythicmetals.abilities.bonus_fortune": "Tools with Bonus Fortune",
+  "tag.item.mythicmetals.abilities.bonus_looting": "Tools with Bonus Looting"
 }
