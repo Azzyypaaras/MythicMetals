@@ -8,13 +8,9 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
-import nourl.mythicmetals.blocks.MythicBlocks;
-import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.function.Consumer;
 
 public record DrillComponent(int fuel) implements TooltipAppender {
@@ -32,19 +28,6 @@ public record DrillComponent(int fuel) implements TooltipAppender {
      * Each piece of Morkite will fuel the drill by this constant worth of units
      */
     public static final int FUEL_CONSTANT = 20;
-
-    /**
-     * Map used to store the different types of drill upgrades
-     * Used for handling tooltips
-     */
-    public static Map<Item, String> drillUpgrades = Util.make(new HashMap<>(), map -> {
-        map.put(MythicItems.Mats.AQUARIUM_PEARL, "aquarium");
-        map.put(MythicItems.Mats.CARMOT_STONE, "carmot");
-        map.put(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK_ITEM, "midas_gold");
-        map.put(MythicItems.Mats.PROMETHEUM_BOUQUET, "prometheum");
-        map.put(MythicItems.Mats.STORMYX_SHELL, "stormyx");
-        map.put(Items.AIR, "empty");
-    });
 
 
     public DrillComponent reduce(int fuel) {

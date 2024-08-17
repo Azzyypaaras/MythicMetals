@@ -57,13 +57,6 @@ public record UpgradeComponent(List<Item> items, int size) implements TooltipApp
     public void appendTooltip(Item.TooltipContext context, Consumer<Text> tooltip, TooltipType type) {
         if (this.size > this.items.size()) {
             MythicMetals.LOGGER.warn("Upgrade Component is larger than the initial item list");
-            return;
         }
-
-        for (int i = 0; i < this.size; i++) {
-            var item = this.items.get(i);
-            tooltip.accept(Text.translatable("tooltip.mythril_drill.upgrade_slot", i + 1, Text.translatable("tooltip.mythril_drill.upgrade." + DrillComponent.drillUpgrades.get(item))));
-        }
-
     }
 }

@@ -5,9 +5,9 @@ import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
 import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.blocks.MythicBlocks;
-import nourl.mythicmetals.component.DrillComponent;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.item.tools.MythicTools;
+import nourl.mythicmetals.item.tools.MythrilDrill;
 
 import static nourl.mythicmetals.misc.UsefulSingletonForColorUtil.MetalColors;
 
@@ -46,7 +46,7 @@ public class Abilities {
         KNOCKBACK.addItem(MythicTools.LEGENDARY_BANGLUM.getSword(), MetalColors.GOLD_STYLE);
         KNOCKBACK.addItem(MythicTools.LEGENDARY_BANGLUM.getAxe(), MetalColors.GOLD_STYLE);
         KNOCKBACK.addItem(MythicTools.LEGENDARY_BANGLUM.getHoe(), MetalColors.GOLD_STYLE);
-        DrillComponent.drillUpgrades.forEach((item, s) -> {
+        MythrilDrill.drillUpgrades.forEach((item, s) -> {
             if (item != Items.AIR) {
                 UPGRADE_TOOLTIP.addItem(item, Style.EMPTY.withColor(MetalColors.MYTHRIL.rgb()));
             }

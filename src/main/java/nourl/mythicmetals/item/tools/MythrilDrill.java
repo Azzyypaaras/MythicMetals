@@ -23,6 +23,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -37,11 +38,26 @@ import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.RegistryHelper;
 import org.joml.Math;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static nourl.mythicmetals.component.DrillComponent.*;
 
 public class MythrilDrill extends MiningToolItem {
+
+    /**
+     * Map used to store the different types of drill upgrades
+     * Used for handling tooltips
+     */
+    public static Map<Item, String> drillUpgrades = Util.make(new HashMap<>(), map -> {
+        map.put(MythicItems.Mats.AQUARIUM_PEARL, "aquarium");
+        map.put(MythicItems.Mats.CARMOT_STONE, "carmot");
+        map.put(MythicBlocks.ENCHANTED_MIDAS_GOLD_BLOCK_ITEM, "midas_gold");
+        map.put(MythicItems.Mats.PROMETHEUM_BOUQUET, "prometheum");
+        map.put(MythicItems.Mats.STORMYX_SHELL, "stormyx");
+        map.put(Items.AIR, "empty");
+    });
 
     public MythrilDrill(ToolMaterial material, Settings settings) {
         super(material, MythicTags.MINEABLE_MYTHRIL_DRILL, settings);
@@ -199,8 +215,12 @@ public class MythrilDrill extends MiningToolItem {
             stack.getOrDefault(MythicDataComponents.DRILL, DEFAULT).appendTooltip(context, lines::add, type);
         }
         if (stack.contains(MythicDataComponents.UPGRADES)) {
-            // TODO - Handle Default?
-            stack.get(MythicDataComponents.UPGRADES).appendTooltip(context, lines::add, type);
+            var upgrades = stack.getOrDefault(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2));
+            upgrades.appendTooltip(context, lines::add, type);
+            for (int i = 0; i < upgrades.size(); i++) {
+                var item = upgrades.items().get(i);
+                lines.add(Text.translatable("tooltip.mythril_drill.upgrade_slot", i + 1, Text.translatable("tooltip.mythril_drill.upgrade." + drillUpgrades.get(item))));
+            }
         }
     }
 
