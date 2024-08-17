@@ -29,9 +29,8 @@ public class TidesingerEMIRecipe implements EmiRecipe {
         this.template = recipe.template();
         this.base = recipe.base();
         this.addition = recipe.addition();
-        var outputStack = recipe.result();
 
-        if (this.base != null && this.addition != null && outputStack != null) {
+        if (this.base != null && this.addition != null && template != null) {
             var inputStack = Arrays.stream(this.base.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();
             inputs = List.of(
                     EmiIngredient.of(this.template),
@@ -39,11 +38,12 @@ public class TidesingerEMIRecipe implements EmiRecipe {
                     EmiIngredient.of(this.addition)
             );
 
-            var output = Arrays.stream(this.addition.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();
-            if (output.isIn(MythicTags.TIDESINGER_CORAL)) {
+            var additionStack = Arrays.stream(this.addition.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();
+            var outputStack = recipe.result();
+            if (outputStack != null && additionStack.isIn(MythicTags.TIDESINGER_CORAL)) {
                 var outputWithComponents = outputStack.copyComponentsToNewStack(outputStack.getItem(), outputStack.getCount());
-                outputWithComponents.set(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.fromStack(outputStack));
-                outputs = EmiStack.of(output);
+                outputWithComponents.set(MythicDataComponents.TIDESINGER, TidesingerPatternComponent.fromStack(additionStack));
+                outputs = EmiStack.of(outputWithComponents);
             }
         }
 
