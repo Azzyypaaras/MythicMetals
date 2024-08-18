@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.damage.DamageSource;
@@ -35,8 +36,11 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static nourl.mythicmetals.registry.RegisterEntityAttributes.FIRE_VULNERABILITY;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -64,15 +68,23 @@ public abstract class LivingEntityMixin extends Entity {
     @Shadow
     public abstract ItemStack getStackInHand(Hand hand);
 
-    @Shadow public abstract void stopRiding();
+    @Shadow
+    public abstract void stopRiding();
 
-    @Shadow public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
+    @Shadow
+    public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
-    @Shadow public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+    @Shadow
+    public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
 
-    @Shadow public abstract @Nullable StatusEffectInstance getStatusEffect(RegistryEntry<StatusEffect> effect);
+    @Shadow
+    public abstract @Nullable StatusEffectInstance getStatusEffect(RegistryEntry<StatusEffect> effect);
 
-    @Shadow public abstract boolean removeStatusEffect(RegistryEntry<StatusEffect> effect);
+    @Shadow
+    public abstract boolean removeStatusEffect(RegistryEntry<StatusEffect> effect);
+
+    @Shadow
+    public abstract AttributeContainer getAttributes();
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -84,7 +96,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "createLivingAttributes()Lnet/minecraft/entity/attribute/DefaultAttributeContainer$Builder;", require = 1, allow = 1, at = @At("RETURN"))
     private static void mythicmetals$addAttributes(final CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
         info.getReturnValue().add(RegisterEntityAttributes.CARMOT_SHIELD);
-        info.getReturnValue().add(RegisterEntityAttributes.FIRE_VULNERABILITY);
+        info.getReturnValue().add(FIRE_VULNERABILITY);
         info.getReturnValue().add(RegisterEntityAttributes.ELYTRA_ROCKET_SPEED);
     }
 
@@ -92,7 +104,7 @@ public abstract class LivingEntityMixin extends Entity {
     private boolean mythicmetals$bypassFireResistance(boolean original) {
         // We respect Fire Invulnerability, but not Fire Resistance
         // original = source.isFire() && this.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)
-        return original && !(this.getAttributeValue(RegisterEntityAttributes.FIRE_VULNERABILITY) > 0);
+        return original && !(this.getAttributeValue(FIRE_VULNERABILITY) > 0);
     }
 
     /**
@@ -101,14 +113,15 @@ public abstract class LivingEntityMixin extends Entity {
      */
     @ModifyVariable(method = "damage", at = @At(value = "HEAD"), argsOnly = true)
     private float mythicmetals$changeFireDamage(float original, DamageSource source) {
-        if (source.isIn(DamageTypeTags.IS_FIRE) && this.getAttributeValue(RegisterEntityAttributes.FIRE_VULNERABILITY) > 0) {
-            float modifier = (this.hasStatusEffect(StatusEffects.FIRE_RESISTANCE) ?
-                    Math.min(MathHelper.floor(((float) this.getAttributeValue(RegisterEntityAttributes.FIRE_VULNERABILITY) / 2.0f)), 1)
-                    :
-                    ((float) this.getAttributeValue(RegisterEntityAttributes.FIRE_VULNERABILITY)));
-            return original + modifier;
+        if (this.getAttributes().hasAttribute(FIRE_VULNERABILITY) || !source.isIn(DamageTypeTags.IS_FIRE)) {
+            return original;
         }
-        return original;
+
+        float modifier = (this.hasStatusEffect(StatusEffects.FIRE_RESISTANCE) ?
+            Math.min(MathHelper.floor(((float) this.getAttributeValue(FIRE_VULNERABILITY) / 2.0f)), 1)
+            :
+            ((float) this.getAttributeValue(FIRE_VULNERABILITY)));
+        return original + modifier;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
