@@ -2,7 +2,7 @@ package nourl.mythicmetals.component;
 
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.impl.StructEndecBuilder;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
 import net.minecraft.item.tooltip.TooltipAppender;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Style;
@@ -10,7 +10,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import nourl.mythicmetals.misc.UsefulSingletonForColorUtil;
-
 import java.util.function.Consumer;
 
 public record DrillComponent(int fuel) implements TooltipAppender {

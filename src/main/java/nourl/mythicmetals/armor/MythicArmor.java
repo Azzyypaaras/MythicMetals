@@ -1,6 +1,5 @@
 package nourl.mythicmetals.armor;
 
-import net.minecraft.item.Item;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.minecraft.item.Item;
 import net.minecraft.util.Rarity;

@@ -16,7 +16,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import nourl.mythicmetals.MythicMetals;
@@ -95,7 +96,7 @@ public class BanglumNukeEntity extends BanglumTntEntity {
         ServerPlayerEntity playerCause = causingEntity instanceof ServerPlayerEntity player ? player : null;
         GameProfile playerCauseProfile = playerCause == null ? CommonProtection.UNKNOWN : playerCause.getGameProfile();
         EpicExplosion.explode((ServerWorld) getWorld(), (int) this.getX(), (int) this.getY(), (int) this.getZ(), radius, statePredicate,
-                this, playerCause);
+            this, playerCause);
         Explosion explosion = new Explosion(this.getWorld(), playerCause, (int) this.getX(), (int) this.getY(), (int) this.getZ(), radius, false, Explosion.DestructionType.DESTROY_WITH_DECAY);
 
         int soundRadius = radius * 3;
@@ -123,9 +124,9 @@ public class BanglumNukeEntity extends BanglumTntEntity {
                     y /= dist;
                     z /= dist;
                     var banglumNukeSource = new BanglumNukeSource(
-                            getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(MythicDamageTypes.BANGLUM_NUKE).orElseThrow(),
-                            this,
-                            this.getCausingEntity());
+                        getWorld().getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).getEntry(MythicDamageTypes.BANGLUM_NUKE).orElseThrow(),
+                        this,
+                        this.getCausingEntity());
                     entity.damage(banglumNukeSource, MathHelper.floor((distanceModifier * distanceModifier + distanceModifier) * 7.0 * radius + 1.0));
 
                     double knockback = distanceModifier * 5;

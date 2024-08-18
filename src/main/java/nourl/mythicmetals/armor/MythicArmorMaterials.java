@@ -20,7 +20,7 @@ public class MythicArmorMaterials implements AutoRegistryContainer<ArmorMaterial
         ArmorItem.Type.HELMET, 3,
         ArmorItem.Type.CHESTPLATE, 8,
         ArmorItem.Type.LEGGINGS, 6,
-        ArmorItem.Type.BOOTS, 3),16, sound(RegisterSounds.EQUIP_ADAMANTITE), () -> {
+        ArmorItem.Type.BOOTS, 3), 16, sound(RegisterSounds.EQUIP_ADAMANTITE), () -> {
         return Ingredient.ofItems(MythicItems.ADAMANTITE.getIngot());
     }, List.of(layer("adamantite")), 2.0f, 0.0f);
 
@@ -60,7 +60,7 @@ public class MythicArmorMaterials implements AutoRegistryContainer<ArmorMaterial
         ArmorItem.Type.HELMET, 4,
         ArmorItem.Type.CHESTPLATE, 10,
         ArmorItem.Type.LEGGINGS, 7,
-        ArmorItem.Type.BOOTS, 4),30, sound(RegisterSounds.EQUIP_CELESTIUM), () -> {
+        ArmorItem.Type.BOOTS, 4), 30, sound(RegisterSounds.EQUIP_CELESTIUM), () -> {
         return Ingredient.ofItems(MythicItems.CELESTIUM.getIngot());
     }, List.of(layer("celestium")), 3.0f, 0.0f);
 
@@ -68,7 +68,7 @@ public class MythicArmorMaterials implements AutoRegistryContainer<ArmorMaterial
         ArmorItem.Type.HELMET, 2,
         ArmorItem.Type.CHESTPLATE, 4,
         ArmorItem.Type.LEGGINGS, 3,
-        ArmorItem.Type.BOOTS, 1),8, sound(RegisterSounds.EQUIP_COPPER), () -> {
+        ArmorItem.Type.BOOTS, 1), 8, sound(RegisterSounds.EQUIP_COPPER), () -> {
         return Ingredient.ofItems(Items.COPPER_INGOT);
     }, List.of(layer("copper")), 0.0f, 0.0f);
 
@@ -84,7 +84,7 @@ public class MythicArmorMaterials implements AutoRegistryContainer<ArmorMaterial
         ArmorItem.Type.HELMET, 4,
         ArmorItem.Type.CHESTPLATE, 9,
         ArmorItem.Type.LEGGINGS, 7,
-        ArmorItem.Type.BOOTS, 4),20, sound(RegisterSounds.EQUIP_HALLOWED), () -> {
+        ArmorItem.Type.BOOTS, 4), 20, sound(RegisterSounds.EQUIP_HALLOWED), () -> {
         return Ingredient.ofItems(MythicItems.HALLOWED.getIngot());
     }, List.of(layer("hallowed")), 4.0f, 0.0f);
 
@@ -232,4 +232,5 @@ public class MythicArmorMaterials implements AutoRegistryContainer<ArmorMaterial
 
     private static ArmorMaterial.Layer layer(String name) {
         return new ArmorMaterial.Layer(RegistryHelper.id(name));
-    }}
+    }
+}

@@ -9,7 +9,8 @@ import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.*;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -42,13 +43,13 @@ public class BanglumTntBlock extends TntBlock {
         }
 
     }
-    
+
     @Override
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
         if (!world.isClient) {
-            BanglumTntEntity banglumTnt = new BanglumTntEntity(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, explosion.getCausingEntity());
+            BanglumTntEntity banglumTnt = new BanglumTntEntity(world, (double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5, explosion.getCausingEntity());
             int i = banglumTnt.getFuse();
-            banglumTnt.setFuse((short)(world.random.nextInt(i / 4) + i / 8));
+            banglumTnt.setFuse((short) (world.random.nextInt(i / 4) + i / 8));
             world.spawnEntity(banglumTnt);
         }
     }
@@ -82,10 +83,10 @@ public class BanglumTntBlock extends TntBlock {
 
     private static void primeBangTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
-            BanglumTntEntity banglumTnt = new BanglumTntEntity(world, (double)pos.getX() + 0.5, pos.getY(), (double)pos.getZ() + 0.5, igniter);
+            BanglumTntEntity banglumTnt = new BanglumTntEntity(world, (double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5, igniter);
             world.spawnEntity(banglumTnt);
             world.playSound(
-                    null, banglumTnt.getX(), banglumTnt.getY(), banglumTnt.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F
+                null, banglumTnt.getX(), banglumTnt.getY(), banglumTnt.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F
             );
             world.emitGameEvent(igniter, GameEvent.PRIME_FUSE, pos);
         }
@@ -97,7 +98,7 @@ public class BanglumTntBlock extends TntBlock {
             BlockPos blockPos = hit.getBlockPos();
             Entity entity = projectile.getOwner();
             if (projectile.isOnFire() && projectile.canModifyAt(world, blockPos)) {
-                primeBangTnt(world, blockPos, entity instanceof LivingEntity ? (LivingEntity)entity : null);
+                primeBangTnt(world, blockPos, entity instanceof LivingEntity ? (LivingEntity) entity : null);
                 world.removeBlock(blockPos, false);
             }
         }

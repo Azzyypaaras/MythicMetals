@@ -1,6 +1,5 @@
 package nourl.mythicmetals.item.tools;
 
-import net.minecraft.item.Item;
 import io.wispforest.owo.ops.WorldOps;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -13,6 +12,7 @@ import java.util.function.Consumer;
 
 public class PalladiumToolSet extends ToolSet {
     public static final int MAX_HEAT = 6;
+
     public PalladiumToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<Item.Settings> settingsProcessor) {
         super(material, damage, speed, settingsProcessor);
     }

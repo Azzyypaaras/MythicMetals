@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 public class EnchantedMidasGoldBlock extends BlockWithEntity {
 
     public static final MapCodec<EnchantedMidasGoldBlock> CODEC = createCodec(EnchantedMidasGoldBlock::new);
+
     public EnchantedMidasGoldBlock(Settings settings) {
         super(settings);
     }

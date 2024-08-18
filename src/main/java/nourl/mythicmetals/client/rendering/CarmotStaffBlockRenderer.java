@@ -50,15 +50,15 @@ public class CarmotStaffBlockRenderer implements BuiltinItemRendererRegistry.Dyn
         // First render call fixes light, second renders the actual block
         client.getBlockRenderManager().renderBlockAsEntity(block.getDefaultState(), matrices, vertexConsumerProvider, light, overlay);
         client.getBlockRenderManager().getModelRenderer().render(
-                matrices.peek(),
-                ItemRenderer.getItemGlintConsumer(vertexConsumerProvider, RenderLayer.getCutoutMipped(), true, isEnchantedMidas || staff.hasGlint()),
-                block.getDefaultState(),
-                blockModel,
-                0,
-                0,
-                0,
-                light,
-                overlay);
+            matrices.peek(),
+            ItemRenderer.getItemGlintConsumer(vertexConsumerProvider, RenderLayer.getCutoutMipped(), true, isEnchantedMidas || staff.hasGlint()),
+            block.getDefaultState(),
+            blockModel,
+            0,
+            0,
+            0,
+            light,
+            overlay);
     }
 
     /**
@@ -91,11 +91,11 @@ public class CarmotStaffBlockRenderer implements BuiltinItemRendererRegistry.Dyn
         // Create and render rainbow shield
         var part = RainbowShieldModel.getTexturedModelData();
         part.createModel().render(
-                matrices,
-                vcp.getBuffer(RenderLayer.getEnergySwirl(WORLD_BORDER, (float) ((delta * .005f) % 1f), (float) (delta * .005f % 1f))),
-                light,
-                OverlayTexture.DEFAULT_UV,
-                color);
+            matrices,
+            vcp.getBuffer(RenderLayer.getEnergySwirl(WORLD_BORDER, (float) ((delta * .005f) % 1f), (float) (delta * .005f % 1f))),
+            light,
+            OverlayTexture.DEFAULT_UV,
+            color);
         matrices.pop();
     }
 

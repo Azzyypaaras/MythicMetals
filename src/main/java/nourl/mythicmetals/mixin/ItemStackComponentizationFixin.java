@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -17,28 +16,28 @@ public abstract class ItemStackComponentizationFixin {
 
     @Unique
     private static final Set<String> MM_MIDAS = Set.of(
-            "mythicmetals:midas_gold_sword",
-            "mythicmetals:gilded_midas_gold_sword"
+        "mythicmetals:midas_gold_sword",
+        "mythicmetals:gilded_midas_gold_sword"
     );
 
     @Unique
     private static final Set<String> MM_PROMETHEUM = Set.of(
-            "mythicmetals:prometheum_sword",
-            "mythicmetals:prometheum_pickaxe",
-            "mythicmetals:prometheum_axe",
-            "mythicmetals:prometheum_shovel",
-            "mythicmetals:prometheum_hoe",
-            "mythicmetals:prometheum_helmet",
-            "mythicmetals:prometheum_chestplate",
-            "mythicmetals:prometheum_leggings",
-            "mythicmetals:prometheum_boots"
+        "mythicmetals:prometheum_sword",
+        "mythicmetals:prometheum_pickaxe",
+        "mythicmetals:prometheum_axe",
+        "mythicmetals:prometheum_shovel",
+        "mythicmetals:prometheum_hoe",
+        "mythicmetals:prometheum_helmet",
+        "mythicmetals:prometheum_chestplate",
+        "mythicmetals:prometheum_leggings",
+        "mythicmetals:prometheum_boots"
     );
 
     private static final Set<String> MM_TIDESINGER = Set.of(
-            "mythicmetals:tidesinger_helmet",
-            "mythicmetals:tidesinger_chestplate",
-            "mythicmetals:tidesinger_leggings",
-            "mythicmetals:tidesinger_boots"
+        "mythicmetals:tidesinger_helmet",
+        "mythicmetals:tidesinger_chestplate",
+        "mythicmetals:tidesinger_leggings",
+        "mythicmetals:tidesinger_boots"
     );
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -46,9 +45,9 @@ public abstract class ItemStackComponentizationFixin {
     private static void mythicmetals$migrateToMythicDataComponents(ItemStackComponentizationFix.StackData data, Dynamic dynamic, CallbackInfo ci) {
         if (data.itemMatches(MM_MIDAS)) {
             data.setComponent("mythicmetals:gold_folded", dynamic.emptyMap()
-                    .setFieldIfPresent("gold_folded", data.getAndRemove("GoldFolded").result())
-                    .set("is_royal", dynamic.createBoolean(false))
-                    .set("show_tooltip", dynamic.createBoolean(true))
+                .setFieldIfPresent("gold_folded", data.getAndRemove("GoldFolded").result())
+                .set("is_royal", dynamic.createBoolean(false))
+                .set("show_tooltip", dynamic.createBoolean(true))
             );
             data.getAndRemove("IsRoyal");
             data.getAndRemove("IsGilded");
@@ -56,9 +55,9 @@ public abstract class ItemStackComponentizationFixin {
 
         if (data.itemEquals("mythicmetals:royal_midas_gold_sword")) {
             data.setComponent("mythicmetals:gold_folded", dynamic.emptyMap()
-                    .setFieldIfPresent("gold_folded", data.getAndRemove("GoldFolded").result())
-                    .set("is_royal", dynamic.createBoolean(true))
-                    .set("show_tooltip", dynamic.createBoolean(true))
+                .setFieldIfPresent("gold_folded", data.getAndRemove("GoldFolded").result())
+                .set("is_royal", dynamic.createBoolean(true))
+                .set("show_tooltip", dynamic.createBoolean(true))
             );
             data.getAndRemove("IsRoyal");
             data.getAndRemove("IsGilded");
@@ -66,7 +65,7 @@ public abstract class ItemStackComponentizationFixin {
 
         if (data.itemMatches(MM_PROMETHEUM)) {
             data.setComponent("mythicmetals:prometheum", dynamic.emptyMap()
-                    .setFieldIfPresent("durability_repaired", data.getAndRemove("DurabilityRepaired").result())
+                .setFieldIfPresent("durability_repaired", data.getAndRemove("DurabilityRepaired").result())
             );
         }
 
@@ -76,12 +75,12 @@ public abstract class ItemStackComponentizationFixin {
             data.moveToComponent("IsUsed", "mythicmetals:is_used");
 
             data.setComponent("mythicmetals:carmot_staff_block", dynamic.emptyMap()
-                    .setFieldIfPresent("block", data.getAndRemove("StoredBlock").result())
-                    .set("show_tooltip", dynamic.createBoolean(true))
+                .setFieldIfPresent("block", data.getAndRemove("StoredBlock").result())
+                .set("show_tooltip", dynamic.createBoolean(true))
             );
         }
-    
-    if (data.itemEquals("mythicmetals:mythril_drill")) {
+
+        if (data.itemEquals("mythicmetals:mythril_drill")) {
 
             var list = Util.make(new ArrayList<Dynamic<?>>(), objects -> {
                 objects.add(data.getAndRemove("UpgradeSlot1").result().orElse(dynamic.emptyMap()));
@@ -102,7 +101,7 @@ public abstract class ItemStackComponentizationFixin {
 
         if (data.itemMatches(MM_TIDESINGER)) {
             data.setComponent("mythicmetals:tidesinger", dynamic.emptyMap()
-                    .setFieldIfPresent("pattern", data.getAndRemove("mm_coral_type").result())
+                .setFieldIfPresent("pattern", data.getAndRemove("mm_coral_type").result())
             );
         }
     }

@@ -11,6 +11,7 @@ public class MythicMetalsDynamicRegistryProvider extends FabricDynamicRegistryPr
     public MythicMetalsDynamicRegistryProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
     }
+
     @Override
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
         entries.add(MythicOreKeys.ADAMANTITE, registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE).getOrThrow(MythicOreKeys.ADAMANTITE).value());

@@ -15,7 +15,7 @@ public class ExplosionMixin {
 
     @Inject(method = "getCausingEntity(Lnet/minecraft/entity/Entity;)Lnet/minecraft/entity/LivingEntity;", at = @At("HEAD"), cancellable = true)
     private static void superBang(@Nullable Entity entity, CallbackInfoReturnable<LivingEntity> cir) {
-        if (entity instanceof BanglumTntEntity banglumTntEntity){
+        if (entity instanceof BanglumTntEntity banglumTntEntity) {
             cir.setReturnValue(banglumTntEntity.getCausingEntity());
         }
     }

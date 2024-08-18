@@ -1,6 +1,5 @@
 package nourl.mythicmetals.item;
 
-import net.minecraft.item.Item;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -26,23 +25,28 @@ public class ItemSet {
     }
 
     public ItemSet(float xp) {
-        this(false, false, xp, settings -> {});
+        this(false, false, xp, settings -> {
+        });
     }
 
     public ItemSet(float xp, boolean requiresBlasting) {
-        this(false, requiresBlasting, xp, settings -> {});
+        this(false, requiresBlasting, xp, settings -> {
+        });
     }
 
     public ItemSet(boolean isAlloy) {
-        this(isAlloy, true, 0.1f, settings -> {});
+        this(isAlloy, true, 0.1f, settings -> {
+        });
     }
 
     public ItemSet(boolean isAlloy, float xp) {
-        this(isAlloy, false,xp, settings -> {});
+        this(isAlloy, false, xp, settings -> {
+        });
     }
 
     public ItemSet(boolean isAlloy, float xp, boolean requiresBlasting) {
-        this(isAlloy, requiresBlasting, xp, settings -> {});
+        this(isAlloy, requiresBlasting, xp, settings -> {
+        });
     }
 
     public ItemSet(boolean isAlloy, boolean requiresBlasting, Consumer<Item.Settings> settingsConsumer) {

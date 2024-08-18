@@ -1,6 +1,5 @@
 package nourl.mythicmetals.item.tools;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.*;
 import java.util.function.Consumer;
 

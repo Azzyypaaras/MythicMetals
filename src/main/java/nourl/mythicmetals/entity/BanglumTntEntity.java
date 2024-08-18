@@ -75,7 +75,7 @@ public class BanglumTntEntity extends Entity {
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.putShort("Fuse", (short)this.getFuse());
+        nbt.putShort("Fuse", (short) this.getFuse());
     }
 
     protected void explode() {
@@ -94,5 +94,5 @@ public class BanglumTntEntity extends Entity {
     public LivingEntity getCausingEntity() {
         return this.causingEntity;
     }
-    
+
 }

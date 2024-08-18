@@ -1,13 +1,7 @@
 package nourl.mythicmetals.blocks;
 
-import net.minecraft.block.*;
-import net.minecraft.block.entity.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import nourl.mythicmetals.registry.RegisterBlockEntityTypes;
-import org.jetbrains.annotations.Nullable;
-
-public class AquariumResonatorBlock {}/*extends BlockWithEntity {
+public class AquariumResonatorBlock {
+}/*extends BlockWithEntity {
 
     protected AquariumResonatorBlock(Settings settings) {
         super(settings);

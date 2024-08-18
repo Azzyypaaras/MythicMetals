@@ -1,6 +1,5 @@
 package nourl.mythicmetals.item.tools;
 
-import net.minecraft.item.Item;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.EquipmentSlot;

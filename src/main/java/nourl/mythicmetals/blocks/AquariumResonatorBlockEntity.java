@@ -1,17 +1,7 @@
 package nourl.mythicmetals.blocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.math.*;
-import net.minecraft.world.World;
-import nourl.mythicmetals.registry.RegisterBlockEntityTypes;
-import java.util.List;
-
-public class AquariumResonatorBlockEntity{} /* extends BlockEntity implements ConduitPowered {
+public class AquariumResonatorBlockEntity {
+} /* extends BlockEntity implements ConduitPowered {
     private static final int MAX_RANGE = 24;
     private boolean activated = false;
     private int activeTime = 50;

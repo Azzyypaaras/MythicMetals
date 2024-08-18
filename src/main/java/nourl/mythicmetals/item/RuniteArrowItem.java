@@ -1,7 +1,8 @@
 package nourl.mythicmetals.item;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.*;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.*;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Position;

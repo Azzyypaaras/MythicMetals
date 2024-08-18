@@ -26,7 +26,7 @@ public class BanglumNukeHandler {
             var targetBlock = world.getBlockState(hitResult.getBlockPos());
 
             if (!targetBlock.isOf(MythicBlocks.BANGLUM.getStorageBlock())
-             && !targetBlock.isOf(MythicBlocks.MORKITE.getStorageBlock()))
+                && !targetBlock.isOf(MythicBlocks.MORKITE.getStorageBlock()))
                 return ActionResult.PASS;
 
             var pos = hitResult.getBlockPos();
@@ -53,7 +53,7 @@ public class BanglumNukeHandler {
         var pos = dispenser.pos().offset(dispenser.state().get(DispenserBlock.FACING));
 
         if (!state.isOf(MythicBlocks.BANGLUM.getStorageBlock())
-                && !state.isOf(MythicBlocks.MORKITE.getStorageBlock()))
+            && !state.isOf(MythicBlocks.MORKITE.getStorageBlock()))
             return false;
 
         for (int x = 0; x < 3; x++) {

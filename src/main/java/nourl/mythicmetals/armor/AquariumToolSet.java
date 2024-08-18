@@ -1,6 +1,5 @@
 package nourl.mythicmetals.armor;
 
-import net.minecraft.item.Item;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -8,7 +7,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.*;
 import nourl.mythicmetals.item.tools.ToolSet;
 import nourl.mythicmetals.misc.RegistryHelper;
-import java.util.function.Consumer;
 
 public class AquariumToolSet extends ToolSet {
 

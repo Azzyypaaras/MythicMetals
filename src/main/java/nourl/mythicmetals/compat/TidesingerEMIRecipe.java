@@ -33,9 +33,9 @@ public class TidesingerEMIRecipe implements EmiRecipe {
         if (this.base != null && this.addition != null && template != null) {
             var inputStack = Arrays.stream(this.base.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();
             inputs = List.of(
-                    EmiIngredient.of(this.template),
-                    EmiStack.of(inputStack),
-                    EmiIngredient.of(this.addition)
+                EmiIngredient.of(this.template),
+                EmiStack.of(inputStack),
+                EmiIngredient.of(this.addition)
             );
 
             var additionStack = Arrays.stream(this.addition.getMatchingStacks()).findFirst().orElse(ItemStack.EMPTY).copy();

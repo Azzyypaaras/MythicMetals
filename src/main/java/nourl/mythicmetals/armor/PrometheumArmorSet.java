@@ -1,8 +1,6 @@
 package nourl.mythicmetals.armor;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.*;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.component.PrometheumComponent;
 

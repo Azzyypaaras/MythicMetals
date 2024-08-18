@@ -15,9 +15,10 @@ import nourl.mythicmetals.entity.BanglumNukeEntity;
 //VanillaCopy of the TntEntityRenderer
 public class BanglumNukeEntityRenderer extends EntityRenderer<BanglumNukeEntity> {
     private final BlockRenderManager blockRenderManager;
+
     public BanglumNukeEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.shadowRadius=0.5f;
+        this.shadowRadius = 0.5f;
         blockRenderManager = context.getBlockRenderManager();
     }
 
@@ -25,8 +26,8 @@ public class BanglumNukeEntityRenderer extends EntityRenderer<BanglumNukeEntity>
         matrixStack.push();
         matrixStack.translate(0.0, 0.5, 0.0);
         int j = nuke.getFuse();
-        if ((float)j - g + 1.0F < 10.0F) {
-            float h = 1.0F - ((float)j - g + 1.0F) / 10.0F;
+        if ((float) j - g + 1.0F < 10.0F) {
+            float h = 1.0F - ((float) j - g + 1.0F) / 10.0F;
             h = MathHelper.clamp(h, 0.0F, 1.0F);
             h *= h;
             h *= h;

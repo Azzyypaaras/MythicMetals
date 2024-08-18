@@ -14,9 +14,10 @@ import nourl.mythicmetals.entity.BanglumTntEntity;
 // [VanillaCopy] of the TntEntityRenderer, but renders our texture
 public class BanglumTntEntityRenderer extends EntityRenderer<BanglumTntEntity> {
     private final BlockRenderManager blockRenderManager;
+
     public BanglumTntEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.shadowRadius=0.5f;
+        this.shadowRadius = 0.5f;
         blockRenderManager = context.getBlockRenderManager();
     }
 
@@ -24,8 +25,8 @@ public class BanglumTntEntityRenderer extends EntityRenderer<BanglumTntEntity> {
         matrixStack.push();
         matrixStack.translate(0.0, 0.5, 0.0);
         int j = banglumTnt.getFuse();
-        if ((float)j - g + 1.0F < 10.0F) {
-            float h = 1.0F - ((float)j - g + 1.0F) / 10.0F;
+        if ((float) j - g + 1.0F < 10.0F) {
+            float h = 1.0F - ((float) j - g + 1.0F) / 10.0F;
             h = MathHelper.clamp(h, 0.0F, 1.0F);
             h *= h;
             h *= h;

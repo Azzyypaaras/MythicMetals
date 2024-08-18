@@ -13,7 +13,7 @@ public class PowderSnowBlockMixin {
 
     @Inject(method = "canWalkOnPowderSnow", at = @At("RETURN"), cancellable = true)
     private static void mythicmetals$palladiumCanWalkOnPowderSnow(Entity entity, CallbackInfoReturnable<Boolean> cir) {
-        if (entity instanceof LivingEntity && ((LivingEntity)entity).getEquippedStack(EquipmentSlot.FEET).isOf(MythicArmor.PALLADIUM.getBoots())) {
+        if (entity instanceof LivingEntity && ((LivingEntity) entity).getEquippedStack(EquipmentSlot.FEET).isOf(MythicArmor.PALLADIUM.getBoots())) {
             cir.setReturnValue(true);
         }
     }

@@ -76,12 +76,12 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     }
 
     @ModifyVariable(
-            method = "applyDamage",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/entity/player/PlayerEntity;applyArmorToDamage(Lnet/minecraft/entity/damage/DamageSource;F)F",
-                    shift = At.Shift.BY, by = -2),
-            ordinal = 0,
-            argsOnly = true)
+        method = "applyDamage",
+        at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerEntity;applyArmorToDamage(Lnet/minecraft/entity/damage/DamageSource;F)F",
+            shift = At.Shift.BY, by = -2),
+        ordinal = 0,
+        argsOnly = true)
     public float carmotShieldCancel(float amount) {
         var shield = getComponent(MythicMetals.CARMOT_SHIELD);
         if (shield.getMaxHealth() > 0) {

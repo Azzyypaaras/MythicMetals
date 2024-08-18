@@ -13,10 +13,10 @@ import nourl.mythicmetals.registry.RegisterLootConditions;
 
 public record RandomChanceWithLuckCondition(float chance) implements LootCondition {
     public static final MapCodec<RandomChanceWithLuckCondition> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance
-                    .group(Codec.FLOAT.fieldOf("chance")
-                            .forGetter(RandomChanceWithLuckCondition::chance))
-                    .apply(instance, RandomChanceWithLuckCondition::new)
+        instance -> instance
+            .group(Codec.FLOAT.fieldOf("chance")
+                .forGetter(RandomChanceWithLuckCondition::chance))
+            .apply(instance, RandomChanceWithLuckCondition::new)
     );
 
     @Override

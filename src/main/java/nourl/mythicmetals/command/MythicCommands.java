@@ -199,26 +199,26 @@ public final class MythicCommands {
         try {
             var lootTable = RegistryEntryArgumentType.LootTableArgumentType.getLootTable(ctx, "loot_table");
 
-        int rolls = IntegerArgumentType.getInteger(ctx, "rolls");
+            int rolls = IntegerArgumentType.getInteger(ctx, "rolls");
 
-        LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(ctx.getSource().getWorld())
-            .addOptional(LootContextParameters.THIS_ENTITY, source.getEntity())
-            .add(LootContextParameters.ORIGIN, source.getPosition())
-            .build(LootContextTypes.CHEST);
+            LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(ctx.getSource().getWorld())
+                .addOptional(LootContextParameters.THIS_ENTITY, source.getEntity())
+                .add(LootContextParameters.ORIGIN, source.getPosition())
+                .build(LootContextTypes.CHEST);
 
-        HashMap<Item, Integer> map = new HashMap<>();
+            HashMap<Item, Integer> map = new HashMap<>();
 
-        for (int i = 0; i < rolls; i++) {
-            List<ItemStack> list = lootTable.value().generateLoot(lootContextParameterSet);
-            list.forEach(itemStack -> {
-                int count = map.getOrDefault(itemStack.getItem(), 0);
-                map.put(itemStack.getItem(), itemStack.getCount() + count);
+            for (int i = 0; i < rolls; i++) {
+                List<ItemStack> list = lootTable.value().generateLoot(lootContextParameterSet);
+                list.forEach(itemStack -> {
+                    int count = map.getOrDefault(itemStack.getItem(), 0);
+                    map.put(itemStack.getItem(), itemStack.getCount() + count);
+                });
+            }
+
+            map.forEach((item, integer) -> {
+                source.sendFeedback(() -> (Text.literal(item + ": " + integer.toString())), false);
             });
-        }
-
-        map.forEach((item, integer) -> {
-            source.sendFeedback(() -> (Text.literal(item + ": " + integer.toString())), false);
-        });
         } catch (CommandSyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -507,34 +507,34 @@ public final class MythicCommands {
                 if (!feature.offset && !feature.trapezoid) {
                     context.getSource().sendFeedback(() -> Text.literal(
                         name.toUpperCase(Locale.ROOT)
-                        + " has the range between "
-                        + feature.bottom
-                        + " to "
-                        + feature.top
-                        + ", with a discard chance of "
-                        + feature.discardChance * 100 + "%"), false);
+                            + " has the range between "
+                            + feature.bottom
+                            + " to "
+                            + feature.top
+                            + ", with a discard chance of "
+                            + feature.discardChance * 100 + "%"), false);
                 }
                 if (feature.offset) {
                     context.getSource().sendFeedback(() -> Text.literal(
                         name.toUpperCase(Locale.ROOT)
-                        + " has the range between "
-                        + feature.bottom
-                        + "(offset) to "
-                        + feature.top
-                        + ", with a discard chance of "
-                        + feature.discardChance * 100 + "%"), false);
+                            + " has the range between "
+                            + feature.bottom
+                            + "(offset) to "
+                            + feature.top
+                            + ", with a discard chance of "
+                            + feature.discardChance * 100 + "%"), false);
                 }
                 if (feature.trapezoid) {
                     context.getSource().sendFeedback(() -> Text.literal(
                         name.toUpperCase(Locale.ROOT)
-                        + " has a triangle range between "
-                        + feature.bottom
-                        + " to "
-                        + feature.top
-                        + ", where the sweet spot is at Y = "
-                        + ((feature.bottom + feature.top) / 2)
-                        + " with a discard chance of "
-                        + feature.discardChance * 100 + "%"), false);
+                            + " has a triangle range between "
+                            + feature.bottom
+                            + " to "
+                            + feature.top
+                            + ", where the sweet spot is at Y = "
+                            + ((feature.bottom + feature.top) / 2)
+                            + " with a discard chance of "
+                            + feature.discardChance * 100 + "%"), false);
                 }
 
             });

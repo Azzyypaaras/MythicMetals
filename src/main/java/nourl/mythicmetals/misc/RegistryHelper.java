@@ -2,7 +2,6 @@ package nourl.mythicmetals.misc;
 
 import com.mojang.serialization.MapCodec;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
-import net.minecraft.item.Item;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.ComponentType;
@@ -22,7 +21,8 @@ import java.util.function.UnaryOperator;
 
 /**
  * A helper class containing methods for registering various blocks and items.
- * @author  Noaaan
+ *
+ * @author Noaaan
  */
 public class RegistryHelper {
 
@@ -47,6 +47,7 @@ public class RegistryHelper {
             block(path, block);
         }
     }
+
     public static void block(String path, Block block, OwoItemGroup group) {
         Registry.register(Registries.BLOCK, id(path), block);
         Registry.register(Registries.ITEM, id(path), new BlockItem(block, new Item.Settings().group(group)));
@@ -61,7 +62,7 @@ public class RegistryHelper {
         }
     }
 
-    public static void entityType(String path, EntityType<?> type){
+    public static void entityType(String path, EntityType<?> type) {
         Registry.register(Registries.ENTITY_TYPE, RegistryHelper.id(path), type);
     }
 

@@ -1,13 +1,7 @@
 package nourl.mythicmetals.blocks;
 
-import net.minecraft.block.*;
-import net.minecraft.block.entity.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import nourl.mythicmetals.registry.RegisterBlockEntityTypes;
-import org.jetbrains.annotations.Nullable;
-
-public class AquariumStewardBlock {} /* extends BlockWithEntity {
+public class AquariumStewardBlock {
+} /* extends BlockWithEntity {
 
     protected AquariumStewardBlock(Settings settings) {
         super(settings);

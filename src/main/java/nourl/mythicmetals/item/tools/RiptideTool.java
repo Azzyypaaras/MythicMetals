@@ -26,6 +26,7 @@ public interface RiptideTool {
      * Handles the activation of the Riptide ability. Requires you to be in water.
      * Override and call this in {@link Item#use}
      * [VanillaCopy]
+     *
      * @see TridentItem#use(World, PlayerEntity, Hand)
      */
     default TypedActionResult<ItemStack> activateRiptide(PlayerEntity user, Hand hand) {
@@ -45,6 +46,7 @@ public interface RiptideTool {
     /**
      * Performs a Riptide. Requires you to be in water.
      * Override and call this in {@link Item#onStoppedUsing}
+     *
      * @see TridentItem#onStoppedUsing(ItemStack, World, LivingEntity, int)
      * [VanillaCopy] with only the riptide parts in mind, not the projectile logic
      */

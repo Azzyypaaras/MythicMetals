@@ -54,5 +54,6 @@ public class MythicDataComponents {
             .packetCodec(CodecUtils.toPacketCodec(PrometheumComponent.ENDEC))
     );
 
-    public static void init() {}
+    public static void init() {
+    }
 }

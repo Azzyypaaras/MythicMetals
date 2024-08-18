@@ -4,7 +4,8 @@ package nourl.mythicmetals.config;
  * Class used to store Ore Settings, which are used in datagen
  */
 public class MythicOreConfigs {
-    public MythicOreConfigs() {}
+    public MythicOreConfigs() {
+    }
 
     public static final OreConfig ADAMANTITE = new OreConfig(5, 1, -54, -20, .125f, false, true);
     public static final OreConfig AQUARIUM = new OreConfig(10, 5, 21, 69, .0f, false);

@@ -2,14 +2,7 @@ package nourl.mythicmetals.mixin;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.ConduitBlockEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.poi.PointOfInterestStorage;
-import nourl.mythicmetals.blocks.ConduitPowered;
-import nourl.mythicmetals.blocks.IndevBlocks;
 import nourl.mythicmetals.blocks.MythicBlocks;
-import nourl.mythicmetals.registry.RegisterPointOfInterests;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,7 +14,10 @@ import java.util.stream.Collectors;
 @Mixin(ConduitBlockEntity.class)
 public class ConduitBlockEntityMixin {
 
-    @Mutable @Shadow @Final private static Block[] ACTIVATING_BLOCKS;
+    @Mutable
+    @Shadow
+    @Final
+    private static Block[] ACTIVATING_BLOCKS;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void mythicmetals$extendConduitArray(CallbackInfo ci) {

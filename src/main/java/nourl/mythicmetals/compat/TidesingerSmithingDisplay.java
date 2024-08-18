@@ -21,12 +21,12 @@ public class TidesingerSmithingDisplay extends DefaultSmithingDisplay {
 
     public TidesingerSmithingDisplay(RecipeEntry<TidesingerCoralRecipe> recipe) {
         super(
-                recipe.value(),
-                recipe.id(),
-                List.of(EntryIngredients.ofIngredient(recipe.value().template()),
-                        EntryIngredients.ofIngredient(recipe.value().base()),
-                        EntryIngredients.ofIngredient(recipe.value().addition())
-                )
+            recipe.value(),
+            recipe.id(),
+            List.of(EntryIngredients.ofIngredient(recipe.value().template()),
+                EntryIngredients.ofIngredient(recipe.value().base()),
+                EntryIngredients.ofIngredient(recipe.value().addition())
+            )
         );
 
         this.template = recipe.value().template();

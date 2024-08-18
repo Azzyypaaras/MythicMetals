@@ -48,7 +48,7 @@ public class PlayerEntityRendererMixin {
             if (shield.cooldown > CarmotShield.MAX_COOLDOWN - 30) {
                 sleeve.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, SHIELD_BREAK_COLOR);
             } else // Regular animation
-                sleeve.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV,UsefulSingletonForColorUtil.rainbow());
+                sleeve.render(matrices, consumer, light, OverlayTexture.DEFAULT_UV, UsefulSingletonForColorUtil.rainbow());
         }
     }
 

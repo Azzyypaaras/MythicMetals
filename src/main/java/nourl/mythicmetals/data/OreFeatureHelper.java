@@ -35,8 +35,8 @@ public class OreFeatureHelper {
     public static void modBiomeOres(String modId, String path, RegistryKey<PlacedFeature> ore) {
         if (FabricLoader.getInstance().isModLoaded(modId)) {
             BiomeModifications.addFeature(
-                    BiomeSelectors.includeByKey(RegistryKey.of(RegistryKeys.BIOME, Identifier.of(modId, path))),
-                    GenerationStep.Feature.UNDERGROUND_ORES, ore);
+                BiomeSelectors.includeByKey(RegistryKey.of(RegistryKeys.BIOME, Identifier.of(modId, path))),
+                GenerationStep.Feature.UNDERGROUND_ORES, ore);
         }
     }
 
@@ -60,14 +60,11 @@ public class OreFeatureHelper {
         var b = config.offset && config.trapezoid; // Check if both offset and trapezoid is being used at the same time.
         if (b) {
             throw new IllegalArgumentException(registerable.toString() + " cannot be offset and trapezoid at the same time.");
-        }
-        else if (config.offset) {
+        } else if (config.offset) {
             placeAboveBottom(registerable, configuredFeatureKey, placedFeatureKey, config);
-        }
-        else if (config.trapezoid) {
+        } else if (config.trapezoid) {
             placeTrapezoid(registerable, configuredFeatureKey, placedFeatureKey, config);
-        }
-        else {
+        } else {
             placeUniform(registerable, configuredFeatureKey, placedFeatureKey, config);
         }
     }

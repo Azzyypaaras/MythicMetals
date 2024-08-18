@@ -45,27 +45,27 @@ public class MidasFoldingEMIRecipe implements EmiRecipe {
                     inputStack.set(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(16));
                 }
                 inputs = List.of(
-                        EmiIngredient.of(this.template),
-                        EmiStack.of(inputStack),
-                        EmiIngredient.of(this.addition)
+                    EmiIngredient.of(this.template),
+                    EmiStack.of(inputStack),
+                    EmiIngredient.of(this.addition)
                 );
             }
             // Handles transformation from regular midas to gilded midas
             else if (MidasGoldSword.Type.isOf(inputStack, REGULAR) && MidasGoldSword.Type.isOf(outputStack, GILDED)) {
                 inputStack.set(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(319));
                 inputs = List.of(
-                        EmiIngredient.of(this.template),
-                        EmiStack.of(inputStack),
-                        EmiIngredient.of(this.addition)
+                    EmiIngredient.of(this.template),
+                    EmiStack.of(inputStack),
+                    EmiIngredient.of(this.addition)
                 );
             }
             // Transformation of gilded to royal midas
             else if (MidasGoldSword.Type.isOf(inputStack, GILDED) && MidasGoldSword.Type.isOf(outputStack, ROYAL)) {
                 inputStack.set(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(319));
                 inputs = List.of(
-                        EmiIngredient.of(this.template),
-                        EmiStack.of(inputStack),
-                        EmiIngredient.of(this.addition)
+                    EmiIngredient.of(this.template),
+                    EmiStack.of(inputStack),
+                    EmiIngredient.of(this.addition)
                 );
             }
 

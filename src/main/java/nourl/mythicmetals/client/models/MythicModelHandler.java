@@ -33,6 +33,7 @@ public class MythicModelHandler {
      * Add a custom model layer into the global map for loading<br>
      * Shoutouts to williewillus for this implementation:
      * <a href="https://github.com/VazkiiMods/Botania/blob/1.18.x-fabric/src/main/java/vazkii/botania/client/model/ModModelLayers.java">Source</a>
+     *
      * @see net.minecraft.client.render.entity.model.EntityModelLayers#LAYERS
      */
     public static EntityModelLayer model(String name, String layer) {

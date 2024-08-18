@@ -5,7 +5,8 @@ import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.mob.PiglinEntity;
 import net.minecraft.item.*;
 import net.minecraft.loot.LootTable;
-import net.minecraft.registry.*;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import nourl.mythicmetals.armor.MythicArmorMaterials;
 import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.MythicLootOps;
@@ -30,7 +31,7 @@ public class PiglinBrainMixin {
 
     @Inject(method = "wearsGoldArmor", at = @At("HEAD"), cancellable = true)
     private static void checkForMidasGoldArmor(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-        for(ItemStack itemStack : entity.getArmorItems()) {
+        for (ItemStack itemStack : entity.getArmorItems()) {
             Item item = itemStack.getItem();
             if (item instanceof ArmorItem armorItem && armorItem.getMaterial().value() == MythicArmorMaterials.MIDAS_GOLD) {
                 cir.setReturnValue(true);

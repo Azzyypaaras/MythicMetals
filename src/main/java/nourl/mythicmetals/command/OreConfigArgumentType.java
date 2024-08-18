@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class OreConfigArgumentType implements ArgumentType<OreConfig> {
     private final SimpleCommandExceptionType EXCEPTION = new SimpleCommandExceptionType(
-            Text.translatable("command.mythicmetals.argument.ore-config.error")
+        Text.translatable("command.mythicmetals.argument.ore-config.error")
     );
 
     public static <S> OreConfig getOreConfig(CommandContext<S> context, String name) {

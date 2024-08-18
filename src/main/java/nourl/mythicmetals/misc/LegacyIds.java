@@ -8,19 +8,19 @@ public class LegacyIds {
 
     // All the identifiers of removed stuff
     private static final Identifier OLD_COPPER_ORE = RegistryHelper.id("copper_ore");
-    private static final Identifier OLD_COPPER_INGOT = RegistryHelper.id( "copper_ingot");
-    private static final Identifier OLD_TANTALITE_ORE = RegistryHelper.id( "tantalite_ore");
-    private static final Identifier OLD_TRUESILVER_ORE = RegistryHelper.id( "truesilver_ore");
-    private static final Identifier OLD_TRUESILVER_INGOT = RegistryHelper.id( "truesilver_ingot");
-    private static final Identifier OLD_TRUESILVER_BLOCK = RegistryHelper.id( "truesilver_block");
-    private static final Identifier OLD_AETHERIUM_ORE = RegistryHelper.id( "aetherium_ore");
-    private static final Identifier OLD_AETHERIUM_INGOT = RegistryHelper.id( "aetherium_ingot");
-    private static final Identifier OLD_AETHERIUM_BLOCK = RegistryHelper.id( "aetherium_block");
-    private static final Identifier OLD_RAW_AETHERIUM = RegistryHelper.id( "raw_aetherium");
-    private static final Identifier OLD_UR = RegistryHelper.id( "ur_ore");
-    private static final Identifier OLD_ZINC = RegistryHelper.id( "zinc_ore");
-    private static final Identifier OLD_RAW_STARRITE = RegistryHelper.id( "raw_starrite");
-    private static final Identifier OLD_STARRITE_INGOT = RegistryHelper.id( "starrite_ingot");
+    private static final Identifier OLD_COPPER_INGOT = RegistryHelper.id("copper_ingot");
+    private static final Identifier OLD_TANTALITE_ORE = RegistryHelper.id("tantalite_ore");
+    private static final Identifier OLD_TRUESILVER_ORE = RegistryHelper.id("truesilver_ore");
+    private static final Identifier OLD_TRUESILVER_INGOT = RegistryHelper.id("truesilver_ingot");
+    private static final Identifier OLD_TRUESILVER_BLOCK = RegistryHelper.id("truesilver_block");
+    private static final Identifier OLD_AETHERIUM_ORE = RegistryHelper.id("aetherium_ore");
+    private static final Identifier OLD_AETHERIUM_INGOT = RegistryHelper.id("aetherium_ingot");
+    private static final Identifier OLD_AETHERIUM_BLOCK = RegistryHelper.id("aetherium_block");
+    private static final Identifier OLD_RAW_AETHERIUM = RegistryHelper.id("raw_aetherium");
+    private static final Identifier OLD_UR = RegistryHelper.id("ur_ore");
+    private static final Identifier OLD_ZINC = RegistryHelper.id("zinc_ore");
+    private static final Identifier OLD_RAW_STARRITE = RegistryHelper.id("raw_starrite");
+    private static final Identifier OLD_STARRITE_INGOT = RegistryHelper.id("starrite_ingot");
     private static final Identifier OLD_UNOBTAINIUM_DUST = RegistryHelper.id("unobtainium_dust");
     private static final Identifier OLD_VERMICULITE = RegistryHelper.id("vermiculite_ore");
 
@@ -37,7 +37,6 @@ public class LegacyIds {
     private static final Identifier NEW_MYTHRIL_BLOCK = RegistryHelper.id("mythril_block");
     private static final Identifier NEW_MYTHRIL_RAW = RegistryHelper.id("raw_mythril");
     private static final Identifier NEW_STARRITE = RegistryHelper.id("starrite");
-
 
 
     private static void createMap() {

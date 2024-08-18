@@ -33,7 +33,8 @@ public abstract class CapeFeatureRendererMixin extends FeatureRenderer<AbstractC
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At("HEAD"), cancellable = true)
     public void render(MatrixStack ms, VertexConsumerProvider vertices, int light, AbstractClientPlayerEntity player, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
         if (!player.isPartVisible(PlayerModelPart.CAPE) || player.getSkinTextures().capeTexture() != null) return;
-        if (RenderingContext.elytraRendered || !LivingEntityFeatureRenderEvents.ALLOW_CAPE_RENDER.invoker().allowCapeRender(player)) return;
+        if (RenderingContext.elytraRendered || !LivingEntityFeatureRenderEvents.ALLOW_CAPE_RENDER.invoker().allowCapeRender(player))
+            return;
 
         // Custom Hallowed Cape when no other cape is present
         if (player.getEquippedStack(EquipmentSlot.CHEST).getItem() == MythicArmor.HALLOWED.getChestplate().asItem()) {
@@ -51,11 +52,11 @@ public abstract class CapeFeatureRendererMixin extends FeatureRenderer<AbstractC
     @Unique
     private void mythicmetals$renderStarPlatCape(MatrixStack ms, VertexConsumerProvider vertices, int light, AbstractClientPlayerEntity player, float f, float g, float h, float j, float k, float l) {
         double x = MathHelper.lerpAngleDegrees(h / 2, (float) player.prevCapeX, (float) player.capeX)
-                - MathHelper.lerpAngleDegrees(h / 2, (float) player.prevX, (float) player.getX());
+            - MathHelper.lerpAngleDegrees(h / 2, (float) player.prevX, (float) player.getX());
         double y = MathHelper.lerpAngleDegrees(h / 2, (float) player.prevCapeY, (float) player.capeY)
-                - MathHelper.lerpAngleDegrees(h / 2, (float) player.prevY, (float) player.getY());
+            - MathHelper.lerpAngleDegrees(h / 2, (float) player.prevY, (float) player.getY());
         double z = MathHelper.lerpAngleDegrees(h / 2, (float) player.prevCapeZ, (float) player.capeZ)
-                - MathHelper.lerpAngleDegrees(h / 2, (float) player.prevZ, (float) player.getZ());
+            - MathHelper.lerpAngleDegrees(h / 2, (float) player.prevZ, (float) player.getZ());
         float yaw = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw);
         double o = MathHelper.sin(yaw * (float) (Math.PI / 180.0));
         double p = -MathHelper.cos(yaw * (float) (Math.PI / 180.0));
@@ -102,19 +103,19 @@ public abstract class CapeFeatureRendererMixin extends FeatureRenderer<AbstractC
         ms.push();
         ms.translate(0.0, 0.0, 0.125);
         double x = MathHelper.lerp(h, player.prevCapeX, player.capeX)
-                - MathHelper.lerp(h, player.prevX, player.getX());
+            - MathHelper.lerp(h, player.prevX, player.getX());
         double y = MathHelper.lerp(h, player.prevCapeY, player.capeY)
-                - MathHelper.lerp(h, player.prevY, player.getY());
+            - MathHelper.lerp(h, player.prevY, player.getY());
         double z = MathHelper.lerp(h, player.prevCapeZ, player.capeZ)
-                - MathHelper.lerp(h, player.prevZ, player.getZ());
+            - MathHelper.lerp(h, player.prevZ, player.getZ());
         float yaw = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw);
         double o = MathHelper.sin(yaw * (float) (Math.PI / 180.0));
         double p = -MathHelper.cos(yaw * (float) (Math.PI / 180.0));
-        float q = (float)y * 10.0F;
+        float q = (float) y * 10.0F;
         q = MathHelper.clamp(q, -6.0F, 32.0F);
-        float r = (float)(x * o + z * p) * 100.0F;
+        float r = (float) (x * o + z * p) * 100.0F;
         r = MathHelper.clamp(r, 0.0F, 150.0F);
-        float s = (float)(x * p - z * o) * 100.0F;
+        float s = (float) (x * p - z * o) * 100.0F;
         s = MathHelper.clamp(s, -20.0F, 20.0F);
         if (r < 0.0F) {
             r = 0.0F;

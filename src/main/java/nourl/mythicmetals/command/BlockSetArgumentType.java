@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class BlockSetArgumentType implements ArgumentType<BlockSet> {
     private final SimpleCommandExceptionType EXCEPTION = new SimpleCommandExceptionType(
-            Text.translatable("command.mythicmetals.argument.blockset.error")
+        Text.translatable("command.mythicmetals.argument.blockset.error")
     );
 
     public static <S> BlockSet getBlockSet(CommandContext<S> context, String name) {

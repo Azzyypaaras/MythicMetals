@@ -1,6 +1,5 @@
 package nourl.mythicmetals.blocks;
 
-import net.minecraft.item.Item;
 import net.minecraft.block.*;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;

@@ -23,18 +23,18 @@ public class RuniteArmorModel {
         root.addChild("right_leg", ModelPartBuilder.create(), ModelTransform.NONE);
 
         var head = root.addChild("head",
-                ModelPartBuilder.create()
-                        .uv(0, 0)
-                        .cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.75F)),
-                ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F)
+            ModelPartBuilder.create()
+                .uv(0, 0)
+                .cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.75F)),
+            ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F)
         );
 
         head.addChild(
-                "faceguard",
-                ModelPartBuilder.create()
-                        .uv(0, 21)
-                        .cuboid(-5.0F, -3.0F, -6.0F, 10.0F, 4.0F, 7.0F, Dilation.NONE),
-                ModelTransform.of(0.0F, -5.0F, 0.0F, -0.3491F, 0.0F, 0.0F)
+            "faceguard",
+            ModelPartBuilder.create()
+                .uv(0, 21)
+                .cuboid(-5.0F, -3.0F, -6.0F, 10.0F, 4.0F, 7.0F, Dilation.NONE),
+            ModelTransform.of(0.0F, -5.0F, 0.0F, -0.3491F, 0.0F, 0.0F)
         );
         root.createPart(32, 32);
 

@@ -21,14 +21,14 @@ public class CarmotShieldHudHandler {
     public static void init() {
         Hud.add(COMPONENT_ID, () ->
             Containers.draggable(Sizing.content(), Sizing.content(),
-                Containers.verticalFlow(Sizing.content(), Sizing.content())
-                    .child(new CarmotShieldComponent(TEXTURE, 0, 16, 64, 16, 64, 32)
-                        .id(SHIELD_BACKGROUND_ID))
-                    .child(new CarmotShieldComponent(TEXTURE, 0, 0, 64, 16, 64, 32)
-                        .id(SHIELD_COMPONENT_ID)
-                        .positioning(Positioning.absolute(0, 0))
-                    ))
-            .positioning(MythicMetals.CONFIG.shieldPosition().asRelativePos())
+                    Containers.verticalFlow(Sizing.content(), Sizing.content())
+                        .child(new CarmotShieldComponent(TEXTURE, 0, 16, 64, 16, 64, 32)
+                            .id(SHIELD_BACKGROUND_ID))
+                        .child(new CarmotShieldComponent(TEXTURE, 0, 0, 64, 16, 64, 32)
+                            .id(SHIELD_COMPONENT_ID)
+                            .positioning(Positioning.absolute(0, 0))
+                        ))
+                .positioning(MythicMetals.CONFIG.shieldPosition().asRelativePos())
         );
         MythicMetals.CONFIG.subscribeToShieldPosition(shieldPosition -> {
             var component = Hud.getComponent(COMPONENT_ID);

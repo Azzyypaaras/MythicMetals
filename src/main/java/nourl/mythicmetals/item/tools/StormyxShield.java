@@ -1,14 +1,14 @@
 package nourl.mythicmetals.item.tools;
 
 import de.dafuqs.additionalentityattributes.AdditionalEntityAttributes;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -21,6 +21,7 @@ import java.util.UUID;
 public class StormyxShield extends ShieldItem {
     public static final UUID STORMYX_SHIELD_MAGIC_PROTECTION_ID = UUID.fromString("3d11289a-816d-41a9-88f3-f513e12f5ec9");
     public static final int MAGIC_DAMAGE_REDUCTION = 2;
+
     public StormyxShield(Settings settings) {
         super(settings);
     }

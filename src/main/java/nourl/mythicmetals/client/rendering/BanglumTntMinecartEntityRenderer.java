@@ -21,11 +21,11 @@ public class BanglumTntMinecartEntityRenderer extends MinecartEntityRenderer<Ban
     }
 
     protected void renderBlock(
-            TntMinecartEntity tntMinecartEntity, float f, BlockState blockState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i
+        TntMinecartEntity tntMinecartEntity, float f, BlockState blockState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i
     ) {
         int j = tntMinecartEntity.getFuseTicks();
-        if (j > -1 && (float)j - f + 1.0F < 10.0F) {
-            float g = 1.0F - ((float)j - f + 1.0F) / 10.0F;
+        if (j > -1 && (float) j - f + 1.0F < 10.0F) {
+            float g = 1.0F - ((float) j - f + 1.0F) / 10.0F;
             g = MathHelper.clamp(g, 0.0F, 1.0F);
             g *= g;
             g *= g;
@@ -43,7 +43,7 @@ public class BanglumTntMinecartEntityRenderer extends MinecartEntityRenderer<Ban
      * @param drawFlash whether a white semi-transparent overlay is added to the block to indicate the flash
      */
     public static void renderFlashingBlock(
-            BlockRenderManager blockRenderManager, BlockState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, boolean drawFlash
+        BlockRenderManager blockRenderManager, BlockState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, boolean drawFlash
     ) {
         int i;
         if (drawFlash) {

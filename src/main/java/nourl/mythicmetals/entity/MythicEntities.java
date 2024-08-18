@@ -1,6 +1,7 @@
 package nourl.mythicmetals.entity;
 
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import nourl.mythicmetals.misc.RegistryHelper;
 
 public class MythicEntities {
@@ -21,7 +22,7 @@ public class MythicEntities {
 
     static {
         BANGLUM_TNT_MINECART_ENTITY_TYPE = EntityType.Builder.<BanglumTntMinecartEntity>create(
-            BanglumTntMinecartEntity::new, SpawnGroup.MISC)
+                BanglumTntMinecartEntity::new, SpawnGroup.MISC)
             .dimensions(0.98f, 0.7f)
             .maxTrackingRange(8)
             .build();
@@ -39,7 +40,7 @@ public class MythicEntities {
             .build();
 
         RUNITE_ARROW_ENTITY_TYPE = EntityType.Builder.<RuniteArrowEntity>create(
-            RuniteArrowEntity::new, SpawnGroup.MISC)
+                RuniteArrowEntity::new, SpawnGroup.MISC)
             .dimensions(0.5F, 0.5F)
             .maxTrackingRange(4)
             .trackingTickInterval(20)

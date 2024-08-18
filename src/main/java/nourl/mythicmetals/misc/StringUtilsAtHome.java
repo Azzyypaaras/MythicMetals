@@ -4,6 +4,7 @@ public class StringUtilsAtHome {
 
     /**
      * Source: <a href="https://www.baeldung.com/java-string-title-case">Baeldung Link</a>
+     *
      * @return Example:
      * cAt -> CAt
      * super title -> Super Title

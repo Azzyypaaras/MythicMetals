@@ -13,16 +13,16 @@ public interface WorldRendererInvoker {
 
     @Invoker("drawCuboidShapeOutline")
     static void mythicmetals$drawShapeOutline(
-            MatrixStack matrixStack,
-            VertexConsumer vertexConsumer,
-            VoxelShape voxelShape,
-            double offsetX,
-            double offsetY,
-            double offsetZ,
-            float red,
-            float green,
-            float blue,
-            float alpha
+        MatrixStack matrixStack,
+        VertexConsumer vertexConsumer,
+        VoxelShape voxelShape,
+        double offsetX,
+        double offsetY,
+        double offsetZ,
+        float red,
+        float green,
+        float blue,
+        float alpha
     ) {
         throw new AssertionError();
     }

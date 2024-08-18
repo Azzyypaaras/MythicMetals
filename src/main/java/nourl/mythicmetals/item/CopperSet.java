@@ -1,7 +1,6 @@
 package nourl.mythicmetals.item;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import nourl.mythicmetals.MythicMetals;
@@ -19,7 +18,8 @@ public class CopperSet {
     }
 
     public CopperSet() {
-        this(settings -> {});
+        this(settings -> {
+        });
     }
 
     public CopperSet(Consumer<Item.Settings> settingsConsumer) {

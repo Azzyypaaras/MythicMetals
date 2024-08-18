@@ -25,13 +25,13 @@ public class BlockBreaker {
 
         if (facing.equals(Direction.DOWN) || facing.equals(Direction.UP)) {
             iterator = BlockPos.iterate(
-                    pos.east().offset(Direction.NORTH),
-                    pos2.west().offset(Direction.SOUTH)
+                pos.east().offset(Direction.NORTH),
+                pos2.west().offset(Direction.SOUTH)
             );
         } else {
             iterator = BlockPos.iterate(
-                    pos.down().offset(facing.rotateCounterclockwise(Direction.Axis.Y)),
-                    pos2.up().offset(facing.rotateClockwise(Direction.Axis.Y))
+                pos.down().offset(facing.rotateCounterclockwise(Direction.Axis.Y)),
+                pos2.up().offset(facing.rotateClockwise(Direction.Axis.Y))
             );
         }
 
@@ -46,13 +46,13 @@ public class BlockBreaker {
 
         if (facing.equals(Direction.DOWN) || facing.equals(Direction.UP)) {
             iterator = BlockPos.iterate(
-                    pos.east().offset(Direction.NORTH),
-                    pos2.west().offset(Direction.SOUTH)
+                pos.east().offset(Direction.NORTH),
+                pos2.west().offset(Direction.SOUTH)
             );
         } else {
             iterator = BlockPos.iterate(
-                    pos.down().offset(facing.rotateCounterclockwise(Direction.Axis.Y)),
-                    pos2.up().offset(facing.rotateClockwise(Direction.Axis.Y))
+                pos.down().offset(facing.rotateCounterclockwise(Direction.Axis.Y)),
+                pos2.up().offset(facing.rotateClockwise(Direction.Axis.Y))
             );
         }
 
@@ -74,7 +74,8 @@ public class BlockBreaker {
             var stack = player.getMainHandStack();
 
             if (!(stack.getItem() instanceof HammerBase hammer)) return true; // don't do this for non-hammers
-            if (!hammer.isCorrectForDrops(stack, state)) return true; // don't break anything extra if you are not mining rocks or stones
+            if (!hammer.isCorrectForDrops(stack, state))
+                return true; // don't break anything extra if you are not mining rocks or stones
             var reach = BlockBreaker.getReachDistance(player);
 
             BlockHitResult blockHitResult = (BlockHitResult) player.raycast(reach, 1, false);
@@ -113,7 +114,7 @@ public class BlockBreaker {
 
         // Create an iterator around the blocks that are about to be broken
         var hammeredBlocks = BlockBreaker.findBlocks(
-                blockHitResult.getSide().getOpposite(), blockHitResult.getBlockPos(), hammer.getDepth());
+            blockHitResult.getSide().getOpposite(), blockHitResult.getBlockPos(), hammer.getDepth());
 
         for (BlockPos pos : hammeredBlocks) {
             var state = player.getWorld().getBlockState(pos);

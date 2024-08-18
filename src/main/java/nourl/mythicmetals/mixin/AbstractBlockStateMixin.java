@@ -23,11 +23,11 @@ public class AbstractBlockStateMixin {
             var oldDelta = cir.getReturnValue();
             // Raycast to get a block hit result, which contains the side of the targeted block
             BlockHitResult blockHitResult = blockView.raycast(
-                    new RaycastContext(player.getPos(),
-                            Vec3d.of(originalBlockPos),
-                            RaycastContext.ShapeType.OUTLINE,
-                            RaycastContext.FluidHandling.NONE,
-                            player));
+                new RaycastContext(player.getPos(),
+                    Vec3d.of(originalBlockPos),
+                    RaycastContext.ShapeType.OUTLINE,
+                    RaycastContext.FluidHandling.NONE,
+                    player));
 
             var hammerDelta = BlockBreaker.calculateHardestDelta(blockHitResult, player, hammer);
 

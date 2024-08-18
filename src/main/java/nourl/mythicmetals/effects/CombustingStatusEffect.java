@@ -1,11 +1,8 @@
 package nourl.mythicmetals.effects;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import nourl.mythicmetals.MythicMetals;
 
 public class CombustingStatusEffect extends StatusEffect {
     public CombustingStatusEffect(StatusEffectCategory statusEffectCategory, int color) {

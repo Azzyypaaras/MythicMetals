@@ -3,7 +3,6 @@ package nourl.mythicmetals.blocks;
 import com.google.common.collect.*;
 import io.wispforest.owo.util.Maldenhagen;
 import io.wispforest.owo.util.TagInjector;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.BlockSoundGroup;
@@ -41,6 +40,7 @@ public class BlockSet {
      * This constructor collects the smaller constructors from the {@link Builder} and creates a set of blocks.
      * Use {@link Builder#begin(String, boolean) BlockSet.Builder.begin} to begin,
      * and call {@link Builder#finish()} when you are done.
+     *
      * @param name            Common name for the entire set of blocks, applies to every block created.
      * @param ore             Contains a vanilla {@link ExperienceDroppingBlock}.
      * @param storageBlock    Contains a {@link Block} which is used as a storage block.
@@ -101,8 +101,8 @@ public class BlockSet {
             }));
         }
         miningLevels.forEach((block, level) -> {
-                TagInjector.inject(Registries.BLOCK, level, block);
-                TagInjector.inject(Registries.BLOCK, RegistryHelper.id("blocks"), block);
+            TagInjector.inject(Registries.BLOCK, level, block);
+            TagInjector.inject(Registries.BLOCK, RegistryHelper.id("blocks"), block);
         });
     }
 
@@ -150,7 +150,7 @@ public class BlockSet {
         return Map.copyOf(oreVariants);
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
@@ -233,10 +233,10 @@ public class BlockSet {
          */
         private static AbstractBlock.Settings blockSettings(float hardness, float resistance, BlockSoundGroup sounds) {
             return AbstractBlock.Settings.create()
-                    .strength(hardness, resistance)
-                    .sounds(sounds)
-                    .solid()
-                    .requiresTool();
+                .strength(hardness, resistance)
+                .sounds(sounds)
+                .solid()
+                .requiresTool();
         }
 
         /**
@@ -249,11 +249,11 @@ public class BlockSet {
          */
         public Builder createDefaultSet(float strength, Identifier miningLevel, Identifier higherMiningLevel) {
             return strength(strength)
-                    .createOre(miningLevel)
-                    .strength(strength + 1.0F)
-                    .createOreStorageBlock(miningLevel)
-                    .createStorageBlock(higherMiningLevel)
-                    .createAnvil(miningLevel);
+                .createOre(miningLevel)
+                .strength(strength + 1.0F)
+                .createOreStorageBlock(miningLevel)
+                .createStorageBlock(higherMiningLevel)
+                .createAnvil(miningLevel);
         }
 
         /**
@@ -266,10 +266,10 @@ public class BlockSet {
          */
         public Builder createBlockSet(float strength, Identifier miningLevel, Identifier storageMiningLevel) {
             return strength(strength)
-                    .createOre(miningLevel)
-                    .strength(strength + 1.0F)
-                    .createStorageBlock(storageMiningLevel)
-                    .createOreStorageBlock(storageMiningLevel);
+                .createOre(miningLevel)
+                .strength(strength + 1.0F)
+                .createStorageBlock(storageMiningLevel)
+                .createOreStorageBlock(storageMiningLevel);
         }
 
         /**
@@ -283,10 +283,10 @@ public class BlockSet {
          */
         public Builder createDefaultSet(float oreStrength, Identifier oreMiningLevel, float storageStrength, Identifier storageMiningLevel) {
             return strength(oreStrength)
-                    .createOre(oreMiningLevel)
-                    .strength(storageStrength)
-                    .createStorageBlock(storageMiningLevel)
-                    .createOreStorageBlock(storageMiningLevel);
+                .createOre(oreMiningLevel)
+                .strength(storageStrength)
+                .createStorageBlock(storageMiningLevel)
+                .createOreStorageBlock(storageMiningLevel);
         }
 
         /**
@@ -297,9 +297,9 @@ public class BlockSet {
          */
         public Builder createAnvilSet(float strength, Identifier miningLevel) {
             return strength(strength)
-                    .sounds(BlockSoundGroup.METAL)
-                    .createStorageBlock(miningLevel)
-                    .createAnvil(miningLevel);
+                .sounds(BlockSoundGroup.METAL)
+                .createStorageBlock(miningLevel)
+                .createAnvil(miningLevel);
         }
 
         /**
@@ -312,8 +312,8 @@ public class BlockSet {
          */
         public Builder createAnvilSet(float hardness, float resistance, Identifier miningLevel) {
             return strength(hardness, resistance)
-                    .createStorageBlock(this.currentSounds, miningLevel)
-                    .createAnvil(miningLevel);
+                .createStorageBlock(this.currentSounds, miningLevel)
+                .createAnvil(miningLevel);
         }
 
         /**
@@ -595,8 +595,8 @@ public class BlockSet {
          */
         public BlockSet finish() {
             final var set = new BlockSet(this.name, this.ore,
-                    this.storageBlock, this.oreStorageBlock, this.anvil,
-                    this.oreVariants, this.fireproof, this.miningLevels, this.anvilMap);
+                this.storageBlock, this.oreStorageBlock, this.anvil,
+                this.oreVariants, this.fireproof, this.miningLevels, this.anvilMap);
             Builder.toBeRegistered.add(set);
             return set;
         }

@@ -38,7 +38,7 @@ public class MythicParticleSystem {
         ClientParticles.setParticleCount(1);
         Random r = new Random();
         var velocity = VectorRandomUtils.getRandomOffset(world,
-                Vec3d.ZERO.add(r.nextDouble(-1, 1), 0.75D, r.nextDouble(-1, 1)), 1.25D);
+            Vec3d.ZERO.add(r.nextDouble(-1, 1), 0.75D, r.nextDouble(-1, 1)), 1.25D);
         ClientParticles.setVelocity(velocity);
 
         ClientParticles.spawn(ParticleTypes.SMOKE, world, pos, 0.0D);
@@ -48,7 +48,7 @@ public class MythicParticleSystem {
         ClientParticles.setParticleCount(1);
         Random r = new Random();
         var velocity = VectorRandomUtils.getRandomOffset(world,
-                Vec3d.ZERO.add(r.nextDouble(-1, 1), 0.75D, r.nextDouble(-1, 1)), 1.25D);
+            Vec3d.ZERO.add(r.nextDouble(-1, 1), 0.75D, r.nextDouble(-1, 1)), 1.25D);
         ClientParticles.setVelocity(velocity);
 
         ClientParticles.spawn(ParticleTypes.LAVA, world, pos, 0.0D);
@@ -83,12 +83,12 @@ public class MythicParticleSystem {
 
     public static final ParticleSystem<Void> COLORED_NOTE = CONTROLLER.register(Void.class, (world, pos, data) -> {
         Random r = new Random();
-       ClientParticles.reset();
-       ClientParticles.setParticleCount(1);
-       ClientParticles.persist();
-       ClientParticles.setVelocity(new Vec3d(r.nextInt(32) / 16.0f, 0, 0));
-       ClientParticles.spawn(ParticleTypes.NOTE, world, pos, 0);
-       ClientParticles.reset();
+        ClientParticles.reset();
+        ClientParticles.setParticleCount(1);
+        ClientParticles.persist();
+        ClientParticles.setVelocity(new Vec3d(r.nextInt(32) / 16.0f, 0, 0));
+        ClientParticles.spawn(ParticleTypes.NOTE, world, pos, 0);
+        ClientParticles.reset();
     });
 
     public static final ParticleSystem<Void> NOTE_EXPLOSION = CONTROLLER.register(Void.class, (world, pos, data) -> {
@@ -109,7 +109,7 @@ public class MythicParticleSystem {
     });
 
     public static final ParticleSystem<Float> EXPLOSIVE_EXPLOSION = CONTROLLER.register(Float.class, (world, pos, power) -> {
-        if(FabricLoader.getInstance().isModLoaded("explosiveenhancement")) {
+        if (FabricLoader.getInstance().isModLoaded("explosiveenhancement")) {
             ExplosiveEnhancementCompat.spawnParticles(world, pos.x, pos.y, pos.z, power);
         }
     });

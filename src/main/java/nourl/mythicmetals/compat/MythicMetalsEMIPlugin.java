@@ -2,10 +2,7 @@ package nourl.mythicmetals.compat;
 
 import dev.emi.emi.api.*;
 import dev.emi.emi.api.stack.EmiStack;
-import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.recipe.*;
-import net.minecraft.util.Identifier;
-import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.item.tools.MythicTools;
 import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.recipe.MidasFoldingRecipe;

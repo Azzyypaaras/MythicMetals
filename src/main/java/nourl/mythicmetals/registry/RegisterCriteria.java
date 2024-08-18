@@ -4,9 +4,7 @@ import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.Criterion;
-import net.minecraft.util.Identifier;
 import nourl.mythicmetals.MythicMetals;
-import nourl.mythicmetals.misc.RegistryHelper;
 import nourl.mythicmetals.misc.SimpleCriteria;
 import java.lang.reflect.Field;
 

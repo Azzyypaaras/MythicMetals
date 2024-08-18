@@ -2,8 +2,6 @@ package nourl.mythicmetals.blocks;
 
 import io.wispforest.owo.particles.ClientParticles;
 import net.minecraft.block.*;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +17,7 @@ public class BanglumOreBlock extends ExperienceDroppingBlock {
     public BanglumOreBlock(AbstractBlock.Settings settings) {
         super(ConstantIntProvider.ZERO, settings);
     }
-    
+
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         int rng = random.nextInt(130);

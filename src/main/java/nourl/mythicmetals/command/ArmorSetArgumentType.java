@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 public class ArmorSetArgumentType implements ArgumentType<ArmorSet> {
 
     private final SimpleCommandExceptionType EXCEPTION = new SimpleCommandExceptionType(
-            Text.translatable("command.mythicmetals.argument.armorset.error")
+        Text.translatable("command.mythicmetals.argument.armorset.error")
     );
 
     public static <S> ArmorSet getArmorSet(CommandContext<S> context, String name) {

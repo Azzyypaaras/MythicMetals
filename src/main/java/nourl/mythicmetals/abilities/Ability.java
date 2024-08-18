@@ -100,7 +100,7 @@ public class Ability {
         });
     }
 
-   public static void addTooltipOnStack(ItemStack stack, List<Text> lines, Style style, String translationKey) {
+    public static void addTooltipOnStack(ItemStack stack, List<Text> lines, Style style, String translationKey) {
         MutableText text = Text.literal("");
         text.append(Text.translatable(translationKey));
         text.setStyle(style);

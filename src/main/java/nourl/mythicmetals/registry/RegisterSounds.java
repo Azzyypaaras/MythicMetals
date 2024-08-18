@@ -49,17 +49,17 @@ public class RegisterSounds implements AutoRegistryContainer<SoundEvent> {
     public static final SoundEvent MELODY = SoundEvent.of(RegistryHelper.id("melody"));
 
     public static final BlockSoundGroup MORKITE_ORE = new BlockSoundGroup(1.0F, 1.0F,
-            MORKITE_ORE_BREAK,
-            SoundEvents.BLOCK_DRIPSTONE_BLOCK_STEP,
-            SoundEvents.BLOCK_DRIPSTONE_BLOCK_PLACE,
-            SoundEvents.BLOCK_DRIPSTONE_BLOCK_HIT,
-            SoundEvents.BLOCK_DRIPSTONE_BLOCK_FALL);
+        MORKITE_ORE_BREAK,
+        SoundEvents.BLOCK_DRIPSTONE_BLOCK_STEP,
+        SoundEvents.BLOCK_DRIPSTONE_BLOCK_PLACE,
+        SoundEvents.BLOCK_DRIPSTONE_BLOCK_HIT,
+        SoundEvents.BLOCK_DRIPSTONE_BLOCK_FALL);
     public static final BlockSoundGroup DEEPSLATE_MORKITE_ORE = new BlockSoundGroup(1.0F, 1.0F,
-            DEEPSLATE_MORKITE_ORE_BREAK,
-            SoundEvents.BLOCK_DEEPSLATE_STEP,
-            SoundEvents.BLOCK_DEEPSLATE_PLACE,
-            SoundEvents.BLOCK_DEEPSLATE_HIT,
-            SoundEvents.BLOCK_DEEPSLATE_FALL);
+        DEEPSLATE_MORKITE_ORE_BREAK,
+        SoundEvents.BLOCK_DEEPSLATE_STEP,
+        SoundEvents.BLOCK_DEEPSLATE_PLACE,
+        SoundEvents.BLOCK_DEEPSLATE_HIT,
+        SoundEvents.BLOCK_DEEPSLATE_FALL);
 
     @Override
     public Registry<SoundEvent> getRegistry() {

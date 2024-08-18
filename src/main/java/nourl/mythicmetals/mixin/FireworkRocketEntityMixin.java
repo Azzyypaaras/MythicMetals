@@ -15,7 +15,8 @@ import org.spongepowered.asm.mixin.injection.*;
 @Mixin(FireworkRocketEntity.class)
 public abstract class FireworkRocketEntityMixin extends ProjectileEntity {
 
-    @Shadow private @Nullable LivingEntity shooter;
+    @Shadow
+    private @Nullable LivingEntity shooter;
 
     /**
      * @author BasiqueEvangelist

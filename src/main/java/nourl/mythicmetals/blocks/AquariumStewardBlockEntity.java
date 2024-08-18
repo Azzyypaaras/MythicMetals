@@ -1,22 +1,7 @@
 package nourl.mythicmetals.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.Monster;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.*;
-import net.minecraft.world.World;
-import nourl.mythicmetals.registry.RegisterBlockEntityTypes;
-import org.jetbrains.annotations.Nullable;
-import java.util.List;
-import java.util.UUID;
-
-public class AquariumStewardBlockEntity {} /*extends BlockEntity implements ConduitPowered {
+public class AquariumStewardBlockEntity {
+} /*extends BlockEntity implements ConduitPowered {
 
     private static final int MAX_RANGE = 16;
     private static final float DAMAGE = 5.0f;

@@ -24,14 +24,15 @@ public final class EpicExplosion {
 
     /**
      * Cause a large explosion
-     * @param world World where the explosion happened
-     * @param x X-cord for the explosion center
-     * @param y Y-cord for the explosion center
-     * @param z Z-cord for the explosion center
-     * @param radius Explosion radius
+     *
+     * @param world          World where the explosion happened
+     * @param x              X-cord for the explosion center
+     * @param y              Y-cord for the explosion center
+     * @param z              Z-cord for the explosion center
+     * @param radius         Explosion radius
      * @param statePredicate Blockstate predicate for filtering out specific blocks
-     * @param exploder  Entity which caused the explosion
-     * @param cause PlayerEntity which triggered the explosion, used to check against claim protection
+     * @param exploder       Entity which caused the explosion
+     * @param cause          PlayerEntity which triggered the explosion, used to check against claim protection
      */
     public static void explode(ServerWorld world, int x, int y, int z, int radius, Predicate<BlockState> statePredicate,
                                @Nullable Entity exploder, @Nullable PlayerEntity cause) {
@@ -75,12 +76,12 @@ public final class EpicExplosion {
     /**
      * Absorbs water around a center point in a given radius
      *
-     * @param world World where the explosion happened
-     * @param x X-cord for the center of this interaction
-     * @param y Y-cord for the center of this interaction
-     * @param z Z-cord for the center of this interaction
+     * @param world  World where the explosion happened
+     * @param x      X-cord for the center of this interaction
+     * @param y      Y-cord for the center of this interaction
+     * @param z      Z-cord for the center of this interaction
      * @param radius Water absorption radius
-     * @param cause PlayerEntity which triggered this, used to check against claim protection
+     * @param cause  PlayerEntity which triggered this, used to check against claim protection
      */
     public static void absorbWater(ServerWorld world, int x, int y, int z, int radius, @Nullable PlayerEntity cause) {
         int radiusSq = radius * radius;

@@ -1,6 +1,5 @@
 package nourl.mythicmetals.item.tools;
 
-import net.minecraft.item.Item;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -32,7 +31,8 @@ public class ToolSet {
     }
 
     public ToolSet(ToolMaterial material, int[] damage, float[] speed) {
-        this(material, damage, speed, settings -> {});
+        this(material, damage, speed, settings -> {
+        });
     }
 
     public ToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<Item.Settings> settingsProcessor) {

@@ -15,16 +15,17 @@ public class UsefulSingletonForColorUtil {
 
     // thx chyzman
     public static int getSlightlyDarkerOwoBlueToRedGradient(float currentValue, float maxValue) {
-        return Color.RED.interpolate(Color.ofRgb(0x3955E5), currentValue/maxValue).rgb();
+        return Color.RED.interpolate(Color.ofRgb(0x3955E5), currentValue / maxValue).rgb();
     }
 
     /**
      * Calculates a tint-index from a potion color
      * Borrowed from <a href="https://github.com/DaFuqs/Spectrum/blob/227502412912cb94f8d1d6335c94a00a91a1fe84/src/main/java/de/dafuqs/spectrum/registries/client/SpectrumColorProviders.java#L169">...</a>
-     * @author DaFuqs
-     * @param stack         Stack with Potion Effect
-     * @param tintIndex     Tint index
+     *
+     * @param stack     Stack with Potion Effect
+     * @param tintIndex Tint index
      * @return Color as int
+     * @author DaFuqs
      */
     public static int potionColor(ItemStack stack, int tintIndex) {
         if (tintIndex == 1) {
@@ -82,5 +83,6 @@ public class UsefulSingletonForColorUtil {
         public static final CoralColor TUBE = new CoralColor("tube", Style.EMPTY.withColor(0x3F5BDF));
     }
 
-    public record CoralColor(String name, Style style) {}
+    public record CoralColor(String name, Style style) {
+    }
 }

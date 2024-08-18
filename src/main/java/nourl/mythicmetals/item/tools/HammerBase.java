@@ -8,7 +8,7 @@ public class HammerBase extends PickaxeItem {
 
     private final int depth;
 
-    public HammerBase(ToolMaterial material,Settings settings, int depth) {
+    public HammerBase(ToolMaterial material, Settings settings, int depth) {
         super(material, settings);
         this.depth = depth;
     }

@@ -12,7 +12,7 @@ public class CreeperEntityMixin {
 
     @ModifyVariable(method = "spawnEffectsCloud", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
     private AreaEffectCloudEntity mythicmetals$assignDataToCloud(AreaEffectCloudEntity cloud) {
-        ((WasSpawnedFromCreeper)cloud).mythicmetals$setSpawnedFromCreeper(true);
+        ((WasSpawnedFromCreeper) cloud).mythicmetals$setSpawnedFromCreeper(true);
         return cloud;
     }
 }

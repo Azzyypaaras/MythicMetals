@@ -27,27 +27,27 @@ public class BanglumArmorModel {
         root.addChild("right_leg", ModelPartBuilder.create(), ModelTransform.NONE);
 
         var head = root.addChild(
-                "head",
-                ModelPartBuilder.create()
-                        .uv(0, 0)
-                        .cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(1.0F)),
-                ModelTransform.NONE
+            "head",
+            ModelPartBuilder.create()
+                .uv(0, 0)
+                .cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(1.0F)),
+            ModelTransform.NONE
         );
 
         head.addChild(
-                "right_horn",
-                ModelPartBuilder.create()
-                        .uv(8, 16)
-                        .cuboid(2.0F, -12.0F, 0.0F, 1.0F, 3.0F, 1.0F, dil),
-                ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0873F)
+            "right_horn",
+            ModelPartBuilder.create()
+                .uv(8, 16)
+                .cuboid(2.0F, -12.0F, 0.0F, 1.0F, 3.0F, 1.0F, dil),
+            ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0873F)
         );
 
         head.addChild(
-                "left_horn",
-                ModelPartBuilder.create()
-                        .uv(8, 16)
-                        .cuboid(-3.0F, -12.0F, 0.0F, 1.0F, 3.0F, 1.0F, dil),
-                ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.0873F)
+            "left_horn",
+            ModelPartBuilder.create()
+                .uv(8, 16)
+                .cuboid(-3.0F, -12.0F, 0.0F, 1.0F, 3.0F, 1.0F, dil),
+            ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.0873F)
         );
 
         return data;
