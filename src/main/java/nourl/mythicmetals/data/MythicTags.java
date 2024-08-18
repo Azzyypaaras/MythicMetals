@@ -14,6 +14,7 @@ public class MythicTags {
     public static final TagKey<Item> AUTO_REPAIR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/auto_repair"));
     public static final TagKey<Item> BONUS_FORTUNE = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/bonus_fortune"));
     public static final TagKey<Item> BONUS_LOOTING = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/bonus_looting"));
+    public static final TagKey<Item> MIDAS_TOUCH = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/midas_touch"));
     public static final TagKey<Item> CARMOT_STAFF_BLOCKS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("carmot_staff_blocks"));
     public static final TagKey<Item> COMMON_ARMOR = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "armor"));
     public static final TagKey<Item> COMMON_TOOLS = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "tools"));

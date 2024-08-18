@@ -8,12 +8,14 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -23,8 +25,10 @@ import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.MythicArmor;
 import nourl.mythicmetals.component.DrillComponent;
 import nourl.mythicmetals.component.MythicDataComponents;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.effects.MythicStatusEffects;
 import nourl.mythicmetals.entity.CombustionCooldown;
+import nourl.mythicmetals.item.MythicItems;
 import nourl.mythicmetals.misc.MythicParticleSystem;
 import nourl.mythicmetals.misc.WasSpawnedFromCreeper;
 import nourl.mythicmetals.registry.RegisterCriteria;
@@ -275,6 +279,16 @@ public abstract class LivingEntityMixin extends Entity {
         if (camera == null) return;
         if (camera.isThirdPerson() && stack.getOrDefault(MythicDataComponents.DRILL, DrillComponent.DEFAULT).hasFuel()) {
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "dropEquipment", at = @At(value = "HEAD"))
+    private void mythicmetals$dropMidasGold(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
+        if (source.getAttacker() == null) return;
+        if (source.getAttacker() instanceof PlayerEntity attacker) {
+            if (MythicMetals.CONFIG.midasGold() && attacker.getMainHandStack().isIn(MythicTags.MIDAS_TOUCH)) {
+                this.dropStack(new ItemStack(MythicItems.MIDAS_GOLD.getRawOre()));
+            }
         }
     }
 }

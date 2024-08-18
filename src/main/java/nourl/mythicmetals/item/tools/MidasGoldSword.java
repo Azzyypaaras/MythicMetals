@@ -24,17 +24,9 @@ public class MidasGoldSword extends SwordItem {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!attacker.getWorld().isClient && MythicMetals.CONFIG.midasGold() && stack.contains(MythicDataComponents.GOLD_FOLDED) && stack.get(MythicDataComponents.GOLD_FOLDED).isRoyal() && target.isDead()) {
-            target.dropItem(MythicItems.MIDAS_GOLD.getRawOre());
-        }
-        return super.postHit(stack, target, attacker);
-    }
-
-    @Override
     public void postProcessComponents(ItemStack stack) {
         // TODO - Surely there is a better way to do dynamic attributes, right? Right??
-        //  Or maybe it isn't due to the hardcoded UUID check for the correct green tooltip... Thanks Mojang
+        //  This is a lot of effort for the correct green tooltip... Thanks Mojang
         var currentAttributes = stack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
         int goldCount = stack.getOrDefault(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0)).goldFolded();
         var originalDamage = new AtomicReference<>(0.0);

@@ -39,6 +39,7 @@ The upgrades also got the following changes:
   - Armor Bonus: +1 while overgrown (+2 if double the threshold)
   - Toughness Bonuses: +1 while overgrown (+2 if double the threshold), and +1 if the armor cannot be unequipped (I.E. Curse of Binding)
 - Increased Tidesinger Water vision: 25% -> 30%
+- Sweeping using a Royal Midas Gold Sword now correctly drops Raw Midas Gold
 
 ## Updated tags
 
@@ -89,6 +90,7 @@ The following abilites were migrated to tags:
 - Bonus Fortune applies to all items inside the `mythicmetals:abilities/bonus_fortune` tag.
 - Bonus Looting applies to all items inside the `mythicmetals:abilities/bonus_looting` tag.
 - The Prometheum Component is attached to any items inside the `mythicmetals:abilities/auto_repair` tag.
+- Midas Touch, which drops Raw Midas Gold on kill on entity is now decided by the `mythicmetals:abilities/midas_touch` tag.
 
 The Riptide ability was migrated to the `RiptideTool` interface.
 
