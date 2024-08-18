@@ -12,7 +12,7 @@ public class PrometheumToolSet extends ToolSet {
 
     @Override
     protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new PrometheumPick(material, (Item.Settings) settings
+        return new PrometheumPick(material, settings
             .attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed))
             .component(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT)
         );
@@ -20,7 +20,7 @@ public class PrometheumToolSet extends ToolSet {
 
     @Override
     protected SwordItem makeSword(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new PrometheumSword(material, (Item.Settings) settings
+        return new PrometheumSword(material, settings
             .attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed))
             .component(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT)
         );
@@ -28,7 +28,7 @@ public class PrometheumToolSet extends ToolSet {
 
     @Override
     protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new PrometheumAxe(material, (Item.Settings) settings
+        return new PrometheumAxe(material, settings
             .attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed))
             .component(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT)
         );
@@ -36,7 +36,7 @@ public class PrometheumToolSet extends ToolSet {
 
     @Override
     protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new PrometheumHoe(material, (Item.Settings) settings
+        return new PrometheumHoe(material, settings
             .attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed))
             .component(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT)
         );
@@ -44,7 +44,7 @@ public class PrometheumToolSet extends ToolSet {
 
     @Override
     protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return new PrometheumShovel(material, (Item.Settings) settings
+        return new PrometheumShovel(material, settings
             .attributeModifiers(ToolSet.createAttributeModifiers(material, damage, speed))
             .component(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT)
         );

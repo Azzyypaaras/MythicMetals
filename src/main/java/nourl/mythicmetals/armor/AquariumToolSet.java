@@ -16,27 +16,27 @@ public class AquariumToolSet extends ToolSet {
 
     @Override
     protected SwordItem makeSword(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return super.makeSword(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+        return super.makeSword(material, damage, speed, settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     @Override
     protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return super.makeAxe(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+        return super.makeAxe(material, damage, speed, settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     @Override
     protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return super.makePickaxe(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+        return super.makePickaxe(material, damage, speed, settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     @Override
     protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return super.makeShovel(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+        return super.makeShovel(material, damage, speed, settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     @Override
     protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
-        return super.makeHoe(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+        return super.makeHoe(material, damage, speed, settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     public static AttributeModifiersComponent createAquaAffinityToolModifiers(ToolMaterial material, double damage, float speed) {
