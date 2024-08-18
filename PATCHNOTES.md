@@ -1,6 +1,6 @@
 # 0.20.0
 
-The changelog for this one is huge. 
+The changelog for this one is huge.
 Most of the changes are related to technical stuff, but the firstmost things are gameplay-related.
 
 The reason this update took so long is mainly due to a large downtick in freetime, and making sure Datafixers were available,
@@ -43,7 +43,7 @@ The upgrades also got the following changes:
 ## Updated tags
 
 As always with newer versions of Minecraft the tags had to be updated.
-These are now data-driven, meaning they are generated with code. 
+These are now data-driven, meaning they are generated with code.
 This should make them faster to update, but also means there might be some holes where some items
 are missing from tags where they should be present.
 Make sure to report any issues you find with these, should you feel like anything is missing or broken.
@@ -74,11 +74,13 @@ Here is a list of the new Item Components:
   - The Drill Component essentially only holds fuel and handles tooltips related to it.
 - The Tidesinger Component (`mythicmetals:tidesinger`) holds a string on what pattern the Tidesinger armor is using. Also appends a tooltip for the specific type
 - The Midas Gold Sword now uses the Gold Folded Component (`mythicmetals:gold_folded`), which handles its dynamic tooltip and the Midas Touch Ability
+- The Prometheum Component (`mythicmetals:prometheum`) tracks durability repaired, and generally helps with automatically repairing the items.
+  - This component is applied to items in a tag (see below!)
 
 The following abilities were migrated to Attributes:
 
 - The Aqua Affinity ability now uses the `minecraft:player.submerged_mining_speed` attribute.
-- Carmot Shield now uses the `mythicmetals:carmot_shield` attribute.      
+- Carmot Shield now uses the `mythicmetals:carmot_shield` attribute.
 - The Depth Strider ability is now using the `minecraft:generic.water_movement_efficiency` attribute.
 - The Respiration and Better Respiration Abilities are now using the `minecraft:generic.oxygen_bonus` attribute.
 
@@ -86,7 +88,8 @@ The following abilites were migrated to tags:
 
 - Bonus Fortune applies to all items inside the `mythicmetals:abilities/bonus_fortune` tag.
 - Bonus Looting applies to all items inside the `mythicmetals:abilities/bonus_looting` tag.
-    
+- The Prometheum Component is attached to any items inside the `mythicmetals:abilities/auto_repair` tag.
+
 The Riptide ability was migrated to the `RiptideTool` interface.
 
 ## Other Changes
@@ -101,10 +104,11 @@ The Riptide ability was migrated to the `RiptideTool` interface.
 
 ### Translations
 
+- Added tag translations for most tags
 - German translations are now available (thanks Kurty00!)
 - Russian translations are now updated
 - Ukrainian translations are now available
-- A sidenote is that the Macedonian, Korean, and LOLCAT translations
+- A sidenote is that the Macedonian, Korean, and LOLCAT translations are out of date following these major reworks
 
 # 0.20.0-alpha6
 

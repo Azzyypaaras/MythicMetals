@@ -5,19 +5,18 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import nourl.mythicmetals.misc.RegistryHelper;
 
 public class MythicTags {
 
-    public static final TagKey<Item> CARMOT_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("armor/carmot"));
+    public static final TagKey<Item> AUTO_REPAIR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/auto_repair"));
     public static final TagKey<Item> BONUS_FORTUNE = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/bonus_fortune"));
     public static final TagKey<Item> BONUS_LOOTING = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("abilities/bonus_looting"));
-    public static final TagKey<Item> PROMETHEUM_ARMOR = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("armor/prometheum"));
-    public static final TagKey<Item> PROMETHEUM_TOOLS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tools/prometheum"));
-    public static final TagKey<Item> PROMETHEUM_EQUIPMENT = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("equipment/prometheum"));
     public static final TagKey<Item> CARMOT_STAFF_BLOCKS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("carmot_staff_blocks"));
-    public static final TagKey<Item> GILDED_MIDAS_SWORDS = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("gilded_midas_swords"));
+    public static final TagKey<Item> COMMON_ARMOR = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "armor"));
+    public static final TagKey<Item> COMMON_TOOLS = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "tools"));
     public static final TagKey<Item> TIDESINGER_CORAL = TagKey.of(RegistryKeys.ITEM, RegistryHelper.id("tidesinger_coral"));
 
     public static final TagKey<Block> ANVILS = TagKey.of(RegistryKeys.BLOCK, RegistryHelper.id("anvils"));

@@ -139,10 +139,15 @@ public class MythicMetals implements ModInitializer, EntityComponentInitializer 
 
     /**
      * Registers an event that modifies all armor items in the tag with bonus attributes when bound
+     * When the item is in {@link MythicTags#COMMON_ARMOR} it will gain bonus protection.
+     * Note that this has to be {@link net.minecraft.item.ArmorItem}, as otherwise it will not get the effect.
+     * When the item is in {@link MythicTags#COMMON_TOOLS} it will gain bonus damage
+     *
+     * @see nourl.mythicmetals.mixin.ItemMixin
      */
     public static void registerPrometheumAttributeEvent() {
         DefaultItemComponentEvents.MODIFY.register(context -> {
-            context.modify(item -> item.getDefaultStack().isIn(MythicTags.PROMETHEUM_EQUIPMENT), (builder, item) -> {
+            context.modify(item -> item.getDefaultStack().isIn(MythicTags.AUTO_REPAIR), (builder, item) -> {
                 builder.add(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT);
             });
         });

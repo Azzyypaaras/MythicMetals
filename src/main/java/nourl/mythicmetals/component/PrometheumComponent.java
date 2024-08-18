@@ -31,8 +31,8 @@ public record PrometheumComponent(int durabilityRepaired) {
      */
     public static void tickAutoRepair(ItemStack stack, World world) {
         if (!stack.isDamaged()) return; // Don't handle auto repair if item is fully repaired
-        if (!stack.contains(MythicDataComponents.PROMETHEUM)) return;
         if (world.isClient()) return; // Desyncs if done on client
+        if (!stack.contains(MythicDataComponents.PROMETHEUM)) return;
         var random = world.getRandom();
 
         var component = stack.get(MythicDataComponents.PROMETHEUM);
@@ -47,7 +47,7 @@ public record PrometheumComponent(int durabilityRepaired) {
         int damageToRepair = isOvergrown(stack) ? 2 : 1;
 
         // Extra repair speed if bound
-        if (stack.isIn(MythicTags.PROMETHEUM_ARMOR) && stack.contains(EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE)) {
+        if (stack.contains(EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE)) {
             damageToRepair += 1;
         }
 
