@@ -1,6 +1,6 @@
 package nourl.mythicmetals.blocks;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.item.Item;
 import net.minecraft.block.*;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -110,7 +110,7 @@ public class MythicBlocks {
         .finish();
 
     public static final Block ENCHANTED_MIDAS_GOLD_BLOCK = new EnchantedMidasGoldBlock(AbstractBlock.Settings.copy(MIDAS_GOLD.getStorageBlock()));
-    public static final Item ENCHANTED_MIDAS_GOLD_BLOCK_ITEM = new BlockItem(ENCHANTED_MIDAS_GOLD_BLOCK, new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(1).rarity(Rarity.UNCOMMON)) {
+    public static final Item ENCHANTED_MIDAS_GOLD_BLOCK_ITEM = new BlockItem(ENCHANTED_MIDAS_GOLD_BLOCK, new Item.Settings().group(MythicMetals.TABBED_GROUP).tab(1).rarity(Rarity.UNCOMMON)) {
         @Override
         public boolean hasGlint(ItemStack stack) {
             return true;

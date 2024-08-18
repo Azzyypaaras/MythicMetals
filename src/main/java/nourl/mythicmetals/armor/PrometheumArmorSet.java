@@ -1,6 +1,6 @@
 package nourl.mythicmetals.armor;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.item.Item;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import nourl.mythicmetals.component.MythicDataComponents;
@@ -12,7 +12,7 @@ public class PrometheumArmorSet extends ArmorSet {
     }
 
     @Override
-    protected ArmorItem makeItem(ArmorMaterial material, ArmorItem.Type slot, OwoItemSettings settings) {
+    protected ArmorItem makeItem(ArmorMaterial material, ArmorItem.Type slot, Item.Settings settings) {
         return new PrometheumArmorItem(material, slot, settings.component(MythicDataComponents.PROMETHEUM, PrometheumComponent.DEFAULT));
     }
 }

@@ -2,7 +2,7 @@ package nourl.mythicmetals.misc;
 
 import com.mojang.serialization.MapCodec;
 import io.wispforest.owo.itemgroup.OwoItemGroup;
-import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.item.Item;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.ComponentType;
@@ -36,26 +36,26 @@ public class RegistryHelper {
 
     public static void block(String path, Block block) {
         Registry.register(Registries.BLOCK, id(path), block);
-        Registry.register(Registries.ITEM, id(path), new BlockItem(block, new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(1)));
+        Registry.register(Registries.ITEM, id(path), new BlockItem(block, new Item.Settings().group(MythicMetals.TABBED_GROUP).tab(1)));
     }
 
     public static void block(String path, Block block, boolean fireproof) {
         if (fireproof) {
             Registry.register(Registries.BLOCK, id(path), block);
-            Registry.register(Registries.ITEM, id(path), new BlockItem(block, new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(1).fireproof()));
+            Registry.register(Registries.ITEM, id(path), new BlockItem(block, new Item.Settings().group(MythicMetals.TABBED_GROUP).tab(1).fireproof()));
         } else {
             block(path, block);
         }
     }
     public static void block(String path, Block block, OwoItemGroup group) {
         Registry.register(Registries.BLOCK, id(path), block);
-        Registry.register(Registries.ITEM, id(path), new BlockItem(block, new OwoItemSettings().group(group)));
+        Registry.register(Registries.ITEM, id(path), new BlockItem(block, new Item.Settings().group(group)));
     }
 
     public static void block(String path, Block block, OwoItemGroup group, boolean fireproof) {
         if (fireproof) {
             Registry.register(Registries.BLOCK, id(path), block);
-            Registry.register(Registries.ITEM, id(path), new BlockItem(block, new OwoItemSettings().group(group).fireproof()));
+            Registry.register(Registries.ITEM, id(path), new BlockItem(block, new Item.Settings().group(group).fireproof()));
         } else {
             block(path, block, group);
         }

@@ -1,6 +1,6 @@
 package nourl.mythicmetals.armor;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.item.Item;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -17,28 +17,28 @@ public class AquariumToolSet extends ToolSet {
     }
 
     @Override
-    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return super.makeSword(material, damage, speed, (OwoItemSettings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+        return super.makeSword(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     @Override
-    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return super.makeAxe(material, damage, speed, (OwoItemSettings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+        return super.makeAxe(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     @Override
-    protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return super.makePickaxe(material, damage, speed, (OwoItemSettings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+    protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+        return super.makePickaxe(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     @Override
-    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return super.makeShovel(material, damage, speed, (OwoItemSettings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+        return super.makeShovel(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     @Override
-    protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
-        return super.makeHoe(material, damage, speed, (OwoItemSettings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
+    protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
+        return super.makeHoe(material, damage, speed, (Item.Settings) settings.attributeModifiers(createAquaAffinityToolModifiers(material, damage, speed)));
     }
 
     public static AttributeModifiersComponent createAquaAffinityToolModifiers(ToolMaterial material, double damage, float speed) {

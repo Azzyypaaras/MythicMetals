@@ -1,7 +1,5 @@
 package nourl.mythicmetals.armor;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
-import io.wispforest.owo.util.RegistryAccess;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -29,8 +27,8 @@ public class ArmorSet {
         ArmorItem.Type.BOOTS, 13
     );
 
-    public ArmorItem baseArmorItem(ArmorMaterial material, ArmorItem.Type slot, int durabilityModifier, Consumer<OwoItemSettings> settingsProcessor) {
-        final var settings = new OwoItemSettings()
+    public ArmorItem baseArmorItem(ArmorMaterial material, ArmorItem.Type slot, int durabilityModifier, Consumer<Item.Settings> settingsProcessor) {
+        final var settings = new Item.Settings()
             .group(MythicMetals.TABBED_GROUP)
             .tab(3)
             .maxDamage(BASE_DURABILITY.get(slot) * durabilityModifier);
@@ -43,7 +41,7 @@ public class ArmorSet {
         });
     }
 
-    public ArmorSet(ArmorMaterial material, int durabilityModifier, Consumer<OwoItemSettings> settingsProcessor) {
+    public ArmorSet(ArmorMaterial material, int durabilityModifier, Consumer<Item.Settings> settingsProcessor) {
         this.helmet = baseArmorItem(material, ArmorItem.Type.HELMET, durabilityModifier, settingsProcessor);
         this.chestplate = baseArmorItem(material, ArmorItem.Type.CHESTPLATE, durabilityModifier, settingsProcessor);
         this.leggings = baseArmorItem(material, ArmorItem.Type.LEGGINGS, durabilityModifier, settingsProcessor);
@@ -65,7 +63,7 @@ public class ArmorSet {
         Registry.register(Registries.ITEM, Identifier.of(modid, name + "_boots"), boots);
     }
 
-    protected ArmorItem makeItem(ArmorMaterial material, ArmorItem.Type slot, OwoItemSettings settings) {
+    protected ArmorItem makeItem(ArmorMaterial material, ArmorItem.Type slot, Item.Settings settings) {
         return new ArmorItem(getEntry(material), slot, settings);
     }
 
@@ -94,6 +92,6 @@ public class ArmorSet {
     }
 
     public RegistryEntry<ArmorMaterial> getEntry(ArmorMaterial material) {
-        return RegistryAccess.getEntry(Registries.ARMOR_MATERIAL, material);
+        return Registries.ARMOR_MATERIAL.getEntry(material);
     }
 }

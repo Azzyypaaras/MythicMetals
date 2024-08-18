@@ -1,6 +1,6 @@
 package nourl.mythicmetals.item;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.item.Item;
 import io.wispforest.owo.util.TagInjector;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -20,7 +20,7 @@ public class ItemSet {
     private final float xp;
 
     private static Item.Settings createSettings(Consumer<Item.Settings> settingsProcessor) {
-        final var settings = new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(0);
+        final var settings = new Item.Settings().group(MythicMetals.TABBED_GROUP).tab(0);
         settingsProcessor.accept(settings);
         return settings;
     }

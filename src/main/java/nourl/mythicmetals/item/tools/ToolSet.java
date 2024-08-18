@@ -1,6 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.item.Item;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -25,8 +25,8 @@ public class ToolSet {
 
     private final List<Float> attackSpeed = new ArrayList<>();
 
-    private static OwoItemSettings createSettings(Consumer<OwoItemSettings> settingsProcessor) {
-        final var settings = new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2);
+    private static Item.Settings createSettings(Consumer<Item.Settings> settingsProcessor) {
+        final var settings = new Item.Settings().group(MythicMetals.TABBED_GROUP).tab(2);
         settingsProcessor.accept(settings);
         return settings;
     }
@@ -35,7 +35,7 @@ public class ToolSet {
         this(material, damage, speed, settings -> {});
     }
 
-    public ToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<OwoItemSettings> settingsProcessor) {
+    public ToolSet(ToolMaterial material, int[] damage, float[] speed, Consumer<Item.Settings> settingsProcessor) {
         this.sword = this.makeSword(material, damage[0], speed[0], createSettings(settingsProcessor));
         this.axe = this.makeAxe(material, damage[1], speed[1], createSettings(settingsProcessor));
         this.pickaxe = this.makePickaxe(material, damage[2], speed[2], createSettings(settingsProcessor));
@@ -56,23 +56,23 @@ public class ToolSet {
         Registry.register(Registries.ITEM, RegistryHelper.id(name + "_hoe"), hoe);
     }
 
-    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+    protected SwordItem makeSword(ToolMaterial material, int damage, float speed, Item.Settings settings) {
         return new SwordItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
-    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+    protected AxeItem makeAxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
         return new AxeItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
-    protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+    protected PickaxeItem makePickaxe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
         return new PickaxeItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
-    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+    protected ShovelItem makeShovel(ToolMaterial material, int damage, float speed, Item.Settings settings) {
         return new ShovelItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 
-    protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, OwoItemSettings settings) {
+    protected HoeItem makeHoe(ToolMaterial material, int damage, float speed, Item.Settings settings) {
         return new HoeItem(material, settings.component(DataComponentTypes.ATTRIBUTE_MODIFIERS, createAttributeModifiers(material, damage, speed)));
     }
 

@@ -1,6 +1,6 @@
 package nourl.mythicmetals.item.tools;
 
-import io.wispforest.owo.itemgroup.OwoItemSettings;
+import net.minecraft.item.Item;
 import io.wispforest.owo.registration.reflect.SimpleFieldProcessingSubject;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.component.DataComponentTypes;
@@ -51,7 +51,7 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     public static final ToolSet ADAMANTITE = new ToolSet(MythicToolMaterials.ADAMANTITE, DEFAULT_DAMAGE, BETTER_AXE_ATTACK_SPEED);
     public static final ToolSet AQUARIUM = new AquariumToolSet(MythicToolMaterials.AQUARIUM, DEFAULT_DAMAGE, DEFAULT_ATTACK_SPEED);
     public static final ToolSet BANGLUM = new ToolSet(MythicToolMaterials.BANGLUM, DEFAULT_DAMAGE, DEFAULT_ATTACK_SPEED);
-    public static final Item BANGLUM_TNT_MINECART = new MinecartItem(MythicMetals.BANGLUM_TNT, new OwoItemSettings().group(MythicMetals.TABBED_GROUP));
+    public static final Item BANGLUM_TNT_MINECART = new MinecartItem(MythicMetals.BANGLUM_TNT, new Item.Settings().group(MythicMetals.TABBED_GROUP));
     public static final ToolSet BRONZE = new ToolSet(MythicToolMaterials.BRONZE, DEFAULT_DAMAGE, DEFAULT_ATTACK_SPEED);
     public static final ToolSet CARMOT = new ToolSet(MythicToolMaterials.CARMOT, DEFAULT_DAMAGE, DEFAULT_ATTACK_SPEED);
     public static final ToolSet CELESTIUM = new ToolSet(MythicToolMaterials.CELESTIUM, DEFAULT_DAMAGE, HIGHEST_ATTACK_SPEED, settings -> settings.rarity(Rarity.RARE));
@@ -73,14 +73,14 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     public static final ToolSet STORMYX = new ToolSet(MythicToolMaterials.STORMYX, DEFAULT_DAMAGE, DEFAULT_ATTACK_SPEED);
     public static final ToolSet TIDESINGER = new TidesingerToolSet(MythicToolMaterials.TIDESINGER, DEFAULT_DAMAGE, FASTER_ATTACK_SPEED);
 
-    public static final Item RED_AEGIS_SWORD = new RedAegisSword(MythicToolMaterials.AEGIS_RED, new OwoItemSettings()
+    public static final Item RED_AEGIS_SWORD = new RedAegisSword(MythicToolMaterials.AEGIS_RED, new Item.Settings()
         .fireproof()
         .rarity(Rarity.UNCOMMON)
         .group(MythicMetals.TABBED_GROUP)
         .tab(2)
         .attributeModifiers(SwordItem.createAttributeModifiers(MythicToolMaterials.AEGIS_RED, 5, -3.0f)));
 
-    public static final Item WHITE_AEGIS_SWORD = new SwordItem(MythicToolMaterials.AEGIS_WHITE, new OwoItemSettings()
+    public static final Item WHITE_AEGIS_SWORD = new SwordItem(MythicToolMaterials.AEGIS_WHITE, new Item.Settings()
         .fireproof()
         .rarity(Rarity.UNCOMMON)
         .group(MythicMetals.TABBED_GROUP).tab(2)
@@ -88,7 +88,7 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     );
 
     public static final Item CARMOT_STAFF = new CarmotStaff(MythicToolMaterials.CARMOT_STAFF,
-        new OwoItemSettings()
+        new Item.Settings()
             .rarity(Rarity.UNCOMMON)
             .group(MythicMetals.TABBED_GROUP).tab(2)
             .attributeModifiers(CarmotStaff.createDefaultAttributes(4, 1.0f))
@@ -97,21 +97,21 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
             .component(MythicDataComponents.LOCKED, false)
     );
 
-    public static final Item ORICHALCUM_HAMMER = new HammerBase(MythicToolMaterials.ORICHALCUM, new OwoItemSettings()
+    public static final Item ORICHALCUM_HAMMER = new HammerBase(MythicToolMaterials.ORICHALCUM, new Item.Settings()
         .group(MythicMetals.TABBED_GROUP).tab(2)
         .attributeModifiers(createAttributeModifiers(MythicToolMaterials.ORICHALCUM, 6, 0.8f)),
         1
     );
 
     public static final Item MIDAS_GOLD_SWORD = new MidasGoldSword(MythicToolMaterials.MIDAS_GOLD,
-        new OwoItemSettings()
+        new Item.Settings()
             .group(MythicMetals.TABBED_GROUP).tab(2)
             .attributeModifiers(createAttributeModifiers(MythicToolMaterials.MIDAS_GOLD, 3, 1.6f))
             .component(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0))
     );
 
     public static final Item GILDED_MIDAS_GOLD_SWORD = new MidasGoldSword(MythicToolMaterials.GILDED_MIDAS_GOLD,
-        new OwoItemSettings()
+        new Item.Settings()
             .fireproof()
             .rarity(Rarity.UNCOMMON)
             .group(MythicMetals.TABBED_GROUP).tab(2)
@@ -120,7 +120,7 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
     );
 
     public static final Item ROYAL_MIDAS_GOLD_SWORD = new MidasGoldSword(MythicToolMaterials.ROYAL_MIDAS_GOLD,
-        new OwoItemSettings()
+        new Item.Settings()
             .fireproof()
             .rarity(Rarity.UNCOMMON)
             .group(MythicMetals.TABBED_GROUP)
@@ -129,8 +129,8 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
             .component(MythicDataComponents.GOLD_FOLDED, GoldFoldedComponent.of(0, true))
     );
 
-    public static final Item RUNITE_ARROW = new RuniteArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));
-    public static final Item TIPPED_RUNITE_ARROW = new TippedRuniteArrowItem(new OwoItemSettings()
+    public static final Item RUNITE_ARROW = new RuniteArrowItem(new Item.Settings().group(MythicMetals.TABBED_GROUP).tab(2));
+    public static final Item TIPPED_RUNITE_ARROW = new TippedRuniteArrowItem(new Item.Settings()
         .group(MythicMetals.TABBED_GROUP).tab(2)
         .stackGenerator((item, stacks) -> {
             for (Potion potion : Registries.POTION) {
@@ -143,21 +143,21 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
         .component(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT)
     );
 
-    public static final Item STAR_PLATINUM_ARROW = new StarPlatinumArrowItem(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));
-    public static final Item STORMYX_SHIELD = new StormyxShield(new OwoItemSettings()
+    public static final Item STAR_PLATINUM_ARROW = new StarPlatinumArrowItem(new Item.Settings().group(MythicMetals.TABBED_GROUP).tab(2));
+    public static final Item STORMYX_SHIELD = new StormyxShield(new Item.Settings()
         .group(MythicMetals.TABBED_GROUP).tab(2)
         .maxDamage(1680)
         .rarity(Rarity.UNCOMMON)
         .attributeModifiers(StormyxShield.createStormyxShieldAttributes())
     );
-    public static final Item MYTHRIL_DRILL = new MythrilDrill(MythicToolMaterials.MYTHRIL_DRILL, new OwoItemSettings()
+    public static final Item MYTHRIL_DRILL = new MythrilDrill(MythicToolMaterials.MYTHRIL_DRILL, new Item.Settings()
         .group(MythicMetals.TABBED_GROUP).tab(2)
         .rarity(Rarity.UNCOMMON)
         .attributeModifiers(createAttributeModifiers(3, 1.5f))
         .component(MythicDataComponents.DRILL, new DrillComponent(0))
         .component(MythicDataComponents.UPGRADES, UpgradeComponent.empty(2))
     );
-    public static final Item PLATINUM_WATCH = new Item(new OwoItemSettings().group(MythicMetals.TABBED_GROUP).tab(2));
+    public static final Item PLATINUM_WATCH = new Item(new Item.Settings().group(MythicMetals.TABBED_GROUP).tab(2));
 
     @Override
     public void processField(ToolSet toolSet, String name, Field f) {
