@@ -284,7 +284,7 @@ public class MythicItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         ReflectionUtils.iterateAccessibleStaticFields(MythicArmor.class, ArmorSet.class, (armorSet, name, field) -> {
             var modTag = MythicMetalsData.createModItemTag("armor/" + name);
-            var modArmorTag = MythicMetalsData.createModItemTag("armors");
+            var modArmorTag = MythicMetalsData.createModItemTag("armor");
             TagKey<Item> modEquipmentTag;
             var commonTag = ConventionalItemTags.ARMORS;
             var commonEquipmentTag = MythicMetalsData.createModItemTag("equipment");
