@@ -27,7 +27,7 @@ public abstract class ArmorItemMixin {
         boolean isChestOrLegs = type.equals(ArmorItem.Type.CHESTPLATE) || type.equals(ArmorItem.Type.LEGGINGS);
         if (material == MythicArmorMaterials.TIDESINGER) {
             if (type.equals(ArmorItem.Type.HELMET)) {
-                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_helmet_underwater_mining_bonus"), EntityAttributes.PLAYER_SUBMERGED_MINING_SPEED, 0.1f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
+                mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_helmet_underwater_mining_bonus"), EntityAttributes.PLAYER_SUBMERGED_MINING_SPEED, 3.0f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
                 mythicmetals$armorMapBuilder(builder, RegistryHelper.id("tidesinger_helmet_vision_bonus"), AdditionalEntityAttributes.WATER_VISIBILITY, 0.3f, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL, slot);
             }
             if (isChestOrLegs) {
