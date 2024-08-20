@@ -209,7 +209,7 @@
   "item.mythicmetals.copper_shovel": "Kupferschaufel",
   "item.mythicmetals.copper_sword": "Kupferschwert",
   "item.mythicmetals.doge": "Doge",
-  "item.mythicmetals.doge.desc": "Was macht Doge?",
+  "jukebox_song.mythicmetals.doge": "Was macht Doge?",
   "item.mythicmetals.durasteel_anvil": "Durastahlamboss",
   "item.mythicmetals.durasteel_axe": "Durastahlaxt",
   "item.mythicmetals.durasteel_boots": "Durastahlstiefel",
@@ -1141,6 +1141,6 @@
   "tag.item.mythicmetals.unobtainium": "Unerhaltbarium",
   "tag.item.mythicmetals.storage_blocks.unobtainium": "Unerhaltbariumblöcke",
   "tag.item.mythicmetals.ores.unobtainium": "Unerhaltbariumerze",
-  "tag.item.mythicmetals.armors": "Mythic Metals Rüstung",
+  "tag.item.mythicmetals.armor": "Mythic Metals Rüstung",
   "tag.item.mythicmetals.tools": "Mythic Metals Werkzeuge"
 }
