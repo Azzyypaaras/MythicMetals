@@ -1,10 +1,16 @@
 # 0.20.0
 
 The changelog for this one is huge.
-Most of the changes are related to technical stuff, but the firstmost things are gameplay-related.
+Most of the changes are related to technical stuff, but the first things are gameplay-related.
 
 The reason this update took so long is mainly due to a large downtick in freetime, and making sure Datafixers were available,
 meaning you can take your old worlds up to 1.21 without anything major changing.
+
+## Remember to make a backup!
+
+While datafixing is implemented, it is still experimental. 
+You might lose item data when updating. 
+Please do report these issues on GitHub if you find them.
 
 ## Mythril Drill Rework
 
