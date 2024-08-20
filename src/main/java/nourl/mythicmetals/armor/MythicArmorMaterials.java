@@ -1,7 +1,6 @@
 package nourl.mythicmetals.armor;
 
 import io.wispforest.owo.registration.reflect.AutoRegistryContainer;
-import io.wispforest.owo.util.RegistryAccess;
 import net.minecraft.item.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
@@ -227,7 +226,7 @@ public class MythicArmorMaterials implements AutoRegistryContainer<ArmorMaterial
     }
 
     private static RegistryEntry<SoundEvent> sound(SoundEvent sound) {
-        return RegistryAccess.getEntry(Registries.SOUND_EVENT, sound);
+        return Registries.SOUND_EVENT.getEntry(sound);
     }
 
     private static ArmorMaterial.Layer layer(String name) {

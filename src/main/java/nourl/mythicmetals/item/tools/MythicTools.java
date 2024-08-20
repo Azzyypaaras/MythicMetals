@@ -9,7 +9,8 @@ import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.*;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.*;
 import nourl.mythicmetals.MythicMetals;
 import nourl.mythicmetals.armor.AquariumToolSet;
@@ -162,6 +163,7 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
         RegistryHelper.item("banglum_tnt_minecart", BANGLUM_TNT_MINECART);
         RegistryHelper.item("doge", Frogery.DOGE);
         RegistryHelper.item("froge", Frogery.FROGE);
+        Registry.registerReference(Registries.SOUND_EVENT, RegistryHelper.id("music_disc.dog4"), SoundEvent.of(RegistryHelper.id("music_disc.dog4")));
         RegistryHelper.item("red_aegis_sword", RED_AEGIS_SWORD);
         RegistryHelper.item("white_aegis_sword", WHITE_AEGIS_SWORD);
         RegistryHelper.item("carmot_staff", CARMOT_STAFF);
@@ -199,7 +201,7 @@ public class MythicTools implements SimpleFieldProcessingSubject<ToolSet> {
         public static final Item DOGE = new Item(new Item.Settings()
             .rarity(Rarity.EPIC).fireproof()
             .equipmentSlot((entity, stack) -> EquipmentSlot.HEAD)
-            .maxCount(1));
-        //.component(DataComponentTypes.JUKEBOX_PLAYABLE, new JukeboxPlayableComponent()), 162);
+            .maxCount(1)
+            .jukeboxPlayable(RegistryKey.of(RegistryKeys.JUKEBOX_SONG, RegistryHelper.id("dog4"))));
     }
 }
