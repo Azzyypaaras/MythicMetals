@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.misc.RegistryHelper;
 
 public record PrometheumComponent(int durabilityRepaired) {
