@@ -58,7 +58,7 @@ public class MythicBlocks {
         .createOreVariant("deepslate", DIAMOND_MINING_LEVEL)
         .finish();
 
-    public static final Block CARMOT_NUKE_CORE = new Block(AbstractBlock.Settings.copy(BANGLUM_NUKE_CORE));
+public static final Block CARMOT_NUKE_CORE = new Block(AbstractBlock.Settings.copy(BANGLUM_NUKE_CORE));
 
     public static final BlockSet CELESTIUM = BlockSet.Builder.begin("celestium", false)
         .createAnvilSet(10F, 15F, MYTHIC_MINING_LEVEL).finish();
