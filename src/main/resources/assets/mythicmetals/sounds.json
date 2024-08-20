@@ -639,23 +639,5 @@
         "pitch": 0.8
       }
     ]
-  },
-  "mythril_drill_activate":  {
-    "subtitle": "subtitles.mythicmetals.mythril_drill_activate",
-    "sounds": [
-      {
-        "name": "block/conduit/activate",
-        "volume": 0.8
-      }
-    ]
-  },
-  "mythril_drill_deactivate": {
-    "subtitle": "subtitles.mythicmetals.mythril_drill_deactivate",
-    "sounds": [
-      {
-        "name": "block/conduit/deactivate",
-        "volume": 0.6
-      }
-    ]
   }
 }

@@ -8,7 +8,6 @@ import nourl.mythicmetals.misc.RegistryHelper;
 
 public class RegisterSounds implements AutoRegistryContainer<SoundEvent> {
 
-
     public static final SoundEvent EQUIP_RUNITE = SoundEvent.of(RegistryHelper.id("equip_runite"));
     public static final SoundEvent EQUIP_ADAMANTITE = SoundEvent.of(RegistryHelper.id("equip_adamantite"));
     public static final SoundEvent EQUIP_AQUARIUM = SoundEvent.of(RegistryHelper.id("equip_aquarium"));
@@ -35,7 +34,6 @@ public class RegisterSounds implements AutoRegistryContainer<SoundEvent> {
     public static final SoundEvent EQUIP_STEEL = SoundEvent.of(RegistryHelper.id("equip_steel"));
     public static final SoundEvent EQUIP_STORMYX = SoundEvent.of(RegistryHelper.id("equip_stormyx"));
     public static final SoundEvent EQUIP_TIDESINGER = SoundEvent.of(RegistryHelper.id("equip_tidesinger"));
-    public static final SoundEvent DOG = SoundEvent.of(RegistryHelper.id("music_disc.dog4"));
     public static final SoundEvent MORKITE_ORE_BREAK = SoundEvent.of(RegistryHelper.id("morkite_ore_break"));
     public static final SoundEvent DEEPSLATE_MORKITE_ORE_BREAK = SoundEvent.of(RegistryHelper.id("deepslate_morkite_ore_break"));
     public static final SoundEvent CARMOT_STAFF_EMPTY = SoundEvent.of(RegistryHelper.id("carmot_staff_empty"));
@@ -44,8 +42,6 @@ public class RegisterSounds implements AutoRegistryContainer<SoundEvent> {
     public static final SoundEvent PROJECTILE_BARRIER_END = SoundEvent.of(RegistryHelper.id("projectile_barrier_end"));
     public static final SoundEvent BANGLUM_NUKE_IGNITE = SoundEvent.of(RegistryHelper.id("banglum_nuke_ignite"));
     public static final SoundEvent BANGLUM_NUKE_EXPLOSION = SoundEvent.of(RegistryHelper.id("banglum_nuke_explosion"));
-    public static final SoundEvent MYTHRIL_DRILL_ACTIVATE = SoundEvent.of(RegistryHelper.id("mythril_drill_activate"));
-    public static final SoundEvent MYTHRIL_DRILL_DEACTIVATE = SoundEvent.of(RegistryHelper.id("mythril_drill_deactivate"));
     public static final SoundEvent MELODY = SoundEvent.of(RegistryHelper.id("melody"));
 
     public static final BlockSoundGroup MORKITE_ORE = new BlockSoundGroup(1.0F, 1.0F,
