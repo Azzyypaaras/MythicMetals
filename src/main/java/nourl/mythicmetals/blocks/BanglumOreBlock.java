@@ -1,9 +1,13 @@
 package nourl.mythicmetals.blocks;
 
 import io.wispforest.owo.particles.ClientParticles;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalEnchantmentTags;
 import net.minecraft.block.*;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
@@ -11,6 +15,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import nourl.mythicmetals.component.MythicDataComponents;
 import nourl.mythicmetals.component.UpgradeComponent;
+import nourl.mythicmetals.data.MythicTags;
 import nourl.mythicmetals.item.MythicItems;
 
 public class BanglumOreBlock extends ExperienceDroppingBlock {
@@ -43,10 +48,18 @@ public class BanglumOreBlock extends ExperienceDroppingBlock {
 
         // This living ore is allergic to Efficiency and Fortune, but is defused by Silk Touch
         if (stack.hasEnchantments()) {
-            // FIXME - tagify the conditions in a better way
-            //chance += (EnchantmentHelper.getLevel(Enchantments.EFFICIENCY, stack) * 5);
-            //chance += (EnchantmentHelper.getLevel(Enchantments.FORTUNE, stack) * 8);
-            //chance -= (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) * 45);
+            var enchantments = EnchantmentHelper.getEnchantments(stack);
+            for (var enchantment : enchantments.getEnchantments()) {
+                if (enchantment.isIn(MythicTags.SILK_TOUCH_LIKE)) {
+                    chance -= 45;
+                }
+                if (enchantment.isIn(ConventionalEnchantmentTags.INCREASE_BLOCK_DROPS)) {
+                    chance += enchantments.getLevel(enchantment) * 7;
+                }
+                if (enchantment.isIn(MythicTags.INCREASES_MINING_SPEED)) {
+                    chance += enchantments.getLevel(enchantment) * 5;
+                }
+            }
         }
 
         // Extra fortune = more allergic

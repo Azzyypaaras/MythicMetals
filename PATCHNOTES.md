@@ -40,6 +40,7 @@ The upgrades also got the following changes:
   - Toughness Bonuses: +1 while overgrown (+2 if double the threshold), and +1 if the armor cannot be unequipped (I.E. Curse of Binding)
 - Increased Tidesinger Water vision: 25% -> 30%
 - Sweeping using a Royal Midas Gold Sword now correctly drops Raw Midas Gold
+- Slightly decreased the effect Fortune has on Banglum Ores: 8% -> 7% (per level)
 
 ## Updated tags
 
@@ -55,6 +56,10 @@ Some specific tag changes:
   - By default this includes `mineable/shovel` and `mineable/pickaxe`, but now other mods/datapacks can change this
 - Added tags for all various Mythic Metals equipment (tools and armor)
 - Added tags for raw materials, storage blocks, specific tool types, ores, nuggets, and armor
+- Added/used tags for enchantments which affect Banglum Ores:
+  - The `mythicmetals:increases_mining_speed` will increase the chance of Banglum Ores exploding by 5% per level. Includes Efficiency by default.
+  - The `c:increase_block_drops` will increase the chance of Banglum Ores exploding by 7% per level. Includes Fortune by default.
+  - The `mythicmetals:silk_touch_like` will heavily reduce the chance of Banglum Ores exploding, by 45% per instance. Includes Silk Touch by default.
 - ... and a lot more, which you can view on [GitHub](https://github.com/Noaaan/MythicMetals/tree/1.21/src/main/generated/data) yourself
 
 ## Ability changes

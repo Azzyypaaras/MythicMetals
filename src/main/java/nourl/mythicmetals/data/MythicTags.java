@@ -30,8 +30,10 @@ public class MythicTags {
     public static final TagKey<Biome> PROMETHEUM_BIOMES = TagKey.of(RegistryKeys.BIOME, RegistryHelper.id("prometheum_biomes"));
     public static final TagKey<Biome> OSMIUM_BIOMES = TagKey.of(RegistryKeys.BIOME, RegistryHelper.id("osmium_biomes"));
     public static final TagKey<Biome> MYTHIC_ORE_BIOMES = TagKey.of(RegistryKeys.BIOME, RegistryHelper.id("mythic_ore_biomes"));
-    public static final TagKey<Enchantment> SILK_TOUCH_LIKE = TagKey.of(RegistryKeys.ENCHANTMENT, RegistryHelper.id("silk_touch_like"));
     public static final TagKey<Block> MINEABLE_MYTHRIL_DRILL = TagKey.of(RegistryKeys.BLOCK, RegistryHelper.id("mineable/mythril_drill"));
+
+    public static final TagKey<Enchantment> SILK_TOUCH_LIKE = TagKey.of(RegistryKeys.ENCHANTMENT, RegistryHelper.id("silk_touch_like"));
+    public static final TagKey<Enchantment> INCREASES_MINING_SPEED = TagKey.of(RegistryKeys.ENCHANTMENT, RegistryHelper.id("increases_mining_speed"));
 }
 
 
