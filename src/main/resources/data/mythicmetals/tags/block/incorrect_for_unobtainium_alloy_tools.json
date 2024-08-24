@@ -1,4 +1,4 @@
 {
-  "_comment": "metallurgium and celestium will not be able to mine blocks in this tag",
-  "replace": false
+  "replace": false,
+  "values": []
 }
