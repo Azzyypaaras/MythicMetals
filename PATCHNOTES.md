@@ -1,3 +1,8 @@
+# 0.20.1
+
+- Fixed a bug where mining levels did not apply
+- Fixed an error related to the `incorrect_For_unobtainium_alloy_tools` tag
+
 # 0.20.0
 
 The changelog for this one is huge.
